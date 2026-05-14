@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+temp_files/
+database/app.db
+*.egg-info/
+.DS_Store
+node_modules/
+dist/
+build/
+.pytest_cache/
+htmlcov/
+.coverage
+tests/dataset_prueba.csv
+tests/dataset_1000.csv
+tests/reporte_prueba.xlsx

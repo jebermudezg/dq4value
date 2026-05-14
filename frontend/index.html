@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DQ4Value</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='12' fill='%230f2942'/%3E%3Ccircle cx='24' cy='23' r='11' fill='none' stroke='%2393c5fd' stroke-width='2.5'/%3E%3Ctext x='24' y='27' text-anchor='middle' font-size='11' font-weight='700' fill='white' font-family='sans-serif'%3EDQ%3C/text%3E%3Cline x1='32' y1='32' x2='42' y2='42' stroke='%2393c5fd' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f8fafc;
+      --surface:  #ffffff;
+      --border:   #e2e8f0;
+      --muted:    #94a3b8;
+      --text:     #0f172a;
+      --sub:      #475569;
+      --blue:     #1560a8;
+      --blue-lt:  #f0f7ff;
+      --blue-dk:  #0f2942;
+      --green:    #16a34a;
+      --green-lt: #f0fdf4;
+      --yellow:   #ca8a04;
+      --yellow-lt:#fefce8;
+      --red:      #dc2626;
+      --red-lt:   #fef2f2;
+      --radius:   12px;
+      --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+      --shadow-md:0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: #0f2942;
+      border-bottom: none;
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    nav .logo-icon {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    nav h1 { font-size: 1.125rem; font-weight: 600; color: #ffffff; }
+    nav .badge {
+      margin-left: auto;
+      font-size: .72rem; font-weight: 600;
+      background: transparent; color: #93c5fd;
+      padding: 2px 10px; border-radius: 99px;
+    }
+
+    /* ── STEPPER ── */
+    .stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 1.5rem 2rem .5rem;
+    }
+    .step {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .8rem; font-weight: 600; color: var(--muted);
+    }
+    .step .dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--border); color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; flex-shrink: 0;
+      transition: all .25s;
+    }
+    .step.active .dot  { background: var(--blue); color: #fff; }
+    .step.active       { color: var(--blue); }
+    .step.done .dot    { background: var(--green); color: #fff; }
+    .step.done         { color: var(--green); }
+    .step-line { width: 60px; height: 2px; background: var(--border); margin: 0 .25rem; }
+    .step-line.done { background: var(--green); }
+
+    /* ── SCREENS ── */
+    .screen { display: none; max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .screen.active { display: block; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+    }
+
+    /* ── UPLOAD ── */
+    .upload-hero { text-align: center; margin-bottom: 2rem; }
+    .upload-hero h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: .4rem; }
+    .upload-hero p  { color: var(--sub); font-size: .95rem; }
+
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--bg);
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--blue);
+      background: var(--blue-lt);
+    }
+    .drop-zone .dz-icon {
+      width: 56px; height: 56px;
+      background: var(--blue-lt); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      color: var(--blue);
+    }
+    .drop-zone h3 { font-size: 1rem; font-weight: 600; margin-bottom: .3rem; }
+    .drop-zone p  { font-size: .85rem; color: var(--muted); }
+
+    .file-preview {
+      display: none;
+      margin-top: 1rem;
+      padding: .75rem 1rem;
+      background: var(--green-lt);
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      align-items: center; gap: .75rem;
+    }
+    .file-preview.visible { display: flex; }
+    .file-preview .fp-icon { color: var(--green); flex-shrink: 0; }
+    .file-preview .fp-name { font-size: .9rem; font-weight: 600; flex: 1; }
+    .file-preview .fp-size { font-size: .8rem; color: var(--muted); }
+    .fp-remove { background: none; border: none; cursor: pointer; color: var(--muted); padding: 2px; }
+    .fp-remove:hover { color: var(--red); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: .5rem;
+      padding: .625rem 1.25rem;
+      border-radius: 8px;
+      font-size: .9rem; font-weight: 600;
+      cursor: pointer; border: none; transition: all .18s;
+      text-decoration: none;
+    }
+    .btn-primary  { background: var(--blue); color: #fff; }
+    .btn-primary:hover  { background: var(--blue-dk); }
+    .btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+    .btn-outline  { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+    .btn-outline:hover  { background: var(--blue-lt); }
+    .btn-success  { background: var(--green); color: #fff; }
+    .btn-success:hover  { background: #15803d; }
+    .btn-ghost    { background: transparent; color: var(--sub); border: 1.5px solid var(--border); }
+    .btn-ghost:hover    { background: var(--bg); }
+    .btn-lg       { padding: .8rem 2rem; font-size: 1rem; }
+    .btn-full     { width: 100%; }
+
+    /* ── SPINNER ── */
+    .spinner-wrap {
+      display: none;
+      flex-direction: column; align-items: center;
+      gap: 1rem; padding: 2rem;
+    }
+    .spinner-wrap.visible { display: flex; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 4px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-wrap p { color: var(--sub); font-size: .9rem; font-weight: 500; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      padding: .75rem 1.25rem; border-radius: 10px;
+      font-size: .88rem; font-weight: 500;
+      box-shadow: var(--shadow-md);
+      transform: translateY(120%); opacity: 0;
+      transition: all .3s; z-index: 999;
+      max-width: 380px;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.error   { background: #fef2f2; color: var(--red);   border: 1px solid #fecaca; }
+    #toast.success { background: var(--green-lt); color: var(--green); border: 1px solid #bbf7d0; }
+    #toast.info    { background: var(--blue-lt);  color: var(--blue);  border: 1px solid #bcd9f0; }
+
+    /* ── CONFIG SCREEN ── */
+    .config-header { margin-bottom: 1.5rem; }
+    .config-header h2 { font-size: 1.4rem; font-weight: 700; }
+    .config-header p  { color: var(--sub); font-size: .9rem; margin-top: .3rem; }
+
+    .field-group { margin-bottom: 1.5rem; }
+    .field-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; color: var(--sub); }
+    .field-group select, .field-group input[type=text], .field-group input[type=number], .field-group input[type=date] {
+      width: 100%; padding: .55rem .75rem;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .9rem; font-family: inherit; color: var(--text);
+      background: var(--surface); outline: none; transition: border-color .15s;
+    }
+    .field-group select:focus, .field-group input:focus { border-color: var(--blue); }
+
+    /* Columns config table */
+    .col-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    table.col-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    table.col-table thead th {
+      background: #f1f5f9; padding: .7rem .9rem;
+      text-align: left; font-weight: 600; color: var(--sub);
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    table.col-table tbody tr:nth-child(even) { background: #fafafa; }
+    table.col-table tbody tr:hover { background: var(--blue-lt); }
+    table.col-table tbody td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    table.col-table tbody tr:last-child td { border-bottom: none; }
+
+    .col-name  { font-weight: 600; }
+    .col-dtype { font-size: .75rem; color: var(--muted); }
+
+    .dim-checks { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .dim-check  {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 6px; padding: .28rem .6rem;
+      font-size: .78rem; font-weight: 500;
+      cursor: pointer; user-select: none;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .dim-check:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
+    .dim-check.checked {
+      background: var(--blue); border-color: var(--blue);
+      color: #fff; font-weight: 600;
+    }
+    .dim-check.checked:hover { background: var(--blue-dk); border-color: var(--blue-dk); }
+
+    /* Param panels — animación con max-height */
+    .dim-params {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      transition: max-height .22s ease, opacity .2s ease, margin-top .2s ease,
+                  padding .2s ease;
+      background: #f0f7ff; border: 1.5px solid #bcd9f0;
+      border-radius: 8px;
+      font-size: .82rem;
+      display: flex; flex-wrap: wrap; gap: .5rem .75rem;
+      align-items: center;
+      padding: 0 .8rem;
+      pointer-events: none;
+    }
+    .dim-params.visible {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: .5rem;
+      padding: .6rem .8rem;
+      pointer-events: auto;
+    }
+    .dim-params > label { font-weight: 600; color: var(--blue); align-self: center; white-space: nowrap; }
+    .dim-params input, .dim-params select  {
+      padding: .3rem .55rem; border: 1.5px solid #bcd9f0; border-radius: 6px;
+      font-size: .82rem; font-family: inherit;
+      background: var(--surface); color: var(--text);
+      transition: border-color .15s;
+    }
+    .dim-params input.wide  { width: 100%; }
+    .dim-params select.wide { width: 100%; }
+    .dim-params input:focus, .dim-params select:focus { outline: none; border-color: var(--blue); }
+
+    /* Param-level utility buttons (Auto-detectar, Sugerir rango) */
+    .param-btn {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .22rem .6rem; border-radius: 5px; cursor: pointer;
+      font-size: .74rem; font-weight: 600; font-family: inherit;
+      background: var(--surface); color: var(--blue);
+      border: 1.5px solid #bcd9f0; transition: all .15s; white-space: nowrap;
+    }
+    .param-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    /* Error message under a param panel */
+    .param-error {
+      width: 100%; font-size: .76rem; color: var(--red);
+      background: var(--red-lt); border: 1px solid #fecaca;
+      border-radius: 5px; padding: .3rem .6rem; margin-top: .2rem;
+    }
+    /* Hint / success message under a param panel */
+    .param-hint {
+      width: 100%; font-size: .76rem; color: var(--sub);
+      font-style: italic; margin-top: .15rem;
+    }
+    .param-hint.success { color: var(--green); font-style: normal; font-weight: 600; }
+
+    /* Precision — type-specific subpanels */
+    .prec-panel { display: none; width: 100%; flex-wrap: wrap; gap: .5rem .75rem; align-items: center; }
+    .prec-panel.visible { display: flex; }
+    .prec-date-msg {
+      width: 100%; font-size: .79rem; color: var(--muted);
+      font-style: italic; padding: .15rem 0;
+    }
+
+    /* Oportunidad — dropdown row */
+    .opor-row { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; width: 100%; }
+    .opor-custom { display: none; align-items: center; gap: .4rem; }
+    .opor-custom.visible { display: flex; }
+
+    /* Integridad Referencial — CSV upload */
+    .ref-divider {
+      width: 100%; display: flex; align-items: center; gap: .5rem;
+      font-size: .75rem; color: var(--muted); margin: .2rem 0;
+    }
+    .ref-divider::before, .ref-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .ref-count {
+      width: 100%; font-size: .76rem; font-weight: 600; color: var(--green);
+      display: none; margin-top: .2rem;
+    }
+    .ref-count.visible { display: block; }
+
+    /* Validez — radio toggle + subpanels */
+    .validez-wrap { width: 100%; display: flex; flex-direction: column; gap: .55rem; }
+    .validez-radios { display: flex; gap: .5rem; }
+    .vradio {
+      display: flex; align-items: center; gap: .4rem;
+      padding: .3rem .7rem; border-radius: 6px; cursor: pointer;
+      border: 1.5px solid var(--border); background: var(--surface);
+      font-size: .8rem; font-weight: 500; color: var(--sub);
+      transition: all .15s; user-select: none;
+    }
+    .vradio input[type=radio] { display: none; }
+    .vradio.active { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); font-weight: 600; }
+    .validez-subpanel { display: none; flex-direction: column; gap: .35rem; }
+    .validez-subpanel.visible { display: flex; }
+    .validez-subpanel label { font-size: .78rem; font-weight: 600; color: var(--sub); }
+    .validez-custom { display: none; margin-top: .3rem; }
+    .validez-custom.visible { display: block; }
+
+    /* ── RESULTS ── */
+    .score-hero {
+      text-align: center; padding: 2.5rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .score-hero .score-label { font-size: .9rem; font-weight: 600; color: var(--sub); margin-bottom: .5rem; }
+    .score-hero .score-value {
+      font-size: 5rem; font-weight: 800; line-height: 1;
+      margin-bottom: .4rem;
+    }
+    .score-hero .score-sub { font-size: 1rem; color: var(--sub); }
+
+    .score-green  { background: var(--green-lt);  color: var(--green); }
+    .score-yellow { background: var(--yellow-lt); color: var(--yellow); }
+    .score-red    { background: var(--red-lt);    color: var(--red); }
+
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .kpi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .kpi-card .kpi-label { font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: .3rem; text-transform: uppercase; letter-spacing: .04em; }
+    .kpi-card .kpi-value { font-size: 1.8rem; font-weight: 800; }
+    .kpi-card .kpi-sub   { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+
+    .section-title { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; color: var(--text); }
+
+    /* Scores table */
+    table.scores-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    table.scores-table th {
+      background: #f1f5f9; padding: .65rem .9rem;
+      text-align: left; font-weight: 600; color: var(--sub);
+      border-bottom: 1px solid var(--border);
+    }
+    table.scores-table td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    table.scores-table tr:last-child td { border-bottom: none; }
+
+    .bar-wrap { display: flex; align-items: center; gap: .6rem; }
+    .bar-bg   { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; transition: width .4s; }
+    .bar-val  { font-size: .8rem; font-weight: 600; width: 36px; text-align: right; }
+    .tag-green  { color: var(--green);  font-weight: 600; }
+    .tag-yellow { color: var(--yellow); font-weight: 600; }
+    .tag-red    { color: var(--red);    font-weight: 600; }
+
+    /* Issues table */
+    .filters-row { display: flex; gap: .75rem; margin-bottom: .75rem; flex-wrap: wrap; }
+    .filters-row select {
+      padding: .45rem .7rem; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .85rem; font-family: inherit; background: var(--surface); color: var(--text);
+      cursor: pointer;
+    }
+    .filters-row select:focus { outline: none; border-color: var(--blue); }
+
+    .issues-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap {
+      padding: 1.25rem 0 .5rem;
+      display: none;
+    }
+    .progress-wrap.visible { display: block; }
+    .progress-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .5rem;
+    }
+    .progress-hdr .prog-msg { font-size: .88rem; font-weight: 500; color: var(--sub); }
+    .progress-hdr .prog-pct { font-size: .82rem; font-weight: 700; color: var(--blue); }
+    .progress-track {
+      height: 8px; background: var(--border); border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--blue), #3b82f6);
+      border-radius: 99px;
+      transition: width .45s ease;
+    }
+
+    /* ── LARGE FILE WARNING ── */
+    .file-warn {
+      display: none; margin-top: .75rem;
+      padding: .7rem 1rem;
+      background: #fefce8; border: 1px solid #fef08a; border-radius: 8px;
+      font-size: .84rem; color: #854d0e; line-height: 1.45;
+    }
+    .file-warn.visible { display: block; }
+
+    /* ── PAGINATION ── */
+    .pagination-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1rem; flex-wrap: wrap; gap: .5rem;
+    }
+    .pag-info { font-size: .82rem; color: var(--sub); }
+    .pag-btns { display: flex; align-items: center; gap: .25rem; flex-wrap: wrap; }
+    .pag-btn {
+      min-width: 32px; height: 32px; border-radius: 6px; padding: 0 .4rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid var(--border);
+      background: var(--surface); color: var(--sub);
+      transition: all .15s; white-space: nowrap;
+    }
+    .pag-btn:hover:not([disabled]) { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
+    .pag-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .pag-btn[disabled] { opacity: .38; cursor: not-allowed; pointer-events: none; }
+    .pag-ellipsis { min-width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; font-size: .82rem; color: var(--muted); }
+
+    /* ── MODAL PASSWORD SEPARATOR ── */
+    .modal-pwd-sep {
+      display: flex; align-items: center; gap: .75rem;
+      margin: 1.25rem 0 1rem;
+    }
+    .modal-pwd-sep::before, .modal-pwd-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .modal-pwd-sep span { font-size: .8rem; font-weight: 600; color: var(--sub); white-space: nowrap; }
+    table.issues-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    table.issues-table th {
+      background: #f1f5f9; padding: .65rem .9rem;
+      text-align: left; font-weight: 600; color: var(--sub);
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    table.issues-table td { padding: .55rem .9rem; border-bottom: 1px solid var(--border); }
+    table.issues-table tr:last-child td { border-bottom: none; }
+    table.issues-table tr:hover td { background: #f8fafc; }
+
+    .pill {
+      display: inline-block; padding: .2rem .6rem; border-radius: 99px;
+      font-size: .74rem; font-weight: 600;
+    }
+    .pill-blue   { background: var(--blue-lt);   color: var(--blue); }
+    .pill-green  { background: var(--green-lt);  color: var(--green); }
+    .pill-red    { background: var(--red-lt);    color: var(--red); }
+    .pill-yellow { background: var(--yellow-lt); color: var(--yellow); }
+    .pill-gray   { background: #f1f5f9; color: var(--sub); }
+
+    .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--muted); font-size: .9rem; }
+
+    /* action bar */
+    .action-bar { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+    /* ── HELP BUTTON ── */
+    .help-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,.3); border-radius: 8px;
+      padding: .35rem .85rem; font-size: .82rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all .15s;
+    }
+    .help-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); }
+
+    /* ── OVERLAY ── */
+    #helpOverlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(15,23,42,.45);
+      z-index: 100;
+      animation: fadeIn .2s ease;
+    }
+    #helpOverlay.open { display: block; }
+    @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+
+    /* ── HELP SIDEBAR ── */
+    #helpSidebar {
+      position: fixed; top: 0; right: 0;
+      width: 480px; max-width: 100vw; height: 100vh;
+      background: var(--surface);
+      box-shadow: -4px 0 24px rgba(0,0,0,.12);
+      z-index: 101;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      border-left: 1px solid var(--border);
+    }
+    #helpSidebar.open { transform: translateX(0); }
+
+    .help-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--surface);
+    }
+    .help-header h2 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: .5rem; }
+    .help-header h2 span { font-size: 1.2rem; }
+    .help-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--sub); transition: all .15s;
+    }
+    .help-close:hover { background: var(--red-lt); color: var(--red); border-color: #fecaca; }
+
+    .help-body {
+      flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem 2rem;
+      scroll-behavior: smooth;
+    }
+    .help-body::-webkit-scrollbar { width: 6px; }
+    .help-body::-webkit-scrollbar-track { background: var(--bg); }
+    .help-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── HELP SECTIONS ── */
+    .help-section { margin-bottom: 2rem; }
+    .help-section-title {
+      font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: .85rem; padding-bottom: .4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Steps */
+    .help-steps { display: flex; flex-direction: column; gap: .75rem; }
+    .help-step {
+      display: flex; gap: .85rem; align-items: flex-start;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: .85rem 1rem;
+    }
+    .help-step-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem;
+    }
+    .help-step-icon.blue   { background: var(--blue-lt);   color: var(--blue); }
+    .help-step-icon.green  { background: var(--green-lt);  color: var(--green); }
+    .help-step-icon.purple { background: #f3e8ff; color: #7c3aed; }
+    .help-step h4 { font-size: .88rem; font-weight: 700; margin-bottom: .2rem; }
+    .help-step p  { font-size: .8rem; color: var(--sub); line-height: 1.5; }
+
+    /* Accordion */
+    .accordion { display: flex; flex-direction: column; gap: .5rem; }
+    .acc-item {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      overflow: hidden; transition: border-color .15s;
+    }
+    .acc-item.open { border-color: var(--blue); }
+    .acc-trigger {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .75rem 1rem; cursor: pointer;
+      background: var(--surface); user-select: none;
+      transition: background .15s;
+    }
+    .acc-trigger:hover { background: var(--bg); }
+    .acc-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: .95rem;
+    }
+    .acc-title { flex: 1; font-size: .88rem; font-weight: 600; }
+    .acc-arrow {
+      color: var(--muted); transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .acc-item.open .acc-arrow { transform: rotate(180deg); }
+    .acc-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .28s ease;
+      background: #fafbfc;
+      border-top: 0 solid var(--border);
+    }
+    .acc-item.open .acc-body {
+      max-height: 600px;
+      border-top-width: 1px;
+    }
+    .acc-content { padding: .9rem 1rem 1rem; }
+    .acc-def { font-size: .84rem; color: var(--text); margin-bottom: .7rem; line-height: 1.55; }
+    .acc-meta { display: flex; flex-direction: column; gap: .5rem; }
+    .acc-row { display: flex; gap: .5rem; align-items: flex-start; }
+    .acc-label {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .05em; color: var(--muted);
+      width: 78px; flex-shrink: 0; padding-top: .1rem;
+    }
+    .acc-val { font-size: .81rem; color: var(--sub); line-height: 1.5; }
+    .acc-val code {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px; font-size: .78rem;
+      color: var(--blue); font-family: monospace;
+    }
+    .acc-val .ex {
+      display: block; margin-top: .3rem;
+      background: #f0f7ff; border-left: 3px solid var(--blue);
+      border-radius: 0 6px 6px 0; padding: .4rem .6rem;
+      font-size: .78rem; color: var(--sub); line-height: 1.5;
+    }
+
+    /* Score scale */
+    .score-scale { display: flex; flex-direction: column; gap: .5rem; }
+    .scale-row {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .6rem .85rem; border-radius: 8px; font-size: .84rem;
+    }
+    .scale-row.green  { background: var(--green-lt);  color: var(--green); }
+    .scale-row.yellow { background: var(--yellow-lt); color: var(--yellow); }
+    .scale-row.red    { background: var(--red-lt);    color: var(--red); }
+    .scale-range { font-size: 1rem; font-weight: 800; width: 60px; flex-shrink: 0; }
+    .scale-desc  { font-size: .82rem; line-height: 1.4; }
+
+    /* Formats table */
+    table.fmt-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    table.fmt-table th {
+      background: #f1f5f9; padding: .55rem .75rem; text-align: left;
+      font-weight: 600; color: var(--sub); border-bottom: 1px solid var(--border);
+    }
+    table.fmt-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); }
+    table.fmt-table tr:last-child td { border-bottom: none; }
+    .fmt-tag {
+      display: inline-block; padding: .15rem .5rem; border-radius: 5px;
+      font-size: .74rem; font-weight: 700;
+      background: var(--blue-lt); color: var(--blue);
+    }
+
+    /* ── NAV RIGHT ── */
+    nav .badge { margin-left: auto; }
+    .nav-right {
+      margin-left: auto;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .nav-user {
+      font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.85);
+      display: none;
+    }
+    .nav-user.visible { display: flex; align-items: center; gap: .35rem; }
+    .nav-user .user-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #1560a8; color: #fff;
+      font-size: .72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .35rem .75rem; border-radius: 7px;
+      font-size: .78rem; font-weight: 600;
+      cursor: pointer; border: 1px solid rgba(255,255,255,.3);
+      background: transparent; color: #fff;
+      transition: all .15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); }
+    .nav-btn.admin-btn { border-color: #a855f7; color: #d8b4fe; }
+    .nav-btn.admin-btn:hover { background: rgba(168,85,247,.15); border-color: #c084fc; }
+    .nav-btn.logout-btn:hover { border-color: #fca5a5; color: #fca5a5; background: rgba(220,38,38,.15); }
+
+    /* ── LOGIN SCREEN ── */
+    .login-wrap {
+      min-height: calc(100vh - 60px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+      background: #0f2942;
+    }
+    .login-card {
+      width: 100%; max-width: 420px;
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 24px 48px rgba(0,0,0,.28);
+      padding: 2.5rem 2.5rem;
+    }
+    .login-hero { text-align: center; margin-bottom: 2rem; }
+    .login-hero .login-icon {
+      width: 64px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .login-hero h2 { font-size: 1.5rem; font-weight: 600; color: #0f2942; margin-bottom: .3rem; }
+    .login-hero p  { font-size: .88rem; color: #64748b; }
+    .login-field { margin-bottom: 1.2rem; }
+    .login-field label { display: block; font-size: .82rem; font-weight: 600; color: var(--sub); margin-bottom: .4rem; }
+    .login-field input {
+      width: 100%; padding: .6rem .85rem;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .9rem; font-family: inherit; outline: none;
+      transition: border-color .15s;
+    }
+    .login-field input:focus { border-color: var(--blue); }
+    .login-error {
+      display: none; background: var(--red-lt); color: var(--red);
+      border: 1px solid #fecaca; border-radius: 8px;
+      padding: .65rem .9rem; font-size: .84rem; font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .login-error.visible { display: block; }
+
+    /* ── ADMIN SCREEN ── */
+    #screen-admin { max-width: 1200px; padding-left: 24px; padding-right: 24px; }
+    .admin-header { margin-bottom: 1.5rem; }
+    .admin-header h2 { font-size: 1.4rem; font-weight: 800; }
+    .admin-header p  { color: var(--sub); font-size: .9rem; margin-top: .3rem; }
+    .admin-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .admin-stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1rem; text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .admin-stat .stat-val { font-size: 2rem; font-weight: 800; color: var(--blue); }
+    .admin-stat .stat-lbl { font-size: .78rem; color: var(--sub); font-weight: 500; margin-top: .2rem; }
+    .admin-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem; flex-wrap: wrap; gap: .75rem;
+    }
+    .admin-toolbar h3 { font-size: 1rem; font-weight: 700; }
+    .users-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    table.users-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 990px; }
+    table.users-table thead th {
+      background: #f1f5f9; padding: .65rem .9rem;
+      text-align: left; font-weight: 600; color: var(--sub);
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    table.users-table thead th:nth-child(1) { width: 180px; }
+    table.users-table thead th:nth-child(2) { width: 220px; }
+    table.users-table thead th:nth-child(3) { width: 90px; }
+    table.users-table thead th:nth-child(4) { width: 130px; }
+    table.users-table thead th:nth-child(5) { width: 120px; }
+    table.users-table thead th:nth-child(6) { width: 90px; }
+    table.users-table thead th:nth-child(7) { width: 160px; }
+    table.users-table tbody tr:nth-child(even) { background: #fafafa; }
+    table.users-table tbody tr:hover { background: var(--blue-lt); }
+    table.users-table tbody td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.users-table tbody tr:last-child td { border-bottom: none; }
+    .status-pill {
+      display: inline-block; padding: .15rem .5rem; border-radius: 99px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .status-pill.active { background: var(--green-lt); color: var(--green); }
+    .status-pill.inactive { background: var(--red-lt); color: var(--red); }
+    .role-pill {
+      display: inline-block; padding: .15rem .5rem; border-radius: 99px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .role-pill.admin { background: #faf5ff; color: #7c3aed; }
+    .role-pill.usuario { background: var(--blue-lt); color: var(--blue); }
+    .tbl-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
+    .tbl-btn {
+      padding: 4px 12px; border-radius: 5px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: 1.5px solid var(--border); background: var(--surface);
+      color: var(--sub); transition: all .15s; white-space: nowrap;
+    }
+    .tbl-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
+    .tbl-btn.del {
+      background: #fee2e2; color: #991b1b; border-color: #fecaca;
+    }
+    .tbl-btn.del:hover { background: #fecaca; border-color: #f87171; color: #7f1d1d; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.4); z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border-radius: var(--radius);
+      box-shadow: 0 20px 40px rgba(0,0,0,.18);
+      padding: 2rem; width: 100%; max-width: 480px;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
+    .modal-close { background: none; border: none; cursor: pointer; color: var(--muted); padding: 4px; border-radius: 5px; }
+    .modal-close:hover { color: var(--red); background: var(--red-lt); }
+    .modal-footer { display: flex; gap: .75rem; justify-content: flex-end; margin-top: 1.5rem; }
+    .btn-danger { background: var(--red); color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    /* ── SUGGEST BANNER ── */
+    .suggest-banner {
+      display: flex; align-items: center; gap: 1rem;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
+      border: 1.5px solid #bcd9f0;
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .suggest-banner .sb-icon {
+      font-size: 1.4rem; flex-shrink: 0; line-height: 1;
+    }
+    .suggest-banner .sb-text { flex: 1; min-width: 200px; }
+    .suggest-banner .sb-text strong {
+      font-size: .9rem; font-weight: 700; color: #0f2942; display: block;
+      margin-bottom: .2rem;
+    }
+    .suggest-banner .sb-text p {
+      font-size: .82rem; color: var(--sub); margin: 0; line-height: 1.45;
+    }
+    .suggest-banner .sb-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: #1560a8; color: #fff;
+      border: none; border-radius: 8px;
+      padding: .55rem 1.1rem; font-size: .86rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: background .15s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .suggest-banner .sb-btn:hover { background: #0f2942; }
+    .suggest-banner .sb-btn:disabled {
+      opacity: .65; cursor: not-allowed;
+    }
+    .suggest-result {
+      display: none; margin-top: .75rem; width: 100%;
+      padding: .55rem .9rem; border-radius: 8px;
+      font-size: .84rem; font-weight: 500;
+      background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534;
+    }
+    .suggest-result.visible { display: block; }
+    .col-suggest-reason {
+      font-size: .76rem; color: var(--muted); font-style: italic;
+      margin-top: .25rem; line-height: 1.4;
+    }
+
+    /* responsive */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .screen { padding: 1rem 1rem 3rem; }
+      .card { padding: 1.25rem; }
+      .score-hero .score-value { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-icon">
+    <svg width="32" height="32" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+      <rect width="56" height="56" rx="12" fill="#1560a8"/>
+      <circle cx="24" cy="23" r="11" fill="none" stroke="#93c5fd" stroke-width="2.5"/>
+      <text x="24" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">DQ</text>
+      <line x1="32" y1="32" x2="42" y2="42" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h1>DQ4Value</h1>
+  <div class="nav-right">
+    <span class="badge">v1.0.0</span>
+    <div class="nav-user" id="navUser">
+      <div class="user-dot" id="navUserDot">U</div>
+      <span id="navUserName"></span>
+    </div>
+    <button class="nav-btn admin-btn" id="navAdminBtn" style="display:none" onclick="goTo('admin')">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      Admin
+    </button>
+    <button class="help-btn" onclick="openHelp()" title="Ayuda">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Ayuda
+    </button>
+    <button class="nav-btn logout-btn" id="navLogoutBtn" style="display:none" onclick="logoutUser()">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+      </svg>
+      Salir
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN — LOGIN
+═══════════════════════════════════════════ -->
+<div class="screen active" id="screen-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-hero">
+        <div class="login-icon">
+          <svg width="64" height="64" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="12" fill="#1560a8"/>
+            <circle cx="24" cy="23" r="11" fill="none" stroke="#93c5fd" stroke-width="2.5"/>
+            <text x="24" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">DQ</text>
+            <line x1="32" y1="32" x2="42" y2="42" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>DQ4Value</h2>
+        <p>Data Quality for Value</p>
+      </div>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-field">
+        <label for="loginEmail">Correo electrónico</label>
+        <input type="email" id="loginEmail" placeholder="usuario@empresa.com" autocomplete="username" />
+      </div>
+      <div class="login-field">
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter') loginUser()" />
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" id="loginBtn" onclick="loginUser()">Ingresar</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEPPER -->
+<div class="stepper" id="stepper">
+  <div class="step active" id="step1">
+    <div class="dot">1</div><span>Subir archivo</span>
+  </div>
+  <div class="step-line" id="line1"></div>
+  <div class="step" id="step2">
+    <div class="dot">2</div><span>Configurar</span>
+  </div>
+  <div class="step-line" id="line2"></div>
+  <div class="step" id="step3">
+    <div class="dot">3</div><span>Resultados</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 1 — UPLOAD
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-upload">
+  <div class="card">
+    <div class="upload-hero">
+      <h2>Analiza la calidad de tus datos</h2>
+      <p>Sube un archivo CSV, Excel o TXT para comenzar el análisis</p>
+    </div>
+
+    <!-- Drop zone -->
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="dz-icon">
+        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+      </div>
+      <h3>Arrastra tu archivo aquí</h3>
+      <p>o haz clic para seleccionar &mdash; CSV, XLSX, XLS, TXT</p>
+    </div>
+    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.txt" style="display:none" />
+
+    <!-- Large-file warning -->
+    <div class="file-warn" id="largeFileWarn">
+      ⚠ Archivo grande detectado — el análisis puede tardar varios minutos. Se procesará en segundo plano.
+    </div>
+
+    <!-- File preview -->
+    <div class="file-preview" id="filePreview">
+      <svg class="fp-icon" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      <span class="fp-name" id="fpName">archivo.csv</span>
+      <span class="fp-size" id="fpSize"></span>
+      <button class="fp-remove" onclick="clearFile()" title="Quitar">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Spinner -->
+    <div class="spinner-wrap" id="uploadSpinner">
+      <div class="spinner"></div>
+      <p>Procesando archivo...</p>
+    </div>
+
+    <!-- CTA -->
+    <div style="margin-top:1.5rem; text-align:center">
+      <button class="btn btn-primary btn-lg" id="uploadBtn" onclick="uploadFile()" disabled>
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+        Analizar archivo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 2 — CONFIG
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-config">
+  <div class="card">
+    <div class="config-header">
+      <h2>Configura el análisis</h2>
+      <p>Selecciona la columna ID y elige qué dimensiones de calidad evaluar en cada columna</p>
+    </div>
+
+    <!-- Suggest banner -->
+    <div class="suggest-banner">
+      <div class="sb-icon">✨</div>
+      <div class="sb-text">
+        <strong>¿No sabes qué dimensiones aplicar?</strong>
+        <p>El sistema puede sugerir la configuración óptima basándose en el tipo y nombre de cada columna.</p>
+      </div>
+      <button class="sb-btn" id="suggestBtn" onclick="suggestConfig()">
+        ✨ Sugerir configuración
+      </button>
+      <div class="suggest-result" id="suggestResult"></div>
+    </div>
+
+    <div class="field-group" style="max-width:320px">
+      <label>Columna ID única del dataset</label>
+      <select id="idColSelect"></select>
+    </div>
+
+    <div class="col-table-wrap">
+      <table class="col-table">
+        <thead>
+          <tr>
+            <th style="min-width:140px">Columna</th>
+            <th>Dimensiones a evaluar</th>
+          </tr>
+        </thead>
+        <tbody id="colTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Analysis progress bar -->
+    <div class="progress-wrap" id="analyzeProgress">
+      <div class="progress-hdr">
+        <span class="prog-msg" id="progressMsg">Iniciando análisis...</span>
+        <span class="prog-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="goTo('upload')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+        </svg>
+        Volver
+      </button>
+      <button class="btn btn-primary" id="analyzeBtn" onclick="runAnalysis()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Ejecutar análisis
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 3 — RESULTS
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+
+  <!-- Score hero -->
+  <div class="score-hero" id="scoreHero">
+    <div class="score-label">SCORE GENERAL DEL DATASET</div>
+    <div class="score-value" id="scoreValue">—</div>
+    <div class="score-sub" id="scoreSub">de 100 puntos posibles</div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total registros</div>
+      <div class="kpi-value" id="kpiTotal">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Con problemas</div>
+      <div class="kpi-value" id="kpiProblemas" style="color:var(--red)">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Registros limpios</div>
+      <div class="kpi-value" id="kpiLimpios" style="color:var(--green)">—</div>
+      <div class="kpi-sub">% del dataset</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Peor dimensión</div>
+      <div class="kpi-value" id="kpiPeor" style="font-size:1.1rem; margin-top:.2rem">—</div>
+    </div>
+  </div>
+
+  <!-- Scores by column -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <div class="section-title">Score por columna y dimensión</div>
+    <div style="overflow-x:auto">
+      <table class="scores-table" id="scoresTable">
+        <thead>
+          <tr>
+            <th>Columna</th>
+            <th>Dimensión</th>
+            <th style="min-width:180px">Score</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="scoresBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Issues -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <div class="section-title">Problemas detectados</div>
+    <div class="filters-row">
+      <select id="filterCol" onchange="filterIssues()">
+        <option value="">Todas las columnas</option>
+      </select>
+      <select id="filterDim" onchange="filterIssues()">
+        <option value="">Todas las dimensiones</option>
+      </select>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:.5rem;flex-shrink:0">
+        <span style="font-size:.82rem;color:var(--sub);white-space:nowrap">Mostrar:</span>
+        <select id="pageSizeSelect" onchange="changePageSize()" style="padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:7px;font-size:.82rem;font-family:inherit;color:var(--text)">
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="all">Todos</option>
+        </select>
+      </div>
+    </div>
+    <div class="issues-wrap">
+      <table class="issues-table">
+        <thead>
+          <tr>
+            <th>ID Registro</th>
+            <th>Columna</th>
+            <th>Dimensión</th>
+            <th>Descripción</th>
+            <th>Valor encontrado</th>
+          </tr>
+        </thead>
+        <tbody id="issuesBody"></tbody>
+      </table>
+    </div>
+    <div id="issuesEmpty" class="empty-state" style="display:none">
+      <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="margin-bottom:.5rem;color:var(--muted)">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <p>No se encontraron problemas con los filtros actuales</p>
+    </div>
+    <div class="pagination-bar" id="paginationBar">
+      <span class="pag-info" id="pagInfo">Mostrando 0 problemas</span>
+      <div class="pag-btns" id="pagBtns"></div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="action-bar">
+    <button class="btn btn-success" onclick="downloadReport()">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+      </svg>
+      Descargar reporte Excel
+    </button>
+    <button class="btn btn-ghost" onclick="resetApp()">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Nuevo análisis
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN — ADMIN
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-admin">
+  <div class="admin-header">
+    <h2>Panel de administración</h2>
+    <p>Gestiona usuarios, roles y límites de la plataforma.</p>
+  </div>
+  <div class="admin-stats" id="adminStats">
+    <div class="admin-stat"><div class="stat-val" id="statTotal">—</div><div class="stat-lbl">Usuarios totales</div></div>
+    <div class="admin-stat"><div class="stat-val" id="statActive">—</div><div class="stat-lbl">Activos</div></div>
+    <div class="admin-stat"><div class="stat-val" id="statAdmins">—</div><div class="stat-lbl">Administradores</div></div>
+  </div>
+  <div class="card" style="padding:1.5rem">
+    <div class="admin-toolbar">
+      <h3>Usuarios</h3>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn btn-ghost" onclick="goTo('upload')">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Volver
+        </button>
+        <button class="btn btn-primary" onclick="openUserModal(null)">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nuevo usuario
+        </button>
+      </div>
+    </div>
+    <div class="users-table-wrap">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Máx. registros</th>
+            <th>Vencimiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — Create / Edit user -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">Nuevo usuario</h3>
+      <button class="modal-close" onclick="closeUserModal()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <input type="hidden" id="modalUserId" />
+    <div class="login-field">
+      <label>Nombre</label>
+      <input type="text" id="modalNombre" placeholder="Nombre completo" />
+    </div>
+    <div class="login-field" id="modalEmailField">
+      <label>Email</label>
+      <input type="email" id="modalEmail" placeholder="usuario@empresa.com" />
+    </div>
+    <div class="login-field" id="modalPasswordField">
+      <label>Contraseña</label>
+      <input type="password" id="modalPassword" placeholder="Mínimo 6 caracteres" />
+    </div>
+    <div class="login-field">
+      <label>Rol</label>
+      <select id="modalRol" style="width:100%;padding:.6rem .75rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.9rem">
+        <option value="usuario">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+    <div class="login-field">
+      <label>Máximo de registros</label>
+      <input type="number" id="modalMaxReg" value="10000" min="1" />
+    </div>
+    <div class="login-field">
+      <label>Fecha de vencimiento (opcional)</label>
+      <input type="date" id="modalFechaVenc" />
+    </div>
+    <div class="login-field" id="modalActivoField" style="display:none">
+      <label>Estado</label>
+      <select id="modalActivo" style="width:100%;padding:.6rem .75rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.9rem">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+      </select>
+    </div>
+    <div id="modalPwdSection" style="display:none">
+      <div class="modal-pwd-sep"><span>Cambiar contraseña</span></div>
+      <div class="login-field">
+        <label>Nueva contraseña</label>
+        <input type="password" id="modalNewPassword" placeholder="Nueva contraseña" oninput="validatePasswordMatch()" />
+      </div>
+      <div class="login-field">
+        <label>Confirmar contraseña</label>
+        <input type="password" id="modalConfirmPassword" placeholder="Confirmar contraseña" oninput="validatePasswordMatch()" />
+      </div>
+      <div id="modalPwdMismatch" style="display:none;font-size:.82rem;color:var(--red);margin-top:-.5rem;margin-bottom:.75rem;font-weight:500">
+        Las contraseñas no coinciden
+      </div>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:-.25rem;margin-bottom:.5rem">
+        Deja en blanco para mantener la contraseña actual
+      </p>
+    </div>
+    <div class="login-error" id="modalError"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeUserModal()">Cancelar</button>
+      <button class="btn btn-primary" id="modalSaveBtn" onclick="saveUser()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════
+     HELP OVERLAY + SIDEBAR
+═══════════════════════════════════════════ -->
+<div id="helpOverlay" onclick="closeHelp()"></div>
+
+<div id="helpSidebar">
+  <div class="help-header">
+    <h2><span>📖</span> Guía de uso</h2>
+    <button class="help-close" onclick="closeHelp()">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="help-body">
+
+    <!-- SECCIÓN 1 — Cómo usar -->
+    <div class="help-section">
+      <div class="help-section-title">¿Cómo usar la plataforma?</div>
+      <div class="help-steps">
+        <div class="help-step">
+          <div class="help-step-icon blue">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+          </div>
+          <div>
+            <h4>1 · Subir archivo</h4>
+            <p>Arrastra o selecciona tu archivo CSV, Excel (.xlsx / .xls) o TXT. La plataforma lo lee automáticamente y detecta las columnas y sus tipos de dato.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-icon purple">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+          </div>
+          <div>
+            <h4>2 · Configurar dimensiones</h4>
+            <p>Elige qué columna es el ID único y activa los chips de dimensiones en cada columna. Algunas dimensiones muestran campos de parámetros al activarse.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-icon green">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>3 · Ver resultados y descargar reporte</h4>
+            <p>El dashboard muestra el score general y el detalle por dimensión. Descarga el reporte Excel con 3 pestañas: Dashboard, Problemas Detallados y Score por Columna.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2 — Las 10 dimensiones -->
+    <div class="help-section">
+      <div class="help-section-title">Las 10 dimensiones de calidad</div>
+      <div class="accordion" id="dimAccordion">
+
+        <div class="acc-item" data-acc="completitud">
+          <div class="acc-trigger" onclick="toggleAcc('completitud')">
+            <div class="acc-icon" style="background:#f0f7ff;color:#1560a8">✓</div>
+            <span class="acc-title">Completitud</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Mide el porcentaje de valores no nulos o vacíos en la columna. Es la dimensión más fundamental — un dato ausente no puede analizarse.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Siempre en columnas obligatorias: nombre, email, fecha, ID.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">Ninguno — análisis automático.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>email</code> con 3 valores nulos en 30 registros → score <strong>90%</strong>. Reporta los IDs 5, 12 y 23 como problemáticos.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="unicidad">
+          <div class="acc-trigger" onclick="toggleAcc('unicidad')">
+            <div class="acc-icon" style="background:#f0fdf4;color:#16a34a">⊕</div>
+            <span class="acc-title">Unicidad</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Detecta valores duplicados en una columna. Un duplicado puede indicar carga doble de datos, errores de integración o inconsistencias de origen.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas que deben ser únicas: IDs, emails, documentos de identidad, códigos de producto.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">Ninguno — análisis automático.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>cliente_id</code> con el ID <code>101</code> repetido 3 veces → reporta esos 3 registros como duplicados.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="validez">
+          <div class="acc-trigger" onclick="toggleAcc('validez')">
+            <div class="acc-icon" style="background:#fef3c7;color:#d97706">✦</div>
+            <span class="acc-title">Validez</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Verifica que los valores pertenezcan a un conjunto permitido o cumplan un formato expresado como expresión regular.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas con catálogos cerrados (estados, tipos, categorías) o con formato definido (emails, teléfonos, códigos postales).</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val"><code>Valores válidos</code> separados por coma, <strong>o</strong> <code>Expresión regular</code> (se activa en el campo de texto).</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Con valores: <code>estado</code> acepta <code>Activo, Inactivo</code> → detecta <code>Pendiente</code> y <code>ACTIVO</code>.<br/>Con regex: <code>email</code> con patrón estándar → detecta <code>juansindominio.com</code>.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="consistencia">
+          <div class="acc-trigger" onclick="toggleAcc('consistencia')">
+            <div class="acc-icon" style="background:#f3e8ff;color:#7c3aed">⇄</div>
+            <span class="acc-title">Consistencia</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Detecta mezcla de formatos dentro de la misma columna: fechas en formatos distintos, números con y sin símbolo de moneda, o texto con capitalización inconsistente.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas de fecha, columnas de texto libre o columnas monetarias con datos de múltiples fuentes.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">Ninguno — análisis automático de patrones.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>fecha</code> con valores <code>2024-01-15</code>, <code>15/01/2024</code> y <code>Jan 15 2024</code> → score bajo por 3 formatos distintos mezclados.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="exactitud">
+          <div class="acc-trigger" onclick="toggleAcc('exactitud')">
+            <div class="acc-icon" style="background:#fef2f2;color:#dc2626">±</div>
+            <span class="acc-title">Exactitud</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Valida que los valores numéricos estén dentro de un rango lógico de dominio. Incluye auto-detección de rango basada en los datos reales del archivo.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas numéricas con límites conocidos: edad, precio, temperatura, porcentaje, calificación.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val"><code>Valor mínimo</code> y <code>Valor máximo</code>. El botón <strong>⚡ Auto-detectar rango</strong> rellena automáticamente usando el percentil 5 (P5) y el percentil 95 (P95) de los datos — esto significa que el 90% central de los valores define el rango "normal", ignorando los extremos más atípicos.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>edad</code> con <code>min=0</code>, <code>max=120</code> → detecta los valores <code>-5</code> y <code>200</code> como inválidos.<br/>Con auto-detección en una columna de salarios, si el P5 es 1800 y el P95 es 12000, se usará ese rango automáticamente.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="vigencia">
+          <div class="acc-trigger" onclick="toggleAcc('vigencia')">
+            <div class="acc-icon" style="background:#ecfdf5;color:#059669">📅</div>
+            <span class="acc-title">Vigencia</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Detecta registros con fechas fuera de un período válido. El botón <strong>📅 Sugerir rango</strong> rellena automáticamente "hace 2 años hasta hoy" como punto de partida razonable.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas de fecha de contrato, fecha de vigencia, fecha de registro. Solo aparece en columnas cuyo nombre contenga palabras como <code>fecha</code>, <code>date</code>, <code>created</code>, etc.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val"><code>Fecha desde</code> y <code>Fecha hasta</code>. Usa el botón <strong>Sugerir rango</strong> para pre-completar con los últimos 2 años — es un buen punto de partida para la mayoría de datasets operativos.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>fecha_contrato</code> con rango <code>2022-01-01</code> a <code>2024-12-31</code> → detecta contratos del año 2015 como fuera de vigencia y los reporta con su ID y fecha exacta.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="precision">
+          <div class="acc-trigger" onclick="toggleAcc('precision')">
+            <div class="acc-icon" style="background:#fff7ed;color:#ea580c">⌶</div>
+            <span class="acc-title">Precisión</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Verifica la granularidad de los datos. El sistema detecta automáticamente el tipo de columna y muestra los campos correspondientes — no necesitas configurar nada extra.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas de texto con restricciones de longitud (nombres, códigos, descripciones) o columnas numéricas donde los decimales importan (precios, coordenadas, porcentajes).</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">
+                <strong>Si la columna es texto</strong> → muestra <code>Longitud mínima</code> y <code>Longitud máxima</code>.<br/>
+                <strong>Si la columna es numérica</strong> → muestra <code>Decimales esperados</code>.<br/>
+                <strong>Si la columna es fecha</strong> → muestra "No aplica".
+              </span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Texto: columna <code>nombre</code> con <code>min=2</code>, <code>max=100</code> → detecta <code>"A"</code> (muy corto) y un nombre de 150 caracteres (muy largo).<br/>Número: columna <code>precio</code> con <code>decimales=2</code> → detecta <code>10.5</code> (le falta un decimal) y <code>10.555</code> (tiene un decimal de más) como incorrectos.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="oportunidad">
+          <div class="acc-trigger" onclick="toggleAcc('oportunidad')">
+            <div class="acc-icon" style="background:#f0f9ff;color:#0284c7">⏱</div>
+            <span class="acc-title">Oportunidad</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Mide si los datos están actualizados según la frecuencia esperada del negocio. Solo aparece en columnas cuyo nombre sugiera que contienen fechas.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Columnas de <code>fecha_actualizacion</code>, <code>ultimo_contacto</code>, <code>created_at</code>, <code>fecha_registro</code>.</span></div>
+              <div class="acc-row"><span class="acc-label">Frecuencias</span><span class="acc-val">
+                <strong>Diario (1 día)</strong> — sensores IoT, transacciones bancarias, logs de sistema.<br/>
+                <strong>Semanal (7 días)</strong> — reportes operativos, sincronizaciones de ERP.<br/>
+                <strong>Mensual (30 días)</strong> — datos de clientes, facturación, inventario.<br/>
+                <strong>Trimestral (90 días)</strong> — datos financieros, evaluaciones de rendimiento.<br/>
+                <strong>Anual (365 días)</strong> — datos maestros, catálogos, parámetros de configuración.<br/>
+                <strong>Personalizado</strong> — ingresa el número de días manualmente.
+              </span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>fecha_actualizacion</code> con frecuencia <em>Mensual</em> → detecta registros que llevan más de 30 días sin actualizarse y los marca como no oportunos.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="integridad">
+          <div class="acc-trigger" onclick="toggleAcc('integridad')">
+            <div class="acc-icon" style="background:#fdf4ff;color:#a21caf">⛓</div>
+            <span class="acc-title">Integridad Referencial</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Verifica que los valores de una columna existan en una lista maestra de referencia. Puedes ingresar los IDs manualmente o subir directamente el CSV del catálogo maestro.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Claves foráneas: <code>ciudad_id</code>, <code>pais_id</code>, <code>categoria_id</code>, <code>vendedor_id</code> que deben existir en catálogos maestros.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">
+                <strong>Opción 1 — Manual:</strong> escribe los IDs válidos separados por coma.<br/>
+                <strong>Opción 2 — CSV:</strong> sube el archivo CSV del catálogo maestro. El sistema extrae automáticamente los valores de la primera columna y los usa como referencia. Muestra cuántos IDs se cargaron.
+              </span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Tienes una columna <code>pais_id</code> y subes el CSV maestro de países válidos con 195 filas. El sistema detecta automáticamente qué registros tienen un <code>pais_id</code> que no existe en tu catálogo — por ejemplo, <code>pais_id=999</code> — y los reporta con su ID de registro y el valor encontrado.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="razonabilidad">
+          <div class="acc-trigger" onclick="toggleAcc('razonabilidad')">
+            <div class="acc-icon" style="background:#fff1f2;color:#e11d48">⚡</div>
+            <span class="acc-title">Razonabilidad</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Detecta valores estadísticamente anómalos (outliers) usando el método IQR. No requiere conocer el rango válido — infiere los límites razonables desde los propios datos.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Solo columnas numéricas. Ideal para detectar errores de carga: salarios, precios, cantidades, métricas.</span></div>
+              <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">Ninguno — análisis automático con IQR × 1.5.</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>salario</code> con mayoría entre <code>2000–8000</code> → detecta un valor de <code>950000</code> como estadísticamente sospechoso.</span></span></div>
+            </div>
+          </div></div>
+        </div>
+
+      </div><!-- /accordion -->
+    </div>
+
+    <!-- SECCIÓN 3 — Interpretación de resultados -->
+    <div class="help-section">
+      <div class="help-section-title">Interpretación de resultados</div>
+      <div class="score-scale">
+        <div class="scale-row green">
+          <span class="scale-range">80–100</span>
+          <div class="scale-desc"><strong>Buena calidad</strong> — Los datos cumplen el criterio evaluado. Monitoreo rutinario suficiente.</div>
+        </div>
+        <div class="scale-row yellow">
+          <span class="scale-range">60–79</span>
+          <div class="scale-desc"><strong>Requiere atención</strong> — Hay problemas que pueden afectar análisis. Revisar y limpiar antes de usar en producción.</div>
+        </div>
+        <div class="scale-row red">
+          <span class="scale-range">0–59</span>
+          <div class="scale-desc"><strong>Calidad crítica</strong> — Los datos tienen fallas importantes. Acción inmediata requerida antes de cualquier uso.</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--sub);margin-top:.85rem;line-height:1.55">
+        El reporte Excel descargado incluye tres pestañas: <strong>Dashboard</strong> con el score general y tabla resumen, <strong>Problemas Detallados</strong> con cada registro problemático y su descripción, y <strong>Score por Columna</strong> con la matriz completa de dimensiones — todo con celdas coloreadas verde/amarillo/rojo.
+      </p>
+    </div>
+
+    <!-- SECCIÓN 4 — Formatos soportados -->
+    <div class="help-section">
+      <div class="help-section-title">Formatos de archivo soportados</div>
+      <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <table class="fmt-table">
+          <thead>
+            <tr><th>Formato</th><th>Separador detectado</th><th>Notas</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fmt-tag">CSV</span></td>
+              <td>Coma, punto y coma, tabulación</td>
+              <td>Detección automática del separador</td>
+            </tr>
+            <tr>
+              <td><span class="fmt-tag">XLSX</span></td>
+              <td>—</td>
+              <td>Excel 2007 y posterior. Lee la primera hoja.</td>
+            </tr>
+            <tr>
+              <td><span class="fmt-tag">XLS</span></td>
+              <td>—</td>
+              <td>Excel 97–2003. Lee la primera hoja.</td>
+            </tr>
+            <tr>
+              <td><span class="fmt-tag">TXT</span></td>
+              <td>Tabulación, coma, punto y coma</td>
+              <td>Mismo comportamiento que CSV</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.65rem">
+        ⚠ Tamaño máximo recomendado: <strong>100 MB</strong>. Archivos más grandes pueden tardar varios segundos en procesarse.
+      </p>
+    </div>
+
+  </div><!-- /help-body -->
+</div><!-- /helpSidebar -->
+
+<script>
+// ─────────────────────────────────────────────────────────────────────
+// Regex presets
+// ─────────────────────────────────────────────────────────────────────
+const REGEX_PRESETS = {
+  email:      String.raw`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$`,
+  digits:     String.raw`^\d+$`,
+  letters:    String.raw`^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$`,
+  phone:      String.raw`^\d{7,15}$`,
+  date_iso:   String.raw`^\d{4}-\d{2}-\d{2}$`,
+  date_dmy:   String.raw`^\d{2}/\d{2}/\d{4}$`,
+  url:        String.raw`^https?://[^\s/$.?#].[^\s]*$`,
+  no_special: String.raw`^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$`,
+};
+
+// ─────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────
+const API = 'http://127.0.0.1:8000';
+let state = { fileId: null, columns: [], analysisResult: null };
+let allIssues = [];
+let currentUser = null;
+
+// ─────────────────────────────────────────────────────────────────────
+// Auth helpers
+// ─────────────────────────────────────────────────────────────────────
+async function apiFetch(url, options = {}) {
+  const token = localStorage.getItem('dq_token');
+  options.headers = options.headers || {};
+  if (token) options.headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + url, options);
+  if (res.status === 401) {
+    localStorage.removeItem('dq_token');
+    localStorage.removeItem('dq_user');
+    currentUser = null;
+    goTo('login');
+    throw new Error('Sesión expirada. Por favor inicia sesión nuevamente.');
+  }
+  return res;
+}
+
+const DIMENSIONS = [
+  { key: 'completitud',           label: 'Completitud',            params: [] },
+  { key: 'unicidad',              label: 'Unicidad',               params: [] },
+  { key: 'validez',               label: 'Validez',                params: ['valid_values'] },
+  { key: 'consistencia',          label: 'Consistencia',           params: [] },
+  { key: 'exactitud',             label: 'Exactitud',              params: ['min_value', 'max_value'] },
+  { key: 'vigencia',              label: 'Vigencia',               params: ['date_from', 'date_to'] },
+  { key: 'precision',             label: 'Precisión',              params: ['min_length', 'max_length'] },
+  { key: 'oportunidad',           label: 'Oportunidad',            params: ['max_age_days'] },
+  { key: 'integridad_referencial',label: 'Integ. Referencial',     params: [] },
+  { key: 'razonabilidad',         label: 'Razonabilidad',          params: [] },
+];
+
+// ─────────────────────────────────────────────────────────────────────
+// Navigation
+// ─────────────────────────────────────────────────────────────────────
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  const mainScreens = ['upload', 'config', 'results'];
+  const stepper = document.getElementById('stepper');
+  stepper.style.display = mainScreens.includes(screen) ? '' : 'none';
+  if (mainScreens.includes(screen)) {
+    ['step1','step2','step3'].forEach(id => document.getElementById(id).classList.remove('active','done'));
+    ['line1','line2'].forEach(id => document.getElementById(id).classList.remove('done'));
+    if (screen === 'upload')   { setStep(1); }
+    if (screen === 'config')   { setStep(2); }
+    if (screen === 'results')  { setStep(3); }
+  }
+  if (screen === 'admin') loadAdminUsers();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('step' + i);
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add('active');
+  }
+  if (n >= 2) document.getElementById('line1').classList.add('done');
+  if (n >= 3) document.getElementById('line2').classList.add('done');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Toast
+// ─────────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Screen 1 — Upload
+// ─────────────────────────────────────────────────────────────────────
+const dropZone   = document.getElementById('dropZone');
+const fileInput  = document.getElementById('fileInput');
+let selectedFile = null;
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) setFile(f);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
+
+function setFile(f) {
+  const ext = f.name.split('.').pop().toLowerCase();
+  if (!['csv','xlsx','xls','txt'].includes(ext)) {
+    toast('Formato no compatible. Usa CSV, XLSX, XLS o TXT.', 'error'); return;
+  }
+  selectedFile = f;
+  document.getElementById('fpName').textContent = f.name;
+  document.getElementById('fpSize').textContent = formatBytes(f.size);
+  document.getElementById('filePreview').classList.add('visible');
+  document.getElementById('uploadBtn').disabled = false;
+  // Large-file warning: > 10 MB
+  document.getElementById('largeFileWarn').classList.toggle('visible', f.size > 10 * 1024 * 1024);
+}
+
+function clearFile() {
+  selectedFile = null;
+  fileInput.value = '';
+  document.getElementById('filePreview').classList.remove('visible');
+  document.getElementById('largeFileWarn').classList.remove('visible');
+  document.getElementById('uploadBtn').disabled = true;
+}
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(1) + ' MB';
+}
+
+async function uploadFile() {
+  if (!selectedFile) return;
+  setUploadLoading(true);
+  const fd = new FormData();
+  fd.append('file', selectedFile);
+  try {
+    const res = await apiFetch('/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error al subir el archivo');
+    state.fileId  = data.file_id;
+    state.columns = data.columnas;
+    buildConfigScreen(data);
+    goTo('config');
+    toast(`Archivo cargado: ${data.total_registros} registros, ${data.total_columnas} columnas`, 'success');
+  } catch(e) {
+    toast(e.message, 'error');
+  } finally {
+    setUploadLoading(false);
+  }
+}
+
+function setUploadLoading(on) {
+  document.getElementById('uploadSpinner').classList.toggle('visible', on);
+  document.getElementById('dropZone').style.display    = on ? 'none' : '';
+  document.getElementById('filePreview').style.display = on ? 'none' : '';
+  document.getElementById('uploadBtn').disabled = on;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Screen 2 — Config
+// ─────────────────────────────────────────────────────────────────────
+function buildConfigScreen(data) {
+  // ID column dropdown
+  const sel = document.getElementById('idColSelect');
+  sel.innerHTML = data.columnas.map(c => `<option value="${c.nombre}">${c.nombre}</option>`).join('');
+
+  // Columns table
+  const tbody = document.getElementById('colTableBody');
+  tbody.innerHTML = '';
+  data.columnas.forEach(col => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="col-name">${col.nombre}</div>
+        <div class="col-dtype">${col.tipo_dato} &mdash; ${col.total_registros - col.valores_nulos}/${col.total_registros} no nulos</div>
+        <div class="col-suggest-reason" id="reason-${safeId(col.nombre)}"></div>
+      </td>
+      <td>
+        <div class="dim-checks" id="checks-${safeId(col.nombre)}">
+          ${DIMENSIONS.map(d => `
+            <div class="dim-check" id="label-${safeId(col.nombre)}-${d.key}"
+                 onclick="toggleDim('${safeId(col.nombre)}','${d.key}')">
+              ${d.label}
+            </div>
+          `).join('')}
+        </div>
+        ${buildParamInputs(col.nombre, col.tipo_dato)}
+      </td>
+    `;
+    tbody.appendChild(tr);
+
+    // Hide oportunidad chip on non-date columns
+    if (!isDateColumn(col.nombre, col.tipo_dato)) {
+      const chip = document.getElementById(`label-${safeId(col.nombre)}-oportunidad`);
+      if (chip) chip.style.display = 'none';
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Suggest config — llama al motor de reglas y pre-marca chips + params
+// ─────────────────────────────────────────────────────────────────────
+async function suggestConfig() {
+  const btn = document.getElementById('suggestBtn');
+  const resultEl = document.getElementById('suggestResult');
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner" style="width:14px;height:14px;border-width:2px;margin-right:4px"></span> Analizando columnas...`;
+  resultEl.classList.remove('visible');
+
+  try {
+    const res = await apiFetch('/ai/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file_id: state.fileId }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error al obtener sugerencias');
+
+    const sugs = data.sugerencias || {};
+    let colCount = 0;
+
+    Object.entries(sugs).forEach(([colName, sug]) => {
+      const sid = safeId(colName);
+      const dims = sug.dimensiones || {};
+      const razon = sug.razon || '';
+
+      // Mostrar razón debajo del nombre de columna
+      const reasonEl = document.getElementById(`reason-${sid}`);
+      if (reasonEl && razon) reasonEl.textContent = '✦ ' + razon;
+
+      // Activar chips y rellenar parámetros
+      Object.entries(dims).forEach(([dimKey, params]) => {
+        const chip = document.getElementById(`label-${sid}-${dimKey}`);
+        if (!chip) return;
+
+        // Activar chip si no está ya activo
+        if (!chip.classList.contains('checked')) {
+          chip.classList.add('checked');
+          const panel = document.getElementById(`params-${sid}-${dimKey}`);
+          if (panel) panel.classList.add('visible');
+        }
+
+        // Rellenar parámetros según dimensión
+        _applyDimParams(sid, dimKey, params);
+      });
+
+      colCount++;
+    });
+
+    resultEl.textContent = `✓ Configuración sugerida para ${colCount} columnas. Puedes ajustar antes de ejecutar.`;
+    resultEl.classList.add('visible');
+  } catch (e) {
+    toast(e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ Sugerir configuración';
+  }
+}
+
+function _applyDimParams(sid, dimKey, params) {
+  if (!params || Object.keys(params).length === 0) return;
+
+  if (dimKey === 'validez') {
+    if (params.regex_pattern) {
+      // Cambiar a modo regex
+      const regexRadio = document.getElementById(`vr-${sid}-regex`);
+      const listaRadio = document.getElementById(`vr-${sid}-lista`);
+      if (regexRadio) {
+        regexRadio.classList.add('active');
+        if (listaRadio) listaRadio.classList.remove('active');
+        const subLista = document.getElementById(`vsub-${sid}-lista`);
+        const subRegex = document.getElementById(`vsub-${sid}-regex`);
+        if (subLista) subLista.classList.remove('visible');
+        if (subRegex) subRegex.classList.add('visible');
+      }
+      // Seleccionar "Personalizado" y rellenar el campo
+      const preset = document.getElementById(`p-${sid}-regex_preset`);
+      if (preset) preset.value = 'custom';
+      const customEl = document.getElementById(`vcustom-${sid}`);
+      if (customEl) customEl.classList.add('visible');
+      const customInput = document.getElementById(`p-${sid}-regex_custom`);
+      if (customInput) customInput.value = params.regex_pattern;
+    } else if (params.valid_values && params.valid_values.length) {
+      const input = document.getElementById(`p-${sid}-valid_values`);
+      if (input) input.value = params.valid_values.join(', ');
+    }
+  }
+
+  if (dimKey === 'exactitud') {
+    if (params.min_value !== undefined) {
+      const el = document.getElementById(`p-${sid}-min_value`);
+      if (el) el.value = params.min_value;
+    }
+    if (params.max_value !== undefined) {
+      const el = document.getElementById(`p-${sid}-max_value`);
+      if (el) el.value = params.max_value;
+    }
+  }
+
+  if (dimKey === 'precision') {
+    if (params.decimal_places !== undefined) {
+      const el = document.getElementById(`p-${sid}-decimal_places`);
+      if (el) el.value = params.decimal_places;
+    }
+    if (params.min_length !== undefined) {
+      const el = document.getElementById(`p-${sid}-min_length`);
+      if (el) el.value = params.min_length;
+    }
+    if (params.max_length !== undefined) {
+      const el = document.getElementById(`p-${sid}-max_length`);
+      if (el) el.value = params.max_length;
+    }
+  }
+
+  if (dimKey === 'vigencia') {
+    if (params.date_from) {
+      const el = document.getElementById(`p-${sid}-date_from`);
+      if (el) el.value = params.date_from;
+    }
+    if (params.date_to) {
+      const el = document.getElementById(`p-${sid}-date_to`);
+      if (el) el.value = params.date_to;
+    }
+  }
+
+  if (dimKey === 'oportunidad') {
+    if (params.max_age_days !== undefined) {
+      const presetEl = document.getElementById(`p-${sid}-opor_preset`);
+      const presetMap = { 1: 'daily', 7: 'weekly', 30: 'monthly', 90: 'quarterly', 365: 'yearly' };
+      const matched = presetMap[params.max_age_days];
+      if (presetEl && matched) {
+        presetEl.value = matched;
+      } else if (presetEl) {
+        presetEl.value = 'custom';
+        const customRow = document.getElementById(`p-${sid}-opor_custom`);
+        // show custom row
+        const customWrap = customRow?.closest('.opor-custom');
+        if (customWrap) customWrap.classList.add('visible');
+        if (customRow) customRow.value = params.max_age_days;
+      }
+    }
+  }
+}
+
+function isDateColumn(colName, dtype) {
+  const keywords = ['fecha', 'date', 'time', 'created', 'updated', 'modified',
+                    'registro', 'creacion', 'actualizacion'];
+  const lower = colName.toLowerCase();
+  return keywords.some(k => lower.includes(k)) ||
+         (dtype && /datetime|timedelta/.test(dtype));
+}
+
+function buildParamInputs(colName, dtype) {
+  const sid  = safeId(colName);
+  dtype = dtype || 'object';
+  const isNumeric  = /int|float/.test(dtype);
+  const isDateType = /datetime|date/.test(dtype);
+
+  // Precision panel — content depends on column type
+  let precContent;
+  if (isDateType) {
+    precContent = `<span class="prec-date-msg">Precisión no aplica para columnas de fecha.</span>`;
+  } else if (isNumeric) {
+    precContent = `
+      <div class="prec-panel visible" id="prec-num-${sid}">
+        <label>Decimales esperados:</label>
+        <input type="number" id="p-${sid}-decimal_places" min="0" max="10"
+               placeholder="Ej: 2 para valores como 10.50" style="width:180px" />
+      </div>`;
+  } else {
+    precContent = `
+      <div class="prec-panel visible" id="prec-txt-${sid}">
+        <label>Longitud mínima:</label>
+        <input type="number" id="p-${sid}-min_length" placeholder="Ej: 2"  style="width:90px" />
+        <label>Longitud máxima:</label>
+        <input type="number" id="p-${sid}-max_length" placeholder="Ej: 100" style="width:90px" />
+      </div>`;
+  }
+
+  return `
+    <!-- VALIDEZ -->
+    <div class="dim-params" id="params-${sid}-validez">
+      <div class="validez-wrap">
+        <div class="validez-radios">
+          <div class="vradio active" id="vr-${sid}-lista" onclick="switchValidez('${sid}','lista')">
+            <input type="radio" name="vmode-${sid}" value="lista" checked />Valores permitidos
+          </div>
+          <div class="vradio" id="vr-${sid}-regex" onclick="switchValidez('${sid}','regex')">
+            <input type="radio" name="vmode-${sid}" value="regex" />Formato (regex)
+          </div>
+        </div>
+        <div class="validez-subpanel visible" id="vsub-${sid}-lista">
+          <label>Lista de valores válidos separados por coma</label>
+          <input type="text" class="wide" id="p-${sid}-valid_values"
+                 placeholder="Ej: Activo, Inactivo, Pendiente" />
+        </div>
+        <div class="validez-subpanel" id="vsub-${sid}-regex">
+          <label>Formato predefinido</label>
+          <select class="wide" id="p-${sid}-regex_preset" onchange="onRegexPreset('${sid}')">
+            <option value="email">Email válido</option>
+            <option value="digits">Solo números</option>
+            <option value="letters">Solo letras</option>
+            <option value="phone">Teléfono (7–15 dígitos)</option>
+            <option value="date_iso">Fecha YYYY-MM-DD</option>
+            <option value="date_dmy">Fecha DD/MM/YYYY</option>
+            <option value="url">URL válida</option>
+            <option value="no_special">Sin caracteres especiales</option>
+            <option value="custom">Personalizado…</option>
+          </select>
+          <div class="validez-custom" id="vcustom-${sid}">
+            <label style="margin-top:.2rem">Expresión regular personalizada</label>
+            <input type="text" class="wide" id="p-${sid}-regex_custom" placeholder="Ej: ^[A-Z]{2}\\d{4}$" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXACTITUD -->
+    <div class="dim-params" id="params-${sid}-exactitud">
+      <div style="width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <label>Valor mínimo:</label>
+          <input type="number" id="p-${sid}-min_value" placeholder="0" style="width:100px"
+                 oninput="validateExactitud('${sid}')" />
+          <label>Valor máximo:</label>
+          <input type="number" id="p-${sid}-max_value" placeholder="100" style="width:100px"
+                 oninput="validateExactitud('${sid}')" />
+        </div>
+        <button class="param-btn" type="button" onclick="autoDetectRange('${sid}','${colName}')">
+          ⚡ Auto-detectar rango
+        </button>
+      </div>
+      <div class="param-error" id="exact-err-${sid}" style="display:none">
+        El valor mínimo debe ser menor que el máximo
+      </div>
+      <div class="param-hint" id="exact-hint-${sid}" style="display:none"></div>
+    </div>
+
+    <!-- VIGENCIA -->
+    <div class="dim-params" id="params-${sid}-vigencia">
+      <div style="width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <label>Fecha desde:</label>
+          <input type="date" id="p-${sid}-date_from" style="width:150px" />
+          <label>Fecha hasta:</label>
+          <input type="date" id="p-${sid}-date_to" style="width:150px" />
+        </div>
+        <button class="param-btn" type="button" onclick="suggestVigenciaRange('${sid}')">
+          📅 Sugerir rango
+        </button>
+      </div>
+      <div class="param-hint" style="width:100%">
+        Registros con fecha fuera de este rango serán marcados como no vigentes
+      </div>
+    </div>
+
+    <!-- PRECISIÓN -->
+    <div class="dim-params" id="params-${sid}-precision" data-dtype="${dtype}">
+      ${precContent}
+    </div>
+
+    <!-- OPORTUNIDAD -->
+    <div class="dim-params" id="params-${sid}-oportunidad">
+      <div class="opor-row">
+        <label>Frecuencia esperada:</label>
+        <select id="p-${sid}-opor_preset" onchange="onOportunidadPreset('${sid}')" style="width:200px">
+          <option value="daily">Diario (1 día)</option>
+          <option value="weekly">Semanal (7 días)</option>
+          <option value="monthly" selected>Mensual (30 días)</option>
+          <option value="quarterly">Trimestral (90 días)</option>
+          <option value="yearly">Anual (365 días)</option>
+          <option value="custom">Personalizado…</option>
+        </select>
+        <div class="opor-custom" id="opor-custom-${sid}">
+          <label>Días:</label>
+          <input type="number" id="p-${sid}-opor_custom" placeholder="Ej: 45" style="width:80px" />
+        </div>
+      </div>
+    </div>
+
+    <!-- INTEGRIDAD REFERENCIAL -->
+    <div class="dim-params" id="params-${sid}-integridad_referencial">
+      <div style="width:100%;display:flex;flex-direction:column;gap:.4rem">
+        <label>IDs de referencia separados por coma</label>
+        <input type="text" class="wide" id="p-${sid}-reference_ids"
+               placeholder="Ej: 1, 2, 3, 4, 5 …" />
+        <div class="ref-divider">o</div>
+        <button class="param-btn" type="button"
+                onclick="document.getElementById('ref-csv-${sid}').click()" style="align-self:flex-start">
+          📂 Subir archivo de referencia (.csv)
+        </button>
+        <input type="file" id="ref-csv-${sid}" accept=".csv" style="display:none"
+               onchange="loadRefCSV('${sid}', this)" />
+        <div class="ref-count" id="ref-count-${sid}"></div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleDim(sid, dimKey) {
+  const chip = document.getElementById(`label-${sid}-${dimKey}`);
+  const active = chip.classList.toggle('checked');
+  const panel = document.getElementById(`params-${sid}-${dimKey}`);
+  if (panel) panel.classList.toggle('visible', active);
+}
+
+function safeId(name) { return name.replace(/[^a-zA-Z0-9]/g, '_'); }
+
+function collectConfig() {
+  const idCol = document.getElementById('idColSelect').value;
+  const colsConfig = {};
+  let hasError = false;
+  state.columns.forEach(col => {
+    const sid = safeId(col.nombre);
+    const dimConfig = {};
+    DIMENSIONS.forEach(d => {
+      const label = document.getElementById(`label-${sid}-${d.key}`);
+      if (!label || !label.classList.contains('checked')) return;
+      const params = {};
+      if (d.key === 'validez') {
+        const mode = document.getElementById(`vr-${sid}-regex`)?.classList.contains('active') ? 'regex' : 'lista';
+        if (mode === 'lista') {
+          const v = document.getElementById(`p-${sid}-valid_values`)?.value.trim();
+          if (v) params.valid_values = v.split(',').map(s => s.trim()).filter(Boolean);
+        } else {
+          const preset = document.getElementById(`p-${sid}-regex_preset`)?.value;
+          if (preset === 'custom') {
+            const rx = document.getElementById(`p-${sid}-regex_custom`)?.value.trim();
+            if (rx) params.regex_pattern = rx;
+          } else {
+            params.regex_pattern = REGEX_PRESETS[preset] || '';
+          }
+        }
+      }
+      if (d.key === 'exactitud') {
+        const mn = document.getElementById(`p-${sid}-min_value`)?.value;
+        const mx = document.getElementById(`p-${sid}-max_value`)?.value;
+        const mnF = mn !== '' ? parseFloat(mn) : null;
+        const mxF = mx !== '' ? parseFloat(mx) : null;
+        if (mnF !== null && mxF !== null && mnF >= mxF) {
+          toast(`Exactitud en "${col.nombre}": el mínimo debe ser menor que el máximo.`, 'error');
+          hasError = true; return;
+        }
+        if (mnF !== null) params.min_value = mnF;
+        if (mxF !== null) params.max_value = mxF;
+      }
+      if (d.key === 'vigencia') {
+        const df = document.getElementById(`p-${sid}-date_from`)?.value;
+        const dt = document.getElementById(`p-${sid}-date_to`)?.value;
+        if (df) params.date_from = df;
+        if (dt) params.date_to   = dt;
+      }
+      if (d.key === 'precision') {
+        const panel = document.getElementById(`params-${sid}-precision`);
+        const dtype = panel?.dataset.dtype || 'object';
+        if (/int|float/.test(dtype)) {
+          const dp = document.getElementById(`p-${sid}-decimal_places`)?.value;
+          if (dp !== '' && dp !== undefined) params.decimal_places = parseInt(dp);
+        } else if (!/datetime|date/.test(dtype)) {
+          const ml = document.getElementById(`p-${sid}-min_length`)?.value;
+          const mx = document.getElementById(`p-${sid}-max_length`)?.value;
+          if (ml !== '' && ml !== undefined) params.min_length = parseInt(ml);
+          if (mx !== '' && mx !== undefined) params.max_length = parseInt(mx);
+        }
+      }
+      if (d.key === 'oportunidad') {
+        const preset = document.getElementById(`p-${sid}-opor_preset`)?.value;
+        const presetMap = { daily:1, weekly:7, monthly:30, quarterly:90, yearly:365 };
+        if (preset === 'custom') {
+          const days = document.getElementById(`p-${sid}-opor_custom`)?.value;
+          if (days !== '') params.max_age_days = parseInt(days);
+        } else {
+          params.max_age_days = presetMap[preset] ?? 30;
+        }
+      }
+      if (d.key === 'integridad_referencial') {
+        const fileIds = _refFileIds[sid];
+        if (fileIds && fileIds.length > 0) {
+          params.reference_ids = fileIds;
+        } else {
+          const v = document.getElementById(`p-${sid}-reference_ids`)?.value.trim();
+          if (v) params.reference_ids = v.split(',').map(s => s.trim()).filter(Boolean);
+        }
+      }
+      dimConfig[d.key] = params;
+    });
+    if (Object.keys(dimConfig).length > 0) colsConfig[col.nombre] = dimConfig;
+  });
+  if (hasError) return { idCol, colsConfig: {}, hasError: true };
+  return { idCol, colsConfig };
+}
+
+async function runAnalysis() {
+  const { idCol, colsConfig, hasError } = collectConfig();
+  if (hasError) return;
+  if (Object.keys(colsConfig).length === 0) {
+    toast('Selecciona al menos una dimensión en alguna columna.', 'error'); return;
+  }
+
+  setAnalyzeLoading(true);
+  updateProgress(0, 'Iniciando análisis...');
+
+  // Poll /analyze/status every 2 s while the POST is in flight
+  let pollTimer = setInterval(async () => {
+    try {
+      const r = await apiFetch(`/analyze/status/${state.fileId}`);
+      if (!r.ok) return;
+      const s = await r.json();
+      if (s && typeof s.pct === 'number') updateProgress(s.pct, s.message || '');
+    } catch { /* ignore poll errors */ }
+  }, 2000);
+
+  try {
+    const res = await apiFetch('/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file_id: state.fileId, id_column: idCol, columns_config: colsConfig })
+    });
+    clearInterval(pollTimer);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error en el análisis');
+    updateProgress(100, '¡Análisis completado!');
+    await new Promise(r => setTimeout(r, 400)); // brief pause to show 100%
+    state.analysisResult = data;
+    buildResultsScreen(data);
+    goTo('results');
+    toast('Análisis completado', 'success');
+  } catch(e) {
+    clearInterval(pollTimer);
+    updateProgress(0, '');
+    toast(e.message, 'error');
+  } finally {
+    setAnalyzeLoading(false);
+  }
+}
+
+function updateProgress(pct, msg) {
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent  = pct + '%';
+  if (msg) document.getElementById('progressMsg').textContent = msg;
+}
+
+function setAnalyzeLoading(on) {
+  document.getElementById('analyzeProgress').classList.toggle('visible', on);
+  document.getElementById('analyzeBtn').disabled = on;
+  if (!on) updateProgress(0, 'Iniciando análisis...');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Screen 3 — Results
+// ─────────────────────────────────────────────────────────────────────
+function buildResultsScreen(data) {
+  // Score hero
+  const score = data.score_general;
+  const hero  = document.getElementById('scoreHero');
+  hero.className = 'score-hero ' + scoreClass(score);
+  document.getElementById('scoreValue').textContent = score.toFixed(1);
+  document.getElementById('scoreSub').textContent   = scoreLabel(score);
+
+  // KPIs
+  document.getElementById('kpiTotal').textContent    = data.total_registros.toLocaleString();
+  document.getElementById('kpiProblemas').textContent = data.total_problemas.toLocaleString();
+  document.getElementById('kpiLimpios').textContent  = data.pct_limpios + '%';
+  document.getElementById('kpiPeor').textContent     = data.peor_dimension || '—';
+
+  // Scores table
+  const sb = document.getElementById('scoresBody');
+  sb.innerHTML = '';
+  Object.entries(data.scores_por_columna).forEach(([col, dims]) => {
+    Object.entries(dims).forEach(([dim, sc]) => {
+      const tr = document.createElement('tr');
+      const cls = sc >= 80 ? 'tag-green' : sc >= 60 ? 'tag-yellow' : 'tag-red';
+      const barColor = sc >= 80 ? 'var(--green)' : sc >= 60 ? '#eab308' : 'var(--red)';
+      tr.innerHTML = `
+        <td><strong>${col}</strong></td>
+        <td>${dim}</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:${sc}%;background:${barColor}"></div></div>
+            <span class="bar-val ${cls}">${sc.toFixed(1)}</span>
+          </div>
+        </td>
+        <td><span class="pill ${sc>=80?'pill-green':sc>=60?'pill-yellow':'pill-red'}">${sc>=80?'Buena':sc>=60?'Regular':'Crítica'}</span></td>
+      `;
+      sb.appendChild(tr);
+    });
+  });
+
+  // Load issues from API issues_df — stored in analysisResult
+  // We'll fetch them via /analyze result — issues come in scores; need detail from server
+  // For the issues table we populate what we have from the analyze response
+  fetchAndRenderIssues();
+}
+
+async function fetchAndRenderIssues() {
+  try {
+    const res = await apiFetch(`/issues/${state.fileId}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error al obtener problemas');
+    allIssues = data.issues;
+    populateIssueFilters(allIssues);
+    renderIssueRows(allIssues);
+  } catch(e) {
+    toast('No se pudieron cargar los problemas detallados: ' + e.message, 'error');
+  }
+}
+
+function populateIssueFilters(issues) {
+  const cols = [...new Set(issues.map(r => r.columna))].sort();
+  const dims = [...new Set(issues.map(r => r.dimension))].sort();
+  document.getElementById('filterCol').innerHTML =
+    '<option value="">Todas las columnas</option>' + cols.map(c => `<option>${c}</option>`).join('');
+  document.getElementById('filterDim').innerHTML =
+    '<option value="">Todas las dimensiones</option>' + dims.map(d => `<option>${d}</option>`).join('');
+}
+
+// ── Pagination state ──────────────────────────────────────────────
+let _currentPage  = 1;
+let _pageSize     = 25;   // number or 'all'
+let _filteredIssues = [];
+
+function renderIssueRows(rows) {
+  _filteredIssues = rows;
+  const tbody = document.getElementById('issuesBody');
+  const empty = document.getElementById('issuesEmpty');
+  tbody.innerHTML = '';
+
+  const ps    = _pageSize === 'all' ? rows.length : _pageSize;
+  const start = (_currentPage - 1) * Math.max(ps, 1);
+  const end   = Math.min(start + (ps || rows.length), rows.length);
+  const page  = rows.slice(start, end);
+
+  if (rows.length === 0) {
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    const dimPill = dim => {
+      const map = {
+        completitud:'pill-blue', unicidad:'pill-yellow', validez:'pill-red',
+        consistencia:'pill-yellow', exactitud:'pill-red', vigencia:'pill-yellow',
+        precision:'pill-blue', oportunidad:'pill-yellow',
+        integridad_referencial:'pill-red', razonabilidad:'pill-yellow'
+      };
+      return map[dim] || 'pill-gray';
+    };
+    page.forEach(r => {
+      const tr = document.createElement('tr');
+      const valor = r.valor_encontrado !== null && r.valor_encontrado !== undefined
+        ? `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(r.valor_encontrado))}</code>`
+        : '<span style="color:var(--muted)">null</span>';
+      tr.innerHTML = `
+        <td><span class="pill pill-gray">${escHtml(String(r.id_registro))}</span></td>
+        <td><strong>${escHtml(r.columna)}</strong></td>
+        <td><span class="pill ${dimPill(r.dimension)}">${escHtml(r.dimension)}</span></td>
+        <td style="max-width:320px">${escHtml(r.descripcion)}</td>
+        <td>${valor}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  renderPagination(rows.length, start, end);
+}
+
+function renderPagination(total, start, end) {
+  const ps = _pageSize === 'all' ? total : _pageSize;
+  const totalPages = ps > 0 ? Math.ceil(total / ps) : 1;
+
+  // Info text
+  const info = document.getElementById('pagInfo');
+  if (total === 0) {
+    info.textContent = 'Mostrando 0 problemas';
+  } else if (_pageSize === 'all') {
+    info.textContent = `Mostrando ${total} problema${total !== 1 ? 's' : ''}`;
+  } else {
+    info.textContent = `Mostrando ${start + 1}–${end} de ${total} problema${total !== 1 ? 's' : ''}`;
+  }
+
+  // Buttons
+  const btns = document.getElementById('pagBtns');
+  btns.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const btn = (label, page, disabled, active) => {
+    const b = document.createElement('button');
+    b.className = 'pag-btn' + (active ? ' active' : '');
+    b.innerHTML = label;
+    if (disabled) b.setAttribute('disabled', '');
+    else b.onclick = () => { _currentPage = page; renderIssueRows(_filteredIssues); };
+    return b;
+  };
+
+  btns.appendChild(btn('«', 1,             _currentPage === 1,           false));
+  btns.appendChild(btn('‹', _currentPage - 1, _currentPage === 1,        false));
+
+  // Page number window — max 5 visible
+  let lo = Math.max(1, _currentPage - 2);
+  let hi = Math.min(totalPages, lo + 4);
+  if (hi - lo < 4) lo = Math.max(1, hi - 4);
+
+  if (lo > 1) {
+    btns.appendChild(btn('1', 1, false, false));
+    if (lo > 2) { const e = document.createElement('span'); e.className = 'pag-ellipsis'; e.textContent = '…'; btns.appendChild(e); }
+  }
+  for (let p = lo; p <= hi; p++) {
+    btns.appendChild(btn(p, p, false, p === _currentPage));
+  }
+  if (hi < totalPages) {
+    if (hi < totalPages - 1) { const e = document.createElement('span'); e.className = 'pag-ellipsis'; e.textContent = '…'; btns.appendChild(e); }
+    btns.appendChild(btn(totalPages, totalPages, false, false));
+  }
+
+  btns.appendChild(btn('›', _currentPage + 1, _currentPage === totalPages, false));
+  btns.appendChild(btn('»', totalPages,        _currentPage === totalPages, false));
+}
+
+function changePageSize() {
+  const v = document.getElementById('pageSizeSelect').value;
+  _pageSize = v === 'all' ? 'all' : parseInt(v);
+  _currentPage = 1;
+  renderIssueRows(_filteredIssues);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function filterIssues() {
+  const fc = document.getElementById('filterCol').value;
+  const fd = document.getElementById('filterDim').value;
+  const filtered = allIssues.filter(r =>
+    (!fc || r.columna === fc) && (!fd || r.dimension === fd)
+  );
+  _currentPage = 1;
+  renderIssueRows(filtered);
+}
+
+function scoreClass(s) { return s >= 80 ? 'score-green' : s >= 60 ? 'score-yellow' : 'score-red'; }
+function scoreLabel(s) { return s >= 80 ? 'Calidad buena' : s >= 60 ? 'Calidad regular — requiere atención' : 'Calidad crítica — acción inmediata requerida'; }
+
+// ─────────────────────────────────────────────────────────────────────
+// Actions
+// ─────────────────────────────────────────────────────────────────────
+async function downloadReport() {
+  if (!state.fileId) return;
+  toast('Descargando reporte Excel...', 'info');
+  try {
+    const res = await apiFetch(`/report/${state.fileId}`);
+    if (!res.ok) throw new Error('Error al descargar el reporte');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `reporte_calidad.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(e) {
+    toast(e.message, 'error');
+  }
+}
+
+function resetApp() {
+  state = { fileId: null, columns: [], analysisResult: null };
+  allIssues = [];
+  clearFile();
+  document.getElementById('colTableBody').innerHTML = '';
+  document.getElementById('idColSelect').innerHTML = '';
+  goTo('upload');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Reference file store  { sid: [id1, id2, ...] }
+// ─────────────────────────────────────────────────────────────────────
+let _refFileIds = {};
+
+// ─────────────────────────────────────────────────────────────────────
+// Exactitud helpers
+// ─────────────────────────────────────────────────────────────────────
+function validateExactitud(sid) {
+  const mn = parseFloat(document.getElementById(`p-${sid}-min_value`)?.value);
+  const mx = parseFloat(document.getElementById(`p-${sid}-max_value`)?.value);
+  const errEl  = document.getElementById(`exact-err-${sid}`);
+  const hintEl = document.getElementById(`exact-hint-${sid}`);
+  if (!isNaN(mn) && !isNaN(mx) && mn >= mx) {
+    if (errEl)  { errEl.style.display = 'block'; }
+    if (hintEl) { hintEl.style.display = 'none'; }
+  } else {
+    if (errEl)  { errEl.style.display = 'none'; }
+  }
+}
+
+function autoDetectRange(sid, colName) {
+  const col     = state.columns.find(c => c.nombre === colName);
+  const hintEl  = document.getElementById(`exact-hint-${sid}`);
+  const errEl   = document.getElementById(`exact-err-${sid}`);
+  if (!col || col.p5 === undefined || col.p95 === undefined) {
+    if (hintEl) { hintEl.textContent = 'No disponible para esta columna'; hintEl.className = 'param-hint'; hintEl.style.display = 'block'; }
+    return;
+  }
+  document.getElementById(`p-${sid}-min_value`).value = col.p5;
+  document.getElementById(`p-${sid}-max_value`).value = col.p95;
+  if (errEl)  errEl.style.display = 'none';
+  if (hintEl) {
+    hintEl.textContent = `Rango auto-detectado — P5: ${col.p5}  ·  P95: ${col.p95}  ·  (total: ${col.min_val} – ${col.max_val})`;
+    hintEl.className = 'param-hint success';
+    hintEl.style.display = 'block';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Vigencia helpers
+// ─────────────────────────────────────────────────────────────────────
+function suggestVigenciaRange(sid) {
+  const today  = new Date();
+  const twoAgo = new Date(today);
+  twoAgo.setFullYear(twoAgo.getFullYear() - 2);
+  const fmt = d => d.toISOString().split('T')[0];
+  const fromEl = document.getElementById(`p-${sid}-date_from`);
+  const toEl   = document.getElementById(`p-${sid}-date_to`);
+  if (fromEl) fromEl.value = fmt(twoAgo);
+  if (toEl)   toEl.value   = fmt(today);
+  toast('Rango sugerido: últimos 2 años hasta hoy', 'info');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Oportunidad helpers
+// ─────────────────────────────────────────────────────────────────────
+function onOportunidadPreset(sid) {
+  const val    = document.getElementById(`p-${sid}-opor_preset`)?.value;
+  const custom = document.getElementById(`opor-custom-${sid}`);
+  if (custom) custom.classList.toggle('visible', val === 'custom');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Integridad Referencial — load CSV
+// ─────────────────────────────────────────────────────────────────────
+function loadRefCSV(sid, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const lines = e.target.result.split('\n').map(l => l.trim()).filter(Boolean);
+    // Skip header row, extract first column value of each line
+    const ids = lines.slice(1)
+      .map(l => l.split(',')[0].trim().replace(/^"|"$/g, ''))
+      .filter(Boolean);
+    _refFileIds[sid] = ids;
+    const countEl = document.getElementById(`ref-count-${sid}`);
+    if (countEl) {
+      countEl.textContent = `✓ ${ids.length} valores de referencia cargados desde ${file.name}`;
+      countEl.classList.add('visible');
+    }
+    // Clear the manual field to avoid confusion
+    const manualEl = document.getElementById(`p-${sid}-reference_ids`);
+    if (manualEl) manualEl.value = '';
+    toast(`${ids.length} IDs de referencia cargados`, 'success');
+  };
+  reader.readAsText(file);
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Validez — modo lista / regex
+// ─────────────────────────────────────────────────────────────────────
+function switchValidez(sid, mode) {
+  const isList = mode === 'lista';
+  document.getElementById(`vr-${sid}-lista`)?.classList.toggle('active',  isList);
+  document.getElementById(`vr-${sid}-regex`)?.classList.toggle('active', !isList);
+  document.getElementById(`vsub-${sid}-lista`)?.classList.toggle('visible',  isList);
+  document.getElementById(`vsub-${sid}-regex`)?.classList.toggle('visible', !isList);
+}
+
+function onRegexPreset(sid) {
+  const preset = document.getElementById(`p-${sid}-regex_preset`)?.value;
+  document.getElementById(`vcustom-${sid}`)?.classList.toggle('visible', preset === 'custom');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Help sidebar
+// ─────────────────────────────────────────────────────────────────────
+function openHelp() {
+  document.getElementById('helpOverlay').classList.add('open');
+  document.getElementById('helpSidebar').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeHelp() {
+  document.getElementById('helpOverlay').classList.remove('open');
+  document.getElementById('helpSidebar').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeHelp(); closeUserModal(); }
+});
+
+function toggleAcc(key) {
+  const item = document.querySelector(`[data-acc="${key}"]`);
+  if (!item) return;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// App init
+// ─────────────────────────────────────────────────────────────────────
+async function initApp() {
+  const token = localStorage.getItem('dq_token');
+  if (!token) { goTo('login'); return; }
+  try {
+    const res = await apiFetch('/auth/me');
+    if (!res.ok) throw new Error();
+    currentUser = await res.json();
+    localStorage.setItem('dq_user', JSON.stringify(currentUser));
+    showNavUser(currentUser);
+    goTo('upload');
+  } catch {
+    localStorage.removeItem('dq_token');
+    localStorage.removeItem('dq_user');
+    goTo('login');
+  }
+}
+
+function showNavUser(user) {
+  const navUser = document.getElementById('navUser');
+  const navUserDot = document.getElementById('navUserDot');
+  const navUserName = document.getElementById('navUserName');
+  const navLogout = document.getElementById('navLogoutBtn');
+  const navAdmin = document.getElementById('navAdminBtn');
+  navUserDot.textContent = (user.nombre || user.email)[0].toUpperCase();
+  navUserName.textContent = user.nombre || user.email;
+  navUser.classList.add('visible');
+  navLogout.style.display = '';
+  navAdmin.style.display = user.rol === 'admin' ? '' : 'none';
+}
+
+function hideNavUser() {
+  document.getElementById('navUser').classList.remove('visible');
+  document.getElementById('navLogoutBtn').style.display = 'none';
+  document.getElementById('navAdminBtn').style.display = 'none';
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Login / Logout
+// ─────────────────────────────────────────────────────────────────────
+async function loginUser() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errEl.classList.remove('visible');
+  if (!email || !password) { showLoginError('Completa todos los campos.'); return; }
+  btn.disabled = true;
+  btn.textContent = 'Ingresando...';
+  try {
+    const res = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok) { showLoginError(data.detail || 'Credenciales incorrectas.'); return; }
+    localStorage.setItem('dq_token', data.token);
+    currentUser = data;
+    localStorage.setItem('dq_user', JSON.stringify(data));
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+    showNavUser(data);
+    goTo('upload');
+  } catch {
+    showLoginError('No se pudo conectar con el servidor.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Ingresar';
+  }
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+async function logoutUser() {
+  try {
+    await apiFetch('/auth/logout', { method: 'POST' });
+  } catch { /* ignore */ }
+  localStorage.removeItem('dq_token');
+  localStorage.removeItem('dq_user');
+  currentUser = null;
+  hideNavUser();
+  resetApp();
+  goTo('login');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Admin — users table
+// ─────────────────────────────────────────────────────────────────────
+let _adminUsers = [];
+
+async function loadAdminUsers() {
+  try {
+    const res = await apiFetch('/admin/usuarios');
+    if (!res.ok) throw new Error('No se pudieron cargar los usuarios.');
+    _adminUsers = await res.json();
+    renderUsersTable(_adminUsers);
+    // Stats
+    document.getElementById('statTotal').textContent = _adminUsers.length;
+    document.getElementById('statActive').textContent = _adminUsers.filter(u => u.activo).length;
+    document.getElementById('statAdmins').textContent = _adminUsers.filter(u => u.rol === 'admin').length;
+  } catch(e) {
+    toast(e.message, 'error');
+  }
+}
+
+function renderUsersTable(users) {
+  const tbody = document.getElementById('usersTableBody');
+  if (users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin usuarios</td></tr>';
+    return;
+  }
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td><strong>${escHtml(u.nombre)}</strong></td>
+      <td>${escHtml(u.email)}</td>
+      <td><span class="role-pill ${u.rol}">${u.rol}</span></td>
+      <td>${u.max_registros.toLocaleString()}</td>
+      <td>${u.fecha_vencimiento || '<span style="color:var(--muted)">Sin límite</span>'}</td>
+      <td><span class="status-pill ${u.activo ? 'active' : 'inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span></td>
+      <td>
+        <div class="tbl-actions">
+          <button class="tbl-btn" onclick="openUserModal(${u.id})">Editar</button>
+          <button class="tbl-btn del" onclick="deleteUser(${u.id}, '${escHtml(u.nombre)}')">Eliminar</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Admin — modal
+// ─────────────────────────────────────────────────────────────────────
+function openUserModal(userId) {
+  const modal = document.getElementById('userModal');
+  const isNew = userId === null;
+  document.getElementById('modalTitle').textContent = isNew ? 'Nuevo usuario' : 'Editar usuario';
+  document.getElementById('modalUserId').value = userId || '';
+  document.getElementById('modalNombre').value = '';
+  document.getElementById('modalEmail').value = '';
+  document.getElementById('modalPassword').value = '';
+  document.getElementById('modalRol').value = 'usuario';
+  document.getElementById('modalMaxReg').value = '10000';
+  document.getElementById('modalFechaVenc').value = '';
+  document.getElementById('modalActivo').value = '1';
+  document.getElementById('modalEmailField').style.display = isNew ? '' : 'none';
+  document.getElementById('modalPasswordField').style.display = isNew ? '' : 'none';
+  document.getElementById('modalActivoField').style.display = isNew ? 'none' : '';
+  document.getElementById('modalPwdSection').style.display = isNew ? 'none' : '';
+  document.getElementById('modalNewPassword').value = '';
+  document.getElementById('modalConfirmPassword').value = '';
+  document.getElementById('modalPwdMismatch').style.display = 'none';
+  document.getElementById('modalError').classList.remove('visible');
+
+  if (!isNew) {
+    const u = _adminUsers.find(x => x.id === userId);
+    if (u) {
+      document.getElementById('modalNombre').value = u.nombre;
+      document.getElementById('modalRol').value = u.rol;
+      document.getElementById('modalMaxReg').value = u.max_registros;
+      document.getElementById('modalFechaVenc').value = u.fecha_vencimiento || '';
+      document.getElementById('modalActivo').value = u.activo ? '1' : '0';
+    }
+  }
+  modal.classList.add('open');
+}
+
+function closeUserModal() {
+  document.getElementById('userModal').classList.remove('open');
+}
+
+async function saveUser() {
+  const userId = document.getElementById('modalUserId').value;
+  const isNew = !userId;
+  const btn = document.getElementById('modalSaveBtn');
+  const errEl = document.getElementById('modalError');
+  errEl.classList.remove('visible');
+  btn.disabled = true;
+
+  try {
+    let res;
+    if (isNew) {
+      const body = {
+        email: document.getElementById('modalEmail').value.trim(),
+        password: document.getElementById('modalPassword').value,
+        nombre: document.getElementById('modalNombre').value.trim(),
+        rol: document.getElementById('modalRol').value,
+        max_registros: parseInt(document.getElementById('modalMaxReg').value) || 10000,
+        fecha_vencimiento: document.getElementById('modalFechaVenc').value || null,
+      };
+      if (!body.email || !body.password || !body.nombre) {
+        showModalError('Completa nombre, email y contraseña.'); return;
+      }
+      res = await apiFetch('/admin/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } else {
+      const newPwd     = document.getElementById('modalNewPassword').value;
+      const confirmPwd = document.getElementById('modalConfirmPassword').value;
+      if (newPwd || confirmPwd) {
+        if (newPwd !== confirmPwd) { showModalError('Las contraseñas no coinciden.'); return; }
+        if (newPwd.length < 6)    { showModalError('La contraseña debe tener al menos 6 caracteres.'); return; }
+      }
+      const body = {
+        nombre: document.getElementById('modalNombre').value.trim() || null,
+        rol: document.getElementById('modalRol').value,
+        max_registros: parseInt(document.getElementById('modalMaxReg').value) || null,
+        fecha_vencimiento: document.getElementById('modalFechaVenc').value || null,
+        activo: document.getElementById('modalActivo').value === '1',
+      };
+      if (newPwd) body.password = newPwd;
+      res = await apiFetch(`/admin/usuarios/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+    const data = await res.json();
+    if (!res.ok) { showModalError(data.detail || 'Error al guardar.'); return; }
+    closeUserModal();
+    toast(isNew ? 'Usuario creado correctamente.' : 'Usuario actualizado.', 'success');
+    loadAdminUsers();
+  } catch(e) {
+    showModalError(e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showModalError(msg) {
+  const el = document.getElementById('modalError');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function validatePasswordMatch() {
+  const newPwd  = document.getElementById('modalNewPassword').value;
+  const confirm = document.getElementById('modalConfirmPassword').value;
+  const mismatch = document.getElementById('modalPwdMismatch');
+  const saveBtn  = document.getElementById('modalSaveBtn');
+  const bad = newPwd.length > 0 && confirm.length > 0 && newPwd !== confirm;
+  mismatch.style.display = bad ? 'block' : 'none';
+  saveBtn.disabled = bad;
+}
+
+async function deleteUser(userId, nombre) {
+  if (!confirm(`¿Eliminar al usuario "${nombre}"? Esta acción no se puede deshacer.`)) return;
+  try {
+    const res = await apiFetch(`/admin/usuarios/${userId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) { toast(data.detail || 'Error al eliminar.', 'error'); return; }
+    toast('Usuario eliminado.', 'success');
+    loadAdminUsers();
+  } catch(e) {
+    toast(e.message, 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Bootstrap
+// ─────────────────────────────────────────────────────────────────────
+initApp();
+</script>
+</body>
+</html>

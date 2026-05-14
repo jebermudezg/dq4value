@@ -1,0 +1,252 @@
+import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import (
+    PatternFill, Font, Alignment, Border, Side
+)
+from openpyxl.utils import get_column_letter
+
+# Paleta de colores
+COLOR_GREEN  = "92D050"
+COLOR_YELLOW = "FFEB84"
+COLOR_RED    = "FF6B6B"
+COLOR_HEADER = "2F5496"
+COLOR_TITLE  = "1F3864"
+
+FILL_GREEN  = PatternFill("solid", fgColor=COLOR_GREEN)
+FILL_YELLOW = PatternFill("solid", fgColor=COLOR_YELLOW)
+FILL_RED    = PatternFill("solid", fgColor=COLOR_RED)
+FILL_HEADER = PatternFill("solid", fgColor=COLOR_HEADER)
+FILL_TITLE  = PatternFill("solid", fgColor=COLOR_TITLE)
+
+THIN_BORDER = Border(
+    left=Side(style="thin"),
+    right=Side(style="thin"),
+    top=Side(style="thin"),
+    bottom=Side(style="thin"),
+)
+
+
+def generate_excel_report(analysis_results: dict, output_path: str) -> str:
+    """
+    Genera un reporte Excel con tres pestañas:
+        1. Dashboard
+        2. Problemas Detallados
+        3. Score por Columna
+
+    Returns:
+        Ruta absoluta del archivo generado.
+    """
+    wb = Workbook()
+    wb.remove(wb.active)  # quitar la hoja en blanco por defecto
+
+    _build_dashboard(wb, analysis_results)
+    _build_issues(wb, analysis_results)
+    _build_scores_by_column(wb, analysis_results)
+
+    wb.save(output_path)
+    return output_path
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Pestaña 1 — Dashboard
+# ──────────────────────────────────────────────────────────────────────
+
+def _build_dashboard(wb: Workbook, results: dict) -> None:
+    ws = wb.create_sheet("Dashboard")
+
+    score_general = results["score_general"]
+    total_registros = results["total_registros"]
+    total_problemas = results["total_problemas"]
+    scores_por_columna = results["scores_por_columna"]
+
+    # --- Título principal ---
+    ws.merge_cells("A1:F1")
+    cell = ws["A1"]
+    cell.value = "REPORTE DE CALIDAD DE DATOS"
+    cell.font = Font(bold=True, size=16, color="FFFFFF")
+    cell.fill = FILL_TITLE
+    cell.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 32
+
+    # --- Score general destacado ---
+    ws.merge_cells("A3:B3")
+    ws["A3"].value = "Score General del Dataset"
+    ws["A3"].font = Font(bold=True, size=12)
+
+    ws.merge_cells("C3:D3")
+    score_cell = ws["C3"]
+    score_cell.value = f"{score_general:.1f} / 100"
+    score_cell.font = Font(bold=True, size=18)
+    score_cell.fill = _score_fill(score_general)
+    score_cell.alignment = Alignment(horizontal="center")
+    ws.row_dimensions[3].height = 28
+
+    # --- Métricas rápidas ---
+    _kv(ws, 5, "Total de registros", total_registros)
+    _kv(ws, 6, "Registros con problemas", total_problemas)
+    pct = round(((total_registros - total_problemas) / total_registros * 100), 1) if total_registros else 100
+    _kv(ws, 7, "% Registros limpios", f"{pct}%")
+
+    # --- Tabla de scores por columna y dimensión ---
+    ws["A9"].value = "Score por Columna y Dimensión"
+    ws["A9"].font = Font(bold=True, size=11)
+
+    header_row = 10
+    headers = ["Columna", "Dimensión", "Score", "Calificación"]
+    for col_idx, h in enumerate(headers, start=1):
+        cell = ws.cell(row=header_row, column=col_idx, value=h)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = FILL_HEADER
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = THIN_BORDER
+
+    row = header_row + 1
+    for col_name, dim_scores in scores_por_columna.items():
+        for dim_name, score in dim_scores.items():
+            ws.cell(row=row, column=1, value=col_name).border = THIN_BORDER
+            ws.cell(row=row, column=2, value=dim_name).border = THIN_BORDER
+            score_c = ws.cell(row=row, column=3, value=round(score, 1))
+            score_c.fill = _score_fill(score)
+            score_c.alignment = Alignment(horizontal="center")
+            score_c.border = THIN_BORDER
+            cal_c = ws.cell(row=row, column=4, value=_calificacion(score))
+            cal_c.fill = _score_fill(score)
+            cal_c.alignment = Alignment(horizontal="center")
+            cal_c.border = THIN_BORDER
+            row += 1
+
+    _autofit(ws, [30, 25, 12, 15])
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Pestaña 2 — Problemas Detallados
+# ──────────────────────────────────────────────────────────────────────
+
+def _build_issues(wb: Workbook, results: dict) -> None:
+    ws = wb.create_sheet("Problemas Detallados")
+    issues_df: pd.DataFrame = results["issues_df"]
+
+    ws.merge_cells("A1:F1")
+    cell = ws["A1"]
+    cell.value = "PROBLEMAS DETALLADOS"
+    cell.font = Font(bold=True, size=14, color="FFFFFF")
+    cell.fill = FILL_TITLE
+    cell.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 28
+
+    if issues_df.empty:
+        ws["A3"].value = "No se encontraron problemas en el dataset."
+        ws["A3"].font = Font(italic=True, color="00AA00")
+        return
+
+    sorted_df = issues_df.sort_values("columna").reset_index(drop=True)
+
+    # Encabezados
+    headers = list(sorted_df.columns)
+    for col_idx, h in enumerate(headers, start=1):
+        cell = ws.cell(row=2, column=col_idx, value=h)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = FILL_HEADER
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = THIN_BORDER
+
+    # Datos
+    for r_idx, row_data in sorted_df.iterrows():
+        for c_idx, value in enumerate(row_data, start=1):
+            cell = ws.cell(row=r_idx + 3, column=c_idx, value=value)
+            cell.border = THIN_BORDER
+            cell.alignment = Alignment(wrap_text=True)
+
+    _autofit(ws, [18, 20, 20, 50, 25])
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Pestaña 3 — Score por Columna
+# ──────────────────────────────────────────────────────────────────────
+
+def _build_scores_by_column(wb: Workbook, results: dict) -> None:
+    ws = wb.create_sheet("Score por Columna")
+    scores_por_columna: dict = results["scores_por_columna"]
+
+    ws.merge_cells("A1:J1")
+    cell = ws["A1"]
+    cell.value = "SCORE POR COLUMNA"
+    cell.font = Font(bold=True, size=14, color="FFFFFF")
+    cell.fill = FILL_TITLE
+    cell.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 28
+
+    # Recopilar todas las dimensiones usadas (unión de todos los keys)
+    all_dims: list[str] = []
+    for dim_scores in scores_por_columna.values():
+        for d in dim_scores:
+            if d not in all_dims:
+                all_dims.append(d)
+
+    # Encabezados
+    headers = ["Columna"] + all_dims + ["Score Promedio"]
+    for col_idx, h in enumerate(headers, start=1):
+        cell = ws.cell(row=2, column=col_idx, value=h)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = FILL_HEADER
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = THIN_BORDER
+
+    # Filas de datos
+    for row_idx, (col_name, dim_scores) in enumerate(scores_por_columna.items(), start=3):
+        ws.cell(row=row_idx, column=1, value=col_name).border = THIN_BORDER
+
+        scores_this_row = []
+        for dim_idx, dim_name in enumerate(all_dims, start=2):
+            score = dim_scores.get(dim_name)
+            cell = ws.cell(row=row_idx, column=dim_idx)
+            if score is not None:
+                cell.value = round(score, 1)
+                cell.fill = _score_fill(score)
+                scores_this_row.append(score)
+            else:
+                cell.value = "N/A"
+            cell.alignment = Alignment(horizontal="center")
+            cell.border = THIN_BORDER
+
+        # Score promedio de la columna
+        avg = round(sum(scores_this_row) / len(scores_this_row), 1) if scores_this_row else None
+        avg_cell = ws.cell(row=row_idx, column=len(headers))
+        avg_cell.value = avg
+        avg_cell.fill = _score_fill(avg) if avg is not None else PatternFill()
+        avg_cell.alignment = Alignment(horizontal="center")
+        avg_cell.font = Font(bold=True)
+        avg_cell.border = THIN_BORDER
+
+    col_widths = [25] + [14] * len(all_dims) + [16]
+    _autofit(ws, col_widths)
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Helpers
+# ──────────────────────────────────────────────────────────────────────
+
+def _score_fill(score: float) -> PatternFill:
+    if score >= 80:
+        return FILL_GREEN
+    if score >= 60:
+        return FILL_YELLOW
+    return FILL_RED
+
+
+def _calificacion(score: float) -> str:
+    if score >= 80:
+        return "Buena"
+    if score >= 60:
+        return "Regular"
+    return "Crítica"
+
+
+def _kv(ws, row: int, label: str, value) -> None:
+    ws.cell(row=row, column=1, value=label).font = Font(bold=True)
+    ws.cell(row=row, column=2, value=value)
+
+
+def _autofit(ws, widths: list[int]) -> None:
+    for idx, width in enumerate(widths, start=1):
+        ws.column_dimensions[get_column_letter(idx)].width = width
