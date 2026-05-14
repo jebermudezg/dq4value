@@ -7,3 +7,8 @@ python-multipart
 anthropic
 reportlab
 pytest
+rapidfuzz
+unidecode
+jellyfish
+recordlinkage
+scikit-learn

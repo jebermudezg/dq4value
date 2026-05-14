@@ -8,6 +8,7 @@ from .precision import check_precision
 from .oportunidad import check_oportunidad
 from .integridad_referencial import check_integridad_referencial
 from .razonabilidad import check_razonabilidad
+from .similitud import check_similitud
 
 DIMENSIONS_MAP = {
     "completitud": check_completitud,
@@ -20,4 +21,5 @@ DIMENSIONS_MAP = {
     "oportunidad": check_oportunidad,
     "integridad_referencial": check_integridad_referencial,
     "razonabilidad": check_razonabilidad,
+    "similitud": check_similitud,
 }

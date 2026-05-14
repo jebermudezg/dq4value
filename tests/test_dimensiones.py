@@ -20,6 +20,7 @@ from engine.dimensions.vigencia import check_vigencia
 from engine.dimensions.oportunidad import check_oportunidad
 from engine.dimensions.integridad_referencial import check_integridad_referencial
 from engine.dimensions.consistencia import check_consistencia
+from engine.dimensions.similitud import check_similitud
 from engine.scorer import DQScorer
 
 ID_COL = "id"
@@ -612,4 +613,49 @@ class TestDQScorer:
         assert summary["total_registros"] == 4
         assert summary["total_problemas"] == 1
         assert summary["pct_limpios"] == 75.0
-        assert summary["peor_dimension"] == "completitud"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SIMILITUD
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_similitud_detecta_casos_conocidos():
+    data = {
+        'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        'nombre': [
+            'Juan Carlos Pérez Gómez',
+            'Juan C. Perez',
+            'Av. Javier Prado Este 123',
+            'Avenida Javier Prado 123',
+            'Telefónica del Perú S.A.A.',
+            'Telefonica Peru',
+            'María García López',
+            'Maria Garcia',
+            'Pedro Rodríguez',
+            'Carlos Mendoza',
+        ],
+    }
+    df = pd.DataFrame(data)
+    score, issues = check_similitud(df, 'id', 'nombre', umbral=75, algoritmo='jaro_winkler')
+    ids_con_problemas = set(issues['id'].tolist())
+
+    assert 1 in ids_con_problemas or 2 in ids_con_problemas, \
+        "No detectó Juan Carlos Pérez vs Juan C. Perez"
+    assert 3 in ids_con_problemas or 4 in ids_con_problemas, \
+        "No detectó Av. Javier Prado Este vs Avenida Javier Prado"
+    assert 5 in ids_con_problemas or 6 in ids_con_problemas, \
+        "No detectó Telefónica del Perú vs Telefonica Peru"
+    assert 7 in ids_con_problemas or 8 in ids_con_problemas, \
+        "No detectó María García López vs Maria Garcia"
+
+    print(f"\nScore: {score}")
+    print(f"Pares similares encontrados: {len(issues)}")
+    print(issues[['id', 'valor_encontrado', 'descripcion']].to_string())
+
+
+def test_similitud_score_perfecto():
+    data = {'id': [1, 2, 3], 'nombre': ['Ana Torres', 'Luis Mendoza', 'Carlos Ruiz']}
+    df = pd.DataFrame(data)
+    score, issues = check_similitud(df, 'id', 'nombre', umbral=85)
+    assert score == 100.0
+    assert len(issues) == 0

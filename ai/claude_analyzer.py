@@ -115,14 +115,16 @@ def _rule_by_name(col_name: str) -> Optional[Tuple[dict, str]]:
             "Columna de puntaje: se verifica rango 0–100 y distribución estadística",
         )
 
-    # Nombre / apellido / descripción
-    if _contains(n, "nombre", "name", "apellido", "descripcion", "description"):
+    # Nombre / razón social / empresa / dirección — candidatas a similitud fuzzy
+    if _contains(n, "nombre", "name", "razon_social", "empresa", "company",
+                 "proveedor", "cliente", "descripcion", "description", "direccion", "address"):
         return (
             {
                 "completitud": {},
                 "precision": {"min_length": 2, "max_length": 200},
+                "similitud": {"algoritmo": "jaro_winkler", "umbral": 85, "normalizar": True},
             },
-            "Columna de texto: se verifica completitud y longitud mínima y máxima",
+            "Columna de texto libre: se verifica completitud, longitud y duplicados aproximados (fuzzy)",
         )
 
     # Estado / tipo / categoría / género

@@ -1391,7 +1391,7 @@
 
     <!-- SECCIÓN 2 — Las 10 dimensiones -->
     <div class="help-section">
-      <div class="help-section-title">Las 10 dimensiones de calidad</div>
+      <div class="help-section-title">Las 11 dimensiones de calidad</div>
       <div class="accordion" id="dimAccordion">
 
         <div class="acc-item" data-acc="completitud">
@@ -1568,6 +1568,56 @@
           </div></div>
         </div>
 
+        <div class="acc-item" data-acc="similitud">
+          <div class="acc-trigger" onclick="toggleAcc('similitud')">
+            <div class="acc-icon" style="background:#fdf4ff;color:#9333ea">≈</div>
+            <span class="acc-title">Similitud</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Detecta registros que representan la misma entidad pero escritos diferente. Va más allá de la unicidad exacta — compara el parecido fonético y textual entre valores.</p>
+            <div class="acc-meta">
+              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Nombres de personas, razones sociales, direcciones, descripciones de productos. Ideal para detectar duplicados disfrazados antes de integraciones de datos.</span></div>
+              <div class="acc-row"><span class="acc-label">Algoritmos</span><span class="acc-val">
+                <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.3rem">
+                  <thead><tr style="background:var(--bg-card)">
+                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Algoritmo</th>
+                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Cómo funciona</th>
+                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Mejor para</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Jaro-Winkler</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Mide transposiciones y premia prefijos comunes</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres de personas</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Monge-Elkan</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Compara cada token de A contra el mejor match en B</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con iniciales o abreviaciones</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Levenshtein</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cuenta ediciones mínimas (inserción, borrado, sustitución)</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Códigos, IDs y documentos cortos</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Q-grams</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Jaccard sobre trigramas de caracteres</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Razones sociales y direcciones</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Smith-Waterman</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación local óptima de subsecuencias</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Textos largos con subcadenas en común</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Soundex</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Codifica tokens por sonido fonético</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con errores ortográficos</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Coseno TF-IDF</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Vectoriza términos y mide ángulo entre vectores</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Descripciones largas y texto libre</td></tr>
+                  </tbody>
+                </table>
+              </span></div>
+              <div class="acc-row"><span class="acc-label">Umbral</span><span class="acc-val">92%+ para datos muy limpios · 85% estándar · 75–80% para datos con muchos errores de captura</span></div>
+              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val">
+                <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.3rem">
+                  <thead><tr style="background:var(--bg-card)">
+                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:left">Valor A</th>
+                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:left">Valor B</th>
+                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">¿Dup. exacto?</th>
+                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">¿Similar?</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Juan Carlos Pérez Gómez</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Juan C. Perez</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 86%</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Av. Javier Prado Este 123</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Avenida Javier Prado 123</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 91%</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Telefónica del Perú S.A.A.</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Telefonica Peru</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 83%</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">María García López</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Pedro Rodríguez</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#dc2626">No — 21%</td></tr>
+                  </tbody>
+                </table>
+              </span></div>
+              <div class="acc-row"><span class="acc-label">Blocking</span><span class="acc-val">El sistema usa 4 técnicas de agrupación inteligente (prefijos, fonética, longitud y tokens comunes) para encontrar candidatos sin comparar todos contra todos, garantizando cobertura completa sin sacrificar velocidad.</span></div>
+            </div>
+          </div></div>
+        </div>
+
       </div><!-- /accordion -->
     </div>
 
@@ -1651,7 +1701,7 @@ const REGEX_PRESETS = {
 // ─────────────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────────────
-const API = 'https://dq4value-production.up.railway.app';
+const API = 'http://127.0.0.1:8000';
 let state = { fileId: null, columns: [], analysisResult: null };
 let allIssues = [];
 let currentUser = null;
@@ -1685,6 +1735,7 @@ const DIMENSIONS = [
   { key: 'oportunidad',           label: 'Oportunidad',            params: ['max_age_days'] },
   { key: 'integridad_referencial',label: 'Integ. Referencial',     params: [] },
   { key: 'razonabilidad',         label: 'Razonabilidad',          params: [] },
+  { key: 'similitud',             label: 'Similitud',              params: ['algoritmo', 'umbral', 'normalizar'] },
 ];
 
 // ─────────────────────────────────────────────────────────────────────
@@ -1969,6 +2020,21 @@ function _applyDimParams(sid, dimKey, params) {
     }
   }
 
+  if (dimKey === 'similitud') {
+    if (params.algoritmo) {
+      const el = document.getElementById(`p-${sid}-algoritmo`);
+      if (el) el.value = params.algoritmo;
+    }
+    if (params.umbral !== undefined) {
+      const el = document.getElementById(`p-${sid}-umbral`);
+      if (el) el.value = params.umbral;
+    }
+    if (params.normalizar !== undefined) {
+      const el = document.getElementById(`p-${sid}-normalizar`);
+      if (el) el.checked = !!params.normalizar;
+    }
+  }
+
   if (dimKey === 'oportunidad') {
     if (params.max_age_days !== undefined) {
       const presetEl = document.getElementById(`p-${sid}-opor_preset`);
@@ -2124,6 +2190,34 @@ function buildParamInputs(colName, dtype) {
       </div>
     </div>
 
+    <!-- SIMILITUD -->
+    <div class="dim-params" id="params-${sid}-similitud">
+      <div style="display:flex;flex-direction:column;gap:.5rem;width:100%">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <label>Algoritmo:</label>
+          <select id="p-${sid}-algoritmo" style="width:340px">
+            <option value="jaro_winkler">Jaro-Winkler — nombres de personas (recomendado)</option>
+            <option value="monge_elkan">Monge-Elkan — nombres con abreviaciones</option>
+            <option value="levenshtein">Levenshtein — códigos y documentos</option>
+            <option value="qgrams">Q-grams — razones sociales y direcciones</option>
+            <option value="smith_waterman">Smith-Waterman — textos y direcciones largas</option>
+            <option value="soundex">Soundex — similitud fonética</option>
+            <option value="coseno">Coseno TF-IDF — descripciones largas</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <label>Umbral de similitud %:</label>
+          <input type="number" id="p-${sid}-umbral" value="92" min="70" max="99" style="width:80px" />
+          <span class="param-hint" style="margin:0">92%+ muy similar · 85% similar · 75% algo similar — ajusta según el algoritmo elegido</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <input type="checkbox" id="p-${sid}-normalizar" checked style="width:auto;margin:0" />
+          <label for="p-${sid}-normalizar" style="margin:0;cursor:pointer">Normalizar texto</label>
+          <span class="param-hint" style="margin:0">Elimina tildes, mayúsculas y caracteres especiales antes de comparar</span>
+        </div>
+      </div>
+    </div>
+
     <!-- INTEGRIDAD REFERENCIAL -->
     <div class="dim-params" id="params-${sid}-integridad_referencial">
       <div style="width:100%;display:flex;flex-direction:column;gap:.4rem">
@@ -2218,6 +2312,15 @@ function collectConfig() {
         } else {
           params.max_age_days = presetMap[preset] ?? 30;
         }
+      }
+      if (d.key === 'similitud') {
+        const algoritmo = document.getElementById(`p-${sid}-algoritmo`)?.value || 'jaro_winkler';
+        const umbralEl  = document.getElementById(`p-${sid}-umbral`);
+        const umbral    = umbralEl ? parseInt(umbralEl.value) || 85 : 85;
+        const normalizar = document.getElementById(`p-${sid}-normalizar`)?.checked ?? true;
+        params.algoritmo  = algoritmo;
+        params.umbral     = umbral;
+        params.normalizar = normalizar;
       }
       if (d.key === 'integridad_referencial') {
         const fileIds = _refFileIds[sid];
