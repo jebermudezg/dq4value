@@ -1,9 +1,11 @@
 import hashlib
+import os
 import secrets
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent / "app.db"
+_default = Path(__file__).resolve().parent / "app.db"
+DB_PATH = Path(os.environ.get("DATABASE_PATH", str(_default)))
 
 
 def get_connection() -> sqlite3.Connection:
