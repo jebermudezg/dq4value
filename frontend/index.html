@@ -1531,7 +1531,119 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 2 — Las 10 dimensiones -->
+    <!-- SECCIÓN 2 — Cómo interpretar el perfil de datos -->
+    <div class="help-section">
+      <div class="help-section-title">Cómo interpretar el perfil de datos</div>
+
+      <div class="accordion" id="profHelpAccordion">
+
+        <!-- ¿Qué es el perfil? -->
+        <div class="acc-item" data-acc="ph-que">
+          <div class="acc-trigger" onclick="toggleAcc('ph-que')">
+            <div class="acc-icon" style="background:#f0f7ff;color:#1560a8">🔍</div>
+            <span class="acc-title">¿Qué es el perfil de datos?</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <p class="acc-def">El perfil de datos es un diagnóstico automático de cada columna de tu dataset. Te muestra cómo están estructurados tus datos <strong>antes</strong> de medir su calidad, para que puedas tomar mejores decisiones sobre qué dimensiones aplicar.</p>
+          </div>
+        </div>
+
+        <!-- Columnas numéricas -->
+        <div class="acc-item" data-acc="ph-num">
+          <div class="acc-trigger" onclick="toggleAcc('ph-num')">
+            <div class="acc-icon" style="background:#dbeafe;color:#1e40af">123</div>
+            <span class="acc-title">Métricas numéricas — cómo interpretarlas</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-label">Mínimo y máximo</span><span class="acc-val">Los valores extremos de la columna. Si el mínimo es negativo en una columna de edades, hay un problema.</span></div>
+            <div class="acc-row"><span class="acc-label">Promedio vs Mediana</span><span class="acc-val">Si el promedio es muy diferente a la mediana, hay valores extremos (outliers) que distorsionan el promedio. Ejemplo: salarios donde uno o dos valores muy altos suben el promedio.</span></div>
+            <div class="acc-row"><span class="acc-label">Desviación estándar</span><span class="acc-val">Qué tan dispersos están los valores. Alta dispersión puede indicar datos inconsistentes.</span></div>
+            <div class="acc-row"><span class="acc-label">P5 y P95</span><span class="acc-val">El 5% de los registros está por debajo del P5 y el 95% está por debajo del P95. Valores fuera de este rango son candidatos a outliers.</span></div>
+            <div class="acc-row"><span class="acc-label">% Negativos</span><span class="acc-val">En columnas como precio, edad o cantidad, los valores negativos suelen ser errores de captura.</span></div>
+            <div class="acc-row"><span class="acc-label">Outliers detectados</span><span class="acc-val">Valores estadísticamente anómalos usando el método IQR (rango intercuartil × 1.5). No necesariamente son errores, pero merecen revisión.</span></div>
+            <div class="acc-row"><span class="acc-label">Sesgo</span><span class="acc-val"><strong>Normal</strong> = distribución equilibrada. <strong>Sesgado a la derecha</strong> = muchos valores bajos y pocos muy altos (típico en salarios o precios). <strong>Sesgado a la izquierda</strong> = lo opuesto.</span></div>
+          </div>
+        </div>
+
+        <!-- Columnas de texto -->
+        <div class="acc-item" data-acc="ph-txt">
+          <div class="acc-trigger" onclick="toggleAcc('ph-txt')">
+            <div class="acc-icon" style="background:#f3e8ff;color:#6d28d9">Aa</div>
+            <span class="acc-title">Métricas de texto — cómo interpretarlas</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-label">Cardinalidad</span><span class="acc-val"><strong>Alta</strong> = casi todos los valores son únicos (nombres, emails). <strong>Baja</strong> = pocos valores distintos (estado, categoría). Cardinalidad baja sugiere que es un catálogo con valores predefinidos.</span></div>
+            <div class="acc-row"><span class="acc-label">Es catálogo</span><span class="acc-val">Si la columna tiene 20 o menos valores únicos, el sistema la detecta como catálogo. Puedes usar la dimensión <strong>Validez</strong> con lista de valores permitidos.</span></div>
+            <div class="acc-row"><span class="acc-label">Mayúsculas mezcladas</span><span class="acc-val">Si la misma columna tiene "Activo", "ACTIVO" y "activo", hay un problema de consistencia. Aplica la dimensión <strong>Consistencia</strong>.</span></div>
+            <div class="acc-row"><span class="acc-label">Formato detectado</span><span class="acc-val">El sistema detecta si los valores siguen un patrón: email, fecha, NIT, teléfono o URL. Si detecta un formato, sugiere automáticamente la dimensión <strong>Validez</strong> correspondiente.</span></div>
+            <div class="acc-row"><span class="acc-label">Variantes similares</span><span class="acc-val">Grupos de valores que parecen lo mismo pero están escritos diferente. Ejemplo: ["Bogotá", "bogota", "BOGOTA"]. Indica un problema de <strong>Consistencia</strong>.</span></div>
+          </div>
+        </div>
+
+        <!-- Columnas de fecha -->
+        <div class="acc-item" data-acc="ph-fecha">
+          <div class="acc-trigger" onclick="toggleAcc('ph-fecha')">
+            <div class="acc-icon" style="background:#d1fae5;color:#065f46">📅</div>
+            <span class="acc-title">Métricas de fecha — cómo interpretarlas</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-label">Rango en días</span><span class="acc-val">La diferencia entre la fecha más antigua y la más reciente. Un rango muy amplio puede indicar fechas erróneas.</span></div>
+            <div class="acc-row"><span class="acc-label">% Fechas futuras</span><span class="acc-val">Fechas posteriores a hoy. En columnas como "fecha de registro" o "fecha de compra" esto casi siempre es un error.</span></div>
+            <div class="acc-row"><span class="acc-label">% Fechas antiguas (&gt;5 años)</span><span class="acc-val">Fechas muy antiguas pueden ser errores de captura o datos desactualizados. Depende del contexto del negocio.</span></div>
+            <div class="acc-row"><span class="acc-label">Formatos mezclados</span><span class="acc-val">Si la misma columna tiene fechas en AAAA-MM-DD y otras en DD/MM/AAAA, hay un problema de consistencia que puede causar errores al procesar. El primero en verde es el dominante; los demás en amarillo son minorías problemáticas.</span></div>
+            <div class="acc-row"><span class="acc-label">Distribución por año</span><span class="acc-val">Muestra cuántos registros hay por año. Un año con muy pocos registros puede indicar datos faltantes o un error de migración.</span></div>
+          </div>
+        </div>
+
+        <!-- Columnas categóricas -->
+        <div class="acc-item" data-acc="ph-cat">
+          <div class="acc-trigger" onclick="toggleAcc('ph-cat')">
+            <div class="acc-icon" style="background:#fef9c3;color:#854d0e">≡</div>
+            <span class="acc-title">Métricas categóricas — cómo interpretarlas</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-label">Entropía</span><span class="acc-val"><strong>Muy balanceado</strong> = todos los valores aparecen con frecuencia similar. <strong>Extremadamente desbalanceado</strong> = un valor domina más del 95% de los registros, lo que puede indicar un valor por defecto incorrecto o datos sin diligenciar.</span></div>
+            <div class="acc-row"><span class="acc-label">Desbalance extremo</span><span class="acc-val">Si más del 95% de los registros tienen el mismo valor, revisa si ese valor es un placeholder, un error de carga masiva, o simplemente la realidad del negocio.</span></div>
+          </div>
+        </div>
+
+        <!-- Alertas automáticas -->
+        <div class="acc-item" data-acc="ph-alertas">
+          <div class="acc-trigger" onclick="toggleAcc('ph-alertas')">
+            <div class="acc-icon" style="background:#fffbeb;color:#d97706">⚠</div>
+            <span class="acc-title">Las alertas automáticas</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-row"><span class="acc-label">ID con duplicados</span><span class="acc-val">"Columna parece ID pero tiene N valores duplicados" → Aplica la dimensión <strong>Unicidad</strong>.</span></div>
+            <div class="acc-row"><span class="acc-label">Variantes del mismo valor</span><span class="acc-val">"Columna tiene variantes del mismo valor" → Aplica <strong>Consistencia</strong> o <strong>Validez</strong> con lista de valores permitidos.</span></div>
+            <div class="acc-row"><span class="acc-label">Columna constante</span><span class="acc-val">"Columna con un solo valor único" → Esta columna probablemente no aporta información al análisis. Considera excluirla.</span></div>
+            <div class="acc-row"><span class="acc-label">Alta nulidad</span><span class="acc-val">"Columna con más del 30% de nulos" → Aplica la dimensión <strong>Completitud</strong> con urgencia.</span></div>
+          </div>
+        </div>
+
+        <!-- ¿Cómo usar el perfil? -->
+        <div class="acc-item" data-acc="ph-uso">
+          <div class="acc-trigger" onclick="toggleAcc('ph-uso')">
+            <div class="acc-icon" style="background:#dcfce7;color:#166534">→</div>
+            <span class="acc-title">¿Cómo usar el perfil para configurar mejor el análisis?</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <p class="acc-def">El botón <strong>"Continuar a configuración"</strong> lleva al paso 3 donde el sistema ya habrá preseleccionado las dimensiones más relevantes basándose en el perfil real de tus datos. Revisa las sugerencias y ajústalas según el contexto de tu negocio antes de ejecutar el análisis.</p>
+            <p class="acc-def" style="margin-top:.5rem">El botón <strong>"✨ Sugerir configuración"</strong> en el paso 3 también usa el perfil para proponer dimensiones con parámetros concretos — por ejemplo, si detectó un catálogo de 5 valores, pre-llena la lista de valores válidos automáticamente.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3 — Las 11 dimensiones -->
     <div class="help-section">
       <div class="help-section-title">Las 11 dimensiones de calidad</div>
       <div class="accordion" id="dimAccordion">
@@ -2180,6 +2292,30 @@ function _renderFecha(p) {
     </div>`;
   }).join('');
 
+  // Formatos como lista vertical con semáforo
+  const fmts = p.formatos_detectados || [];
+  let fmtsHTML = '';
+  if (fmts.length === 0) {
+    fmtsHTML = '<span style="color:var(--sub)">No detectado</span>';
+  } else {
+    const hayMezcla = fmts.length > 1;
+    fmtsHTML = fmts.map((f, i) => {
+      const desc   = (typeof f === 'object') ? f.descripcion : f;
+      const conteo = (typeof f === 'object' && f.conteo != null) ? ` — ${f.conteo.toLocaleString()} registros` : '';
+      if (!hayMezcla || i === 0) {
+        return `<div style="color:var(--green);font-size:.8rem;margin:.12rem 0">✓ ${desc}${conteo}</div>`;
+      } else {
+        return `<div style="color:#d97706;font-size:.8rem;margin:.12rem 0">⚠ ${desc}${conteo}</div>`;
+      }
+    }).join('');
+    if (hayMezcla) {
+      fmtsHTML = `<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:7px;padding:.5rem .75rem;margin-top:.15rem">
+        <div style="font-size:.72rem;color:#92400e;font-weight:700;margin-bottom:.25rem">⚠ Mezcla de formatos detectada</div>
+        ${fmtsHTML}
+      </div>`;
+    }
+  }
+
   return `
     <div class="prof-metrics-row">
       ${_metric('Fecha mínima', p.fecha_min || '—')}
@@ -2191,7 +2327,10 @@ function _renderFecha(p) {
       ${_metric('% Nulos', (p.pct_nulos ?? 0) + '%')}
       ${_metric('% Futuras', (p.pct_fechas_futuras ?? 0) + '%')}
       ${_metric('% > 5 años', (p.pct_fechas_antiguas ?? 0) + '%')}
-      ${_metric('Formatos', (p.formatos_detectados || []).join(', ') || '—')}
+    </div>
+    <div style="margin:.4rem 0 .2rem">
+      <div style="font-size:.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.3rem">Formatos detectados</div>
+      ${fmtsHTML}
     </div>
     ${anioHTML ? `<div class="prof-histogram" style="margin-top:.75rem"><div style="font-size:.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.4rem">Distribución por año</div>${anioHTML}</div>` : ''}
   `;

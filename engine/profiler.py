@@ -216,6 +216,27 @@ def _profile_text(col: str, series: pd.Series, total: int) -> dict:
     }
 
 
+FORMATOS_LEGIBLES = {
+    "%Y-%m-%d": "AAAA-MM-DD (ej: 2024-03-15)",
+    "%d/%m/%Y": "DD/MM/AAAA (ej: 15/03/2024)",
+    "%m/%d/%Y": "MM/DD/AAAA (ej: 03/15/2024)",
+    "%d-%m-%Y": "DD-MM-AAAA (ej: 15-03-2024)",
+    "%d-%m-%y": "DD-MM-AA (ej: 15-03-24)",
+    "%Y/%m/%d": "AAAA/MM/DD (ej: 2024/03/15)",
+    "%d %b %Y": "DD Mes AAAA (ej: 15 Mar 2024)",
+    "%B %d, %Y": "Mes DD, AAAA (ej: March 15, 2024)",
+    "%Y%m%d":   "AAAAMMDD (ej: 20240315)",
+    "%d.%m.%Y": "DD.MM.AAAA (ej: 15.03.2024)",
+}
+
+_FORMATOS_A_DETECTAR = list(FORMATOS_LEGIBLES.keys())
+
+
+def _fmt_legible(fmt: str) -> str:
+    """Convierte un código de formato Python en descripción legible."""
+    return FORMATOS_LEGIBLES.get(fmt, f"Formato personalizado: {fmt}")
+
+
 def _profile_fecha(col: str, series: pd.Series, total: int) -> dict:
     pct_nulos = _safe(lambda: round(series.isna().sum() / total * 100, 2), 0.0)
 
@@ -224,14 +245,22 @@ def _profile_fecha(col: str, series: pd.Series, total: int) -> dict:
     ahora = pd.Timestamp.now()
     cinco_anios = ahora - pd.DateOffset(years=5)
 
-    formatos: list[str] = []
-    for fmt in ["%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y", "%Y%m%d"]:
+    # Detectar formatos con conteo de registros que los cumplen
+    formatos_detectados: list[dict] = []
+    for fmt in _FORMATOS_A_DETECTAR:
         try:
-            n_ok = pd.to_datetime(series.dropna(), format=fmt, errors="coerce").notna().sum()
+            n_ok = int(pd.to_datetime(series.dropna(), format=fmt, errors="coerce").notna().sum())
             if n_ok > 0:
-                formatos.append(fmt)
+                formatos_detectados.append({
+                    "codigo": fmt,
+                    "descripcion": _fmt_legible(fmt),
+                    "conteo": n_ok,
+                })
         except Exception:
             pass
+
+    # Ordenar de mayor a menor conteo
+    formatos_detectados.sort(key=lambda x: x["conteo"], reverse=True)
 
     dist_anio = {}
     dist_mes  = {}
@@ -248,7 +277,7 @@ def _profile_fecha(col: str, series: pd.Series, total: int) -> dict:
         "pct_nulos": pct_nulos,
         "pct_fechas_futuras": _safe(lambda: round((validas > ahora).sum() / total * 100, 2), 0.0),
         "pct_fechas_antiguas": _safe(lambda: round((validas < cinco_anios).sum() / total * 100, 2), 0.0),
-        "formatos_detectados": formatos,
+        "formatos_detectados": formatos_detectados,
         "distribucion_por_anio": dist_anio,
         "distribucion_por_mes": dist_mes,
     }
