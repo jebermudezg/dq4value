@@ -415,6 +415,48 @@ def get_profile(file_id: str, authorization: str = Header(None)):
     return profile_dataset(df)
 
 
+class DrillThroughRequest(BaseModel):
+    columna: str
+    mascara: str
+
+
+@app.post("/profile/{file_id}/drillthrough")
+def drillthrough(file_id: str, request: DrillThroughRequest, authorization: str = Header(None)):
+    from engine.profiler import drill_through
+    get_current_user(authorization)
+    if file_id not in _file_store:
+        raise HTTPException(status_code=404, detail=f"Archivo '{file_id}' no encontrado.")
+    df = _file_store[file_id]["df"]
+    if request.columna not in df.columns:
+        raise HTTPException(status_code=400, detail=f"Columna '{request.columna}' no existe.")
+    try:
+        resultado = drill_through(df, request.columna, request.mascara)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error en drill-through: {e}")
+
+    # Serializar — convertir NaN a None y tipos numpy a Python nativos
+    records = []
+    for row in resultado.to_dict("records"):
+        clean = {}
+        for k, v in row.items():
+            import math
+            if isinstance(v, float) and math.isnan(v):
+                clean[k] = None
+            elif hasattr(v, "item"):       # numpy scalar
+                clean[k] = v.item()
+            else:
+                clean[k] = v
+        records.append(clean)
+
+    return {
+        "columna": request.columna,
+        "mascara": request.mascara,
+        "total": len(records),
+        "columnas": list(df.columns),
+        "registros": records,
+    }
+
+
 @app.get("/profile/{file_id}/export")
 def export_profile(file_id: str, authorization: str = Header(None)):
     import openpyxl

@@ -16,6 +16,60 @@ import pandas as pd
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Data Masking
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _aplicar_mascara_char(char: str) -> str:
+    """Convierte un carácter a su símbolo de máscara."""
+    if char.isupper():
+        return "L"
+    elif char.islower():
+        return "l"
+    elif char.isdigit():
+        return "D"
+    elif char == " ":
+        return "s"
+    else:
+        return char  # caracteres especiales se mantienen tal cual
+
+
+def mask(serie: pd.Series) -> pd.DataFrame:
+    """
+    Recibe una pd.Series de texto y retorna un DataFrame con:
+    - Mascara: la máscara generada carácter a carácter
+    - Count: cantidad de registros con esa máscara
+    - Porcentaje: porcentaje redondeado a 2 decimales
+    Ordenado de mayor a menor por Count.
+    Valores nulos o NaN se convierten a la máscara '-null-'.
+    """
+    def _generar(valor) -> str:
+        if pd.isna(valor) or valor is None:
+            return "-null-"
+        return "".join(_aplicar_mascara_char(c) for c in str(valor))
+
+    mascaras = serie.apply(_generar)
+    total = len(mascaras)
+
+    conteo = mascaras.value_counts().reset_index()
+    conteo.columns = ["Mascara", "Count"]
+    conteo["Porcentaje"] = (conteo["Count"] / total * 100).round(2)
+    conteo = conteo.sort_values("Count", ascending=False).reset_index(drop=True)
+    return conteo
+
+
+def drill_through(df: pd.DataFrame, columna: str, mascara: str) -> pd.DataFrame:
+    """
+    Retorna todas las filas cuyo valor en `columna` genere exactamente `mascara`.
+    """
+    def _generar(valor) -> str:
+        if pd.isna(valor) or valor is None:
+            return "-null-"
+        return "".join(_aplicar_mascara_char(c) for c in str(valor))
+
+    return df[df[columna].apply(_generar) == mascara].copy().reset_index(drop=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Regex para detección de formato
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -428,6 +482,20 @@ def profile_dataset(df: pd.DataFrame) -> dict:
                     perfil = _profile_categorico(col, series, total_filas)
                 else:
                     perfil = _profile_text(col, series, total_filas)
+
+                # Enmascaramiento — solo para columnas de texto (no fecha, no categórico)
+                if perfil.get("tipo_perfil") == "texto":
+                    try:
+                        mascara_df = mask(series)
+                        perfil["mascaras"] = mascara_df.to_dict("records")
+                        perfil["total_mascaras_unicas"] = len(mascara_df)
+                        perfil["mascara_mas_frecuente"] = (
+                            mascara_df.iloc[0]["Mascara"] if len(mascara_df) > 0 else None
+                        )
+                    except Exception:
+                        perfil["mascaras"] = []
+                        perfil["total_mascaras_unicas"] = 0
+                        perfil["mascara_mas_frecuente"] = None
 
             elif dtype_str == "bool":
                 perfil = _profile_categorico(col, series.astype(str), total_filas)

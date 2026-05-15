@@ -865,6 +865,54 @@
       margin-top: .25rem; line-height: 1.4;
     }
 
+    /* ── Masks / Drill-through ───────────────────────────────────── */
+    .mask-section  { margin-top:.85rem; }
+    .mask-sec-hdr  { display:flex; align-items:center; gap:.5rem; margin-bottom:.4rem; }
+    .mask-sec-title{ font-size:.78rem; font-weight:700; text-transform:uppercase;
+                     letter-spacing:.04em; color:var(--sub); }
+    .mask-badge    { font-size:.68rem; font-weight:700; padding:.15rem .5rem; border-radius:99px; }
+    .mask-badge-ok   { background:#dcfce7; color:#166534; }
+    .mask-badge-warn { background:#fef9c3; color:#854d0e; }
+    .mask-badge-bad  { background:#fee2e2; color:#991b1b; }
+    .mask-hint     { font-size:.72rem; color:var(--muted); font-style:italic; margin-bottom:.5rem; line-height:1.4; }
+    .mask-table    { width:100%; border-collapse:collapse; font-size:.78rem; }
+    .mask-table th { text-align:left; padding:.3rem .5rem; border-bottom:1.5px solid var(--border);
+                     font-size:.7rem; text-transform:uppercase; color:var(--sub); white-space:nowrap; }
+    .mask-table td { padding:.28rem .5rem; border-bottom:1px solid var(--border); vertical-align:middle; }
+    .mask-code     { font-family:monospace; font-size:.8rem; background:var(--bg);
+                     border:1px solid var(--border); border-radius:4px;
+                     padding:.15rem .4rem; word-break:break-all; }
+    .mask-bar-cell { width:100px; }
+    .mask-bar      { height:7px; border-radius:3px; background:#bfdbfe; min-width:2px; }
+    .mask-drill-btn{ font-size:.72rem; padding:.22rem .6rem; border-radius:6px; cursor:pointer;
+                     background:var(--bg); border:1.5px solid var(--border); color:var(--text);
+                     white-space:nowrap; }
+    .mask-drill-btn:hover { background:var(--blue-lt); border-color:var(--blue); color:var(--blue); }
+    .mask-show-more{ font-size:.75rem; color:var(--blue); cursor:pointer; padding:.4rem 0;
+                     background:none; border:none; font-family:inherit; }
+    .mask-show-more:hover { text-decoration:underline; }
+
+    /* Modal drill-through */
+    #drillModal      { display:none; position:fixed; inset:0; z-index:9000;
+                       background:rgba(0,0,0,.45); overflow-y:auto; }
+    #drillModal.open { display:flex; align-items:flex-start; justify-content:center; padding:2rem 1rem; }
+    .drill-box       { background:var(--bg-card); border-radius:14px; width:100%; max-width:900px;
+                       box-shadow:0 20px 60px rgba(0,0,0,.25); }
+    .drill-hdr       { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem;
+                       border-bottom:1.5px solid var(--border); }
+    .drill-hdr h3    { flex:1; font-size:.95rem; font-weight:700; margin:0; }
+    .drill-close     { background:none; border:none; cursor:pointer; padding:.3rem;
+                       color:var(--sub); border-radius:6px; font-size:1.1rem; }
+    .drill-close:hover { background:var(--red-lt); color:var(--red); }
+    .drill-body      { padding:1rem 1.25rem; max-height:65vh; overflow:auto; }
+    .drill-table     { width:100%; border-collapse:collapse; font-size:.78rem;
+                       white-space:nowrap; }
+    .drill-table th  { text-align:left; padding:.3rem .6rem; border-bottom:1.5px solid var(--border);
+                       position:sticky; top:0; background:var(--bg-card);
+                       font-size:.7rem; text-transform:uppercase; color:var(--sub); }
+    .drill-table td  { padding:.27rem .6rem; border-bottom:1px solid var(--border); }
+    .drill-table tr:hover td { background:var(--bg); }
+
     /* ── Data Profiling Screen ────────────────────────────────────── */
     .prof-alerts { display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.25rem; }
     .prof-alert  { display:flex; align-items:flex-start; gap:.6rem; padding:.65rem .9rem;
@@ -1474,6 +1522,24 @@
 <!-- TOAST -->
 <div id="toast"></div>
 
+<!-- DRILL-THROUGH MODAL -->
+<div id="drillModal" onclick="if(event.target===this)closeDrillModal()">
+  <div class="drill-box">
+    <div class="drill-hdr">
+      <h3 id="drillTitle">Registros con patrón</h3>
+      <span id="drillCount" style="font-size:.8rem;color:var(--sub)"></span>
+      <button class="drill-close" onclick="closeDrillModal()" title="Cerrar">✕</button>
+    </div>
+    <div class="drill-body">
+      <div id="drillContent">
+        <div class="spinner-wrap visible" style="padding:2rem">
+          <div class="spinner"></div><p>Cargando registros...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════════════════════════════════
      HELP OVERLAY + SIDEBAR
 ═══════════════════════════════════════════ -->
@@ -1507,14 +1573,25 @@
           </div>
         </div>
         <div class="help-step">
+          <div class="help-step-icon" style="background:#fef9c3;color:#854d0e">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>2 · Explorar el perfil de datos</h4>
+            <p>Antes de medir calidad, el sistema genera un diagnóstico automático de cada columna: estadísticas, distribución de valores, formatos detectados y alertas de problemas evidentes. Úsalo para entender tus datos antes de configurar el análisis.</p>
+          </div>
+        </div>
+        <div class="help-step">
           <div class="help-step-icon purple">
             <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
             </svg>
           </div>
           <div>
-            <h4>2 · Configurar dimensiones</h4>
-            <p>Elige qué columna es el ID único y activa los chips de dimensiones en cada columna. Algunas dimensiones muestran campos de parámetros al activarse.</p>
+            <h4>3 · Configurar dimensiones</h4>
+            <p>Elige qué columna es el ID único y activa las dimensiones. El sistema preselecciona las más relevantes basándose en el perfil de datos.</p>
           </div>
         </div>
         <div class="help-step">
@@ -1524,7 +1601,7 @@
             </svg>
           </div>
           <div>
-            <h4>3 · Ver resultados y descargar reporte</h4>
+            <h4>4 · Ver resultados y descargar reporte</h4>
             <p>El dashboard muestra el score general y el detalle por dimensión. Descarga el reporte Excel con 3 pestañas: Dashboard, Problemas Detallados y Score por Columna.</p>
           </div>
         </div>
@@ -1624,6 +1701,27 @@
             <div class="acc-row"><span class="acc-label">Variantes del mismo valor</span><span class="acc-val">"Columna tiene variantes del mismo valor" → Aplica <strong>Consistencia</strong> o <strong>Validez</strong> con lista de valores permitidos.</span></div>
             <div class="acc-row"><span class="acc-label">Columna constante</span><span class="acc-val">"Columna con un solo valor único" → Esta columna probablemente no aporta información al análisis. Considera excluirla.</span></div>
             <div class="acc-row"><span class="acc-label">Alta nulidad</span><span class="acc-val">"Columna con más del 30% de nulos" → Aplica la dimensión <strong>Completitud</strong> con urgencia.</span></div>
+          </div>
+        </div>
+
+        <!-- Máscaras -->
+        <div class="acc-item" data-acc="ph-mask">
+          <div class="acc-trigger" onclick="toggleAcc('ph-mask')">
+            <div class="acc-icon" style="background:#f1f5f9;color:#334155">⬛</div>
+            <span class="acc-title">Patrones de formato (máscaras) — cómo interpretarlos</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <p class="acc-def">El enmascaramiento convierte cada carácter de un valor en un símbolo que representa su tipo: <strong>L</strong> para mayúsculas, <strong>l</strong> para minúsculas, <strong>D</strong> para dígitos, <strong>s</strong> para espacios y el carácter especial tal cual. Esto permite detectar inconsistencias de formato de un vistazo.</p>
+            <div class="acc-row"><span class="acc-label">Ejemplos de lectura</span><span class="acc-val">
+              <code>LlllsLsLllll</code> → nombre propio con inicial, espacio, segunda inicial y apellido. Patrón correcto de nombre.<br>
+              <code>LLLLLslllll</code> → todo en mayúsculas seguido de minúsculas — posible inconsistencia.<br>
+              <code>lllll#DDD</code> → texto en minúsculas con carácter especial y dígitos — puede ser código o error.<br>
+              <code>-null-</code> → valor nulo o vacío.
+            </span></div>
+            <div class="acc-row"><span class="acc-label">Formato consistente</span><span class="acc-val">Si <strong>todas las filas</strong> tienen el mismo patrón, el formato de esa columna es homogéneo — no hay inconsistencias de capitalización ni estructura.</span></div>
+            <div class="acc-row"><span class="acc-label">Muchos patrones distintos</span><span class="acc-val">Indica un problema de estandarización. Usa la dimensión <strong>Consistencia</strong> para detectarlo formalmente.</span></div>
+            <div class="acc-row"><span class="acc-label">Botón "Ver registros"</span><span class="acc-val">Abre un modal con todos los registros reales que generan ese patrón exacto — útil para verificar si los casos atípicos son errores o excepciones válidas del negocio.</span></div>
           </div>
         </div>
 
@@ -2192,16 +2290,16 @@ function _buildColCard(colName, perfil) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
       </svg>
     </div>
-    <div class="prof-col-body">${_renderPerfil(perfil, tipo)}</div>
+    <div class="prof-col-body">${_renderPerfil(perfil, tipo, colName)}</div>
   `;
   return card;
 }
 
-function _renderPerfil(p, tipo) {
+function _renderPerfil(p, tipo, colName) {
   if (tipo === 'numerico') return _renderNumerico(p);
   if (tipo === 'fecha')    return _renderFecha(p);
   if (tipo === 'categorico') return _renderCategorico(p);
-  return _renderTexto(p);
+  return _renderTexto(p, colName);
 }
 
 function _metric(label, value) {
@@ -2242,7 +2340,7 @@ function _renderNumerico(p) {
   `;
 }
 
-function _renderTexto(p) {
+function _renderTexto(p, colName) {
   const top = (p.top_10_valores || []);
   const maxFreq = top.length ? Math.max(...top.map(v => v.frecuencia)) : 1;
   const topHTML = top.map(v => {
@@ -2262,6 +2360,52 @@ function _renderTexto(p) {
       ${variantes.map(g => `<div>· ${g.join(' / ')}</div>`).join('')}
     </div>` : '';
 
+  // ── Máscaras ────────────────────────────────────────────────────────────
+  const mascaras = (p.mascaras || []);
+  const totalMask = p.total_mascaras_unicas || 0;
+  let maskBadge = '';
+  if (totalMask <= 1)     maskBadge = `<span class="mask-badge mask-badge-ok">✓ Formato consistente</span>`;
+  else if (totalMask <= 5) maskBadge = `<span class="mask-badge mask-badge-warn">⚠ Algunos formatos distintos</span>`;
+  else                     maskBadge = `<span class="mask-badge mask-badge-bad">✗ Muchos formatos distintos</span>`;
+
+  const maxMaskCount = mascaras.length ? Math.max(...mascaras.map(m => m.Count)) : 1;
+  const VISIBLE_ROWS = 15;
+  const visibleMasks = mascaras.slice(0, VISIBLE_ROWS);
+  const hiddenCount  = mascaras.length - VISIBLE_ROWS;
+
+  const maskRowHTML = (mRows) => mRows.map(m => {
+    const w = Math.round((m.Count / maxMaskCount) * 90);
+    const safeCol  = (colName || '').replace(/'/g, "\\'");
+    const safeMask = m.Mascara.replace(/'/g, "\\'");
+    return `<tr>
+      <td><span class="mask-code">${m.Mascara}</span></td>
+      <td>${m.Count.toLocaleString()}</td>
+      <td>${m.Porcentaje}%</td>
+      <td class="mask-bar-cell"><div class="mask-bar" style="width:${w}px"></div></td>
+      <td><button class="mask-drill-btn" onclick="openDrillModal('${safeCol}','${safeMask}')">Ver registros</button></td>
+    </tr>`;
+  }).join('');
+
+  const maskTableId = `masktable-${safeId(colName || '')}`;
+  const maskMoreId  = `maskmore-${safeId(colName || '')}`;
+
+  const maskHTML = mascaras.length === 0 ? '' : `
+    <div class="mask-section">
+      <div class="mask-sec-hdr">
+        <span class="mask-sec-title">Patrones detectados</span>
+        ${maskBadge}
+      </div>
+      <p class="mask-hint">Cada carácter se convierte en L (mayúscula), l (minúscula), D (dígito), s (espacio) o se mantiene si es especial. Permite detectar inconsistencias de formato.</p>
+      <table class="mask-table">
+        <thead><tr><th>Patrón</th><th>Cantidad</th><th>%</th><th>Distribución</th><th>Acción</th></tr></thead>
+        <tbody id="${maskTableId}">${maskRowHTML(visibleMasks)}</tbody>
+      </table>
+      ${hiddenCount > 0 ? `
+        <button class="mask-show-more" id="${maskMoreId}" onclick="expandMaskTable('${maskTableId}','${maskMoreId}',${JSON.stringify(mascaras)})">
+          ▼ Ver todos los patrones (${mascaras.length})
+        </button>` : ''}
+    </div>`;
+
   return `
     <div class="prof-metrics-row">
       ${_metric('Únicos', (p.total_unicos || '—'))}
@@ -2277,6 +2421,7 @@ function _renderTexto(p) {
     </div>
     ${topHTML ? `<table class="prof-top-table"><thead><tr><th>Valor</th><th>Freq.</th><th>%</th><th>Distribución</th></tr></thead><tbody>${topHTML}</tbody></table>` : ''}
     ${varHTML}
+    ${maskHTML}
   `;
 }
 
@@ -2386,6 +2531,77 @@ async function exportProfile() {
     a.href = url; a.download = `perfil_dataset.xlsx`; a.click();
     URL.revokeObjectURL(url);
   } catch(e) { toast(e.message, 'error'); }
+}
+
+function expandMaskTable(tbodyId, btnId, allMasks) {
+  const tbody = document.getElementById(tbodyId);
+  const btn   = document.getElementById(btnId);
+  if (!tbody) return;
+  const maxCount = allMasks.length ? Math.max(...allMasks.map(m => m.Count)) : 1;
+  tbody.innerHTML = allMasks.map(m => {
+    const w = Math.round((m.Count / maxCount) * 90);
+    const safeMask = m.Mascara.replace(/'/g, "\\'");
+    // get colName from tbody data attribute
+    const colName = tbody.getAttribute('data-col') || '';
+    return `<tr>
+      <td><span class="mask-code">${m.Mascara}</span></td>
+      <td>${m.Count.toLocaleString()}</td>
+      <td>${m.Porcentaje}%</td>
+      <td class="mask-bar-cell"><div class="mask-bar" style="width:${w}px"></div></td>
+      <td><button class="mask-drill-btn" onclick="openDrillModal('${colName}','${safeMask}')">Ver registros</button></td>
+    </tr>`;
+  }).join('');
+  if (btn) btn.remove();
+}
+
+async function openDrillModal(colName, mascara) {
+  const modal = document.getElementById('drillModal');
+  const title = document.getElementById('drillTitle');
+  const count = document.getElementById('drillCount');
+  const content = document.getElementById('drillContent');
+
+  title.textContent = `Patrón: ${mascara}`;
+  count.textContent = '';
+  content.innerHTML = `<div class="spinner-wrap visible" style="padding:2rem"><div class="spinner"></div><p>Cargando registros...</p></div>`;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const res = await apiFetch(`/profile/${state.fileId}/drillthrough`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ columna: colName, mascara: mascara }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error al cargar registros');
+
+    count.textContent = `${data.total.toLocaleString()} registro${data.total !== 1 ? 's' : ''}`;
+    const cols = data.columnas || [];
+    const rows = data.registros || [];
+
+    if (rows.length === 0) {
+      content.innerHTML = `<p style="color:var(--sub);padding:1rem">No se encontraron registros.</p>`;
+      return;
+    }
+
+    const theadCells = cols.map(c => `<th>${c}</th>`).join('');
+    const tbodyRows  = rows.map(r =>
+      `<tr>${cols.map(c => `<td>${r[c] ?? ''}</td>`).join('')}</tr>`
+    ).join('');
+
+    content.innerHTML = `
+      <table class="drill-table">
+        <thead><tr>${theadCells}</tr></thead>
+        <tbody>${tbodyRows}</tbody>
+      </table>`;
+  } catch(e) {
+    content.innerHTML = `<p style="color:var(--red);padding:1rem">${e.message}</p>`;
+  }
+}
+
+function closeDrillModal() {
+  document.getElementById('drillModal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // Screen 3 — Config
