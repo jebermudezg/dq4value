@@ -401,6 +401,125 @@ def get_report(file_id: str, authorization: str = Header(None)):
     )
 
 
+# ──────────────────────────────────────────────────────────────────────
+# Profile endpoints
+# ──────────────────────────────────────────────────────────────────────
+
+@app.get("/profile/{file_id}")
+def get_profile(file_id: str, authorization: str = Header(None)):
+    from engine.profiler import profile_dataset
+    get_current_user(authorization)
+    if file_id not in _file_store:
+        raise HTTPException(status_code=404, detail=f"Archivo '{file_id}' no encontrado.")
+    df = _file_store[file_id]["df"]
+    return profile_dataset(df)
+
+
+@app.get("/profile/{file_id}/export")
+def export_profile(file_id: str, authorization: str = Header(None)):
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill, Alignment
+    from engine.profiler import profile_dataset
+    get_current_user(authorization)
+    if file_id not in _file_store:
+        raise HTTPException(status_code=404, detail=f"Archivo '{file_id}' no encontrado.")
+
+    df = _file_store[file_id]["df"]
+    perfil = profile_dataset(df)
+    resumen = perfil["resumen"]
+    columnas = perfil["columnas"]
+
+    wb = openpyxl.Workbook()
+
+    # ── Hoja 1: Resumen ──────────────────────────────────────────────────
+    ws1 = wb.active
+    ws1.title = "Resumen"
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill("solid", fgColor="1560A8")
+
+    ws1.append(["Métrica", "Valor"])
+    for cell in ws1[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+
+    ws1.append(["Total filas", resumen["total_filas"]])
+    ws1.append(["Total columnas", resumen["total_columnas"]])
+    ws1.append(["Completitud global (%)", resumen["completitud_global"]])
+    ws1.append(["Filas duplicadas exactas", resumen["filas_duplicadas_exactas"]])
+    ws1.append(["Tamaño en memoria (MB)", resumen["tamano_memoria_mb"]])
+    ws1.append([])
+    ws1.append(["Alertas detectadas", ""])
+    ws1["A" + str(ws1.max_row)].font = Font(bold=True)
+    for alerta in resumen["alertas"]:
+        ws1.append(["⚠", alerta])
+    ws1.column_dimensions["A"].width = 28
+    ws1.column_dimensions["B"].width = 60
+
+    # ── Hoja 2: Perfil por columna ───────────────────────────────────────
+    ws2 = wb.create_sheet("Perfil por columna")
+    headers2 = [
+        "Columna", "Tipo perfil", "% Nulos", "Únicos",
+        "Cardinalidad", "Min", "Max", "Promedio", "Mediana",
+        "Desv. Std", "Outliers", "Sesgo",
+        "Long. Prom.", "Formato detectado", "Tiene may. mezcladas",
+        "Es catálogo", "Fecha mín", "Fecha máx", "Rango días",
+    ]
+    ws2.append(headers2)
+    for cell in ws2[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+
+    for col_name, p in columnas.items():
+        row = [col_name, p.get("tipo_perfil", "")]
+        row.append(p.get("pct_nulos", ""))
+        row.append(p.get("total_unicos", ""))
+        row.append(p.get("cardinalidad", ""))
+        row.append(p.get("min", ""))
+        row.append(p.get("max", ""))
+        row.append(p.get("promedio", ""))
+        row.append(p.get("mediana", ""))
+        row.append(p.get("desviacion_std", ""))
+        row.append(p.get("outliers_count", ""))
+        row.append(p.get("sesgo", ""))
+        row.append(p.get("longitud_promedio", ""))
+        row.append(p.get("formato_detectado", ""))
+        row.append(p.get("tiene_mayusculas_mezcladas", ""))
+        row.append(p.get("es_catalogo", ""))
+        row.append(p.get("fecha_min", ""))
+        row.append(p.get("fecha_max", ""))
+        row.append(p.get("rango_dias", ""))
+        ws2.append(row)
+
+    for col_letter in ["A", "B", "C", "D", "E", "N"]:
+        ws2.column_dimensions[col_letter].width = 22
+
+    # ── Hoja 3: Top valores ───────────────────────────────────────────────
+    ws3 = wb.create_sheet("Top valores")
+    ws3.append(["Columna", "Valor", "Frecuencia", "Porcentaje (%)"])
+    for cell in ws3[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+
+    for col_name, p in columnas.items():
+        top = p.get("top_10_valores") or p.get("valores", [])
+        for item in top[:10]:
+            ws3.append([col_name, item.get("valor", ""), item.get("frecuencia", ""), item.get("porcentaje", "")])
+
+    ws3.column_dimensions["A"].width = 22
+    ws3.column_dimensions["B"].width = 35
+    ws3.column_dimensions["C"].width = 15
+    ws3.column_dimensions["D"].width = 18
+
+    export_path = TEMP_DIR / f"perfil_{file_id}.xlsx"
+    wb.save(str(export_path))
+    original_name = Path(_file_store[file_id]["original_name"]).stem
+    return FileResponse(
+        path=str(export_path),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename=f"perfil_{original_name}.xlsx",
+    )
+
+
 class SuggestRequest(BaseModel):
     file_id: str
 
@@ -408,6 +527,7 @@ class SuggestRequest(BaseModel):
 @app.post("/ai/suggest")
 def ai_suggest(request: SuggestRequest, authorization: str = Header(None)):
     from ai.claude_analyzer import suggest_dimensions_rules
+    from engine.profiler import profile_dataset
 
     get_current_user(authorization)
     file_id = request.file_id
@@ -429,7 +549,14 @@ def ai_suggest(request: SuggestRequest, authorization: str = Header(None)):
         else:
             ci["top_values"] = []
 
-    return suggest_dimensions_rules(col_info)
+    # Pass real profile so suggestions are evidence-based
+    try:
+        perfil = profile_dataset(df)
+        perfil_columnas = perfil.get("columnas", {})
+    except Exception:
+        perfil_columnas = None
+
+    return suggest_dimensions_rules(col_info, perfil_columnas=perfil_columnas)
 
 
 @app.get("/issues/{file_id}")

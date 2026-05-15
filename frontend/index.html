@@ -865,6 +865,74 @@
       margin-top: .25rem; line-height: 1.4;
     }
 
+    /* ── Data Profiling Screen ────────────────────────────────────── */
+    .prof-alerts { display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.25rem; }
+    .prof-alert  { display:flex; align-items:flex-start; gap:.6rem; padding:.65rem .9rem;
+                   background:#fffbeb; border:1px solid #fde68a; border-radius:8px;
+                   font-size:.83rem; color:#92400e; line-height:1.45; }
+    .prof-alert-icon { flex-shrink:0; font-size:1rem; margin-top:.05rem; }
+    .prof-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+    @media (max-width:700px) { .prof-kpis { grid-template-columns:repeat(2,1fr); } }
+    .prof-kpi  { background:var(--bg-card); border:1.5px solid var(--border); border-radius:12px;
+                 padding:1rem 1.2rem; text-align:center; }
+    .prof-kpi-label { font-size:.74rem; color:var(--sub); text-transform:uppercase;
+                      letter-spacing:.04em; margin-bottom:.35rem; }
+    .prof-kpi-value { font-size:1.65rem; font-weight:800; color:var(--text); line-height:1; }
+    .prof-kpi-value.green { color:var(--green); }
+    .prof-kpi-value.amber { color:#d97706; }
+    .prof-kpi-value.red   { color:var(--red); }
+
+    .prof-accordion { display:flex; flex-direction:column; gap:.5rem; }
+    .prof-col-card  { border:1.5px solid var(--border); border-radius:10px;
+                      background:var(--bg-card); overflow:hidden; }
+    .prof-col-hdr   { display:flex; align-items:center; gap:.65rem; padding:.75rem 1rem;
+                      cursor:pointer; user-select:none; }
+    .prof-col-hdr:hover { background:var(--bg); }
+    .prof-col-name  { font-weight:700; font-size:.9rem; flex:1; }
+    .prof-badge     { font-size:.68rem; font-weight:700; padding:.18rem .55rem; border-radius:99px; }
+    .badge-num      { background:#dbeafe; color:#1e40af; }
+    .badge-txt      { background:#f3e8ff; color:#6d28d9; }
+    .badge-fecha    { background:#d1fae5; color:#065f46; }
+    .badge-cat      { background:#fef9c3; color:#854d0e; }
+    .badge-null-ok  { background:#dcfce7; color:#166534; }
+    .badge-null-warn{ background:#fef9c3; color:#854d0e; }
+    .badge-null-bad { background:#fee2e2; color:#991b1b; }
+    .prof-col-chevron { color:var(--sub); transition:transform .2s; }
+    .prof-col-card.open .prof-col-chevron { transform:rotate(180deg); }
+    .prof-col-body  { display:none; padding:0 1rem 1rem; border-top:1px solid var(--border); }
+    .prof-col-card.open .prof-col-body { display:block; }
+
+    .prof-metrics-row { display:flex; flex-wrap:wrap; gap:.6rem; margin:.75rem 0 .5rem; }
+    .prof-metric  { background:var(--bg); border:1px solid var(--border); border-radius:8px;
+                    padding:.45rem .75rem; min-width:100px; }
+    .prof-metric-lbl { font-size:.69rem; color:var(--sub); text-transform:uppercase; letter-spacing:.03em; }
+    .prof-metric-val { font-size:.95rem; font-weight:700; color:var(--text); margin-top:.1rem; word-break:break-word; }
+
+    .prof-histogram  { margin:.5rem 0; }
+    .prof-hist-row   { display:flex; align-items:center; gap:.5rem; margin-bottom:.22rem; font-size:.74rem; }
+    .prof-hist-label { width:130px; color:var(--sub); white-space:nowrap; overflow:hidden;
+                       text-overflow:ellipsis; flex-shrink:0; }
+    .prof-hist-bar   { height:10px; border-radius:3px; background:var(--blue);
+                       min-width:2px; transition:width .3s; }
+    .prof-hist-count { color:var(--sub); flex-shrink:0; }
+
+    .prof-top-table  { width:100%; border-collapse:collapse; font-size:.8rem; margin-top:.5rem; }
+    .prof-top-table th { text-align:left; padding:.35rem .5rem; border-bottom:1.5px solid var(--border);
+                         font-size:.72rem; text-transform:uppercase; color:var(--sub); }
+    .prof-top-table td { padding:.3rem .5rem; border-bottom:1px solid var(--border); }
+    .prof-top-bar    { height:8px; border-radius:3px; background:var(--blue-lt);
+                       border:1px solid #bfdbfe; }
+
+    .prof-variantes  { background:#fffbeb; border:1px solid #fde68a; border-radius:7px;
+                       padding:.5rem .75rem; margin-top:.5rem; font-size:.78rem; color:#92400e; }
+    .prof-variantes strong { display:block; margin-bottom:.25rem; }
+
+    .prof-entropy-bar { display:flex; align-items:center; gap:.75rem; margin-top:.4rem; }
+    .prof-entropy-track { flex:1; height:8px; background:var(--border); border-radius:4px; }
+    .prof-entropy-fill  { height:100%; border-radius:4px; background:var(--blue); }
+
+    .prof-actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem; }
+
     /* responsive */
     @media (max-width: 640px) {
       nav { padding: 0 1rem; }
@@ -955,11 +1023,15 @@
   </div>
   <div class="step-line" id="line1"></div>
   <div class="step" id="step2">
-    <div class="dot">2</div><span>Configurar</span>
+    <div class="dot">2</div><span>Perfil</span>
   </div>
   <div class="step-line" id="line2"></div>
   <div class="step" id="step3">
-    <div class="dot">3</div><span>Resultados</span>
+    <div class="dot">3</div><span>Configurar</span>
+  </div>
+  <div class="step-line" id="line3"></div>
+  <div class="step" id="step4">
+    <div class="dot">4</div><span>Resultados</span>
   </div>
 </div>
 
@@ -1023,7 +1095,77 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
-     SCREEN 2 — CONFIG
+     SCREEN 2 — PROFILE
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-profile">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem">
+    <div>
+      <h2 style="margin:0;font-size:1.35rem">Perfil del dataset</h2>
+      <p style="margin:.2rem 0 0;color:var(--sub);font-size:.85rem">Análisis exploratorio automático antes de configurar las dimensiones de calidad</p>
+    </div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="exportProfile()" id="exportProfileBtn">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Descargar perfil Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Alertas -->
+  <div class="prof-alerts" id="profAlerts"></div>
+
+  <!-- KPIs -->
+  <div class="prof-kpis" id="profKpis">
+    <div class="prof-kpi">
+      <div class="prof-kpi-label">Total registros</div>
+      <div class="prof-kpi-value" id="profKpiFilas">—</div>
+    </div>
+    <div class="prof-kpi">
+      <div class="prof-kpi-label">Total columnas</div>
+      <div class="prof-kpi-value" id="profKpiCols">—</div>
+    </div>
+    <div class="prof-kpi">
+      <div class="prof-kpi-label">Completitud global</div>
+      <div class="prof-kpi-value" id="profKpiComp">—</div>
+    </div>
+    <div class="prof-kpi">
+      <div class="prof-kpi-label">Filas duplicadas</div>
+      <div class="prof-kpi-value" id="profKpiDups">—</div>
+    </div>
+  </div>
+
+  <!-- Accordion por columna -->
+  <div class="card" style="padding:1.25rem">
+    <div class="section-title" style="margin-bottom:1rem">Perfil por columna</div>
+    <div class="prof-accordion" id="profAccordion">
+      <div class="spinner-wrap visible" id="profSpinner">
+        <div class="spinner"></div>
+        <p>Calculando perfil del dataset...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="prof-actions">
+    <button class="btn btn-ghost" onclick="goTo('upload')">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+      </svg>
+      Subir otro archivo
+    </button>
+    <button class="btn btn-primary" id="profContinueBtn" onclick="goTo('config')" disabled>
+      Continuar a configuración
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 3 — CONFIG
 ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-config">
   <div class="card">
@@ -1744,28 +1886,37 @@ const DIMENSIONS = [
 function goTo(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
-  const mainScreens = ['upload', 'config', 'results'];
+  const mainScreens = ['upload', 'profile', 'config', 'results'];
   const stepper = document.getElementById('stepper');
   stepper.style.display = mainScreens.includes(screen) ? '' : 'none';
   if (mainScreens.includes(screen)) {
-    ['step1','step2','step3'].forEach(id => document.getElementById(id).classList.remove('active','done'));
-    ['line1','line2'].forEach(id => document.getElementById(id).classList.remove('done'));
-    if (screen === 'upload')   { setStep(1); }
-    if (screen === 'config')   { setStep(2); }
-    if (screen === 'results')  { setStep(3); }
+    ['step1','step2','step3','step4'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active','done');
+    });
+    ['line1','line2','line3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('done');
+    });
+    if (screen === 'upload')  { setStep(1); }
+    if (screen === 'profile') { setStep(2); }
+    if (screen === 'config')  { setStep(3); }
+    if (screen === 'results') { setStep(4); }
   }
   if (screen === 'admin') loadAdminUsers();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function setStep(n) {
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('step' + i);
+    if (!el) continue;
     if (i < n) el.classList.add('done');
     else if (i === n) el.classList.add('active');
   }
-  if (n >= 2) document.getElementById('line1').classList.add('done');
-  if (n >= 3) document.getElementById('line2').classList.add('done');
+  if (n >= 2) { const l = document.getElementById('line1'); if(l) l.classList.add('done'); }
+  if (n >= 3) { const l = document.getElementById('line2'); if(l) l.classList.add('done'); }
+  if (n >= 4) { const l = document.getElementById('line3'); if(l) l.classList.add('done'); }
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -1836,7 +1987,8 @@ async function uploadFile() {
     state.fileId  = data.file_id;
     state.columns = data.columnas;
     buildConfigScreen(data);
-    goTo('config');
+    goTo('profile');
+    loadProfile();
     toast(`Archivo cargado: ${data.total_registros} registros, ${data.total_columnas} columnas`, 'success');
   } catch(e) {
     toast(e.message, 'error');
@@ -1853,7 +2005,251 @@ function setUploadLoading(on) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Screen 2 — Config
+// ─────────────────────────────────────────────────────────────────────
+// Screen 2 — Data Profiling
+// ─────────────────────────────────────────────────────────────────────
+
+async function loadProfile() {
+  const accordion = document.getElementById('profAccordion');
+  const spinner   = document.getElementById('profSpinner');
+  const continueBtn = document.getElementById('profContinueBtn');
+  accordion.innerHTML = '';
+  accordion.appendChild(spinner);
+  spinner.classList.add('visible');
+  continueBtn.disabled = true;
+
+  try {
+    const res  = await apiFetch(`/profile/${state.fileId}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error al cargar el perfil');
+
+    const { resumen, columnas } = data;
+    state.perfil = data;
+
+    // KPIs
+    document.getElementById('profKpiFilas').textContent = resumen.total_filas.toLocaleString();
+    document.getElementById('profKpiCols').textContent  = resumen.total_columnas;
+    const compEl = document.getElementById('profKpiComp');
+    compEl.textContent = resumen.completitud_global + '%';
+    compEl.className   = 'prof-kpi-value ' + (resumen.completitud_global >= 95 ? 'green' : resumen.completitud_global >= 80 ? 'amber' : 'red');
+    const dupEl = document.getElementById('profKpiDups');
+    dupEl.textContent = resumen.filas_duplicadas_exactas.toLocaleString();
+    dupEl.className   = 'prof-kpi-value ' + (resumen.filas_duplicadas_exactas > 0 ? 'amber' : 'green');
+
+    // Alertas
+    const alertsEl = document.getElementById('profAlerts');
+    alertsEl.innerHTML = '';
+    (resumen.alertas || []).forEach(a => {
+      alertsEl.innerHTML += `<div class="prof-alert"><span class="prof-alert-icon">⚠️</span><span>${a}</span></div>`;
+    });
+
+    // Accordion
+    accordion.innerHTML = '';
+    Object.entries(columnas).forEach(([colName, perfil]) => {
+      accordion.appendChild(_buildColCard(colName, perfil));
+    });
+
+    continueBtn.disabled = false;
+  } catch(e) {
+    accordion.innerHTML = `<div style="color:var(--red);padding:1rem">${e.message}</div>`;
+    toast(e.message, 'error');
+  }
+}
+
+function _buildColCard(colName, perfil) {
+  const tipo = perfil.tipo_perfil || 'texto';
+  const pctNulos = perfil.pct_nulos ?? 0;
+
+  const tipoBadge = {
+    numerico:   ['badge-num',   'Numérico'],
+    texto:      ['badge-txt',   'Texto'],
+    fecha:      ['badge-fecha', 'Fecha'],
+    categorico: ['badge-cat',   'Categórico'],
+  }[tipo] || ['badge-txt', tipo];
+
+  const nullClass = pctNulos < 5 ? 'badge-null-ok' : pctNulos < 20 ? 'badge-null-warn' : 'badge-null-bad';
+
+  const card = document.createElement('div');
+  card.className = 'prof-col-card';
+  card.innerHTML = `
+    <div class="prof-col-hdr" onclick="this.parentElement.classList.toggle('open')">
+      <span class="prof-col-name">${colName}</span>
+      <span class="prof-badge ${tipoBadge[0]}">${tipoBadge[1]}</span>
+      <span class="prof-badge ${nullClass}">${pctNulos.toFixed(1)}% nulos</span>
+      <svg class="prof-col-chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </div>
+    <div class="prof-col-body">${_renderPerfil(perfil, tipo)}</div>
+  `;
+  return card;
+}
+
+function _renderPerfil(p, tipo) {
+  if (tipo === 'numerico') return _renderNumerico(p);
+  if (tipo === 'fecha')    return _renderFecha(p);
+  if (tipo === 'categorico') return _renderCategorico(p);
+  return _renderTexto(p);
+}
+
+function _metric(label, value) {
+  if (value === null || value === undefined || value === '') return '';
+  return `<div class="prof-metric"><div class="prof-metric-lbl">${label}</div><div class="prof-metric-val">${value}</div></div>`;
+}
+
+function _renderNumerico(p) {
+  const hist = (p.histograma || []);
+  const maxCount = hist.length ? Math.max(...hist.map(b => b.conteo)) : 1;
+  const histHTML = hist.map(b => {
+    const w = maxCount > 0 ? Math.round((b.conteo / maxCount) * 180) : 2;
+    return `<div class="prof-hist-row">
+      <span class="prof-hist-label">${b.rango}</span>
+      <div class="prof-hist-bar" style="width:${w}px"></div>
+      <span class="prof-hist-count">${b.conteo.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="prof-metrics-row">
+      ${_metric('Mínimo', p.min)}
+      ${_metric('Máximo', p.max)}
+      ${_metric('Promedio', p.promedio)}
+      ${_metric('Mediana', p.mediana)}
+      ${_metric('Desv. Std', p.desviacion_std)}
+      ${_metric('Sesgo', p.sesgo || '—')}
+    </div>
+    <div class="prof-metrics-row">
+      ${_metric('% Nulos', (p.pct_nulos ?? 0) + '%')}
+      ${_metric('% Ceros', (p.pct_ceros ?? 0) + '%')}
+      ${_metric('% Negativos', (p.pct_negativos ?? 0) + '%')}
+      ${_metric('Outliers IQR', p.outliers_count ?? 0)}
+      ${p.percentiles ? _metric('P25', p.percentiles.p25) : ''}
+      ${p.percentiles ? _metric('P75', p.percentiles.p75) : ''}
+    </div>
+    ${histHTML ? `<div class="prof-histogram" style="margin-top:.75rem"><div style="font-size:.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.4rem">Distribución</div>${histHTML}</div>` : ''}
+  `;
+}
+
+function _renderTexto(p) {
+  const top = (p.top_10_valores || []);
+  const maxFreq = top.length ? Math.max(...top.map(v => v.frecuencia)) : 1;
+  const topHTML = top.map(v => {
+    const w = maxFreq > 0 ? Math.round((v.frecuencia / maxFreq) * 100) : 2;
+    return `<tr>
+      <td>${String(v.valor).substring(0,60)}</td>
+      <td>${v.frecuencia.toLocaleString()}</td>
+      <td>${v.porcentaje}%</td>
+      <td><div class="prof-top-bar" style="width:${w}%"></div></td>
+    </tr>`;
+  }).join('');
+
+  const variantes = (p.variantes_similares || []);
+  const varHTML = variantes.length ? `
+    <div class="prof-variantes">
+      <strong>⚠ Variantes similares detectadas</strong>
+      ${variantes.map(g => `<div>· ${g.join(' / ')}</div>`).join('')}
+    </div>` : '';
+
+  return `
+    <div class="prof-metrics-row">
+      ${_metric('Únicos', (p.total_unicos || '—'))}
+      ${_metric('Cardinalidad', p.cardinalidad || '—')}
+      ${_metric('Long. promedio', p.longitud_promedio)}
+      ${_metric('Long. mín/máx', (p.longitud_min ?? '—') + ' / ' + (p.longitud_max ?? '—'))}
+      ${_metric('Formato', p.formato_detectado || '—')}
+    </div>
+    <div class="prof-metrics-row">
+      ${_metric('% Nulos', (p.pct_nulos ?? 0) + '%')}
+      ${_metric('% Vacíos', (p.pct_vacios ?? 0) + '%')}
+      ${_metric('May. mezcladas', p.tiene_mayusculas_mezcladas ? '⚠ Sí' : 'No')}
+    </div>
+    ${topHTML ? `<table class="prof-top-table"><thead><tr><th>Valor</th><th>Freq.</th><th>%</th><th>Distribución</th></tr></thead><tbody>${topHTML}</tbody></table>` : ''}
+    ${varHTML}
+  `;
+}
+
+function _renderFecha(p) {
+  const distAnio = p.distribucion_por_anio || {};
+  const maxAnio  = Math.max(...Object.values(distAnio), 1);
+  const anioHTML = Object.entries(distAnio).sort(([a],[b]) => a-b).map(([yr, cnt]) => {
+    const w = Math.round((cnt / maxAnio) * 150);
+    return `<div class="prof-hist-row">
+      <span class="prof-hist-label">${yr}</span>
+      <div class="prof-hist-bar" style="width:${w}px"></div>
+      <span class="prof-hist-count">${cnt.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="prof-metrics-row">
+      ${_metric('Fecha mínima', p.fecha_min || '—')}
+      ${_metric('Fecha máxima', p.fecha_max || '—')}
+      ${_metric('Rango (días)', p.rango_dias)}
+      ${_metric('Más frecuente', p.fecha_mas_frecuente || '—')}
+    </div>
+    <div class="prof-metrics-row">
+      ${_metric('% Nulos', (p.pct_nulos ?? 0) + '%')}
+      ${_metric('% Futuras', (p.pct_fechas_futuras ?? 0) + '%')}
+      ${_metric('% > 5 años', (p.pct_fechas_antiguas ?? 0) + '%')}
+      ${_metric('Formatos', (p.formatos_detectados || []).join(', ') || '—')}
+    </div>
+    ${anioHTML ? `<div class="prof-histogram" style="margin-top:.75rem"><div style="font-size:.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.4rem">Distribución por año</div>${anioHTML}</div>` : ''}
+  `;
+}
+
+function _renderCategorico(p) {
+  const valores = (p.valores || []);
+  const maxFreq  = valores.length ? Math.max(...valores.map(v => v.frecuencia)) : 1;
+  const rowsHTML = valores.map(v => {
+    const w = maxFreq > 0 ? Math.round((v.frecuencia / maxFreq) * 100) : 2;
+    return `<tr>
+      <td>${String(v.valor).substring(0,50)}</td>
+      <td>${v.frecuencia.toLocaleString()}</td>
+      <td>${v.porcentaje}%</td>
+      <td><div class="prof-top-bar" style="width:${w}%"></div></td>
+    </tr>`;
+  }).join('');
+
+  const entropia = p.entropia ?? 0;
+  const variantes = (p.variantes_similares || []);
+  const varHTML = variantes.length ? `
+    <div class="prof-variantes">
+      <strong>⚠ Variantes similares detectadas</strong>
+      ${variantes.map(g => `<div>· ${g.join(' / ')}</div>`).join('')}
+    </div>` : '';
+
+  return `
+    <div class="prof-metrics-row">
+      ${_metric('Únicos', p.total_unicos ?? '—')}
+      ${_metric('% Nulos', (p.pct_nulos ?? 0) + '%')}
+      ${_metric('Más frecuente', p.valor_mas_frecuente || '—')}
+      ${_metric('Menos frecuente', p.valor_menos_frecuente || '—')}
+      ${p.desbalance_extremo ? _metric('⚠ Desbalance', 'Extremo') : ''}
+    </div>
+    <div class="prof-entropy-bar">
+      <span style="font-size:.75rem;color:var(--sub);min-width:75px">Entropía: <strong>${p.entropia_label || '—'}</strong></span>
+      <div class="prof-entropy-track"><div class="prof-entropy-fill" style="width:${Math.round(entropia*100)}%"></div></div>
+      <span style="font-size:.75rem;color:var(--sub)">${(entropia * 100).toFixed(0)}%</span>
+    </div>
+    ${rowsHTML ? `<table class="prof-top-table" style="margin-top:.75rem"><thead><tr><th>Valor</th><th>Freq.</th><th>%</th><th>Distribución</th></tr></thead><tbody>${rowsHTML}</tbody></table>` : ''}
+    ${varHTML}
+  `;
+}
+
+async function exportProfile() {
+  if (!state.fileId) return;
+  try {
+    const res = await apiFetch(`/profile/${state.fileId}/export`);
+    if (!res.ok) { const d = await res.json(); throw new Error(d.detail || 'Error al exportar'); }
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = `perfil_dataset.xlsx`; a.click();
+    URL.revokeObjectURL(url);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+// Screen 3 — Config
 // ─────────────────────────────────────────────────────────────────────
 function buildConfigScreen(data) {
   // ID column dropdown

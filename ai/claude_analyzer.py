@@ -243,26 +243,85 @@ def _rule_by_type(col_meta: dict) -> Tuple[dict, str]:
 # Función principal
 # ─────────────────────────────────────────────────────────────────────────────
 
-def suggest_dimensions_rules(columns_metadata: list[dict]) -> dict:
+def _enrich_from_profile(dims: dict, col_meta: dict, perfil: dict) -> Tuple[dict, str]:
+    """
+    Refina las dimensiones sugeridas usando el perfil calculado del dataset.
+    El perfil añade evidencia real que el nombre de columna no puede dar.
+    """
+    extra_razones: list[str] = []
+    dims = dict(dims)  # copia para no mutar el original
+
+    pct_nulos        = perfil.get("pct_nulos", 0) or 0
+    es_catalogo      = perfil.get("es_catalogo", False)
+    top_values       = [v["valor"] for v in (perfil.get("top_10_valores") or perfil.get("valores", []))]
+    mayusculas       = perfil.get("tiene_mayusculas_mezcladas", False)
+    outliers_count   = perfil.get("outliers_count", 0) or 0
+    formato          = perfil.get("formato_detectado", "")
+    cardinalidad     = perfil.get("cardinalidad", "")
+    variantes        = perfil.get("variantes_similares", [])
+
+    if pct_nulos > 5:
+        dims["completitud"] = {}
+        extra_razones.append(f"{pct_nulos}% de nulos detectados")
+
+    if es_catalogo and top_values:
+        dims["validez"] = {"valid_values": top_values}
+        extra_razones.append(f"catálogo con {len(top_values)} valores únicos detectados")
+
+    if mayusculas:
+        dims["consistencia"] = {}
+        extra_razones.append("mayúsculas mezcladas detectadas")
+
+    if outliers_count > 0:
+        dims["razonabilidad"] = {}
+        extra_razones.append(f"{outliers_count} outliers estadísticos detectados")
+
+    if formato == "email":
+        dims["validez"] = {"regex_pattern": (
+            r"^[a-zA-Z0-9_.+\-À-ɏ]+"
+            r"@[a-zA-Z0-9\-À-ɏ]+"
+            r"\.[a-zA-Z0-9\-.À-ɏ]+$"
+        )}
+        extra_razones.append("formato email detectado en los datos")
+
+    if formato == "fecha":
+        dims["vigencia"] = {"date_from": _five_years_ago(), "date_to": _today()}
+        dims["consistencia"] = {}
+        extra_razones.append("formato fecha detectado en los datos")
+
+    if cardinalidad == "baja" and variantes:
+        dims["consistencia"] = {}
+        extra_razones.append(f"{len(variantes)} grupos de variantes similares detectados")
+
+    return dims, extra_razones
+
+
+def suggest_dimensions_rules(
+    columns_metadata: list[dict],
+    perfil_columnas: Optional[dict] = None,
+) -> dict:
     """
     Sugiere dimensiones de calidad para cada columna basándose en su
-    nombre y tipo de dato, sin usar ningún modelo de IA.
+    nombre, tipo de dato y (si se provee) perfil calculado del dataset.
 
     Args:
         columns_metadata: lista de dicts con claves:
             nombre, tipo_dato, total_registros, valores_nulos,
             valores_unicos (opcional), top_values (opcional)
+        perfil_columnas: dict {col_name: perfil_dict} del engine/profiler.py (opcional).
+            Cuando se provee, las sugerencias son mucho más precisas.
 
     Returns:
         {
           "sugerencias": {
             "<col_name>": {
               "dimensiones": { "<dim>": {<params>}, ... },
-              "razon": "<texto en español>"
+              "razon": "<texto en español>",
+              "enriquecido_con_perfil": bool
             }, ...
           },
           "ia_disponible": False,
-          "motor": "rules"
+          "motor": "rules+profile" | "rules"
         }
     """
     sugerencias: dict = {}
@@ -282,11 +341,24 @@ def suggest_dimensions_rules(columns_metadata: list[dict]) -> dict:
         if "completitud" not in dims:
             dims = {"completitud": {}, **dims}
 
-        sugerencias[col_name] = {"dimensiones": dims, "razon": razon}
+        enriquecido = False
+        if perfil_columnas and col_name in perfil_columnas:
+            perfil = perfil_columnas[col_name]
+            dims, extra_razones = _enrich_from_profile(dims, col_meta, perfil)
+            if extra_razones:
+                razon += " · Perfil real: " + "; ".join(extra_razones)
+                enriquecido = True
 
+        sugerencias[col_name] = {
+            "dimensiones": dims,
+            "razon": razon,
+            "enriquecido_con_perfil": enriquecido,
+        }
+
+    motor = "rules+profile" if perfil_columnas else "rules"
     return {
         "sugerencias": sugerencias,
         "ia_disponible": False,
-        "motor": "rules",
+        "motor": motor,
         "total_columnas": len(sugerencias),
     }
