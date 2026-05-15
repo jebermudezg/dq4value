@@ -867,7 +867,7 @@
 
     /* ── Masks / Drill-through ───────────────────────────────────── */
     .mask-section  { margin-top:.85rem; }
-    .mask-sec-hdr  { display:flex; align-items:center; gap:.5rem; margin-bottom:.4rem; }
+    .mask-sec-hdr  { display:flex; align-items:center; gap:.5rem; margin-bottom:.4rem; flex-wrap:wrap; }
     .mask-sec-title{ font-size:.78rem; font-weight:700; text-transform:uppercase;
                      letter-spacing:.04em; color:var(--sub); }
     .mask-badge    { font-size:.68rem; font-weight:700; padding:.15rem .5rem; border-radius:99px; }
@@ -879,39 +879,55 @@
     .mask-table th { text-align:left; padding:.3rem .5rem; border-bottom:1.5px solid var(--border);
                      font-size:.7rem; text-transform:uppercase; color:var(--sub); white-space:nowrap; }
     .mask-table td { padding:.28rem .5rem; border-bottom:1px solid var(--border); vertical-align:middle; }
-    .mask-code     { font-family:monospace; font-size:.8rem; background:var(--bg);
+    .mask-table tbody tr:hover td { background:#f8fafc; }
+    .mask-code     { font-family:monospace; font-size:.8rem; background:#f8f9fa;
                      border:1px solid var(--border); border-radius:4px;
-                     padding:.15rem .4rem; word-break:break-all; }
-    .mask-bar-cell { width:100px; }
-    .mask-bar      { height:7px; border-radius:3px; background:#bfdbfe; min-width:2px; }
+                     padding:4px 8px; word-break:break-all; }
+    .mask-bar-cell { width:120px; }
+    .mask-bar      { height:8px; border-radius:3px; background:#1560a8; min-width:2px; }
     .mask-drill-btn{ font-size:.72rem; padding:.22rem .6rem; border-radius:6px; cursor:pointer;
                      background:var(--bg); border:1.5px solid var(--border); color:var(--text);
                      white-space:nowrap; }
     .mask-drill-btn:hover { background:var(--blue-lt); border-color:var(--blue); color:var(--blue); }
-    .mask-show-more{ font-size:.75rem; color:var(--blue); cursor:pointer; padding:.4rem 0;
-                     background:none; border:none; font-family:inherit; }
-    .mask-show-more:hover { text-decoration:underline; }
+    .mask-show-more{ display:block; width:100%; margin-top:.5rem; font-size:.75rem; color:var(--blue);
+                     cursor:pointer; padding:.5rem .75rem; background:var(--bg);
+                     border:1.5px dashed var(--border); border-radius:8px; font-family:inherit;
+                     text-align:center; transition:background .15s, border-color .15s; }
+    .mask-show-more:hover { background:var(--blue-lt); border-color:var(--blue); }
+    @keyframes maskRowIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+    .mask-row-anim { animation:maskRowIn .2s ease; }
 
-    /* Modal drill-through */
-    #drillModal      { display:none; position:fixed; inset:0; z-index:9000;
-                       background:rgba(0,0,0,.45); overflow-y:auto; }
-    #drillModal.open { display:flex; align-items:flex-start; justify-content:center; padding:2rem 1rem; }
-    .drill-box       { background:var(--bg-card); border-radius:14px; width:100%; max-width:900px;
-                       box-shadow:0 20px 60px rgba(0,0,0,.25); }
-    .drill-hdr       { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem;
-                       border-bottom:1.5px solid var(--border); }
-    .drill-hdr h3    { flex:1; font-size:.95rem; font-weight:700; margin:0; }
-    .drill-close     { background:none; border:none; cursor:pointer; padding:.3rem;
-                       color:var(--sub); border-radius:6px; font-size:1.1rem; }
+    /* Drill-through modal — created dynamically in JS */
+    .drill-overlay { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.55);
+                     display:flex; align-items:center; justify-content:center; padding:1.5rem 1rem; }
+    .drill-box     { background:#fff; border-radius:14px; width:90%; max-width:1100px;
+                     max-height:80vh; display:flex; flex-direction:column;
+                     box-shadow:0 24px 64px rgba(0,0,0,.3); }
+    .drill-hdr     { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem;
+                     border-bottom:1.5px solid var(--border); flex-shrink:0; }
+    .drill-hdr-txt { flex:1; min-width:0; }
+    .drill-hdr-txt h3   { font-size:.95rem; font-weight:700; margin:0; font-family:monospace;
+                          white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .drill-hdr-txt small{ font-size:.78rem; color:var(--sub); }
+    .drill-close   { background:none; border:none; cursor:pointer; padding:.35rem .45rem;
+                     color:var(--sub); border-radius:6px; font-size:1.2rem; line-height:1; flex-shrink:0; }
     .drill-close:hover { background:var(--red-lt); color:var(--red); }
-    .drill-body      { padding:1rem 1.25rem; max-height:65vh; overflow:auto; }
-    .drill-table     { width:100%; border-collapse:collapse; font-size:.78rem;
-                       white-space:nowrap; }
-    .drill-table th  { text-align:left; padding:.3rem .6rem; border-bottom:1.5px solid var(--border);
-                       position:sticky; top:0; background:var(--bg-card);
-                       font-size:.7rem; text-transform:uppercase; color:var(--sub); }
-    .drill-table td  { padding:.27rem .6rem; border-bottom:1px solid var(--border); }
-    .drill-table tr:hover td { background:var(--bg); }
+    .drill-body    { padding:1rem 1.25rem; overflow:auto; flex:1; }
+    .drill-tbl-wrap{ overflow-x:auto; }
+    .drill-table   { border-collapse:collapse; font-size:.78rem; white-space:nowrap; }
+    .drill-table th{ text-align:left; padding:.35rem .7rem; border-bottom:1.5px solid var(--border);
+                     position:sticky; top:0; background:#fff;
+                     font-size:.7rem; text-transform:uppercase; color:var(--sub); min-width:120px; }
+    .drill-table th.hl { background:#e8f0fe; color:#1560a8; }
+    .drill-table td{ padding:.3rem .7rem; border-bottom:1px solid var(--border); min-width:120px; }
+    .drill-table td.hl { background:#f0f7ff; }
+    .drill-table tbody tr:hover td     { background:#f8fafc; }
+    .drill-table tbody tr:hover td.hl  { background:#e8f0fe; }
+    .drill-ftr     { padding:.75rem 1.25rem; border-top:1.5px solid var(--border); flex-shrink:0;
+                     display:flex; justify-content:flex-end; }
+    .drill-ftr-btn { font-size:.82rem; padding:.4rem 1.2rem; border-radius:8px; cursor:pointer;
+                     background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
+    .drill-ftr-btn:hover { background:var(--blue-dk); }
 
     /* ── Data Profiling Screen ────────────────────────────────────── */
     .prof-alerts { display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.25rem; }
@@ -1522,23 +1538,7 @@
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- DRILL-THROUGH MODAL -->
-<div id="drillModal" onclick="if(event.target===this)closeDrillModal()">
-  <div class="drill-box">
-    <div class="drill-hdr">
-      <h3 id="drillTitle">Registros con patrón</h3>
-      <span id="drillCount" style="font-size:.8rem;color:var(--sub)"></span>
-      <button class="drill-close" onclick="closeDrillModal()" title="Cerrar">✕</button>
-    </div>
-    <div class="drill-body">
-      <div id="drillContent">
-        <div class="spinner-wrap visible" style="padding:2rem">
-          <div class="spinner"></div><p>Cargando registros...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Drill-through modal is created dynamically by openDrillModal() -->
 
 <!-- ═══════════════════════════════════════════
      HELP OVERLAY + SIDEBAR
@@ -2057,6 +2057,7 @@ const API = 'http://127.0.0.1:8000';
 let state = { fileId: null, columns: [], analysisResult: null };
 let allIssues = [];
 let currentUser = null;
+const _maskData = {};   // keyed by maskTableId — stores {mascaras, colName, maxMaskCount}
 
 // ─────────────────────────────────────────────────────────────────────
 // Auth helpers
@@ -2373,21 +2374,24 @@ function _renderTexto(p, colName) {
   const visibleMasks = mascaras.slice(0, VISIBLE_ROWS);
   const hiddenCount  = mascaras.length - VISIBLE_ROWS;
 
+  const maskTableId = `masktable-${safeId(colName || '')}`;
+  const maskMoreId  = `maskmore-${safeId(colName || '')}`;
+
+  // Store mask data for expand/collapse (avoids JSON-in-onclick issues)
+  _maskData[maskTableId] = { mascaras, colName: colName || '', maxMaskCount };
+
+  const _ea = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
   const maskRowHTML = (mRows) => mRows.map(m => {
-    const w = Math.round((m.Count / maxMaskCount) * 90);
-    const safeCol  = (colName || '').replace(/'/g, "\\'");
-    const safeMask = m.Mascara.replace(/'/g, "\\'");
+    const w = Math.round((m.Count / maxMaskCount) * 100);
     return `<tr>
-      <td><span class="mask-code">${m.Mascara}</span></td>
+      <td><span class="mask-code">${_ea(m.Mascara)}</span></td>
       <td>${m.Count.toLocaleString()}</td>
       <td>${m.Porcentaje}%</td>
       <td class="mask-bar-cell"><div class="mask-bar" style="width:${w}px"></div></td>
-      <td><button class="mask-drill-btn" onclick="openDrillModal('${safeCol}','${safeMask}')">Ver registros</button></td>
+      <td><button class="mask-drill-btn" data-col="${_ea(colName||'')}" data-mask="${_ea(m.Mascara)}"
+            onclick="openDrillModal(this.dataset.col,this.dataset.mask)">Ver registros</button></td>
     </tr>`;
   }).join('');
-
-  const maskTableId = `masktable-${safeId(colName || '')}`;
-  const maskMoreId  = `maskmore-${safeId(colName || '')}`;
 
   const maskHTML = mascaras.length === 0 ? '' : `
     <div class="mask-section">
@@ -2398,10 +2402,11 @@ function _renderTexto(p, colName) {
       <p class="mask-hint">Cada carácter se convierte en L (mayúscula), l (minúscula), D (dígito), s (espacio) o se mantiene si es especial. Permite detectar inconsistencias de formato.</p>
       <table class="mask-table">
         <thead><tr><th>Patrón</th><th>Cantidad</th><th>%</th><th>Distribución</th><th>Acción</th></tr></thead>
-        <tbody id="${maskTableId}">${maskRowHTML(visibleMasks)}</tbody>
+        <tbody id="${maskTableId}" data-col="${_ea(colName||'')}">${maskRowHTML(visibleMasks)}</tbody>
       </table>
       ${hiddenCount > 0 ? `
-        <button class="mask-show-more" id="${maskMoreId}" onclick="expandMaskTable('${maskTableId}','${maskMoreId}',${JSON.stringify(mascaras)})">
+        <button class="mask-show-more" id="${maskMoreId}" data-expanded="false"
+                onclick="expandMaskTable('${maskTableId}','${maskMoreId}')">
           ▼ Ver todos los patrones (${mascaras.length})
         </button>` : ''}
     </div>`;
@@ -2533,37 +2538,77 @@ async function exportProfile() {
   } catch(e) { toast(e.message, 'error'); }
 }
 
-function expandMaskTable(tbodyId, btnId, allMasks) {
+function expandMaskTable(tbodyId, btnId) {
   const tbody = document.getElementById(tbodyId);
   const btn   = document.getElementById(btnId);
-  if (!tbody) return;
-  const maxCount = allMasks.length ? Math.max(...allMasks.map(m => m.Count)) : 1;
-  tbody.innerHTML = allMasks.map(m => {
-    const w = Math.round((m.Count / maxCount) * 90);
-    const safeMask = m.Mascara.replace(/'/g, "\\'");
-    // get colName from tbody data attribute
-    const colName = tbody.getAttribute('data-col') || '';
-    return `<tr>
-      <td><span class="mask-code">${m.Mascara}</span></td>
-      <td>${m.Count.toLocaleString()}</td>
-      <td>${m.Porcentaje}%</td>
-      <td class="mask-bar-cell"><div class="mask-bar" style="width:${w}px"></div></td>
-      <td><button class="mask-drill-btn" onclick="openDrillModal('${colName}','${safeMask}')">Ver registros</button></td>
-    </tr>`;
-  }).join('');
-  if (btn) btn.remove();
+  if (!tbody || !btn) return;
+
+  const data = _maskData[tbodyId];
+  if (!data) return;
+  const { mascaras, colName, maxMaskCount } = data;
+  const VISIBLE   = 15;
+  const expanded  = btn.dataset.expanded === 'true';
+  const _ea = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
+  if (expanded) {
+    // Collapse: remove rows beyond VISIBLE
+    Array.from(tbody.querySelectorAll('tr')).slice(VISIBLE).forEach(r => r.remove());
+    btn.innerHTML = `▼ Ver todos los patrones (${mascaras.length})`;
+    btn.dataset.expanded = 'false';
+  } else {
+    // Expand: append remaining rows with fade-in animation
+    mascaras.slice(VISIBLE).forEach(m => {
+      const w  = Math.round((m.Count / maxMaskCount) * 100);
+      const tr = document.createElement('tr');
+      tr.className = 'mask-row-anim';
+      tr.innerHTML = `
+        <td><span class="mask-code">${_ea(m.Mascara)}</span></td>
+        <td>${m.Count.toLocaleString()}</td>
+        <td>${m.Porcentaje}%</td>
+        <td class="mask-bar-cell"><div class="mask-bar" style="width:${w}px"></div></td>
+        <td><button class="mask-drill-btn" data-col="${_ea(colName)}" data-mask="${_ea(m.Mascara)}"
+              onclick="openDrillModal(this.dataset.col,this.dataset.mask)">Ver registros</button></td>`;
+      tbody.appendChild(tr);
+    });
+    btn.innerHTML = '▲ Ver menos';
+    btn.dataset.expanded = 'true';
+  }
 }
 
 async function openDrillModal(colName, mascara) {
-  const modal = document.getElementById('drillModal');
-  const title = document.getElementById('drillTitle');
-  const count = document.getElementById('drillCount');
-  const content = document.getElementById('drillContent');
+  // Create overlay dynamically so it sits above everything
+  const _ea = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const overlay = document.createElement('div');
+  overlay.className = 'drill-overlay';
+  overlay.id = 'drillOverlay';
+  overlay.innerHTML = `
+    <div class="drill-box">
+      <div class="drill-hdr">
+        <div class="drill-hdr-txt">
+          <h3>Registros con patrón: ${_ea(mascara)}</h3>
+          <small id="drillCount">Cargando…</small>
+        </div>
+        <button class="drill-close" onclick="closeDrillModal()" title="Cerrar">✕</button>
+      </div>
+      <div class="drill-body" id="drillContent">
+        <div class="spinner-wrap visible" style="padding:2rem">
+          <div class="spinner"></div><p>Cargando registros…</p>
+        </div>
+      </div>
+      <div class="drill-ftr">
+        <button class="drill-ftr-btn" onclick="closeDrillModal()">Cerrar</button>
+      </div>
+    </div>`;
 
-  title.textContent = `Patrón: ${mascara}`;
-  count.textContent = '';
-  content.innerHTML = `<div class="spinner-wrap visible" style="padding:2rem"><div class="spinner"></div><p>Cargando registros...</p></div>`;
-  modal.classList.add('open');
+  // Close on overlay background click
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeDrillModal(); });
+
+  // Close on Escape key
+  const _escHandler = e => { if (e.key === 'Escape') closeDrillModal(); };
+  document.addEventListener('keydown', _escHandler);
+  overlay._escHandler = _escHandler;
+
+  document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
   try {
@@ -2575,32 +2620,50 @@ async function openDrillModal(colName, mascara) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Error al cargar registros');
 
-    count.textContent = `${data.total.toLocaleString()} registro${data.total !== 1 ? 's' : ''}`;
+    const countEl  = document.getElementById('drillCount');
+    const content  = document.getElementById('drillContent');
+    if (!countEl || !content) return;
+
+    const total = data.total || 0;
+    countEl.textContent = `${total.toLocaleString()} registro${total !== 1 ? 's' : ''} encontrado${total !== 1 ? 's' : ''}`;
+
     const cols = data.columnas || [];
     const rows = data.registros || [];
 
     if (rows.length === 0) {
-      content.innerHTML = `<p style="color:var(--sub);padding:1rem">No se encontraron registros.</p>`;
+      content.innerHTML = `<p style="color:var(--sub);padding:1rem 0">No se encontraron registros con este patrón.</p>`;
       return;
     }
 
-    const theadCells = cols.map(c => `<th>${c}</th>`).join('');
-    const tbodyRows  = rows.map(r =>
-      `<tr>${cols.map(c => `<td>${r[c] ?? ''}</td>`).join('')}</tr>`
+    const hlIdx     = cols.indexOf(colName);
+    const theadCells = cols.map((c, i) =>
+      `<th class="${i === hlIdx ? 'hl' : ''}">${_ea(c)}</th>`
+    ).join('');
+    const tbodyRows = rows.map(r =>
+      `<tr>${cols.map((c, i) =>
+        `<td class="${i === hlIdx ? 'hl' : ''}">${_ea(String(r[c] ?? ''))}</td>`
+      ).join('')}</tr>`
     ).join('');
 
     content.innerHTML = `
-      <table class="drill-table">
-        <thead><tr>${theadCells}</tr></thead>
-        <tbody>${tbodyRows}</tbody>
-      </table>`;
+      <div class="drill-tbl-wrap">
+        <table class="drill-table">
+          <thead><tr>${theadCells}</tr></thead>
+          <tbody>${tbodyRows}</tbody>
+        </table>
+      </div>`;
   } catch(e) {
-    content.innerHTML = `<p style="color:var(--red);padding:1rem">${e.message}</p>`;
+    const content = document.getElementById('drillContent');
+    if (content) content.innerHTML = `<p style="color:var(--red);padding:1rem 0">${_ea(e.message)}</p>`;
   }
 }
 
 function closeDrillModal() {
-  document.getElementById('drillModal').classList.remove('open');
+  const overlay = document.getElementById('drillOverlay');
+  if (overlay) {
+    if (overlay._escHandler) document.removeEventListener('keydown', overlay._escHandler);
+    overlay.remove();
+  }
   document.body.style.overflow = '';
 }
 
