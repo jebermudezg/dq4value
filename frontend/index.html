@@ -929,6 +929,76 @@
                      background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
     .drill-ftr-btn:hover { background:var(--blue-dk); }
 
+    /* ── Preparación del archivo — help section ─────────────────── */
+    .acc-item.acc-xl.open > .acc-body { max-height:9000px; transition:max-height .5s ease; }
+    .prep-subs   { display:flex; flex-direction:column; gap:.5rem; }
+    .prep-sub    { border:1.5px solid var(--border); border-radius:8px; overflow:hidden;
+                   transition:border-color .15s; }
+    .prep-sub.open { border-color:var(--blue); }
+    .prep-sub-trigger { display:flex; align-items:center; gap:.65rem; padding:.7rem .9rem;
+                        cursor:pointer; background:var(--surface); user-select:none;
+                        transition:background .15s; }
+    .prep-sub-trigger:hover { background:var(--bg); }
+    .prep-sub-icon  { width:28px; height:28px; border-radius:7px; display:flex;
+                      align-items:center; justify-content:center; flex-shrink:0; font-size:.9rem; }
+    .prep-sub-title { flex:1; font-size:.86rem; font-weight:600; }
+    .prep-sub-arrow { color:var(--muted); transition:transform .2s; flex-shrink:0; }
+    .prep-sub.open .prep-sub-arrow { transform:rotate(180deg); }
+    .prep-sub-panel { max-height:0; overflow:hidden; transition:max-height .3s ease;
+                      background:#fafbfc; border-top:0 solid var(--border); }
+    .prep-sub.open .prep-sub-panel { max-height:4000px; border-top-width:1px; }
+    .prep-sub-content { padding:.9rem 1rem 1.1rem; font-size:.83rem; color:var(--sub); line-height:1.6; }
+    .prep-cards  { display:flex; flex-direction:column; gap:.55rem; margin-top:.7rem; }
+    .prep-card   { display:flex; gap:.75rem; padding:.75rem; background:var(--surface);
+                   border:1px solid var(--border); border-radius:10px; align-items:flex-start; }
+    .prep-card-icon { font-size:1.25rem; flex-shrink:0; margin-top:.05rem; }
+    .prep-card h5 { font-size:.83rem; font-weight:700; color:var(--text); margin:0 0 .25rem; }
+    .prep-card p  { font-size:.79rem; color:var(--sub); margin:0; line-height:1.55; }
+    .prep-timeline { display:flex; flex-direction:column; gap:0; margin-top:.75rem; }
+    .prep-step   { display:flex; gap:.75rem; position:relative; padding-bottom:1.1rem; }
+    .prep-step:last-child { padding-bottom:0; }
+    .prep-step-num { width:28px; height:28px; border-radius:50%; background:var(--blue); color:#fff;
+                     font-size:.78rem; font-weight:700; display:flex; align-items:center;
+                     justify-content:center; flex-shrink:0; z-index:1; position:relative; }
+    .prep-step-line { position:absolute; left:13px; top:28px; bottom:0;
+                      width:2px; background:var(--border); }
+    .prep-step:last-child .prep-step-line { display:none; }
+    .prep-step-body h5 { font-size:.83rem; font-weight:700; color:var(--text); margin:0 0 .2rem; }
+    .prep-step-body p  { font-size:.79rem; color:var(--sub); margin:0; line-height:1.55; }
+    .prep-box-green { background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px;
+                      padding:.85rem 1rem; margin-top:.85rem; }
+    .prep-box-green h5 { font-size:.82rem; font-weight:700; color:#166534; margin:0 0 .35rem; }
+    .prep-box-green p  { font-size:.79rem; color:#166534; margin:0; line-height:1.55; }
+    .prep-box-blue { background:#f0f7ff; border:1.5px solid #bfdbfe; border-radius:10px;
+                     padding:.85rem 1rem; margin-bottom:.85rem; }
+    .prep-box-blue h5 { font-size:.82rem; font-weight:700; color:#1e3a5f; margin:0 0 .5rem; }
+    .prep-box-blue ul { margin:0; padding-left:1.15rem; }
+    .prep-box-blue li { font-size:.79rem; color:#1e3a5f; margin-bottom:.3rem; line-height:1.55; }
+    .prep-sql    { background:#f1f5f9; border-left:3px solid var(--blue); border-radius:0 8px 8px 0;
+                   padding:.75rem 1rem; margin:.65rem 0; font-family:'Courier New',monospace;
+                   font-size:.76rem; color:#0f172a; line-height:1.65; white-space:pre;
+                   overflow-x:auto; }
+    .prep-note   { background:#fffbeb; border-left:3px solid #f59e0b; border-radius:0 8px 8px 0;
+                   padding:.6rem .9rem; margin:.65rem 0; font-size:.79rem; color:#92400e;
+                   line-height:1.55; }
+    .prep-note code { background:#fde68a; border-radius:3px; padding:1px 4px;
+                      font-family:'Courier New',monospace; font-size:.75rem; }
+    .prep-db-table { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:.6rem; }
+    .prep-db-table th { text-align:left; padding:.3rem .65rem; background:#f1f5f9;
+                        border:1px solid var(--border); font-weight:700; color:var(--text); }
+    .prep-db-table td { padding:.28rem .65rem; border:1px solid var(--border); color:var(--sub); }
+    .prep-db-table td:last-child { font-family:'Courier New',monospace; font-size:.75rem; }
+    .prep-struct-table { width:100%; border-collapse:collapse; font-size:.78rem; margin:.6rem 0; }
+    .prep-struct-table th { text-align:left; padding:.28rem .65rem; background:#f8f9fa;
+                             border:1px solid var(--border); font-weight:700; color:var(--sub);
+                             font-size:.72rem; text-transform:uppercase; }
+    .prep-struct-table td { padding:.26rem .65rem; border:1px solid var(--border);
+                             color:var(--sub); font-size:.79rem; }
+    .prep-privacy { background:#f0f7ff; border:2px solid #1560a8; border-radius:10px;
+                    padding:1rem 1.1rem; display:flex; gap:.8rem; align-items:flex-start; }
+    .prep-privacy-icon { font-size:1.5rem; flex-shrink:0; line-height:1; }
+    .prep-privacy p { font-size:.8rem; color:#0f2942; line-height:1.7; font-style:italic; margin:0; }
+
     /* ── Data Profiling Screen ────────────────────────────────────── */
     .prof-alerts { display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.25rem; }
     .prof-alert  { display:flex; align-items:flex-start; gap:.6rem; padding:.65rem .9rem;
@@ -1738,6 +1808,271 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2.5 — Preparación del archivo de datos -->
+    <div class="help-section">
+      <div class="accordion">
+        <div class="acc-item acc-xl" data-acc="prep-datos">
+          <div class="acc-trigger" onclick="toggleAcc('prep-datos')">
+            <div class="acc-icon" style="background:#f0f7ff;color:#1560a8">🗄️</div>
+            <span class="acc-title">Preparación del archivo de datos</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body">
+            <div class="acc-content">
+              <div class="prep-subs">
+
+                <!-- ── Subsección 1 ── -->
+                <div class="prep-sub" data-sub="prep-s1">
+                  <div class="prep-sub-trigger" onclick="togglePrepSub('prep-s1')">
+                    <div class="prep-sub-icon" style="background:#f0f7ff;color:#1560a8">📁</div>
+                    <span class="prep-sub-title">Por qué archivo de texto y no conexión directa a base de datos</span>
+                    <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                  <div class="prep-sub-panel">
+                    <div class="prep-sub-content">
+                      <p>DQ4Value evalúa la calidad de datos mediante archivos de texto (CSV o Excel) en lugar de conectarse directamente a las bases de datos. Esta decisión no es una limitación técnica — es una decisión de arquitectura deliberada basada en principios de gobierno de datos, seguridad y buenas prácticas.</p>
+                      <div class="prep-cards">
+                        <div class="prep-card">
+                          <span class="prep-card-icon">🔒</span>
+                          <div>
+                            <h5>Seguridad y gobierno de accesos</h5>
+                            <p>Conectar una herramienta externa directamente a una base de datos de producción implica otorgarle credenciales de acceso, violando el principio de mínimo privilegio. Con el modelo de archivo, la herramienta nunca ve la base de datos — solo ve el subconjunto que el responsable decidió extraer.</p>
+                          </div>
+                        </div>
+                        <div class="prep-card">
+                          <span class="prep-card-icon">⚙️</span>
+                          <div>
+                            <h5>Independencia tecnológica</h5>
+                            <p>Una conexión directa requiere drivers y conectores específicos para cada motor (Oracle, SQL Server, PostgreSQL, SAP HANA, Snowflake, etc.). El archivo CSV o Excel es el formato universal de intercambio — cualquier sistema puede exportarlo sin configuración adicional.</p>
+                          </div>
+                        </div>
+                        <div class="prep-card">
+                          <span class="prep-card-icon">🔍</span>
+                          <div>
+                            <h5>Control del alcance del análisis</h5>
+                            <p>Con el modelo de archivo, el responsable de datos decide exactamente qué columnas y qué registros se van a evaluar. No hay riesgo de analizar más datos de los necesarios ni de que una consulta consuma recursos del servidor de producción.</p>
+                          </div>
+                        </div>
+                        <div class="prep-card">
+                          <span class="prep-card-icon">🕐</span>
+                          <div>
+                            <h5>Trazabilidad y auditoría</h5>
+                            <p>El archivo de texto es un artefacto auditable. Queda registro de qué datos se extrajeron, cuándo, por quién y con qué criterios — algo mucho más difícil de garantizar con conexiones directas.</p>
+                          </div>
+                        </div>
+                        <div class="prep-card">
+                          <span class="prep-card-icon">⚡</span>
+                          <div>
+                            <h5>Sin impacto en producción</h5>
+                            <p>Una evaluación de calidad implica miles de comparaciones y cálculos estadísticos. Con el modelo de archivo, todo el procesamiento ocurre en el servidor de DQ4Value sin ningún impacto sobre los sistemas fuente de la organización.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── Subsección 2 ── -->
+                <div class="prep-sub" data-sub="prep-s2">
+                  <div class="prep-sub-trigger" onclick="togglePrepSub('prep-s2')">
+                    <div class="prep-sub-icon" style="background:#f0fdf4;color:#16a34a">🔄</div>
+                    <span class="prep-sub-title">Qué hace DQ4Value con el archivo que subes</span>
+                    <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                  <div class="prep-sub-panel">
+                    <div class="prep-sub-content">
+                      <p>El tratamiento del archivo sigue un ciclo de vida estricto que garantiza que tus datos no quedan almacenados en el sistema:</p>
+                      <div class="prep-timeline">
+                        <div class="prep-step">
+                          <div class="prep-step-num">1</div>
+                          <div class="prep-step-line"></div>
+                          <div class="prep-step-body">
+                            <h5>Recepción</h5>
+                            <p>El archivo se recibe y se guarda temporalmente con un nombre anónimo generado automáticamente (UUID). El nombre original del archivo nunca se usa como nombre de almacenamiento.</p>
+                          </div>
+                        </div>
+                        <div class="prep-step">
+                          <div class="prep-step-num">2</div>
+                          <div class="prep-step-line"></div>
+                          <div class="prep-step-body">
+                            <h5>Procesamiento</h5>
+                            <p>El archivo se carga en memoria para ejecutar el análisis. El procesamiento ocurre completamente en RAM — el archivo en disco no se vuelve a leer.</p>
+                          </div>
+                        </div>
+                        <div class="prep-step">
+                          <div class="prep-step-num">3</div>
+                          <div class="prep-step-line"></div>
+                          <div class="prep-step-body">
+                            <h5>Análisis</h5>
+                            <p>Se ejecutan las dimensiones de calidad configuradas. Todo el cálculo ocurre en memoria, aislado del sistema de almacenamiento.</p>
+                          </div>
+                        </div>
+                        <div class="prep-step">
+                          <div class="prep-step-num">4</div>
+                          <div class="prep-step-line"></div>
+                          <div class="prep-step-body">
+                            <h5>Eliminación automática</h5>
+                            <p>Al finalizar el análisis, el archivo temporal se elimina del disco de forma inmediata y verificada. Lo que persiste en la base de datos <strong>NO es el contenido de los datos</strong> sino únicamente: nombre del archivo, fecha, total de registros y score general.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="prep-box-green">
+                        <h5>✓ Lo que NUNCA se guarda</h5>
+                        <p>El contenido de los datos, los valores individuales de los registros, ni ninguna información de negocio del cliente. DQ4Value no tiene ni necesita acceso directo a las bases de datos de la organización.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── Subsección 3 ── -->
+                <div class="prep-sub" data-sub="prep-s3">
+                  <div class="prep-sub-trigger" onclick="togglePrepSub('prep-s3')">
+                    <div class="prep-sub-icon" style="background:#fefce8;color:#854d0e">🛠️</div>
+                    <span class="prep-sub-title">Cómo preparar el archivo de evaluación</span>
+                    <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                  <div class="prep-sub-panel">
+                    <div class="prep-sub-content">
+                      <p>El archivo de evaluación no es una copia de la tabla completa. Es un subconjunto estructurado que contiene únicamente los campos relevantes para el análisis, con un identificador único que permita rastrear cada registro problemático hasta su fuente.</p>
+                      <div class="prep-box-blue">
+                        <h5>📌 Tres reglas de oro</h5>
+                        <ul>
+                          <li><strong>Siempre incluya un campo de ID único.</strong> Sin él, los problemas encontrados no se pueden localizar ni corregir en el sistema origen.</li>
+                          <li><strong>Solo incluya los campos que va a evaluar.</strong> No extraiga columnas innecesarias — reduce el riesgo de exposición de datos sensibles y mejora el rendimiento.</li>
+                          <li><strong>El archivo debe ser plano: una fila = un registro.</strong> Sin subtotales, sin encabezados adicionales, sin filas de resumen.</li>
+                        </ul>
+                      </div>
+                      <!-- Casos internos -->
+                      <div class="prep-subs">
+
+                        <!-- Caso 1 -->
+                        <div class="prep-sub" data-sub="prep-caso1">
+                          <div class="prep-sub-trigger" onclick="togglePrepSub('prep-caso1')">
+                            <div class="prep-sub-icon" style="background:#f0fdf4;color:#166534">📋</div>
+                            <span class="prep-sub-title">Caso 1 — Tabla maestra (Master Data)</span>
+                            <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                          </div>
+                          <div class="prep-sub-panel">
+                            <div class="prep-sub-content">
+                              <p>Una tabla maestra contiene entidades únicas de negocio: clientes, proveedores, productos, empleados. Cada entidad aparece una sola vez identificada por su clave primaria.</p>
+                              <table class="prep-struct-table">
+                                <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+                                <tbody>
+                                  <tr><td>ID único</td><td>Clave primaria de la entidad (cliente_id, nit, codigo_producto)</td></tr>
+                                  <tr><td>Campos a evaluar</td><td>Solo los atributos que se van a medir</td></tr>
+                                </tbody>
+                              </table>
+                              <pre class="prep-sql">SELECT
+    cliente_id,          -- ID único obligatorio
+    nombre_completo,
+    email,
+    telefono,
+    ciudad,
+    fecha_registro,
+    estado_cliente,
+    segmento
+FROM maestro_clientes
+WHERE activo = 1
+ORDER BY cliente_id;</pre>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Caso 2 -->
+                        <div class="prep-sub" data-sub="prep-caso2">
+                          <div class="prep-sub-trigger" onclick="togglePrepSub('prep-caso2')">
+                            <div class="prep-sub-icon" style="background:#fefce8;color:#854d0e">🔀</div>
+                            <span class="prep-sub-title">Caso 2 — Tabla transaccional</span>
+                            <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                          </div>
+                          <div class="prep-sub-panel">
+                            <div class="prep-sub-content">
+                              <p>Las tablas transaccionales tienen estructura cabecera-detalle. Si se evalúa solo el ID de cabecera habrá duplicados porque hay múltiples líneas por documento. La solución es crear un ID compuesto único por fila: ID cabecera + separador + ID detalle.</p>
+                              <pre class="prep-sql">SELECT
+    CONCAT(orden_id, '-', linea_id) AS id_registro,
+    orden_id,
+    linea_id,
+    producto_codigo,
+    cantidad,
+    precio_unitario,
+    fecha_entrega,
+    estado_linea,
+    proveedor_id
+FROM detalle_ordenes
+WHERE fecha_creacion >= '2024-01-01'
+ORDER BY orden_id, linea_id;</pre>
+                              <div class="prep-note">El campo <code>id_registro</code> es el que se selecciona como <strong>Columna ID única</strong> en DQ4Value. Cuando el sistema reporta un problema en el registro <code>ORD-2024-00145-003</code>, el analista sabe que es la orden 2024-00145, línea 003.</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Caso 3 -->
+                        <div class="prep-sub" data-sub="prep-caso3">
+                          <div class="prep-sub-trigger" onclick="togglePrepSub('prep-caso3')">
+                            <div class="prep-sub-icon" style="background:#faf5ff;color:#7c3aed">🔑</div>
+                            <span class="prep-sub-title">Caso 3 — ID natural débil (sin clave técnica)</span>
+                            <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                          </div>
+                          <div class="prep-sub-panel">
+                            <div class="prep-sub-content">
+                              <p>Algunos sistemas no tienen un ID técnico limpio. En ese caso se construye uno con los campos que en conjunto identifican unívocamente el registro.</p>
+                              <pre class="prep-sql">SELECT
+    CONCAT(nit_empresa, '-', periodo_fiscal, '-', tipo_pago) AS id_registro,
+    nit_empresa,
+    razon_social,
+    periodo_fiscal,
+    tipo_pago,
+    monto,
+    fecha_pago,
+    banco,
+    referencia
+FROM pagos_fiscales
+ORDER BY nit_empresa, periodo_fiscal;</pre>
+                              <p style="font-size:.81rem;font-weight:700;color:var(--text);margin:.85rem 0 .4rem">Sintaxis CONCAT por motor de base de datos</p>
+                              <table class="prep-db-table">
+                                <thead><tr><th>Motor</th><th>Sintaxis</th></tr></thead>
+                                <tbody>
+                                  <tr><td>PostgreSQL</td><td>CONCAT(campo1, '-', campo2) &nbsp;·&nbsp; campo1 || '-' || campo2</td></tr>
+                                  <tr><td>SQL Server</td><td>CONCAT(campo1, '-', campo2) &nbsp;·&nbsp; campo1 + '-' + campo2</td></tr>
+                                  <tr><td>Oracle</td><td>campo1 || '-' || campo2</td></tr>
+                                  <tr><td>MySQL / MariaDB</td><td>CONCAT(campo1, '-', campo2)</td></tr>
+                                  <tr><td>SAP HANA</td><td>CONCAT(campo1, CONCAT('-', campo2))</td></tr>
+                                  <tr><td>Snowflake / BigQuery</td><td>CONCAT(campo1, '-', campo2)</td></tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div><!-- /prep-subs casos -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── Subsección 4 ── -->
+                <div class="prep-sub" data-sub="prep-s4">
+                  <div class="prep-sub-trigger" onclick="togglePrepSub('prep-s4')">
+                    <div class="prep-sub-icon" style="background:#f0f7ff;color:#1560a8">🛡️</div>
+                    <span class="prep-sub-title">Declaración de privacidad</span>
+                    <svg class="prep-sub-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                  <div class="prep-sub-panel">
+                    <div class="prep-sub-content">
+                      <div class="prep-privacy">
+                        <span class="prep-privacy-icon">🛡️</span>
+                        <p>DQ4Value procesa los archivos de datos exclusivamente en memoria durante la sesión de análisis. Los archivos subidos se eliminan automáticamente del servidor al finalizar el procesamiento. La plataforma no almacena, replica, indexa ni retiene el contenido de los datos evaluados. El único dato persistente es la metadata del análisis: nombre del archivo, fecha, total de registros analizados y scores de calidad. DQ4Value no tiene ni necesita acceso directo a las bases de datos del cliente.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /prep-subs principal -->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3564,6 +3899,12 @@ function toggleAcc(key) {
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
+}
+
+// Independent toggle for nested prep-sub panels (multiple can be open simultaneously)
+function togglePrepSub(key) {
+  const item = document.querySelector(`.prep-sub[data-sub="${key}"]`);
+  if (item) item.classList.toggle('open');
 }
 
 // ─────────────────────────────────────────────────────────────────────
