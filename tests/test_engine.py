@@ -11,6 +11,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from engine.profiler import profile_dataset
+from ai.claude_analyzer import suggest_dimensions_rules
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -155,3 +156,64 @@ def test_profiler_no_explota_con_tipos_raros():
     # No debe lanzar excepción
     result = profile_dataset(df)
     assert "columnas" in result
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tests motor de sugerencias con perfil
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_sugerencias_con_perfil_numerico_outliers():
+    """Columna numérica con outliers → Exactitud alta confianza con rango p5-p95."""
+    col_meta = {"nombre": "salario", "tipo": "float64", "total_registros": 100, "valores_nulos": 0}
+    col_profile = {"outliers_count": 5, "p5": 1500.0, "p95": 8000.0, "pct_negativos": 0}
+    sugs = suggest_dimensions_rules([col_meta], profile={"salario": col_profile})
+    dims = {s["dimension"]: s for s in sugs[0]["dimensiones"]}
+
+    assert "exactitud" in dims
+    assert dims["exactitud"]["confianza"] == "alta"
+    assert dims["exactitud"]["params"]["min_value"] == 1500.0
+    assert dims["exactitud"]["params"]["max_value"] == 8000.0
+    assert "razonabilidad" in dims
+    assert dims["razonabilidad"]["confianza"] == "alta"
+
+
+def test_sugerencias_con_catalogo_detectado():
+    """Columna texto con catálogo → Validez alta confianza con valores pre-cargados."""
+    col_meta = {"nombre": "estado", "tipo": "object", "total_registros": 100, "valores_nulos": 0}
+    col_profile = {
+        "es_catalogo": True,
+        "top_10_valores": [{"valor": "Activo"}, {"valor": "Inactivo"}, {"valor": "Suspendido"}],
+        "total_unicos": 3,
+    }
+    sugs = suggest_dimensions_rules([col_meta], profile={"estado": col_profile})
+    dims = {s["dimension"]: s for s in sugs[0]["dimensiones"]}
+
+    assert "validez" in dims
+    assert dims["validez"]["confianza"] == "alta"
+    assert "Activo" in dims["validez"]["params"]["valid_values"]
+
+
+def test_sugerencias_con_fechas_futuras():
+    """Columna fecha con fechas futuras → Vigencia alta confianza."""
+    col_meta = {"nombre": "fecha_registro", "tipo": "object", "total_registros": 100, "valores_nulos": 0}
+    col_profile = {
+        "pct_fechas_futuras": 3.5,
+        "pct_fechas_antiguas": 2.0,
+        "formatos_detectados": ["%Y-%m-%d"],
+    }
+    sugs = suggest_dimensions_rules([col_meta], profile={"fecha_registro": col_profile})
+    dims = {s["dimension"]: s for s in sugs[0]["dimensiones"]}
+
+    assert "vigencia" in dims
+    assert dims["vigencia"]["confianza"] == "alta"
+    assert "3.5%" in dims["vigencia"]["razon"]
+
+
+def test_sugerencias_sin_perfil_compatibilidad():
+    """Sin perfil → debe seguir funcionando con reglas básicas por nombre."""
+    col_meta = {"nombre": "email", "tipo": "object", "total_registros": 100, "valores_nulos": 5}
+    sugs = suggest_dimensions_rules([col_meta], profile=None)
+    dims = {s["dimension"]: s for s in sugs[0]["dimensiones"]}
+
+    assert "completitud" in dims
+    assert "validez" in dims

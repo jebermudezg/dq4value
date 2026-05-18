@@ -637,13 +637,20 @@ def ai_suggest(request: SuggestRequest, authorization: str = Header(None)):
             ci["top_values"] = []
 
     # Pass real profile so suggestions are evidence-based
+    profile: dict | None = None
     try:
-        perfil = profile_dataset(df)
-        perfil_columnas = perfil.get("columnas", {})
+        perfil  = profile_dataset(df)
+        profile = perfil.get("columnas", {})
     except Exception:
-        perfil_columnas = None
+        pass
 
-    return suggest_dimensions_rules(col_info, perfil_columnas=perfil_columnas)
+    suggestions = suggest_dimensions_rules(col_info, profile=profile)
+    return {
+        "sugerencias":    suggestions,
+        "ia_disponible":  False,
+        "motor":          "rules+profile" if profile else "rules",
+        "total_columnas": len(suggestions),
+    }
 
 
 @app.get("/issues/{file_id}")

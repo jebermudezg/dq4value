@@ -247,6 +247,21 @@
       color: #fff; font-weight: 600;
     }
     .dim-check.checked:hover { background: var(--blue-dk); border-color: var(--blue-dk); }
+    /* Confidence dots inside dimension chips */
+    .conf-dot {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      flex-shrink: 0; margin-right: 2px; vertical-align: middle;
+    }
+    .conf-dot.conf-alta  { background: #22c55e; }
+    .conf-dot.conf-media { background: #f59e0b; }
+    .conf-dot.conf-baja  { background: #9ca3af; }
+    /* Medium-confidence chip — dashed amber border */
+    .dim-check.chip-media {
+      border: 1.5px dashed #f59e0b !important;
+    }
+    .dim-check.chip-media.checked {
+      background: var(--blue); border: 1.5px dashed #f59e0b !important; color: #fff;
+    }
 
     /* Param panels — animación con max-height */
     .dim-params {
@@ -3402,29 +3417,64 @@ async function suggestConfig() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Error al obtener sugerencias');
 
-    const sugs = data.sugerencias || {};
-    let colCount = 0;
+    // New format: data.sugerencias is a list [{columna, dimensiones:[{dimension, params, confianza, razon}]}]
+    const sugs = data.sugerencias || [];
+    let colCount = 0, highCount = 0, medCount = 0;
 
-    Object.entries(sugs).forEach(([colName, sug]) => {
+    sugs.forEach(colSug => {
+      const colName = colSug.columna;
+      const dims    = colSug.dimensiones || [];
+      if (!colName || !dims.length) return;
+
       const sid = safeId(colName);
-      const dims = sug.dimensiones || {};
-      const razon = sug.razon || '';
 
-      // Mostrar razón debajo del nombre de columna
+      // Mostrar la razón más relevante (primera de alta confianza, o la primera)
       const reasonEl = document.getElementById(`reason-${sid}`);
-      if (reasonEl && razon) reasonEl.textContent = '✦ ' + razon;
+      if (reasonEl) {
+        const topRazon = (dims.find(d => d.confianza === 'alta') || dims[0])?.razon || '';
+        if (topRazon) {
+          reasonEl.innerHTML = `<em style="color:#6b7280;font-size:.78rem">✦ ${topRazon}</em>`;
+        }
+      }
 
-      // Activar chips y rellenar parámetros
-      Object.entries(dims).forEach(([dimKey, params]) => {
+      dims.forEach(dimSug => {
+        const { dimension: dimKey, params = {}, confianza, razon: dimRazon } = dimSug;
         const chip = document.getElementById(`label-${sid}-${dimKey}`);
         if (!chip) return;
 
-        // Activar chip si no está ya activo
-        if (!chip.classList.contains('checked')) {
-          chip.classList.add('checked');
-          const panel = document.getElementById(`params-${sid}-${dimKey}`);
-          if (panel) panel.classList.add('visible');
+        // Añadir punto de confianza (solo una vez por chip)
+        if (!chip.querySelector('.conf-dot')) {
+          const dot = document.createElement('span');
+          dot.className = `conf-dot conf-${confianza}`;
+          const tipMap = {
+            alta:  'Alta confianza — evidencia directa en los datos',
+            media: 'Confianza media — basado en nombre/tipo de columna',
+            baja:  'Baja confianza — sugerencia genérica',
+          };
+          dot.title = tipMap[confianza] || '';
+          chip.prepend(dot);
         }
+
+        if (confianza === 'alta') {
+          // Activar automáticamente
+          if (!chip.classList.contains('checked')) {
+            chip.classList.add('checked');
+            chip.classList.remove('chip-media');
+            const panel = document.getElementById(`params-${sid}-${dimKey}`);
+            if (panel) panel.classList.add('visible');
+          }
+          highCount++;
+        } else if (confianza === 'media') {
+          // Activar con borde dashed amarillo
+          if (!chip.classList.contains('checked')) {
+            chip.classList.add('checked');
+            const panel = document.getElementById(`params-${sid}-${dimKey}`);
+            if (panel) panel.classList.add('visible');
+          }
+          chip.classList.add('chip-media');
+          medCount++;
+        }
+        // baja: solo muestra el punto gris, no activa
 
         // Rellenar parámetros según dimensión
         _applyDimParams(sid, dimKey, params);
@@ -3433,7 +3483,10 @@ async function suggestConfig() {
       colCount++;
     });
 
-    resultEl.textContent = `✓ Configuración sugerida para ${colCount} columnas. Puedes ajustar antes de ejecutar.`;
+    resultEl.innerHTML =
+      `✓ IA configuró <strong>${colCount}</strong> columnas — ` +
+      `<strong>${highCount}</strong> dimensiones con alta confianza activadas automáticamente, ` +
+      `<strong>${medCount}</strong> con confianza media para tu revisión.`;
     resultEl.classList.add('visible');
   } catch (e) {
     toast(e.message, 'error');
