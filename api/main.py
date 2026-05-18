@@ -650,10 +650,10 @@ def ai_suggest(request: SuggestRequest, authorization: str = Header(None)):
 def get_issues(file_id: str, authorization: str = Header(None)):
     get_current_user(authorization)
 
-    if file_id not in _file_store:
-        raise HTTPException(status_code=404, detail=f"Archivo '{file_id}' no encontrado.")
+    # Note: _file_store is cleaned up after /analyze completes (temp file deleted).
+    # Issues data lives in _analysis_store — that's the only check needed here.
     if file_id not in _analysis_store:
-        raise HTTPException(status_code=400, detail="Ejecuta primero POST /analyze.")
+        raise HTTPException(status_code=404, detail=f"No se encontró análisis para '{file_id}'. Ejecuta primero POST /analyze.")
 
     issues_df = _analysis_store[file_id]["issues_df"]
     if issues_df.empty:
