@@ -293,6 +293,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 
     stored = _file_store[request.file_id]
     df = stored["df"]
+    file_path = Path(stored.get("path", ""))   # grab path now — needed for cleanup
 
     if request.id_column not in df.columns:
         raise HTTPException(
@@ -330,52 +331,63 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 
     loop = asyncio.get_event_loop()
     try:
-        results = await loop.run_in_executor(None, _run_sync)
-    except Exception as e:
-        print("ERROR DETALLADO:")
-        traceback.print_exc()
-        _progress_store[fid] = {"pct": 0, "message": str(e), "done": True, "error": str(e)}
-        if isinstance(e, (ValueError, RuntimeError)):
-            raise HTTPException(status_code=400, detail=str(e))
-        raise HTTPException(status_code=500, detail=f"Error interno durante el análisis: {e}")
+        try:
+            results = await loop.run_in_executor(None, _run_sync)
+        except Exception as e:
+            print("ERROR DETALLADO:")
+            traceback.print_exc()
+            _progress_store[fid] = {"pct": 0, "message": str(e), "done": True, "error": str(e)}
+            if isinstance(e, (ValueError, RuntimeError)):
+                raise HTTPException(status_code=400, detail=str(e))
+            raise HTTPException(status_code=500, detail=f"Error interno durante el análisis: {e}")
 
-    _progress_store[fid] = {"pct": 90, "message": "Generando reporte...", "done": False, "error": None}
+        _progress_store[fid] = {"pct": 90, "message": "Generando reporte...", "done": False, "error": None}
 
-    # Compute summary without re-running analysis
-    summary = DQScorer.compute_summary(results)
+        # Compute summary without re-running analysis
+        summary = DQScorer.compute_summary(results)
 
-    _analysis_store[request.file_id] = results
+        _analysis_store[request.file_id] = results
 
-    # Persist analysis record
-    try:
-        conn = get_connection()
-        conn.execute(
-            "INSERT INTO analisis (usuario_id, file_id, nombre_archivo, total_registros, score_general) "
-            "VALUES (?, ?, ?, ?, ?)",
-            (
-                current_user["id"],
-                request.file_id,
-                stored.get("original_name", ""),
-                results["total_registros"],
-                results["score_general"],
-            ),
-        )
-        conn.commit()
-        conn.close()
-    except Exception:
-        pass  # Non-critical
+        # Persist analysis record
+        try:
+            conn = get_connection()
+            conn.execute(
+                "INSERT INTO analisis (usuario_id, file_id, nombre_archivo, total_registros, score_general) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (
+                    current_user["id"],
+                    request.file_id,
+                    stored.get("original_name", ""),
+                    results["total_registros"],
+                    results["score_general"],
+                ),
+            )
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass  # Non-critical
 
-    _progress_store[fid] = {"pct": 100, "message": "¡Análisis completado!", "done": True, "error": None}
+        _progress_store[fid] = {"pct": 100, "message": "¡Análisis completado!", "done": True, "error": None}
 
-    return {
-        "file_id": request.file_id,
-        "score_general": results["score_general"],
-        "total_registros": results["total_registros"],
-        "total_problemas": results["total_problemas"],
-        "pct_limpios": summary["pct_limpios"],
-        "peor_dimension": summary["peor_dimension"],
-        "scores_por_columna": results["scores_por_columna"],
-    }
+        return {
+            "file_id": request.file_id,
+            "score_general": results["score_general"],
+            "total_registros": results["total_registros"],
+            "total_problemas": results["total_problemas"],
+            "pct_limpios": summary["pct_limpios"],
+            "peor_dimension": summary["peor_dimension"],
+            "scores_por_columna": results["scores_por_columna"],
+        }
+    finally:
+        # Always delete the temp file from disk and free RAM,
+        # regardless of success or error.
+        try:
+            if file_path and file_path.exists():
+                file_path.unlink()
+                print(f"[cleanup] Temp file deleted: {file_path.name}")
+        except Exception as cleanup_err:
+            print(f"[cleanup] Warning: could not delete temp file {file_path}: {cleanup_err}")
+        _file_store.pop(request.file_id, None)
 
 
 @app.get("/report/{file_id}")
