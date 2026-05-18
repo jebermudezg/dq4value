@@ -359,21 +359,26 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
             ))
 
     # ── SIMILITUD ────────────────────────────────────────────────────────
+    # Los campos identificadores (id, código, clave…) nunca deben tener
+    # similitud fuzzy — son únicos por definición.
+    is_id_col = _contains(n, "id", "codigo", "code", "clave", "key",
+                           "nit", "cedula", "documento", "rut", "rfc")
     variantes = ctx["variantes_similares"]
-    if variantes and any(len(g) >= 2 for g in variantes):
-        grupos_str = str([g for g in variantes[:2]])
-        sugs.append(_sug(
-            "similitud", "alta",
-            f"El perfil detectó grupos de valores similares: {grupos_str}.",
-            algoritmo="jaro_winkler", umbral=90,
-        ))
-    elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
-                   "cliente", "descripcion", "direccion", "address"):
-        sugs.append(_sug(
-            "similitud", "media",
-            "Columna de texto libre — se recomienda verificar duplicados difusos.",
-            algoritmo="jaro_winkler", umbral=92,
-        ))
+    if not is_id_col:
+        if variantes and any(len(g) >= 2 for g in variantes):
+            grupos_str = str([g for g in variantes[:2]])
+            sugs.append(_sug(
+                "similitud", "alta",
+                f"El perfil detectó grupos de valores similares: {grupos_str}.",
+                algoritmo="jaro_winkler", umbral=90,
+            ))
+        elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
+                       "cliente", "descripcion", "direccion", "address"):
+            sugs.append(_sug(
+                "similitud", "media",
+                "Columna de texto libre — se recomienda verificar duplicados difusos.",
+                algoritmo="jaro_winkler", umbral=92,
+            ))
 
     # ── OPORTUNIDAD — solo columnas de fecha ─────────────────────────────
     if _contains(n, "fecha", "date", "time", "updated", "created",
