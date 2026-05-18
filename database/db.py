@@ -50,6 +50,22 @@ def init_db() -> None:
         );
     """)
 
+    # Migrate analisis table: add columns if missing
+    for col_def in [
+        "descripcion TEXT",
+        "etiqueta TEXT",
+        "total_columnas INTEGER",
+        "total_problemas INTEGER",
+        "dimensiones_aplicadas TEXT",
+        "ruta_reporte TEXT",
+        "estado TEXT DEFAULT 'completado'",
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE analisis ADD COLUMN {col_def}")
+        except Exception:
+            pass  # Column already exists
+    conn.commit()
+
     existing = conn.execute(
         "SELECT id FROM usuarios WHERE email = ?", ("admin@dqplatform.com",)
     ).fetchone()

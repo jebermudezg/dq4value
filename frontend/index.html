@@ -929,6 +929,88 @@
                      background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
     .drill-ftr-btn:hover { background:var(--blue-dk); }
 
+    /* ── History Screen ─────────────────────────────────────────── */
+    #screen-history { max-width:1100px; padding:0 1.5rem 3rem; margin:0 auto; }
+    .hist-hdr  { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+                 gap:.75rem; margin-bottom:1.5rem; padding-top:1.5rem; }
+    .hist-hdr h2 { font-size:1.4rem; font-weight:800; margin:0; }
+    .hist-hdr p  { font-size:.85rem; color:var(--sub); margin:.2rem 0 0; }
+    .hist-stats  { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.25rem; }
+    @media(max-width:700px){ .hist-stats{ grid-template-columns:repeat(2,1fr); } }
+    .hist-stat   { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+                   padding:1rem 1.1rem; }
+    .hist-stat-val { font-size:1.75rem; font-weight:800; color:var(--blue); line-height:1; }
+    .hist-stat-lbl { font-size:.75rem; color:var(--sub); margin-top:.3rem; }
+    .hist-filters  { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+                     padding:1rem 1.25rem; margin-bottom:1.25rem; }
+    .hist-filter-row { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:.6rem; }
+    .hist-filter-row:last-child { margin-bottom:0; }
+    .hist-filter-lbl { font-size:.75rem; font-weight:600; color:var(--sub); white-space:nowrap; }
+    .hist-date-inp   { font-size:.8rem; padding:.35rem .55rem; border:1.5px solid var(--border);
+                       border-radius:7px; font-family:inherit; color:var(--text); }
+    .hist-ql { display:flex; gap:.35rem; flex-wrap:wrap; }
+    .hist-ql-btn { font-size:.74rem; padding:.3rem .65rem; border-radius:99px; border:1.5px solid var(--border);
+                   background:var(--bg); color:var(--sub); cursor:pointer; font-family:inherit; }
+    .hist-ql-btn:hover { border-color:var(--blue); color:var(--blue); }
+    .hist-ql-btn.active { background:var(--blue); border-color:var(--blue); color:#fff; }
+    .hist-sel  { font-size:.8rem; padding:.35rem .55rem; border:1.5px solid var(--border);
+                 border-radius:7px; font-family:inherit; color:var(--text); }
+    .hist-search { flex:1; min-width:140px; font-size:.8rem; padding:.35rem .6rem;
+                   border:1.5px solid var(--border); border-radius:7px; font-family:inherit; color:var(--text); }
+    .hist-info  { font-size:.78rem; color:var(--sub); margin-top:.4rem; }
+    .hist-group-hdr { font-size:.8rem; font-weight:700; text-transform:uppercase;
+                      letter-spacing:.06em; color:var(--sub); padding:.6rem 0 .4rem;
+                      border-bottom:1.5px solid var(--border); margin-bottom:.75rem; margin-top:1.25rem; }
+    .hist-group-hdr:first-child { margin-top:0; }
+    .hist-card  { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+                  padding:1rem 1.25rem; margin-bottom:.75rem; transition:border-color .15s; }
+    .hist-card:hover { border-color:#93c5fd; }
+    .hist-card-top   { display:flex; align-items:flex-start; gap:.75rem; margin-bottom:.6rem; }
+    .hist-card-info  { flex:1; min-width:0; }
+    .hist-card-title { font-size:.93rem; font-weight:700; margin:0 0 .18rem; white-space:nowrap;
+                       overflow:hidden; text-overflow:ellipsis; }
+    .hist-card-desc  { font-size:.79rem; color:var(--sub); font-style:italic; margin:0 0 .3rem; }
+    .hist-score      { font-size:1.75rem; font-weight:800; line-height:1; flex-shrink:0; }
+    .hist-score.green { color:var(--green); }
+    .hist-score.yellow{ color:var(--yellow); }
+    .hist-score.red   { color:var(--red); }
+    .hist-card-meta  { display:flex; flex-wrap:wrap; gap:.35rem .85rem; font-size:.76rem;
+                       color:var(--sub); margin-bottom:.55rem; }
+    .hist-meta-item  { display:flex; align-items:center; gap:.25rem; }
+    .hist-meta-item.bad { color:var(--red); font-weight:600; }
+    .hist-bar-wrap   { background:var(--bg); border-radius:99px; height:6px; margin-bottom:.55rem; overflow:hidden; }
+    .hist-bar-fill   { height:6px; border-radius:99px; transition:width .4s ease; }
+    .hist-bar-fill.green  { background:var(--green); }
+    .hist-bar-fill.yellow { background:var(--yellow); }
+    .hist-bar-fill.red    { background:var(--red); }
+    .hist-chips { display:flex; flex-wrap:wrap; gap:.3rem; margin-bottom:.6rem; }
+    .hist-chip  { font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:99px;
+                  background:#f1f5f9; color:var(--sub); }
+    .hist-card-footer { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+    .hist-etq   { font-size:.7rem; font-weight:700; padding:.2rem .6rem; border-radius:99px; }
+    .hist-etq.maestro      { background:#dbeafe; color:#1e40af; }
+    .hist-etq.transaccional{ background:#fef9c3; color:#854d0e; }
+    .hist-etq.otro         { background:#f3e8ff; color:#7c3aed; }
+    .hist-btn-dl { font-size:.76rem; padding:.3rem .85rem; border-radius:7px; cursor:pointer;
+                   background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
+    .hist-btn-dl:hover { background:var(--blue-dk); }
+    .hist-btn-del{ font-size:.76rem; padding:.3rem .65rem; border-radius:7px; cursor:pointer;
+                   background:var(--bg); border:1.5px solid var(--border); color:var(--sub);
+                   font-family:inherit; margin-left:auto; }
+    .hist-btn-del:hover { background:var(--red-lt); border-color:var(--red); color:var(--red); }
+    .hist-empty { text-align:center; padding:3rem 1rem; color:var(--sub); }
+    .hist-empty h3 { font-size:1rem; font-weight:600; margin:0 0 .5rem; color:var(--text); }
+    .hist-empty p  { font-size:.85rem; margin:0; }
+    /* Upload meta fields */
+    .upload-meta { margin-top:1rem; display:flex; flex-direction:column; gap:.6rem; }
+    .upload-meta input, .upload-meta select {
+      width:100%; font-size:.85rem; padding:.5rem .75rem;
+      border:1.5px solid var(--border); border-radius:8px;
+      font-family:inherit; color:var(--text); background:var(--surface); }
+    .upload-meta input:focus, .upload-meta select:focus {
+      outline:none; border-color:var(--blue); }
+    .upload-meta-lbl { font-size:.75rem; font-weight:600; color:var(--sub); margin-bottom:.15rem; }
+
     /* ── Preparación del archivo — help section ─────────────────── */
     .acc-item.acc-xl.open > .acc-body { max-height:9000px; transition:max-height .5s ease; }
     .prep-subs   { display:flex; flex-direction:column; gap:.5rem; }
@@ -1102,6 +1184,9 @@
       </svg>
       Admin
     </button>
+    <button class="nav-btn" id="navHistoryBtn" style="display:none" onclick="goTo('history')">
+      📋 Mis análisis
+    </button>
     <button class="help-btn" onclick="openHelp()" title="Ayuda">
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -1208,6 +1293,25 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
+    </div>
+
+    <!-- Upload meta (optional description + label) -->
+    <div class="upload-meta" id="uploadMeta" style="display:none">
+      <div>
+        <div class="upload-meta-lbl">Descripción del análisis (opcional)</div>
+        <input type="text" id="uploadDescripcion"
+               placeholder="Ej: Evaluación mensual base de clientes activos"
+               maxlength="200" />
+      </div>
+      <div>
+        <div class="upload-meta-lbl">Etiqueta (opcional)</div>
+        <select id="uploadEtiqueta">
+          <option value="">Sin etiqueta</option>
+          <option value="Maestro">Maestro</option>
+          <option value="Transaccional">Transaccional</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
     </div>
 
     <!-- Spinner -->
@@ -1532,6 +1636,81 @@
       </table>
     </div>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN — HISTORY
+═══════════════════════════════════════════ -->
+<div class="screen" id="screen-history">
+  <div class="hist-hdr">
+    <div>
+      <h2>Mis análisis</h2>
+      <p id="histSubtitle">Historial de análisis ejecutados</p>
+    </div>
+    <button class="btn btn-primary" onclick="goTo('upload')">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Nuevo análisis
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="hist-stats">
+    <div class="hist-stat">
+      <div class="hist-stat-val" id="hStatTotal">—</div>
+      <div class="hist-stat-lbl">Análisis realizados</div>
+    </div>
+    <div class="hist-stat">
+      <div class="hist-stat-val" id="hStatScore">—</div>
+      <div class="hist-stat-lbl">Score promedio</div>
+    </div>
+    <div class="hist-stat">
+      <div class="hist-stat-val" id="hStatReg">—</div>
+      <div class="hist-stat-lbl">Registros evaluados</div>
+    </div>
+    <div class="hist-stat">
+      <div class="hist-stat-val" id="hStatDs">—</div>
+      <div class="hist-stat-lbl">Datasets distintos</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="hist-filters">
+    <div class="hist-filter-row">
+      <span class="hist-filter-lbl">Período:</span>
+      <input type="date" id="hFechaDesde" class="hist-date-inp" />
+      <span class="hist-filter-lbl">—</span>
+      <input type="date" id="hFechaHasta" class="hist-date-inp" />
+    </div>
+    <div class="hist-filter-row">
+      <span class="hist-filter-lbl">Acceso rápido:</span>
+      <div class="hist-ql">
+        <button class="hist-ql-btn" onclick="setHistPeriod('hoy')">Hoy</button>
+        <button class="hist-ql-btn" onclick="setHistPeriod('semana')">Esta semana</button>
+        <button class="hist-ql-btn active" id="hqlMes" onclick="setHistPeriod('mes')">Último mes</button>
+        <button class="hist-ql-btn" onclick="setHistPeriod('3meses')">3 meses</button>
+        <button class="hist-ql-btn" onclick="setHistPeriod('anio')">Este año</button>
+        <button class="hist-ql-btn" onclick="setHistPeriod('todo')">Todo</button>
+      </div>
+    </div>
+    <div class="hist-filter-row">
+      <span class="hist-filter-lbl">Etiqueta:</span>
+      <select class="hist-sel" id="hEtiqueta" onchange="applyHistFilters()">
+        <option value="">Todas</option>
+        <option value="Maestro">Maestro</option>
+        <option value="Transaccional">Transaccional</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <input class="hist-search" id="hBuscar" type="text" placeholder="Buscar por nombre o descripción…" />
+      <button class="btn btn-primary" style="font-size:.8rem;padding:.38rem 1rem" onclick="applyHistFilters()">Filtrar</button>
+      <button class="btn btn-ghost"  style="font-size:.8rem;padding:.38rem 1rem" onclick="resetHistFilters()">Limpiar</button>
+    </div>
+    <p class="hist-info" id="hInfo">Cargando…</p>
+  </div>
+
+  <!-- Results -->
+  <div id="histList"></div>
 </div>
 
 <!-- MODAL — Create / Edit user -->
@@ -2418,6 +2597,7 @@ function goTo(screen) {
     if (screen === 'results') { setStep(4); }
   }
   if (screen === 'admin') loadAdminUsers();
+  if (screen === 'history') loadHistorial();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2470,6 +2650,7 @@ function setFile(f) {
   document.getElementById('fpName').textContent = f.name;
   document.getElementById('fpSize').textContent = formatBytes(f.size);
   document.getElementById('filePreview').classList.add('visible');
+  document.getElementById('uploadMeta').style.display = '';
   document.getElementById('uploadBtn').disabled = false;
   // Large-file warning: > 10 MB
   document.getElementById('largeFileWarn').classList.toggle('visible', f.size > 10 * 1024 * 1024);
@@ -2480,6 +2661,7 @@ function clearFile() {
   fileInput.value = '';
   document.getElementById('filePreview').classList.remove('visible');
   document.getElementById('largeFileWarn').classList.remove('visible');
+  document.getElementById('uploadMeta').style.display = 'none';
   document.getElementById('uploadBtn').disabled = true;
 }
 
@@ -2515,6 +2697,7 @@ function setUploadLoading(on) {
   document.getElementById('uploadSpinner').classList.toggle('visible', on);
   document.getElementById('dropZone').style.display    = on ? 'none' : '';
   document.getElementById('filePreview').style.display = on ? 'none' : '';
+  document.getElementById('uploadMeta').style.display  = on ? 'none' : '';
   document.getElementById('uploadBtn').disabled = on;
 }
 
@@ -2968,6 +3151,195 @@ function closeDrillModal() {
     overlay.remove();
   }
   document.body.style.overflow = '';
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// History Screen
+// ─────────────────────────────────────────────────────────────────────
+const _histState = { desde: null, hasta: null, etiqueta: '', buscar: '', activeQl: 'mes' };
+
+function _isoDate(d) { return d.toISOString().slice(0,10); }
+function _fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' });
+}
+function _scoreClass(s) { return s >= 80 ? 'green' : s >= 60 ? 'yellow' : 'red'; }
+function _numFmt(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000)    return (n/1000).toFixed(1) + 'k';
+  return String(n);
+}
+
+function setHistPeriod(type) {
+  const now   = new Date();
+  let   desde = new Date();
+  document.querySelectorAll('.hist-ql-btn').forEach(b => b.classList.remove('active'));
+  const mapping = {
+    hoy:    () => { desde = new Date(now); },
+    semana: () => { desde = new Date(now); desde.setDate(now.getDate() - 6); },
+    mes:    () => { desde = new Date(now); desde.setDate(now.getDate() - 29); },
+    '3meses': () => { desde = new Date(now); desde.setMonth(now.getMonth() - 3); },
+    anio:   () => { desde = new Date(now.getFullYear(), 0, 1); },
+    todo:   () => { desde = new Date(2000, 0, 1); },
+  };
+  (mapping[type] || mapping.mes)();
+  _histState.desde = _isoDate(desde);
+  _histState.hasta = _isoDate(now);
+  _histState.activeQl = type;
+  document.getElementById('hFechaDesde').value = _histState.desde;
+  document.getElementById('hFechaHasta').value = _histState.hasta;
+  event.target.classList.add('active');
+  applyHistFilters();
+}
+
+function resetHistFilters() {
+  _histState.etiqueta = '';
+  _histState.buscar   = '';
+  document.getElementById('hEtiqueta').value = '';
+  document.getElementById('hBuscar').value   = '';
+  setHistPeriod('mes');
+}
+
+async function applyHistFilters() {
+  _histState.etiqueta = document.getElementById('hEtiqueta').value;
+  _histState.buscar   = document.getElementById('hBuscar').value.trim();
+  const d = document.getElementById('hFechaDesde').value;
+  const h = document.getElementById('hFechaHasta').value;
+  if (d) _histState.desde = d;
+  if (h) _histState.hasta = h;
+  await loadHistorial();
+}
+
+async function loadHistorial() {
+  // Set defaults if not set
+  if (!_histState.desde) {
+    const d = new Date(); d.setDate(d.getDate()-29);
+    _histState.desde = _isoDate(d);
+  }
+  if (!_histState.hasta) _histState.hasta = _isoDate(new Date());
+
+  document.getElementById('hFechaDesde').value = _histState.desde;
+  document.getElementById('hFechaHasta').value = _histState.hasta;
+
+  const params = new URLSearchParams({
+    fecha_desde: _histState.desde,
+    fecha_hasta: _histState.hasta,
+  });
+  if (_histState.etiqueta) params.set('etiqueta', _histState.etiqueta);
+  if (_histState.buscar)   params.set('buscar',   _histState.buscar);
+
+  // Load stats and list in parallel
+  try {
+    const [resStats, resList] = await Promise.all([
+      apiFetch('/historial/stats?' + params),
+      apiFetch('/historial?' + params),
+    ]);
+    const stats = await resStats.json();
+    const list  = await resList.json();
+
+    // Update stat cards
+    document.getElementById('hStatTotal').textContent = stats.total_analisis ?? '0';
+    document.getElementById('hStatScore').textContent = stats.total_analisis ? (stats.score_promedio ?? '—') + '%' : '—';
+    document.getElementById('hStatReg').textContent   = _numFmt(stats.total_registros_evaluados ?? 0);
+    document.getElementById('hStatDs').textContent    = stats.total_datasets_distintos ?? '0';
+
+    // Info line
+    document.getElementById('hInfo').textContent =
+      `Mostrando ${list.length} análisis del ${_fmtDate(_histState.desde)} al ${_fmtDate(_histState.hasta)}`;
+
+    // Render list
+    _renderHistList(list);
+  } catch(e) {
+    document.getElementById('hInfo').textContent = 'Error al cargar el historial.';
+  }
+}
+
+function _renderHistList(list) {
+  const container = document.getElementById('histList');
+  if (!list.length) {
+    container.innerHTML = `<div class="hist-empty">
+      <h3>No hay análisis en este período</h3>
+      <p>Haz clic en "+ Nuevo análisis" para comenzar.</p>
+    </div>`;
+    return;
+  }
+
+  // Group by month
+  const groups = {};
+  list.forEach(a => {
+    const fecha = (a.fecha || '').slice(0,7); // YYYY-MM
+    if (!groups[fecha]) groups[fecha] = [];
+    groups[fecha].push(a);
+  });
+
+  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  let html = '';
+  Object.keys(groups).sort().reverse().forEach(ym => {
+    const [yr, mo] = ym.split('-');
+    const label = `${monthNames[parseInt(mo)-1]} ${yr}`;
+    html += `<div class="hist-group-hdr">${label}</div>`;
+    groups[ym].forEach(a => { html += _buildHistCard(a); });
+  });
+  container.innerHTML = html;
+}
+
+function _buildHistCard(a) {
+  const score  = Math.round(a.score_general || 0);
+  const sc     = _scoreClass(score);
+  const dims   = (() => { try { return JSON.parse(a.dimensiones_aplicadas || '[]'); } catch { return []; } })();
+  const fechaStr = a.fecha ? new Date(a.fecha).toLocaleString('es-ES',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+  const etqMap = { Maestro:'maestro', Transaccional:'transaccional', Otro:'otro' };
+  const etqClass = etqMap[a.etiqueta] || '';
+  const problems = a.total_problemas || 0;
+
+  return `<div class="hist-card">
+    <div class="hist-card-top">
+      <div class="hist-card-info">
+        <p class="hist-card-title">${a.nombre_archivo || '—'}</p>
+        ${a.descripcion ? `<p class="hist-card-desc">${a.descripcion}</p>` : ''}
+      </div>
+      <div class="hist-score ${sc}">${score}%</div>
+    </div>
+    <div class="hist-bar-wrap"><div class="hist-bar-fill ${sc}" style="width:${score}%"></div></div>
+    <div class="hist-card-meta">
+      <span class="hist-meta-item">🗓 ${fechaStr}</span>
+      <span class="hist-meta-item">📄 ${(a.total_registros||0).toLocaleString()} registros</span>
+      <span class="hist-meta-item">⚙ ${a.total_columnas||'—'} columnas</span>
+      <span class="hist-meta-item ${problems > 0 ? 'bad' : ''}">⚠ ${problems.toLocaleString()} problemas</span>
+    </div>
+    ${dims.length ? `<div class="hist-chips">${dims.map(d=>`<span class="hist-chip">${d}</span>`).join('')}</div>` : ''}
+    <div class="hist-card-footer">
+      ${etqClass ? `<span class="hist-etq ${etqClass}">${a.etiqueta}</span>` : ''}
+      <button class="hist-btn-dl" onclick="downloadHistReport(${a.id})">⬇ Descargar reporte</button>
+      <button class="hist-btn-del" onclick="deleteHistItem(${a.id}, this)">🗑 Eliminar</button>
+    </div>
+  </div>`;
+}
+
+async function downloadHistReport(id) {
+  try {
+    const res = await apiFetch(`/historial/${id}/reporte`);
+    if (!res.ok) { const d = await res.json(); throw new Error(d.detail || 'Error'); }
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = `reporte_${id}.xlsx`; a.click();
+    URL.revokeObjectURL(url);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function deleteHistItem(id, btn) {
+  if (!confirm('¿Eliminar este análisis? Esta acción no se puede deshacer.')) return;
+  try {
+    const res = await apiFetch(`/historial/${id}`, { method: 'DELETE' });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.detail || 'Error'); }
+    btn.closest('.hist-card').remove();
+    toast('Análisis eliminado', 'success');
+    loadHistorial();
+  } catch(e) { toast(e.message, 'error'); }
 }
 
 // Screen 3 — Config
@@ -3480,7 +3852,13 @@ async function runAnalysis() {
     const res = await apiFetch('/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ file_id: state.fileId, id_column: idCol, columns_config: colsConfig })
+      body: JSON.stringify({
+        file_id: state.fileId,
+        id_column: idCol,
+        columns_config: colsConfig,
+        descripcion: document.getElementById('uploadDescripcion')?.value?.trim() || null,
+        etiqueta:    document.getElementById('uploadEtiqueta')?.value || null,
+      })
     });
     clearInterval(pollTimer);
     const data = await res.json();
@@ -3906,12 +4284,14 @@ function showNavUser(user) {
   navUser.classList.add('visible');
   navLogout.style.display = '';
   navAdmin.style.display = user.rol === 'admin' ? '' : 'none';
+  document.getElementById('navHistoryBtn').style.display = '';
 }
 
 function hideNavUser() {
   document.getElementById('navUser').classList.remove('visible');
   document.getElementById('navLogoutBtn').style.display = 'none';
   document.getElementById('navAdminBtn').style.display = 'none';
+  document.getElementById('navHistoryBtn').style.display = 'none';
 }
 
 // ─────────────────────────────────────────────────────────────────────

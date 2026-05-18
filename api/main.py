@@ -1,4 +1,6 @@
 import asyncio
+import json
+import re
 import secrets
 import sys
 import traceback
@@ -53,6 +55,10 @@ _progress_store: dict = {}   # file_id -> {pct, message, done, error}
 TEMP_DIR = Path(__file__).resolve().parent.parent / "temp_files"
 TEMP_DIR.mkdir(exist_ok=True)
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+REPORTS_DIR  = PROJECT_ROOT / "reports"
+REPORTS_DIR.mkdir(exist_ok=True)
+
 ALLOWED_EXTENSIONS = {".csv", ".xlsx", ".xls", ".txt"}
 
 # ──────────────────────────────────────────────────────────────────────
@@ -64,6 +70,8 @@ class AnalyzeRequest(BaseModel):
     file_id: str
     id_column: str
     columns_config: dict[str, dict[str, dict]]
+    descripcion: Optional[str] = None
+    etiqueta: Optional[str] = None  # "Maestro", "Transaccional", "Otro"
 
 
 class LoginRequest(BaseModel):
@@ -343,23 +351,49 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 
         _progress_store[fid] = {"pct": 90, "message": "Generando reporte...", "done": False, "error": None}
 
-        # Compute summary without re-running analysis
+        # Compute summary
         summary = DQScorer.compute_summary(results)
-
         _analysis_store[request.file_id] = results
 
-        # Persist analysis record
+        # Generate persisted report
+        ruta_reporte = ""
+        try:
+            ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
+            uname    = re.sub(r"[^\w\-]", "_", (current_user.get("nombre") or current_user["email"].split("@")[0]))
+            dname    = re.sub(r"[^\w\-]", "_", Path(stored.get("original_name", "report")).stem)
+            rdir     = REPORTS_DIR / uname / datetime.now().strftime("%Y-%m")
+            rdir.mkdir(parents=True, exist_ok=True)
+            rfile    = rdir / f"{ts}_{dname}.xlsx"
+            generate_excel_report(results, str(rfile))
+            ruta_reporte = str(rfile.relative_to(PROJECT_ROOT))
+        except Exception as re_err:
+            print(f"[report] Warning: {re_err}")
+
+        # Collect unique dimension names
+        dims = sorted({dim for col_dims in request.columns_config.values() for dim in col_dims})
+
+        # Persist full analysis record
         try:
             conn = get_connection()
             conn.execute(
-                "INSERT INTO analisis (usuario_id, file_id, nombre_archivo, total_registros, score_general) "
-                "VALUES (?, ?, ?, ?, ?)",
+                """INSERT INTO analisis
+                   (usuario_id, file_id, nombre_archivo, total_registros, score_general,
+                    descripcion, etiqueta, total_columnas, total_problemas,
+                    dimensiones_aplicadas, ruta_reporte, estado)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     current_user["id"],
                     request.file_id,
                     stored.get("original_name", ""),
                     results["total_registros"],
                     results["score_general"],
+                    request.descripcion,
+                    request.etiqueta,
+                    len(stored["columns"]),
+                    results["total_problemas"],
+                    json.dumps(dims),
+                    ruta_reporte,
+                    "completado",
                 ),
             )
             conn.commit()
@@ -393,23 +427,22 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 @app.get("/report/{file_id}")
 def get_report(file_id: str, authorization: str = Header(None)):
     get_current_user(authorization)
-
-    if file_id not in _file_store:
-        raise HTTPException(status_code=404, detail=f"Archivo '{file_id}' no encontrado.")
-    if file_id not in _analysis_store:
-        raise HTTPException(status_code=400, detail="Ejecuta primero POST /analyze.")
-
-    report_path = TEMP_DIR / f"reporte_{file_id}.xlsx"
-    try:
-        generate_excel_report(_analysis_store[file_id], str(report_path))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al generar el reporte: {e}")
-
-    original_name = Path(_file_store[file_id]["original_name"]).stem
+    conn = get_connection()
+    row  = conn.execute(
+        "SELECT ruta_reporte, nombre_archivo FROM analisis WHERE file_id = ? ORDER BY id DESC LIMIT 1",
+        (file_id,),
+    ).fetchone()
+    conn.close()
+    if not row or not row["ruta_reporte"]:
+        raise HTTPException(status_code=404, detail="Reporte no encontrado.")
+    rfile = PROJECT_ROOT / row["ruta_reporte"]
+    if not rfile.exists():
+        raise HTTPException(status_code=404, detail="El archivo del reporte ya no está disponible.")
+    stem = Path(row["nombre_archivo"]).stem if row["nombre_archivo"] else "reporte"
     return FileResponse(
-        path=str(report_path),
+        path=str(rfile),
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        filename=f"reporte_calidad_{original_name}.xlsx",
+        filename=f"reporte_calidad_{stem}.xlsx",
     )
 
 
@@ -731,5 +764,151 @@ def user_analyses(user_id: int, authorization: str = Header(None)):
         "SELECT * FROM analisis WHERE usuario_id = ? ORDER BY fecha DESC LIMIT 50",
         (user_id,),
     ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Historial endpoints
+# ──────────────────────────────────────────────────────────────────────
+
+@app.get("/historial")
+def get_historial(
+    fecha_desde: Optional[str] = None,
+    fecha_hasta: Optional[str] = None,
+    etiqueta:    Optional[str] = None,
+    buscar:      Optional[str] = None,
+    authorization: str = Header(None),
+):
+    user = get_current_user(authorization)
+    if not fecha_desde:
+        fecha_desde = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    if not fecha_hasta:
+        fecha_hasta = datetime.now().strftime("%Y-%m-%d")
+
+    sql    = "SELECT * FROM analisis WHERE usuario_id = ? AND DATE(fecha) BETWEEN ? AND ?"
+    params = [user["id"], fecha_desde, fecha_hasta]
+    if etiqueta:
+        sql += " AND etiqueta = ?"
+        params.append(etiqueta)
+    if buscar:
+        sql += " AND (nombre_archivo LIKE ? OR descripcion LIKE ?)"
+        params += [f"%{buscar}%", f"%{buscar}%"]
+    sql += " ORDER BY fecha DESC"
+
+    conn = get_connection()
+    rows = conn.execute(sql, params).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+@app.get("/historial/stats")
+def historial_stats(
+    fecha_desde: Optional[str] = None,
+    fecha_hasta: Optional[str] = None,
+    etiqueta:    Optional[str] = None,
+    authorization: str = Header(None),
+):
+    user = get_current_user(authorization)
+    if not fecha_desde:
+        fecha_desde = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    if not fecha_hasta:
+        fecha_hasta = datetime.now().strftime("%Y-%m-%d")
+
+    sql    = "SELECT * FROM analisis WHERE usuario_id = ? AND DATE(fecha) BETWEEN ? AND ?"
+    params = [user["id"], fecha_desde, fecha_hasta]
+    if etiqueta:
+        sql += " AND etiqueta = ?"
+        params.append(etiqueta)
+
+    conn  = get_connection()
+    rows  = conn.execute(sql, params).fetchall()
+    conn.close()
+    rows  = [dict(r) for r in rows]
+    total = len(rows)
+    return {
+        "total_analisis":            total,
+        "score_promedio":            round(sum(r["score_general"] or 0 for r in rows) / total, 1) if total else 0,
+        "total_registros_evaluados": sum(r["total_registros"] or 0 for r in rows),
+        "total_datasets_distintos":  len({r["nombre_archivo"] for r in rows}),
+    }
+
+
+@app.get("/historial/{analisis_id}/reporte")
+def download_historial_reporte(analisis_id: int, authorization: str = Header(None)):
+    user = get_current_user(authorization)
+    conn = get_connection()
+    row  = conn.execute("SELECT * FROM analisis WHERE id = ?", (analisis_id,)).fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(status_code=404, detail="Análisis no encontrado.")
+    if row["usuario_id"] != user["id"] and user.get("rol") != "admin":
+        raise HTTPException(status_code=403, detail="Sin permiso.")
+    if not row["ruta_reporte"]:
+        raise HTTPException(status_code=404, detail="Este análisis no tiene reporte generado.")
+    rfile = PROJECT_ROOT / row["ruta_reporte"]
+    if not rfile.exists():
+        raise HTTPException(status_code=404, detail="El reporte de este análisis ya no está disponible.")
+    stem = Path(row["nombre_archivo"]).stem if row["nombre_archivo"] else "reporte"
+    return FileResponse(
+        path=str(rfile),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename=f"reporte_calidad_{stem}.xlsx",
+    )
+
+
+@app.delete("/historial/{analisis_id}")
+def delete_historial_item(analisis_id: int, authorization: str = Header(None)):
+    user = get_current_user(authorization)
+    conn = get_connection()
+    row  = conn.execute("SELECT * FROM analisis WHERE id = ?", (analisis_id,)).fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Análisis no encontrado.")
+    if row["usuario_id"] != user["id"] and user.get("rol") != "admin":
+        conn.close()
+        raise HTTPException(status_code=403, detail="Sin permiso.")
+    # Delete file from disk
+    if row["ruta_reporte"]:
+        try:
+            f = PROJECT_ROOT / row["ruta_reporte"]
+            if f.exists():
+                f.unlink()
+        except Exception:
+            pass
+    conn.execute("DELETE FROM analisis WHERE id = ?", (analisis_id,))
+    conn.commit()
+    conn.close()
+    return {"message": "Eliminado correctamente."}
+
+
+@app.get("/admin/historial")
+def admin_historial(
+    fecha_desde: Optional[str] = None,
+    fecha_hasta: Optional[str] = None,
+    etiqueta:    Optional[str] = None,
+    buscar:      Optional[str] = None,
+    authorization: str = Header(None),
+):
+    require_admin(authorization)
+    if not fecha_desde:
+        fecha_desde = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    if not fecha_hasta:
+        fecha_hasta = datetime.now().strftime("%Y-%m-%d")
+
+    sql    = """SELECT a.*, u.nombre as usuario_nombre, u.email as usuario_email
+                FROM analisis a JOIN usuarios u ON a.usuario_id = u.id
+                WHERE DATE(a.fecha) BETWEEN ? AND ?"""
+    params = [fecha_desde, fecha_hasta]
+    if etiqueta:
+        sql += " AND a.etiqueta = ?"
+        params.append(etiqueta)
+    if buscar:
+        sql += " AND (a.nombre_archivo LIKE ? OR a.descripcion LIKE ?)"
+        params += [f"%{buscar}%", f"%{buscar}%"]
+    sql += " ORDER BY a.fecha DESC"
+
+    conn = get_connection()
+    rows = conn.execute(sql, params).fetchall()
     conn.close()
     return [dict(r) for r in rows]

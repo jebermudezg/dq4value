@@ -15,3 +15,4 @@ htmlcov/
 tests/dataset_prueba.csv
 tests/dataset_1000.csv
 tests/reporte_prueba.xlsx
+reports/
