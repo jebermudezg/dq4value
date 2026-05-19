@@ -22,50 +22,54 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
     Penaliza abrir una brecha más que extenderla.
     Ideal para abreviaturas y tokens faltantes.
     Retorna score normalizado 0-100.
+
+    Optimizaciones de rendimiento:
+    - Early exit cuando el ratio de longitudes < 0.4 (cadenas muy distintas en tamaño)
+    - Truncado a 50 caracteres para limitar la complejidad O(n×m)
+    - Listas Python nativas (más rápidas que numpy para matrices < 50×50)
+    - max() con float('-inf') funciona directamente sin condicionales
     """
     if not a or not b:
         return 0.0
+
+    # Early termination: si las longitudes difieren demasiado el score será muy bajo
+    len_a, len_b = len(a), len(b)
+    if min(len_a, len_b) / max(len_a, len_b) < 0.4:
+        return 0.0
+
+    # Truncar para limitar la complejidad O(n×m)
+    a, b = a[:50], b[:50]
     n, m = len(a), len(b)
-    # Tres matrices:
+
+    INF = float('-inf')
     # M[i][j] = mejor score cuando a[i-1] y b[j-1] están alineados
-    # X[i][j] = mejor score cuando a[i-1] está en una brecha (gap en b)
-    # Y[i][j] = mejor score cuando b[j-1] está en una brecha (gap en a)
-    NEG_INF = float('-inf')
-    M = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
-    X = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
-    Y = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
-    M[0][0] = 0
+    # X[i][j] = mejor score cuando hay gap en b (a[i-1] sin par)
+    # Y[i][j] = mejor score cuando hay gap en a (b[j-1] sin par)
+    # max(INF, x) == x en Python — sin condicionales necesarios
+    M = [[INF] * (m + 1) for _ in range(n + 1)]
+    X = [[INF] * (m + 1) for _ in range(n + 1)]
+    Y = [[INF] * (m + 1) for _ in range(n + 1)]
+    M[0][0] = 0.0
     for i in range(1, n + 1):
         X[i][0] = gap_open + (i - 1) * gap_extend
     for j in range(1, m + 1):
         Y[0][j] = gap_open + (j - 1) * gap_extend
+
     for i in range(1, n + 1):
+        ai = a[i - 1]
+        Mi1 = M[i - 1]; Xi1 = X[i - 1]; Yi1 = Y[i - 1]
+        Mi  = M[i];     Xi  = X[i];     Yi  = Y[i]
         for j in range(1, m + 1):
-            sim = match if a[i-1] == b[j-1] else mismatch
-            M[i][j] = sim + max(
-                M[i-1][j-1] if M[i-1][j-1] != NEG_INF else NEG_INF,
-                X[i-1][j-1] if X[i-1][j-1] != NEG_INF else NEG_INF,
-                Y[i-1][j-1] if Y[i-1][j-1] != NEG_INF else NEG_INF
-            )
-            X[i][j] = max(
-                M[i-1][j] + gap_open if M[i-1][j] != NEG_INF else NEG_INF,
-                X[i-1][j] + gap_extend if X[i-1][j] != NEG_INF else NEG_INF
-            )
-            Y[i][j] = max(
-                M[i][j-1] + gap_open if M[i][j-1] != NEG_INF else NEG_INF,
-                Y[i][j-1] + gap_extend if Y[i][j-1] != NEG_INF else NEG_INF
-            )
-    score_raw = max(
-        M[n][m] if M[n][m] != NEG_INF else 0,
-        X[n][m] if X[n][m] != NEG_INF else 0,
-        Y[n][m] if Y[n][m] != NEG_INF else 0
-    )
-    # Normalizar: score máximo posible = match * min(n, m)
+            sim = match if ai == b[j - 1] else mismatch
+            Mi[j]  = sim + max(Mi1[j-1], Xi1[j-1], Yi1[j-1])
+            Xi[j]  = max(Mi1[j] + gap_open, Xi1[j] + gap_extend)
+            Yi[j]  = max(Mi[j-1] + gap_open, Yi[j-1] + gap_extend)
+
+    score_raw = max(M[n][m], X[n][m], Y[n][m], 0.0)
     score_max = match * min(n, m)
     if score_max <= 0:
         return 0.0
-    score_norm = max(0.0, score_raw / score_max) * 100
-    return min(score_norm, 100.0)
+    return min(max(0.0, score_raw / score_max) * 100, 100.0)
 
 
 def _calcular_similitud(a, b, algoritmo):
@@ -193,10 +197,13 @@ def check_similitud(df, id_col, target_col, **params):
     indices_validos = [i for i, v in enumerate(valores_norm) if v]
     bloques = _construir_bloques(indices_validos, valores_norm)
 
+    # Brecha Afín es O(n×m) por par — bloques más pequeños para evitar explosión combinatoria
+    max_bloque = 100 if algoritmo == 'brecha_afin' else 200
+
     pares_candidatos = set()
     for llave, grupo in bloques.items():
         lista = sorted(grupo)
-        if len(lista) > 200:
+        if len(lista) > max_bloque:
             subgrupos = {}
             for i in lista:
                 sub = valores_norm[i][:3] if len(valores_norm[i]) >= 3 else valores_norm[i]
@@ -209,6 +216,16 @@ def check_similitud(df, id_col, target_col, **params):
             for a in range(len(lista)):
                 for b in range(a + 1, len(lista)):
                     pares_candidatos.add((lista[a], lista[b]))
+
+    # Para brecha_afin, limitar a 15 000 pares ordenados por similitud de longitud
+    # (los pares con longitudes más parecidas son los más probables de superar el umbral)
+    if algoritmo == 'brecha_afin' and len(pares_candidatos) > 15_000:
+        pares_candidatos = set(
+            sorted(
+                pares_candidatos,
+                key=lambda p: abs(len(valores_norm[p[0]]) - len(valores_norm[p[1]]))
+            )[:15_000]
+        )
 
     total_pares = len(pares_candidatos)
     warning = f' | Pares comparados: {total_pares:,}' if total_pares > 10000 else ''
