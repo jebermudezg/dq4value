@@ -367,10 +367,26 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
     if not is_id_col:
         if variantes and any(len(g) >= 2 for g in variantes):
             grupos_str = str([g for g in variantes[:2]])
+            # Detectar si hay variantes con abreviaturas en el perfil
+            # Una abreviatura se detecta cuando en variantes_similares hay valores
+            # donde uno es notablemente más corto que el otro (diferencia > 30% de longitud)
+            tiene_abreviaturas = False
+            for grupo in variantes:
+                if len(grupo) >= 2:
+                    lens = [len(str(v)) for v in grupo]
+                    if max(lens) > 0 and min(lens) / max(lens) < 0.7:
+                        tiene_abreviaturas = True
+                        break
+            if tiene_abreviaturas:
+                algoritmo_sug = 'brecha_afin'
+                razon_sug = f"El perfil detectó variantes con posibles abreviaturas. Brecha Afín es más precisa para este caso."
+            else:
+                algoritmo_sug = 'jaro_winkler'
+                razon_sug = f"El perfil detectó grupos de valores similares: {grupos_str}."
             sugs.append(_sug(
                 "similitud", "alta",
-                f"El perfil detectó grupos de valores similares: {grupos_str}.",
-                algoritmo="jaro_winkler", umbral=90,
+                razon_sug,
+                algoritmo=algoritmo_sug, umbral=88,
             ))
         elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
                        "cliente", "descripcion", "direccion", "address"):

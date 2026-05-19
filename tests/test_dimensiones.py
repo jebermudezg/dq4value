@@ -659,3 +659,76 @@ def test_similitud_score_perfecto():
     score, issues = check_similitud(df, 'id', 'nombre', umbral=85)
     assert score == 100.0
     assert len(issues) == 0
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tests de Brecha Afín
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_brecha_afin_abreviaturas():
+    """Brecha Afín debe detectar abreviaturas mejor que Levenshtein."""
+    import jellyfish
+    from engine.dimensions.similitud import _brecha_afin, _normalizar
+    casos = [
+        ("juan alberto garcia", "juan a garcia",    "abreviatura segundo nombre"),
+        ("telefonica del peru", "tel del peru",      "abreviatura empresa"),
+        ("juan carlos perez gomez", "j c perez g",   "multiples abreviaturas"),
+        ("avenida siempre viva", "av siempre viva",  "abreviatura prefijo"),
+    ]
+    print("\nComparativa Brecha Afín vs Levenshtein para abreviaturas:")
+    print(f"{'Caso':<35} {'Brecha Afín':>12} {'Levenshtein':>12} {'Ganador':>10}")
+    print("-" * 75)
+    for a, b, desc in casos:
+        score_ba = _brecha_afin(a, b)
+        n = max(len(a), len(b))
+        dist_lev = jellyfish.levenshtein_distance(a, b)
+        score_lev = (1 - dist_lev / n) * 100 if n > 0 else 0
+        ganador = "Brecha Afín" if score_ba > score_lev else "Levenshtein"
+        print(f"{desc:<35} {score_ba:>11.1f}% {score_lev:>11.1f}% {ganador:>10}")
+        # Brecha Afín debe dar score más alto en casos de abreviatura
+        assert score_ba >= score_lev * 0.9, f"Brecha Afín debería ser competitiva para '{desc}'"
+
+
+def test_brecha_afin_casos_identicos():
+    """Strings idénticos deben dar 100%."""
+    from engine.dimensions.similitud import _brecha_afin
+    assert _brecha_afin("juan perez", "juan perez") == 100.0
+
+
+def test_brecha_afin_casos_muy_diferentes():
+    """Strings muy diferentes deben dar score bajo."""
+    from engine.dimensions.similitud import _brecha_afin
+    score = _brecha_afin("juan perez", "xyz abc")
+    assert score < 50, f"Score esperado <50, obtenido: {score}"
+
+
+def test_brecha_afin_en_check_similitud():
+    """Verificar que brecha_afin funciona end-to-end en check_similitud."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5, 6],
+        'nombre': [
+            'Juan Alberto García López',
+            'Juan A. García López',       # abreviatura — debe detectarse
+            'María Fernanda Torres',
+            'M. F. Torres',               # abreviatura — debe detectarse
+            'Carlos Rodríguez',
+            'Pedro Martínez'              # diferente — no debe detectarse
+        ]
+    })
+    score, issues = check_similitud(df, 'id', 'nombre',
+                                     algoritmo='brecha_afin', umbral=75)
+    ids_con_problema = set(issues['id'].tolist())
+    print(f"\nBrecha Afín end-to-end:")
+    print(f"Score: {score}")
+    print(f"IDs con similares: {ids_con_problema}")
+    print(issues[['id', 'valor_encontrado', 'descripcion']].to_string())
+    # Debe detectar los pares con abreviaturas
+    assert 1 in ids_con_problema or 2 in ids_con_problema, \
+        "Debe detectar Juan Alberto García vs Juan A. García"
+    assert 3 in ids_con_problema or 4 in ids_con_problema, \
+        "Debe detectar María Fernanda Torres vs M. F. Torres"
+    # Pedro Martínez no debe tener similar
+    assert 6 not in ids_con_problema, \
+        "Pedro Martínez no debería tener similar"

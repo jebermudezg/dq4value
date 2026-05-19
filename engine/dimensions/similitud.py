@@ -16,6 +16,58 @@ def _normalizar(texto):
     return texto
 
 
+def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
+    """
+    Similitud de Brecha Afín (Affine Gap).
+    Penaliza abrir una brecha más que extenderla.
+    Ideal para abreviaturas y tokens faltantes.
+    Retorna score normalizado 0-100.
+    """
+    if not a or not b:
+        return 0.0
+    n, m = len(a), len(b)
+    # Tres matrices:
+    # M[i][j] = mejor score cuando a[i-1] y b[j-1] están alineados
+    # X[i][j] = mejor score cuando a[i-1] está en una brecha (gap en b)
+    # Y[i][j] = mejor score cuando b[j-1] está en una brecha (gap en a)
+    NEG_INF = float('-inf')
+    M = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
+    X = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
+    Y = [[NEG_INF] * (m + 1) for _ in range(n + 1)]
+    M[0][0] = 0
+    for i in range(1, n + 1):
+        X[i][0] = gap_open + (i - 1) * gap_extend
+    for j in range(1, m + 1):
+        Y[0][j] = gap_open + (j - 1) * gap_extend
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            sim = match if a[i-1] == b[j-1] else mismatch
+            M[i][j] = sim + max(
+                M[i-1][j-1] if M[i-1][j-1] != NEG_INF else NEG_INF,
+                X[i-1][j-1] if X[i-1][j-1] != NEG_INF else NEG_INF,
+                Y[i-1][j-1] if Y[i-1][j-1] != NEG_INF else NEG_INF
+            )
+            X[i][j] = max(
+                M[i-1][j] + gap_open if M[i-1][j] != NEG_INF else NEG_INF,
+                X[i-1][j] + gap_extend if X[i-1][j] != NEG_INF else NEG_INF
+            )
+            Y[i][j] = max(
+                M[i][j-1] + gap_open if M[i][j-1] != NEG_INF else NEG_INF,
+                Y[i][j-1] + gap_extend if Y[i][j-1] != NEG_INF else NEG_INF
+            )
+    score_raw = max(
+        M[n][m] if M[n][m] != NEG_INF else 0,
+        X[n][m] if X[n][m] != NEG_INF else 0,
+        Y[n][m] if Y[n][m] != NEG_INF else 0
+    )
+    # Normalizar: score máximo posible = match * min(n, m)
+    score_max = match * min(n, m)
+    if score_max <= 0:
+        return 0.0
+    score_norm = max(0.0, score_raw / score_max) * 100
+    return min(score_norm, 100.0)
+
+
 def _calcular_similitud(a, b, algoritmo):
     """Calcula similitud entre dos strings usando el algoritmo especificado."""
     if not a or not b:
@@ -73,6 +125,9 @@ def _calcular_similitud(a, b, algoritmo):
             return score * 100
         except Exception:
             return 0.0
+
+    elif algoritmo == 'brecha_afin':
+        return _brecha_afin(a, b)
 
     elif algoritmo == 'smith_waterman':
         match = 2

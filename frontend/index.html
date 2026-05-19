@@ -2435,16 +2435,18 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
                     <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Mejor para</th>
                   </tr></thead>
                   <tbody>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Jaro-Winkler</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Mide transposiciones y premia prefijos comunes</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres de personas</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Monge-Elkan</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Compara cada token de A contra el mejor match en B</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con iniciales o abreviaciones</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Levenshtein</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cuenta ediciones mínimas (inserción, borrado, sustitución)</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Códigos, IDs y documentos cortos</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Q-grams</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Jaccard sobre trigramas de caracteres</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Razones sociales y direcciones</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Smith-Waterman</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación local óptima de subsecuencias</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Textos largos con subcadenas en común</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Soundex</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Codifica tokens por sonido fonético</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con errores ortográficos</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Coseno TF-IDF</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Vectoriza términos y mide ángulo entre vectores</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Descripciones largas y texto libre</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Jaro-Winkler</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Mide transposiciones y premia prefijos comunes</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres de personas — "Juan Pérez" vs "Juan Peres"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Brecha Afín</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación global con penalización diferenciada por apertura y extensión de brecha</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con abreviaturas — "Juan A. García" vs "Juan Alberto García"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Monge-Elkan</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Compara cada token de A contra el mejor match en B</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Múltiples tokens abreviados — "J.C. Pérez G." vs "Juan Carlos Pérez Gómez"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Levenshtein</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cuenta ediciones mínimas (inserción, borrado, sustitución)</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Códigos y documentos — "12345678" vs "12345679"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Q-grams</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Jaccard sobre trigramas de caracteres</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Razones sociales — "Telefónica del Perú" vs "Telefonica Peru"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Smith-Waterman</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación local óptima de subsecuencias</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Tokens faltantes — "Juan Pérez Gómez" vs "Juan Pérez"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Soundex</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Codifica tokens por sonido fonético</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Similitud fonética — "Jiménez" vs "Gimenez"</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Coseno TF-IDF</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Vectoriza términos y mide ángulo entre vectores</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Descripciones largas — textos de productos</td></tr>
                   </tbody>
                 </table>
               </span></div>
+              <div class="acc-row"><span class="acc-label">Brecha Afín</span><span class="acc-val">Brecha Afín es ideal cuando los datos tienen abreviaturas de nombres o palabras. A diferencia de Levenshtein que penaliza cada carácter faltante por separado, Brecha Afín penaliza menos cuando falta una secuencia completa de caracteres — lo que la hace más tolerante con "Juan A. García" vs "Juan Alberto García" o "Cía." vs "Compañía". Usa umbral 75–85% para este algoritmo.</span></div>
               <div class="acc-row"><span class="acc-label">Umbral</span><span class="acc-val">92%+ para datos muy limpios · 85% estándar · 75–80% para datos con muchos errores de captura</span></div>
               <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val">
                 <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.3rem">
@@ -3750,10 +3752,11 @@ function buildParamInputs(colName, dtype) {
           <label>Algoritmo:</label>
           <select id="p-${sid}-algoritmo" style="width:340px">
             <option value="jaro_winkler">Jaro-Winkler — nombres de personas (recomendado)</option>
-            <option value="monge_elkan">Monge-Elkan — nombres con abreviaciones</option>
+            <option value="brecha_afin">Brecha Afín — nombres con abreviaturas (Juan A. García)</option>
+            <option value="monge_elkan">Monge-Elkan — nombres con múltiples tokens abreviados</option>
             <option value="levenshtein">Levenshtein — códigos y documentos</option>
             <option value="qgrams">Q-grams — razones sociales y direcciones</option>
-            <option value="smith_waterman">Smith-Waterman — textos y direcciones largas</option>
+            <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes</option>
             <option value="soundex">Soundex — similitud fonética</option>
             <option value="coseno">Coseno TF-IDF — descripciones largas</option>
           </select>
