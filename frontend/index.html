@@ -1402,7 +1402,7 @@
 
   <!-- Acciones -->
   <div class="prof-actions">
-    <button class="btn btn-ghost" onclick="goTo('upload')">
+    <button class="btn btn-ghost" onclick="resetearEstadoCompleto()">
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
       </svg>
@@ -1432,7 +1432,7 @@
       <div class="sb-icon">✨</div>
       <div class="sb-text">
         <strong>¿No sabes qué dimensiones aplicar?</strong>
-        <p>El sistema puede sugerir la configuración óptima basándose en el tipo y nombre de cada columna.</p>
+        <p>El sistema puede sugerir la configuración óptima basándose en el perfilamiento de datos del paso anterior, así como por el tipo y nombre de cada columna.</p>
       </div>
       <button class="sb-btn" id="suggestBtn" onclick="suggestConfig()">
         ✨ Sugerir configuración
@@ -1469,7 +1469,7 @@
     </div>
 
     <div style="margin-top:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap">
-      <button class="btn btn-ghost" onclick="goTo('upload')">
+      <button class="btn btn-ghost" onclick="resetearEstadoCompleto()">
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
         </svg>
@@ -1662,7 +1662,7 @@
       <h2>Mis análisis</h2>
       <p id="histSubtitle">Historial de análisis ejecutados</p>
     </div>
-    <button class="btn btn-primary" onclick="goTo('upload')">
+    <button class="btn btn-primary" onclick="resetearEstadoCompleto()">
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
       </svg>
@@ -2554,6 +2554,10 @@ const API = 'http://127.0.0.1:8000';
 let state = { fileId: null, columns: [], analysisResult: null };
 let allIssues = [];
 let currentUser = null;
+// Cached reference to #profSpinner — loadProfile() detaches it from the DOM when filling
+// the accordion with column cards (accordion.innerHTML = ''). If we relied only on
+// getElementById we would get null on every subsequent call. This variable survives detachment.
+let _profSpinnerEl = null;
 const _maskData = {};   // keyed by maskTableId — stores {mascaras, colName, maxMaskCount}
 
 // ─────────────────────────────────────────────────────────────────────
@@ -2722,9 +2726,15 @@ function setUploadLoading(on) {
 // ─────────────────────────────────────────────────────────────────────
 
 async function loadProfile() {
-  const accordion = document.getElementById('profAccordion');
-  const spinner   = document.getElementById('profSpinner');
+  const accordion   = document.getElementById('profAccordion');
   const continueBtn = document.getElementById('profContinueBtn');
+
+  // Use cached spinner reference — after the first successful profile load
+  // accordion.innerHTML = '' detaches profSpinner from the DOM, so getElementById
+  // returns null on every subsequent call.  _profSpinnerEl keeps the JS reference alive.
+  if (!_profSpinnerEl) _profSpinnerEl = document.getElementById('profSpinner');
+  const spinner = _profSpinnerEl;
+
   accordion.innerHTML = '';
   accordion.appendChild(spinner);
   spinner.classList.add('visible');
@@ -2755,7 +2765,8 @@ async function loadProfile() {
       alertsEl.innerHTML += `<div class="prof-alert"><span class="prof-alert-icon">⚠️</span><span>${a}</span></div>`;
     });
 
-    // Accordion
+    // Accordion — clear spinner (now detached, but _profSpinnerEl keeps the reference)
+    // then fill with column cards
     accordion.innerHTML = '';
     Object.entries(columnas).forEach(([colName, perfil]) => {
       accordion.appendChild(_buildColCard(colName, perfil));
@@ -4157,13 +4168,81 @@ async function downloadReport() {
   }
 }
 
-function resetApp() {
-  state = { fileId: null, columns: [], analysisResult: null };
-  allIssues = [];
+function resetearEstadoCompleto() {
+  // ── State variables ──────────────────────────────────────────────
+  state = { fileId: null, columns: [], analysisResult: null, perfil: null };
+  allIssues         = [];
+  _refFileIds       = {};
+  _currentPage      = 1;
+  _pageSize         = 25;
+  _filteredIssues   = [];
+
+  // ── Upload screen ────────────────────────────────────────────────
   clearFile();
-  document.getElementById('colTableBody').innerHTML = '';
-  document.getElementById('idColSelect').innerHTML = '';
+  document.getElementById('uploadDescripcion').value    = '';
+  document.getElementById('uploadEtiqueta').selectedIndex = 0;
+
+  // ── Config screen ────────────────────────────────────────────────
+  document.getElementById('colTableBody').innerHTML  = '';
+  document.getElementById('idColSelect').innerHTML   = '';
+
+  // Clear suggest result banner
+  const suggestResult = document.getElementById('suggestResult');
+  if (suggestResult) {
+    suggestResult.classList.remove('visible');
+    suggestResult.textContent = '';
+  }
+
+  // Reset suggest button state
+  const suggestBtn = document.getElementById('suggestBtn');
+  if (suggestBtn) {
+    suggestBtn.disabled = false;
+    suggestBtn.innerHTML = '✨ Sugerir configuración';
+  }
+
+  // ── Profile screen ───────────────────────────────────────────────
+  // Reset accordion — use the cached spinner reference (_profSpinnerEl) because
+  // after a successful profile load the spinner is detached from the DOM
+  // (accordion.innerHTML = '' in loadProfile() removes it), so getElementById
+  // would return null. We re-attach it here (hidden) so the next loadProfile() call
+  // finds a valid element to work with.
+  const profAccordion = document.getElementById('profAccordion');
+  if (profAccordion) {
+    profAccordion.innerHTML = '';
+    const profSpinner = _profSpinnerEl || document.getElementById('profSpinner');
+    if (profSpinner) {
+      profSpinner.classList.remove('visible');
+      profAccordion.appendChild(profSpinner);
+    }
+  }
+
+  const profAlerts = document.getElementById('profAlerts');
+  if (profAlerts) profAlerts.innerHTML = '';
+
+  ['profKpiFilas','profKpiCols','profKpiComp','profKpiDups'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+
+  const profContinueBtn = document.getElementById('profContinueBtn');
+  if (profContinueBtn) profContinueBtn.disabled = true;
+
+  // ── Results screen ───────────────────────────────────────────────
+  const scoresBody = document.getElementById('scoresBody');
+  if (scoresBody) scoresBody.innerHTML = '';
+  const issuesBody = document.getElementById('issuesBody');
+  if (issuesBody) issuesBody.innerHTML = '';
+  const filterCol = document.getElementById('filterCol');
+  if (filterCol) filterCol.innerHTML = '<option value="">Todas las columnas</option>';
+  const filterDim = document.getElementById('filterDim');
+  if (filterDim) filterDim.innerHTML = '<option value="">Todas las dimensiones</option>';
+
+  // ── Navigate ─────────────────────────────────────────────────────
   goTo('upload');
+}
+
+function resetApp() {
+  resetearEstadoCompleto();
 }
 
 // ─────────────────────────────────────────────────────────────────────
