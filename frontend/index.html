@@ -2475,23 +2475,239 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
     <!-- SECCIÓN 3 — Interpretación de resultados -->
     <div class="help-section">
       <div class="help-section-title">Interpretación de resultados</div>
-      <div class="score-scale">
-        <div class="scale-row green">
-          <span class="scale-range">80–100</span>
-          <div class="scale-desc"><strong>Buena calidad</strong> — Los datos cumplen el criterio evaluado. Monitoreo rutinario suficiente.</div>
+
+      <!-- 3.1 Score general -->
+      <div class="acc-item" data-acc="ir-score-gen">
+        <div class="acc-trigger" onclick="toggleAcc('ir-score-gen')">
+          <div class="acc-icon" style="background:#f0f7ff;color:#1560a8">🏆</div>
+          <span class="acc-title">Score general del dataset</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
         </div>
-        <div class="scale-row yellow">
-          <span class="scale-range">60–79</span>
-          <div class="scale-desc"><strong>Requiere atención</strong> — Hay problemas que pueden afectar análisis. Revisar y limpiar antes de usar en producción.</div>
-        </div>
-        <div class="scale-row red">
-          <span class="scale-range">0–59</span>
-          <div class="scale-desc"><strong>Calidad crítica</strong> — Los datos tienen fallas importantes. Acción inmediata requerida antes de cualquier uso.</div>
-        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">El score general es el promedio simple de todos los scores individuales (una dimensión en una columna = un score). Resume en un único número del 0 al 100 qué tan buena es la calidad global del dataset.</p>
+          <div class="score-scale" style="margin-bottom:.9rem">
+            <div class="scale-row green"><span class="scale-range">80–100</span><div class="scale-desc"><strong>🟢 Buena calidad</strong> — Los datos cumplen los criterios evaluados. Monitoreo rutinario suficiente.</div></div>
+            <div class="scale-row yellow"><span class="scale-range">60–79</span><div class="scale-desc"><strong>🟡 Requiere atención</strong> — Hay problemas que pueden afectar análisis. Revisar y limpiar antes de usar en producción.</div></div>
+            <div class="scale-row red"><span class="scale-range">0–59</span><div class="scale-desc"><strong>🔴 Calidad crítica</strong> — Los datos tienen fallas importantes. Acción inmediata requerida antes de cualquier uso.</div></div>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:#1e40af;line-height:1.6">
+            ℹ️ <strong>Referencia estándar:</strong> Según DAMA-DMBOK e ISO 8000, un score ≥ 80 se considera apto para uso en producción. Un score entre 60 y 79 requiere documentación de los problemas conocidos. Por debajo de 60, los datos no deberían usarse en decisiones críticas sin limpieza previa.
+          </div>
+        </div></div>
       </div>
-      <p style="font-size:.82rem;color:var(--sub);margin-top:.85rem;line-height:1.55">
-        El reporte Excel descargado incluye tres pestañas: <strong>Dashboard</strong> con el score general y tabla resumen, <strong>Problemas Detallados</strong> con cada registro problemático y su descripción, y <strong>Score por Columna</strong> con la matriz completa de dimensiones — todo con celdas coloreadas verde/amarillo/rojo.
-      </p>
+
+      <!-- 3.2 Score por columna y dimensión -->
+      <div class="acc-item" data-acc="ir-score-col">
+        <div class="acc-trigger" onclick="toggleAcc('ir-score-col')">
+          <div class="acc-icon" style="background:#f0fdf4;color:#166534">📐</div>
+          <span class="acc-title">Score por columna y dimensión</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">Cada celda de la tabla de resultados muestra el score de una dimensión específica sobre una columna específica. Un score bajo en una celda indica exactamente dónde está el problema.</p>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;font-size:.83rem;font-family:monospace;margin-bottom:.85rem;line-height:1.8">
+            Score = (Registros sin problema / Total registros) × 100
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem">
+            <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+              <thead><tr style="background:var(--surface2)"><th style="padding:.5rem .75rem;text-align:left;font-weight:600">Score</th><th style="padding:.5rem .75rem;text-align:left;font-weight:600">Estado</th><th style="padding:.5rem .75rem;text-align:left;font-weight:600">Lectura sugerida</th></tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.45rem .75rem;color:var(--green);font-weight:600">95–100</td><td style="padding:.45rem .75rem">🟢 Óptimo</td><td style="padding:.45rem .75rem;color:var(--sub)">Sin acción requerida</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.45rem .75rem;color:#ca8a04;font-weight:600">80–94</td><td style="padding:.45rem .75rem">🟢 Bueno</td><td style="padding:.45rem .75rem;color:var(--sub)">Revisar casos excepcionales</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.45rem .75rem;color:var(--yellow);font-weight:600">60–79</td><td style="padding:.45rem .75rem">🟡 Atención</td><td style="padding:.45rem .75rem;color:var(--sub)">Limpiar antes de usar en producción</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.45rem .75rem;color:var(--red);font-weight:600">0–59</td><td style="padding:.45rem .75rem">🔴 Crítico</td><td style="padding:.45rem .75rem;color:var(--sub)">Acción inmediata — no usar en análisis</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.7rem 1rem;font-size:.82rem;color:#92400e;line-height:1.6">
+            ⚠️ Un score bajo en <strong>una sola dimensión</strong> no necesariamente indica un dataset malo. Puede significar que esa dimensión es la única con problemas — y eso ya te dice exactamente dónde actuar.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.3 Total registros -->
+      <div class="acc-item" data-acc="ir-total-reg">
+        <div class="acc-trigger" onclick="toggleAcc('ir-total-reg')">
+          <div class="acc-icon" style="background:#f5f3ff;color:#6d28d9">📦</div>
+          <span class="acc-title">Total registros</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">El número total de filas del archivo cargado, excluyendo la fila de encabezados. Es el denominador de todos los cálculos de score y porcentaje del análisis.</p>
+          <div class="acc-row"><span class="acc-label">¿Por qué importa?</span><span class="acc-val">Con un dataset de 1 000 registros, 10 errores representan el 1% — un score de 99. Con 50 registros, esos mismos 10 errores son el 20% — un score de 80. El tamaño del dataset afecta directamente la interpretación del score.</span></div>
+          <div class="acc-row"><span class="acc-label">Denominador fijo</span><span class="acc-val">Todas las dimensiones usan el mismo total de registros como base, independientemente de cuántos valores nulos haya. Esto garantiza comparabilidad entre dimensiones.</span></div>
+        </div></div>
+      </div>
+
+      <!-- 3.4 Con problemas -->
+      <div class="acc-item" data-acc="ir-con-prob">
+        <div class="acc-trigger" onclick="toggleAcc('ir-con-prob')">
+          <div class="acc-icon" style="background:#fef2f2;color:#991b1b">⚠️</div>
+          <span class="acc-title">Con problemas</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">El número de registros únicos que tienen al menos un problema detectado en cualquier dimensión o columna analizada. Un mismo registro puede aparecer en múltiples problemas, pero se cuenta una sola vez aquí.</p>
+          <div class="acc-row"><span class="acc-label">¿Qué cuenta?</span><span class="acc-val">Solo IDs únicos con problemas. Si el registro ID 1042 falla en completitud, validez y similitud, cuenta como <strong>1</strong> registro con problemas (no 3).</span></div>
+          <div class="acc-row"><span class="acc-label">¿Qué no cuenta?</span><span class="acc-val">Si el registro ID 2001 pasa todas las dimensiones sin problemas, no aparece en este conteo aunque otras columnas suyas no hayan sido analizadas.</span></div>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:.85rem 0">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)"><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Registro</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Falla en</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">¿Cuenta?</th></tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem">ID 1042</td><td style="padding:.4rem .7rem">completitud + validez + similitud</td><td style="padding:.4rem .7rem;color:var(--red);font-weight:600">1 vez</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem">ID 2001</td><td style="padding:.4rem .7rem">ninguna dimensión</td><td style="padding:.4rem .7rem;color:var(--green);font-weight:600">No cuenta</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.7rem 1rem;font-size:.82rem;color:#92400e;line-height:1.6">
+            ⚠️ Este número puede ser <strong>menor</strong> que la suma de problemas por dimensión, ya que el mismo registro puede fallar en varias dimensiones simultáneamente.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.5 Registros limpios % -->
+      <div class="acc-item" data-acc="ir-limpios">
+        <div class="acc-trigger" onclick="toggleAcc('ir-limpios')">
+          <div class="acc-icon" style="background:#f0fdf4;color:#166534">✨</div>
+          <span class="acc-title">Registros limpios (%)</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">El porcentaje de registros que no tienen ningún problema en ninguna de las dimensiones analizadas. Es el complemento directo del indicador "Con problemas".</p>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;font-size:.83rem;font-family:monospace;margin-bottom:.85rem;line-height:1.8">
+            % Limpios = ((Total − Con problemas) / Total) × 100
+          </div>
+          <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val">1 000 registros totales, 5 con problemas → 99.5% limpios. Ese 0.5% puede tener alto impacto si los registros afectados son clientes VIP o transacciones críticas.</span></div>
+          <div class="acc-row"><span class="acc-label">Guía de interpretación</span><span class="acc-val"><strong>≥ 99%</strong> = excelente · <strong>95–98%</strong> = aceptable con monitoreo · <strong>90–94%</strong> = requiere plan de limpieza · <strong>&lt; 90%</strong> = limpieza urgente antes de usar</span></div>
+        </div></div>
+      </div>
+
+      <!-- 3.6 Peor dimensión -->
+      <div class="acc-item" data-acc="ir-peor-dim">
+        <div class="acc-trigger" onclick="toggleAcc('ir-peor-dim')">
+          <div class="acc-icon" style="background:#fff7ed;color:#c2410c">🎯</div>
+          <span class="acc-title">Peor dimensión</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">La dimensión con el score promedio más bajo entre todas las columnas analizadas. Es el punto de partida recomendado para la remediación — el lugar donde una acción tendrá el mayor impacto en el score general.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)"><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Dimensión</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Causa típica</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Acción recomendada</th></tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Consistencia</td><td style="padding:.4rem .7rem;color:var(--sub)">Mayúsculas mixtas, espacios extra</td><td style="padding:.4rem .7rem;color:var(--sub)">Estandarizar con UPPER/LOWER/TRIM</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Similitud</td><td style="padding:.4rem .7rem;color:var(--sub)">Variantes del mismo nombre</td><td style="padding:.4rem .7rem;color:var(--sub)">Revisar y consolidar duplicados semánticos</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Validez</td><td style="padding:.4rem .7rem;color:var(--sub)">Valores fuera de catálogo</td><td style="padding:.4rem .7rem;color:var(--sub)">Revisar lista de valores permitidos</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Exactitud</td><td style="padding:.4rem .7rem;color:var(--sub)">Valores fuera de rango numérico</td><td style="padding:.4rem .7rem;color:var(--sub)">Validar rangos mínimo y máximo</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Completitud</td><td style="padding:.4rem .7rem;color:var(--sub)">Campos nulos o vacíos</td><td style="padding:.4rem .7rem;color:var(--sub)">Identificar registros sin llenar y completarlos</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Unicidad</td><td style="padding:.4rem .7rem;color:var(--sub)">IDs o emails duplicados</td><td style="padding:.4rem .7rem;color:var(--sub)">Eliminar o fusionar registros duplicados</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.7 Tabla de problemas detallados -->
+      <div class="acc-item" data-acc="ir-tabla-prob">
+        <div class="acc-trigger" onclick="toggleAcc('ir-tabla-prob')">
+          <div class="acc-icon" style="background:#faf5ff;color:#7e22ce">📋</div>
+          <span class="acc-title">Tabla de problemas detallados</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">La tabla de problemas muestra cada registro con cada falla encontrada, con suficiente detalle para localizar y corregir el error en la fuente de datos original.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)"><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Columna</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Qué muestra</th></tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">ID Registro</td><td style="padding:.4rem .7rem;color:var(--sub)">El valor de la columna ID configurada. Úsalo para localizar el registro en tu base de datos original.</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Columna</td><td style="padding:.4rem .7rem;color:var(--sub)">El nombre de la columna donde se encontró el problema.</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Dimensión</td><td style="padding:.4rem .7rem;color:var(--sub)">Qué regla de calidad fue violada (completitud, validez, similitud, etc.).</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Descripción</td><td style="padding:.4rem .7rem;color:var(--sub)">Explicación detallada del problema. Por ejemplo: "Valor 'Suspenddo' no está en la lista de valores válidos".</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Valor encontrado</td><td style="padding:.4rem .7rem;color:var(--sub)">El valor exacto que causó el problema, tal como aparece en el dataset.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="acc-row"><span class="acc-label">Filtros</span><span class="acc-val">Usa los filtros de la tabla para ver solo los problemas de una columna o dimensión específica. Ideal para asignar correcciones por equipo o responsable.</span></div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.7rem 1rem;font-size:.82rem;color:#166534;line-height:1.6;margin-top:.75rem">
+            📥 <strong>Exportar a Excel:</strong> El botón "Descargar reporte" genera un archivo Excel con tres pestañas: Dashboard, Problemas Detallados y Score por Columna — todo con celdas coloreadas verde/amarillo/rojo para facilitar la revisión.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.8 Cómo interpretar el score de Similitud -->
+      <div class="acc-item" data-acc="ir-similitud">
+        <div class="acc-trigger" onclick="toggleAcc('ir-similitud')">
+          <div class="acc-icon" style="background:#fdf2f8;color:#9d174d">🔗</div>
+          <span class="acc-title">Cómo interpretar el score de Similitud</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">Un score bajo en Similitud significa que hay muchos registros con valores muy parecidos entre sí — posibles duplicados semánticos que el sistema no puede distinguir sin revisión humana.</p>
+          <div class="acc-row"><span class="acc-label">Paso 1</span><span class="acc-val">Identifica en la tabla qué pares de registros son similares. La columna "Descripción" muestra el ID del registro similar y el porcentaje de similitud.</span></div>
+          <div class="acc-row"><span class="acc-label">Paso 2</span><span class="acc-val">Decide si son duplicados reales (misma persona con nombre escrito diferente) o registros legítimamente distintos (dos personas llamadas "Juan García").</span></div>
+          <div class="acc-row"><span class="acc-label">Paso 3</span><span class="acc-val">Si son duplicados, consolida los registros en la fuente de datos original y vuelve a analizar.</span></div>
+          <div class="acc-row"><span class="acc-label">Paso 4</span><span class="acc-val">Si son registros distintos, considera ajustar el umbral de similitud a un valor más alto (ej: 95 en lugar de 90) para reducir falsos positivos.</span></div>
+          <div class="acc-row"><span class="acc-label">Paso 5</span><span class="acc-val">Elige el algoritmo adecuado para tu tipo de dato: Jaro-Winkler para nombres cortos, Brecha Afín para nombres con abreviaturas, Levenshtein para códigos.</span></div>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:.85rem 0">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)"><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Algoritmo</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Mejor para</th></tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Jaro-Winkler</td><td style="padding:.4rem .7rem;color:var(--sub)">Nombres cortos con errores tipográficos ("García" vs "Gracia")</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Brecha Afín</td><td style="padding:.4rem .7rem;color:var(--sub)">Nombres con abreviaturas ("Juan A. García" vs "Juan Alberto García")</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Levenshtein</td><td style="padding:.4rem .7rem;color:var(--sub)">Códigos y textos cortos con sustituciones de caracteres</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Monge-Elkan</td><td style="padding:.4rem .7rem;color:var(--sub)">Nombres completos con orden de tokens diferente</td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:.4rem .7rem;font-weight:600">Coseno TF-IDF</td><td style="padding:.4rem .7rem;color:var(--sub)">Descripciones largas o texto libre</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.7rem 1rem;font-size:.82rem;color:#1e40af;line-height:1.6">
+            ℹ️ La dimensión de Similitud compara pares de registros dentro de la misma columna, no contra un valor externo. Por eso puede ser la más lenta con datasets grandes — y también la más valiosa para detectar duplicados que ningún otro método encontraría.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.9 Flujo de trabajo recomendado -->
+      <div class="acc-item" data-acc="ir-flujo">
+        <div class="acc-trigger" onclick="toggleAcc('ir-flujo')">
+          <div class="acc-icon" style="background:#f0f9ff;color:#0369a1">🔄</div>
+          <span class="acc-title">El flujo de trabajo recomendado</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">La gestión de calidad de datos no es un evento puntual — es un ciclo continuo de cuatro pasos que se repite cada vez que los datos cambian o se actualizan.</p>
+          <div style="display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin:.9rem 0;font-size:.83rem">
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.6rem .9rem;text-align:center;min-width:90px">
+              <div style="font-size:1.3rem;margin-bottom:.2rem">📥</div>
+              <div style="font-weight:700;color:#1e40af">CARGAR</div>
+              <div style="color:var(--sub);font-size:.75rem">Subir dataset</div>
+            </div>
+            <div style="color:var(--muted);font-size:1.2rem">→</div>
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:.6rem .9rem;text-align:center;min-width:90px">
+              <div style="font-size:1.3rem;margin-bottom:.2rem">📊</div>
+              <div style="font-weight:700;color:#166534">MEDIR</div>
+              <div style="color:var(--sub);font-size:.75rem">Configurar y analizar</div>
+            </div>
+            <div style="color:var(--muted);font-size:1.2rem">→</div>
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.6rem .9rem;text-align:center;min-width:90px">
+              <div style="font-size:1.3rem;margin-bottom:.2rem">💡</div>
+              <div style="font-weight:700;color:#92400e">EXPLICAR</div>
+              <div style="color:var(--sub);font-size:.75rem">Revisar problemas</div>
+            </div>
+            <div style="color:var(--muted);font-size:1.2rem">→</div>
+            <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:10px;padding:.6rem .9rem;text-align:center;min-width:90px">
+              <div style="font-size:1.3rem;margin-bottom:.2rem">🔧</div>
+              <div style="font-weight:700;color:#7e22ce">CORREGIR</div>
+              <div style="color:var(--sub);font-size:.75rem">Limpiar en origen</div>
+            </div>
+            <div style="color:var(--muted);font-size:1.2rem">↺</div>
+          </div>
+          <p style="font-size:.82rem;color:var(--sub);line-height:1.6;margin-top:.5rem">
+            Después de cada corrección en la fuente de datos, exporta un nuevo archivo y vuelve a cargar — el historial registra cada análisis para que puedas comparar la evolución del score en el tiempo y demostrar la mejora continua.
+          </p>
+        </div></div>
+      </div>
+
     </div>
 
     <!-- SECCIÓN 4 — Formatos soportados -->
