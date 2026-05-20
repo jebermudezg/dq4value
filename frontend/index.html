@@ -1009,6 +1009,10 @@
     .hist-btn-dl { font-size:.76rem; padding:.3rem .85rem; border-radius:7px; cursor:pointer;
                    background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
     .hist-btn-dl:hover { background:var(--blue-dk); }
+    .hist-btn-dash { font-size:.76rem; padding:.3rem .85rem; border-radius:7px; cursor:pointer;
+                     background:#fff; color:var(--blue); border:1.5px solid var(--blue);
+                     font-family:inherit; font-weight:600; }
+    .hist-btn-dash:hover { background:var(--blue-lt,#eff6ff); }
     .hist-btn-del{ font-size:.76rem; padding:.3rem .65rem; border-radius:7px; cursor:pointer;
                    background:var(--bg); border:1.5px solid var(--border); color:var(--sub);
                    font-family:inherit; margin-left:auto; }
@@ -3558,6 +3562,7 @@ function _buildHistCard(a) {
     <div class="hist-card-footer">
       ${etqClass ? `<span class="hist-etq ${etqClass}">${a.etiqueta}</span>` : ''}
       <button class="hist-btn-dl" onclick="downloadHistReport(${a.id})">⬇ Descargar reporte</button>
+      <button class="hist-btn-dash" onclick="openHistDashboard(${a.id})">📊 Ver dashboard</button>
       <button class="hist-btn-del" onclick="deleteHistItem(${a.id}, this)">🗑 Eliminar</button>
     </div>
   </div>`;
@@ -3572,6 +3577,22 @@ async function downloadHistReport(id) {
     const a    = document.createElement('a');
     a.href = url; a.download = `reporte_${id}.xlsx`; a.click();
     URL.revokeObjectURL(url);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function openHistDashboard(id) {
+  try {
+    const res = await apiFetch(`/historial/${id}/dashboard`);
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({detail: 'Dashboard no disponible'}));
+      throw new Error(d.detail || 'Error');
+    }
+    const html = await res.text();
+    const blob = new Blob([html], { type: 'text/html' });
+    const url  = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    // revoke after a short delay to allow the new tab to load
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
   } catch(e) { toast(e.message, 'error'); }
 }
 

@@ -356,18 +356,37 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
         _analysis_store[request.file_id] = results
 
         # Generate persisted report
-        ruta_reporte = ""
+        ruta_reporte  = ""
+        ruta_dashboard = ""
+        _rdir = _ts = _dname = None
         try:
-            ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
-            uname    = re.sub(r"[^\w\-]", "_", (current_user.get("nombre") or current_user["email"].split("@")[0]))
-            dname    = re.sub(r"[^\w\-]", "_", Path(stored.get("original_name", "report")).stem)
-            rdir     = REPORTS_DIR / uname / datetime.now().strftime("%Y-%m")
-            rdir.mkdir(parents=True, exist_ok=True)
-            rfile    = rdir / f"{ts}_{dname}.xlsx"
+            _ts    = datetime.now().strftime("%Y%m%d_%H%M%S")
+            _uname = re.sub(r"[^\w\-]", "_", (current_user.get("nombre") or current_user["email"].split("@")[0]))
+            _dname = re.sub(r"[^\w\-]", "_", Path(stored.get("original_name", "report")).stem)
+            _rdir  = REPORTS_DIR / _uname / datetime.now().strftime("%Y-%m")
+            _rdir.mkdir(parents=True, exist_ok=True)
+            rfile  = _rdir / f"{_ts}_{_dname}.xlsx"
             generate_excel_report(results, str(rfile))
             ruta_reporte = str(rfile.relative_to(PROJECT_ROOT))
         except Exception as re_err:
             print(f"[report] Warning: {re_err}")
+
+        # Generate HTML dashboard
+        try:
+            if _rdir and _ts and _dname:
+                from engine.dashboard_gen import generate_dashboard_html
+                dfile     = _rdir / f"{_ts}_{_dname}_dashboard.html"
+                dash_html = generate_dashboard_html(
+                    analysis_results=results,
+                    filename=stored.get("original_name", ""),
+                    fecha=datetime.now().strftime("%d/%m/%Y %H:%M"),
+                    etiqueta=request.etiqueta or "",
+                    descripcion=request.descripcion or "",
+                )
+                dfile.write_text(dash_html, encoding="utf-8")
+                ruta_dashboard = str(dfile.relative_to(PROJECT_ROOT))
+        except Exception as de_err:
+            print(f"[dashboard] Warning: {de_err}")
 
         # Collect unique dimension names
         dims = sorted({dim for col_dims in request.columns_config.values() for dim in col_dims})
@@ -379,8 +398,8 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                 """INSERT INTO analisis
                    (usuario_id, file_id, nombre_archivo, total_registros, score_general,
                     descripcion, etiqueta, total_columnas, total_problemas,
-                    dimensiones_aplicadas, ruta_reporte, estado)
-                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    dimensiones_aplicadas, ruta_reporte, ruta_dashboard, estado)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     current_user["id"],
                     request.file_id,
@@ -393,6 +412,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                     results["total_problemas"],
                     json.dumps(dims),
                     ruta_reporte,
+                    ruta_dashboard,
                     "completado",
                 ),
             )
@@ -864,6 +884,28 @@ def download_historial_reporte(analisis_id: int, authorization: str = Header(Non
     )
 
 
+@app.get("/historial/{analisis_id}/dashboard")
+def download_historial_dashboard(analisis_id: int, authorization: str = Header(None)):
+    user = get_current_user(authorization)
+    conn = get_connection()
+    row  = conn.execute("SELECT * FROM analisis WHERE id = ?", (analisis_id,)).fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(status_code=404, detail="Análisis no encontrado.")
+    if row["usuario_id"] != user["id"] and user.get("rol") != "admin":
+        raise HTTPException(status_code=403, detail="Sin permiso.")
+    ruta = dict(row).get("ruta_dashboard") or ""
+    if not ruta:
+        raise HTTPException(status_code=404, detail="El dashboard de este análisis no está disponible.")
+    dfile = PROJECT_ROOT / ruta
+    if not dfile.exists():
+        raise HTTPException(status_code=404, detail="El dashboard de este análisis ya no está disponible.")
+    return FileResponse(
+        path=str(dfile),
+        media_type="text/html",
+    )
+
+
 @app.delete("/historial/{analisis_id}")
 def delete_historial_item(analisis_id: int, authorization: str = Header(None)):
     user = get_current_user(authorization)
@@ -875,14 +917,16 @@ def delete_historial_item(analisis_id: int, authorization: str = Header(None)):
     if row["usuario_id"] != user["id"] and user.get("rol") != "admin":
         conn.close()
         raise HTTPException(status_code=403, detail="Sin permiso.")
-    # Delete file from disk
-    if row["ruta_reporte"]:
-        try:
-            f = PROJECT_ROOT / row["ruta_reporte"]
-            if f.exists():
-                f.unlink()
-        except Exception:
-            pass
+    # Delete files from disk
+    for ruta_key in ("ruta_reporte", "ruta_dashboard"):
+        ruta = dict(row).get(ruta_key) or ""
+        if ruta:
+            try:
+                f = PROJECT_ROOT / ruta
+                if f.exists():
+                    f.unlink()
+            except Exception:
+                pass
     conn.execute("DELETE FROM analisis WHERE id = ?", (analisis_id,))
     conn.commit()
     conn.close()

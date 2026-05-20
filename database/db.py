@@ -58,6 +58,7 @@ def init_db() -> None:
         "total_problemas INTEGER",
         "dimensiones_aplicadas TEXT",
         "ruta_reporte TEXT",
+        "ruta_dashboard TEXT",
         "estado TEXT DEFAULT 'completado'",
     ]:
         try:
