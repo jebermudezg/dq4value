@@ -1515,7 +1515,12 @@
               font-size="13" fill="#94A3B8">/ 100 puntos</text>
       </svg>
       <span id="gaugeLabel" style="padding:.3rem 1rem;border-radius:999px;font-size:.78rem;font-weight:700;display:inline-block;background:#DCFCE7;color:#166534">—</span>
-      <p id="dashInterp" style="font-size:.79rem;color:#64748B;line-height:1.6;margin-top:.85rem;text-align:left">—</p>
+      <!-- scale legend -->
+      <div style="display:flex;gap:.35rem;margin-top:.75rem;flex-wrap:wrap;justify-content:center">
+        <span style="font-size:.68rem;padding:.18rem .5rem;border-radius:5px;background:#DCFCE7;color:#166534;font-weight:600">≥80 Buena</span>
+        <span style="font-size:.68rem;padding:.18rem .5rem;border-radius:5px;background:#FEF3C7;color:#92400E;font-weight:600">60-79 Atención</span>
+        <span style="font-size:.68rem;padding:.18rem .5rem;border-radius:5px;background:#FEE2E2;color:#991B1B;font-weight:600">&lt;60 Crítica</span>
+      </div>
     </div>
     <div class="card" style="padding:1.25rem 1.4rem">
       <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.85rem">Score por dimensión — peor a mejor</div>
@@ -1547,11 +1552,11 @@
     </div>
   </div>
 
-  <!-- ── Donut + Issues by dimension ── -->
+  <!-- ── Issues bars + Issues list ── -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
     <div class="card" style="padding:1.4rem">
-      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:1rem">Distribución de problemas por dimensión</div>
-      <canvas id="donutResultados" style="max-height:200px"></canvas>
+      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.85rem">Distribución de problemas por dimensión</div>
+      <div id="issuesBarsContainer"></div>
     </div>
     <div class="card" style="padding:1.4rem">
       <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.75rem">Problemas detectados</div>
@@ -4232,8 +4237,8 @@ function buildResultsScreen(data) {
   const circumference = 452.39;
 
   // ── Score color helpers ───────────────────────────────────────────
-  const sc_color  = s => s >= 80 ? '#16A34A' : s >= 60 ? '#D97706' : '#DC2626';
-  const sc_bg     = s => s >= 80 ? '#DCFCE7' : s >= 60 ? '#FEF9C3' : '#FEE2E2';
+  const sc_color  = s => s >= 80 ? '#16A34A' : s >= 60 ? '#B45309' : '#DC2626';
+  const sc_bg     = s => s >= 80 ? '#DCFCE7' : s >= 60 ? '#FEF3C7' : '#FEE2E2';
   const sc_txt    = s => s >= 80 ? '#166534' : s >= 60 ? '#92400E' : '#991B1B';
   const sc_label  = s => s >= 80 ? 'Calidad Buena' : s >= 60 ? 'Calidad Regular' : 'Calidad Crítica';
   const sc_interp = s => s >= 80
@@ -4254,7 +4259,6 @@ function buildResultsScreen(data) {
   gaugeLabelEl.textContent = sc_label(score);
   gaugeLabelEl.style.background = sc_bg(score);
   gaugeLabelEl.style.color = sc_txt(score);
-  document.getElementById('dashInterp').textContent = sc_interp(score);
 
   // ── Per-dimension averages ────────────────────────────────────────
   const dimSum = {}, dimCnt = {};
@@ -4319,7 +4323,7 @@ function buildResultsScreen(data) {
     const dims = data.scores_por_columna[col] || {};
     const color = sc_color(avg);
     const card = document.createElement('div');
-    card.style.cssText = `background:#fff;border-radius:.75rem;padding:1rem;border:1.5px solid ${avg < 60 ? '#FEE2E2' : avg < 80 ? '#FEF9C3' : '#DCFCE7'};box-shadow:0 1px 3px rgba(0,0,0,.06)`;
+    card.style.cssText = `background:#fff;border-radius:.75rem;padding:1rem;border:1.5px solid ${avg < 60 ? '#FEE2E2' : avg < 80 ? '#FEF3C7' : '#DCFCE7'};box-shadow:0 1px 3px rgba(0,0,0,.06)`;
     const dimRows = Object.entries(dims).map(([d, s]) =>
       `<div style="display:flex;justify-content:space-between;font-size:.72rem;color:#64748B;margin-top:.2rem">
         <span style="text-transform:capitalize">${escHtml(d)}</span>
@@ -4486,76 +4490,74 @@ function scoreLabel(s) { return s >= 80 ? 'Calidad buena' : s >= 60 ? 'Calidad r
 
 // ── Donut + Remediation ───────────────────────────────────────────────
 function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
-  // Count issues by dimension
-  const dimIssueCnt = {};
-  issues.forEach(r => {
-    dimIssueCnt[r.dimension] = (dimIssueCnt[r.dimension] || 0) + 1;
-  });
+  // ── Unified color helpers (amber = #B45309 / #FEF3C7 / #92400E) ──
+  const sColor = s => s >= 80 ? '#16A34A' : s >= 60 ? '#B45309' : '#DC2626';
+  const sBg    = s => s >= 80 ? '#DCFCE7' : s >= 60 ? '#FEF3C7' : '#FEE2E2';
+  const sTxt   = s => s >= 80 ? '#166534' : s >= 60 ? '#92400E' : '#991B1B';
 
-  // Issues by dim list
-  const listEl = document.getElementById('issuesByDimList');
-  if (listEl) {
-    const sorted = Object.entries(dimIssueCnt).sort((a, b) => b[1] - a[1]);
-    if (sorted.length === 0) {
-      listEl.innerHTML = '<p style="color:#64748B;font-size:.82rem">Sin problemas detectados</p>';
+  // ── Count issues by dimension (sorted most → least) ──
+  const dimIssueCnt = {};
+  issues.forEach(r => { dimIssueCnt[r.dimension] = (dimIssueCnt[r.dimension] || 0) + 1; });
+  const sortedByCount = Object.entries(dimIssueCnt).sort((a, b) => b[1] - a[1]);
+  const maxCnt = sortedByCount.length > 0 ? sortedByCount[0][1] : 1;
+
+  // ── Left panel: horizontal bars ──
+  const barsEl = document.getElementById('issuesBarsContainer');
+  if (barsEl) {
+    if (sortedByCount.length === 0) {
+      barsEl.innerHTML = '<p style="color:#64748B;font-size:.82rem">Sin problemas detectados</p>';
     } else {
-      listEl.innerHTML = sorted.map(([dim, cnt]) => {
-        const sc = dimAvg[dim] !== undefined ? dimAvg[dim] : 100;
-        const color = sc >= 80 ? '#16A34A' : sc >= 60 ? '#D97706' : '#DC2626';
-        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid #F1F5F9">
-          <span style="font-size:.79rem;text-transform:capitalize;color:#475569">${escHtml(dim)}</span>
-          <span style="font-size:.79rem;font-weight:700;color:${color}">${cnt} problema${cnt!==1?'s':''}</span>
+      barsEl.innerHTML = sortedByCount.map(([dim, cnt]) => {
+        const sc  = dimAvg[dim] !== undefined ? dimAvg[dim] : 100;
+        const col = sColor(sc), bg = sBg(sc), txt = sTxt(sc);
+        const pct = Math.round(cnt / maxCnt * 100);
+        return `<div style="margin-bottom:.85rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
+            <span style="font-size:.81rem;font-weight:600;color:#374151;text-transform:capitalize">${escHtml(dim)}</span>
+            <span style="font-size:.78rem;font-weight:700;padding:.15rem .5rem;border-radius:6px;background:${bg};color:${txt}">${cnt.toLocaleString()}</span>
+          </div>
+          <div style="background:#F1F5F9;border-radius:999px;height:8px;overflow:hidden">
+            <div style="background:${col};height:100%;width:${pct}%;border-radius:999px;transition:width .5s"></div>
+          </div>
         </div>`;
       }).join('');
     }
   }
 
-  // Donut chart
-  const canvas = document.getElementById('donutResultados');
-  if (canvas && typeof Chart !== 'undefined') {
-    const existing = Chart.getChart(canvas);
-    if (existing) existing.destroy();
-    const labels = Object.keys(dimIssueCnt);
-    const values = Object.values(dimIssueCnt);
-    const palette = ['#3B82F6','#EF4444','#F59E0B','#10B981','#8B5CF6','#EC4899','#06B6D4','#84CC16','#F97316','#6366F1'];
-    if (labels.length > 0) {
-      new Chart(canvas, {
-        type: 'doughnut',
-        data: {
-          labels,
-          datasets: [{ data: values, backgroundColor: palette.slice(0, labels.length), borderWidth: 2, borderColor: '#fff' }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8 } },
-            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} problemas` } }
-          },
-          cutout: '62%'
-        }
-      });
+  // ── Right panel: text list with score-colored count badges ──
+  const listEl = document.getElementById('issuesByDimList');
+  if (listEl) {
+    if (sortedByCount.length === 0) {
+      listEl.innerHTML = '<p style="color:#64748B;font-size:.82rem">Sin problemas detectados</p>';
     } else {
-      // No issues — clear canvas
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      listEl.innerHTML = sortedByCount.map(([dim, cnt]) => {
+        const sc = dimAvg[dim] !== undefined ? dimAvg[dim] : 100;
+        const bg = sBg(sc), txt = sTxt(sc);
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid #F8FAFC">
+          <span style="font-size:.81rem;text-transform:capitalize;color:#374151;font-weight:500">${escHtml(dim)}</span>
+          <span style="font-size:.79rem;font-weight:700;padding:.15rem .55rem;border-radius:6px;background:${bg};color:${txt}">${cnt.toLocaleString()}</span>
+        </div>`;
+      }).join('');
     }
   }
 
-  // Remediation cards — top 3 worst dims
-  const _remediations = {
-    completitud:           'Implementa validaciones en origen para campos obligatorios. Establece valores por defecto cuando corresponda y aplica procesos de limpieza para rellenar o eliminar registros con valores nulos críticos.',
-    unicidad:              'Identifica y elimina registros duplicados usando claves primarias o combinaciones de campos únicos. Implementa restricciones de unicidad en la base de datos y procesos de deduplicación periódicos.',
-    validez:               'Define y documenta las reglas de validación para cada campo. Implementa controles en el punto de entrada de datos y aplica transformaciones para corregir valores fuera del dominio permitido.',
-    consistencia:          'Establece definiciones estándar para cada campo y asegura que todos los sistemas usen los mismos catálogos y formatos. Implementa validaciones cruzadas entre campos relacionados.',
-    exactitud:             'Verifica los valores contra fuentes de referencia confiables. Implementa rangos de validación para campos numéricos y procesos de corrección para valores fuera del rango esperado.',
-    vigencia:              'Implementa políticas de retención y actualización de datos. Establece fechas de expiración y procesos automáticos para detectar y actualizar registros desactualizados.',
-    precision:             'Define la longitud y formato esperado para cada campo de texto. Implementa trimming automático, normalización de mayúsculas/minúsculas y validación de longitud mínima y máxima.',
-    similitud:             'Registros con al menos un valor similar detectado. Aplica algoritmos de deduplicación difusa (fuzzy matching) para identificar y consolidar registros que representan la misma entidad con variaciones ortográficas.',
-    razonabilidad:         'Analiza la distribución estadística de los valores para detectar outliers. Establece rangos razonables basados en el contexto del negocio e implementa alertas para valores anómalos.',
-    integridad_referencial:'Verifica que todas las claves foráneas tengan un registro correspondiente en la tabla padre. Implementa restricciones de integridad referencial en la base de datos y procesos de validación periódicos.',
-    oportunidad:           'Monitorea los tiempos de carga y actualización de datos. Establece SLAs para la frecuencia de actualización y procesos de alerta cuando los datos no se actualizan en el tiempo esperado.'
+  // ── Remediation cards: top 3 worst dims, score-based colors + badges ──
+  const _remDesc = {
+    completitud:           'Registros con campos obligatorios nulos o vacíos. Fortalecer controles de captura en el sistema origen.',
+    unicidad:              'Registros duplicados exactos detectados. Ejecutar proceso de deduplicación en el maestro de datos.',
+    validez:               'Registros con valores fuera del catálogo permitido o con formato inválido detectado.',
+    exactitud:             'Registros con valores numéricos fuera del rango configurado. Revisar reglas de validación en la fuente.',
+    consistencia:          'Registros con formatos mezclados (texto, fechas o categorías). Estandarizar formatos en el sistema origen.',
+    vigencia:              'Registros con fechas fuera del rango de vigencia configurado. Actualizar o depurar registros obsoletos.',
+    precision:             'Registros con longitud o decimales fuera del estándar esperado. Revisar reglas de formato en la captura.',
+    similitud:             'Registros con al menos un valor similar detectado. Posibles duplicados difusos — requieren validación manual antes de deduplicar.',
+    razonabilidad:         'Registros con valores estadísticamente atípicos (outliers). Verificar si son errores de captura o casos reales.',
+    integridad_referencial:'Registros con valores que no existen en el catálogo maestro de referencia.',
+    oportunidad:           'Registros con fechas de actualización fuera del SLA configurado. Revisar procesos de carga y actualización.'
   };
+  const _remIcon = { completitud:'🗂', unicidad:'🔁', validez:'✅', exactitud:'📏',
+    consistencia:'🔤', vigencia:'📅', precision:'📐', similitud:'👥',
+    razonabilidad:'📊', integridad_referencial:'🔗', oportunidad:'⏱' };
 
   const remedGrid = document.getElementById('remedCardsGrid');
   if (remedGrid) {
@@ -4564,18 +4566,26 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
       remedGrid.innerHTML = '<p style="color:#64748B;font-size:.82rem">No hay dimensiones con problemas.</p>';
       return;
     }
-    const colors = ['#DC2626','#D97706','#3B82F6'];
-    const icons  = ['🔴','🟡','🔵'];
-    remedGrid.innerHTML = worst3.map(([dim, sc], i) => {
-      const desc = _remediations[dim] || 'Revisa los datos de esta dimensión y aplica correcciones según las reglas de negocio definidas.';
-      const color = colors[i] || '#64748B';
-      return `<div style="background:#fff;border-radius:.75rem;padding:1.1rem 1.2rem;border:1.5px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,.06)">
-        <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem">
-          <span>${icons[i]}</span>
-          <span style="font-size:.8rem;font-weight:800;text-transform:capitalize;color:${color}">${escHtml(dim)}</span>
-          <span style="margin-left:auto;font-size:.75rem;font-weight:700;color:${color}">${sc.toFixed(1)}</span>
+    remedGrid.innerHTML = worst3.map(([dim, sc]) => {
+      const col = sColor(sc), bg = sBg(sc), txt = sTxt(sc);
+      const cnt = dimIssueCnt[dim] || 0;
+      const desc = _remDesc[dim] || 'Revisa los datos de esta dimensión y aplica correcciones según las reglas de negocio.';
+      const icon = _remIcon[dim] || '⚠️';
+      const cntBadge = cnt > 0
+        ? `<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;background:${bg};color:${txt}">${cnt.toLocaleString()} problemas</span>`
+        : '';
+      return `<div style="background:#fff;border-radius:12px;padding:1.3rem;border-left:4px solid ${col};box-shadow:0 1px 4px rgba(0,0,0,.07)">
+        <div style="display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.75rem">
+          <span style="font-size:1.4rem;line-height:1">${icon}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;color:#1E293B;font-size:.9rem;margin-bottom:.3rem;text-transform:capitalize">${escHtml(dim)}</div>
+            <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
+              <span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;background:${bg};color:${txt}">${sc.toFixed(1)}</span>
+              ${cntBadge}
+            </div>
+          </div>
         </div>
-        <p style="font-size:.76rem;color:#475569;line-height:1.55;margin:0">${escHtml(desc)}</p>
+        <p style="font-size:.79rem;color:#64748B;line-height:1.55;margin:0">${escHtml(desc)}</p>
       </div>`;
     }).join('');
   }

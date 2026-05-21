@@ -7,17 +7,17 @@ import math
 from datetime import datetime
 
 # ─────────────────────────────────────────────
-# Constants
+# Constants  (unified amber palette: #B45309 / #FEF3C7 / #92400E)
 # ─────────────────────────────────────────────
 _CIRC = 452.39          # 2π × r=72  (full-circle gauge circumference)
 _C_GREEN  = "#16A34A"
-_C_AMBER  = "#D97706"
+_C_AMBER  = "#B45309"   # unified amber — NOT #D97706
 _C_RED    = "#DC2626"
-_C_GREEN_LT = "#DCFCE7"
-_C_AMBER_LT = "#FEF3C7"
-_C_RED_LT   = "#FEE2E2"
+_C_GREEN_LT  = "#DCFCE7"
+_C_AMBER_LT  = "#FEF3C7"   # unified amber-lt — NOT #FEF9C3
+_C_RED_LT    = "#FEE2E2"
 _C_GREEN_TXT = "#166534"
-_C_AMBER_TXT = "#92400E"
+_C_AMBER_TXT = "#92400E"   # unified amber-txt — NOT #854D0E
 _C_RED_TXT   = "#991B1B"
 
 
@@ -46,33 +46,6 @@ def _score_label(s: float) -> str:
 
 def _dashoffset(s: float) -> str:
     return "%.2f" % (_CIRC * (1 - min(max(s, 0), 100) / 100))
-
-
-# ─────────────────────────────────────────────
-# Interpretation
-# ─────────────────────────────────────────────
-def _interpretation(score: float, peor_dim: str, peor_score: float) -> str:
-    if score >= 80:
-        return (
-            "El dataset presenta buena calidad. "
-            "Se recomienda monitoreo periódico. "
-            "La dimensión con mayor oportunidad de mejora es "
-            "<strong>%s</strong> con score <strong>%.1f</strong>."
-            % (peor_dim, peor_score)
-        )
-    if score >= 60:
-        return (
-            "El dataset requiere atención antes de usarse en procesos críticos. "
-            "La dimensión más débil es <strong>%s</strong> (<strong>%.1f</strong>). "
-            "Se recomienda iniciar la remediación por esta dimensión."
-            % (peor_dim, peor_score)
-        )
-    return (
-        "El dataset presenta calidad crítica. "
-        "Intervención urgente requerida antes de cualquier uso en producción. "
-        "La dimensión más débil es <strong>%s</strong> con score <strong>%.1f</strong>."
-        % (peor_dim, peor_score)
-    )
 
 
 # ─────────────────────────────────────────────
@@ -142,6 +115,7 @@ def _remed_info(dim: str):
 # ─────────────────────────────────────────────
 
 def _gauge_svg(score: float) -> str:
+    """Gauge SVG + 3 scale badges. No interpretation text."""
     col   = _score_color(score)
     off   = _dashoffset(score)
     lbl   = _score_label(score)
@@ -150,26 +124,31 @@ def _gauge_svg(score: float) -> str:
     return (
         '<div style="display:flex;flex-direction:column;align-items:center">'
         '<svg width="180" height="180" viewBox="0 0 180 180">'
-        # background track
         '<circle cx="90" cy="90" r="72" fill="none" stroke="#E2E8F0" '
         'stroke-width="14" stroke-dasharray="452.39 452.39"/>'
-        # score arc (start at top)
         '<circle cx="90" cy="90" r="72" fill="none" stroke="%s" '
         'stroke-width="14" stroke-dasharray="452.39 452.39" '
         'stroke-dashoffset="%s" stroke-linecap="round" '
         'transform="rotate(-90 90 90)"/>'
-        # score number
         '<text x="90" y="82" text-anchor="middle" '
         'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif" '
         'font-size="38" font-weight="800" fill="%s">%.1f</text>'
-        # /100 label
         '<text x="90" y="103" text-anchor="middle" '
         'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif" '
         'font-size="13" fill="#94A3B8">/ 100 puntos</text>'
         '</svg>'
-        # status badge below gauge
+        # active status badge
         '<span style="margin-top:.5rem;padding:.3rem 1rem;border-radius:999px;'
         'font-size:.78rem;font-weight:700;background:%s;color:%s">%s</span>'
+        # scale legend badges
+        '<div style="display:flex;gap:.4rem;margin-top:.75rem;flex-wrap:wrap;justify-content:center">'
+        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
+        'background:#DCFCE7;color:#166534;font-weight:600">&ge;80 Buena</span>'
+        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
+        'background:#FEF3C7;color:#92400E;font-weight:600">60-79 Atenci&#243;n</span>'
+        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
+        'background:#FEE2E2;color:#991B1B;font-weight:600">&lt;60 Cr&#237;tica</span>'
+        '</div>'
         '</div>'
         % (col, off, col, score, bg_c, txt_c, lbl)
     )
@@ -188,13 +167,13 @@ def _dim_bars(dims_sorted: list) -> str:
             '<span style="font-size:.82rem;font-weight:600;color:#374151;'
             'text-transform:capitalize">%s</span>'
             '<span style="font-size:.8rem;font-weight:700;padding:.15rem .55rem;'
-            'border-radius:6px;background:%s;color:%s">%.1f%%</span>'
+            'border-radius:6px;background:%s;color:%s">%.1f</span>'
             '</div>'
             '<div style="background:#F1F5F9;border-radius:999px;height:8px;overflow:hidden">'
             '<div style="background:%s;height:100%%;width:%.1f%%;'
             'border-radius:999px;transition:width .5s ease"></div>'
             '</div></div>'
-            % (dim, bg, txt, s, col, s)
+            % (dim, bg, txt, s, col, max(0.0, min(100.0, s)))
         )
     return html
 
@@ -233,7 +212,7 @@ def _col_cards(cols_sorted: list, col_avg: dict) -> str:
                 '<span style="font-size:.76rem;color:#64748B;'
                 'text-transform:capitalize">%s</span>'
                 '<span style="font-size:.75rem;font-weight:700;padding:.1rem .45rem;'
-                'border-radius:5px;background:%s;color:%s">%.1f%%</span>'
+                'border-radius:5px;background:%s;color:%s">%.1f</span>'
                 '</div>'
                 % (dim, b, t, s)
             )
@@ -247,12 +226,80 @@ def _col_cards(cols_sorted: list, col_avg: dict) -> str:
             '<span style="font-weight:700;color:#1E293B;font-size:.88rem;'
             'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'
             'max-width:65%%">%s</span>'
-            '<span style="font-size:.95rem;font-weight:800;color:%s">%.1f%%</span>'
+            '<span style="font-size:.95rem;font-weight:800;color:%s">%.1f</span>'
             '</div>%s</div>'
             % (bc, col, bc, avg, dim_rows)
         )
     html += '</div>'
     return html
+
+
+def _issues_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
+    """Two-panel row: left = horizontal bars by issue count, right = text list."""
+    if not issues_per_dim:
+        return ""
+    items = sorted(issues_per_dim.items(), key=lambda x: -x[1])   # most → least
+    max_cnt = max(c for _, c in items) if items else 1
+
+    # ── Left panel: horizontal bars ──
+    bars_html = ""
+    for d, c in items:
+        s   = scores_per_dim.get(d, 50.0)
+        col = _score_color(s)
+        bg  = _score_bg(s)
+        txt = _score_txt(s)
+        pct = round(c / max_cnt * 100, 1)
+        bars_html += (
+            '<div style="margin-bottom:.85rem">'
+            '<div style="display:flex;justify-content:space-between;'
+            'align-items:center;margin-bottom:.3rem">'
+            '<span style="font-size:.81rem;font-weight:600;color:#374151;'
+            'text-transform:capitalize">%s</span>'
+            '<span style="font-size:.78rem;font-weight:700;padding:.15rem .5rem;'
+            'border-radius:6px;background:%s;color:%s">%s</span>'
+            '</div>'
+            '<div style="background:#F1F5F9;border-radius:999px;height:8px;overflow:hidden">'
+            '<div style="background:%s;height:100%%;width:%.1f%%;'
+            'border-radius:999px"></div>'
+            '</div></div>'
+            % (d, bg, txt, "{:,}".format(c), col, pct)
+        )
+
+    # ── Right panel: text rows with count badges ──
+    rows_html = ""
+    for d, c in items:
+        s   = scores_per_dim.get(d, 50.0)
+        bg  = _score_bg(s)
+        txt = _score_txt(s)
+        rows_html += (
+            '<div style="display:flex;justify-content:space-between;'
+            'align-items:center;padding:.45rem 0;border-bottom:1px solid #F8FAFC">'
+            '<span style="font-size:.81rem;text-transform:capitalize;color:#374151;'
+            'font-weight:500">%s</span>'
+            '<span style="font-size:.79rem;font-weight:700;padding:.15rem .55rem;'
+            'border-radius:6px;background:%s;color:%s">%s</span>'
+            '</div>'
+            % (d, bg, txt, "{:,}".format(c))
+        )
+
+    return (
+        '<div style="display:grid;grid-template-columns:1fr 1fr;'
+        'gap:1rem;margin-bottom:1.75rem">'
+        '<div style="background:#fff;border-radius:12px;padding:1.4rem;'
+        'box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #F1F5F9">'
+        '<div style="font-size:.7rem;font-weight:600;color:#94A3B8;'
+        'text-transform:uppercase;letter-spacing:.07em;margin-bottom:.85rem">'
+        'Distribuci&#243;n de problemas por dimensi&#243;n</div>'
+        + bars_html +
+        '</div>'
+        '<div style="background:#fff;border-radius:12px;padding:1.4rem;'
+        'box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #F1F5F9">'
+        '<div style="font-size:.7rem;font-weight:600;color:#94A3B8;'
+        'text-transform:uppercase;letter-spacing:.07em;margin-bottom:.75rem">'
+        'Problemas detectados</div>'
+        + rows_html +
+        '</div></div>'
+    )
 
 
 def _remediation_cards(top3_dims: list, scores_per_dim: dict,
@@ -277,10 +324,12 @@ def _remediation_cards(top3_dims: list, scores_per_dim: dict,
             '<span style="font-size:1.4rem;line-height:1">%s</span>'
             '<div style="flex:1;min-width:0">'
             '<div style="font-weight:700;color:#1E293B;font-size:.9rem;'
-            'margin-bottom:.25rem">%s</div>'
+            'margin-bottom:.3rem">%s</div>'
             '<div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">'
+            # score badge with colored background
             '<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;'
-            'border-radius:5px;background:%s;color:%s">%.1f%%</span>'
+            'border-radius:5px;background:%s;color:%s">%.1f</span>'
+            # count badge with colored background
             '%s'
             '</div></div></div>'
             '<p style="font-size:.79rem;color:#64748B;line-height:1.55;margin:0">%s</p>'
@@ -288,78 +337,14 @@ def _remediation_cards(top3_dims: list, scores_per_dim: dict,
             % (
                 col, icon, title,
                 bg, txt, s,
-                ('<span style="font-size:.73rem;color:#94A3B8">%s problemas</span>'
-                 % "{:,}".format(cnt)) if cnt else "",
+                ('<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;'
+                 'border-radius:5px;background:%s;color:%s">%s problemas</span>'
+                 % (bg, txt, "{:,}".format(cnt))) if cnt else "",
                 tip,
             )
         )
     html += '</div>'
     return html
-
-
-def _donut_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
-    if not issues_per_dim:
-        return ""
-    items   = sorted(issues_per_dim.items(), key=lambda x: -x[1])
-    labels  = json.dumps([str(d) for d, _ in items])
-    data    = json.dumps([c for _, c in items])
-    colors  = json.dumps([_score_color(scores_per_dim.get(d, 50)) for d, _ in items])
-
-    rows = ""
-    for d, c in items:
-        col = _score_color(scores_per_dim.get(d, 50))
-        bg  = _score_bg(scores_per_dim.get(d, 50))
-        txt = _score_txt(scores_per_dim.get(d, 50))
-        rows += (
-            '<div style="display:flex;justify-content:space-between;'
-            'align-items:center;padding:.45rem 0;border-bottom:1px solid #F8FAFC">'
-            '<span style="font-size:.81rem;text-transform:capitalize;color:#374151;'
-            'font-weight:500">%s</span>'
-            '<span style="font-size:.79rem;font-weight:700;padding:.15rem .55rem;'
-            'border-radius:6px;background:%s;color:%s">%s</span>'
-            '</div>'
-            % (d, bg, txt, "{:,}".format(c))
-        )
-
-    chart_js = (
-        '<script>'
-        '(function(){'
-        'var el=document.getElementById("dqDonut");'
-        'if(!el||typeof Chart==="undefined")return;'
-        'new Chart(el,{'
-        'type:"doughnut",'
-        'data:{labels:%s,datasets:[{data:%s,backgroundColor:%s,'
-        'borderWidth:3,borderColor:"#fff"}]},'
-        'options:{plugins:{legend:{position:"bottom",'
-        'labels:{font:{size:11},padding:14,usePointStyle:true}}},'
-        'cutout:"62%%",animation:{duration:800}}'
-        '});'
-        '})();'
-        '</script>'
-        % (labels, data, colors)
-    )
-
-    return (
-        '<div style="display:grid;grid-template-columns:1fr 1fr;'
-        'gap:1rem;margin-bottom:1.75rem">'
-        # donut card
-        '<div style="background:#fff;border-radius:12px;padding:1.4rem;'
-        'box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #F1F5F9">'
-        '<div style="font-size:.7rem;font-weight:600;color:#94A3B8;'
-        'text-transform:uppercase;letter-spacing:.07em;margin-bottom:1rem">'
-        'Distribución de problemas por dimensión</div>'
-        '<canvas id="dqDonut" style="max-height:200px"></canvas>'
-        + chart_js +
-        '</div>'
-        # breakdown table card
-        '<div style="background:#fff;border-radius:12px;padding:1.4rem;'
-        'box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #F1F5F9">'
-        '<div style="font-size:.7rem;font-weight:600;color:#94A3B8;'
-        'text-transform:uppercase;letter-spacing:.07em;margin-bottom:.75rem">'
-        'Problemas detectados</div>'
-        + rows +
-        '</div></div>'
-    )
 
 
 # ─────────────────────────────────────────────
@@ -418,14 +403,13 @@ def generate_dashboard_html(
     sc_bg     = _score_bg(score)
     sc_txt    = _score_txt(score)
     sc_label  = _score_label(score)
-    interp    = _interpretation(score, peor_dim, peor_score)
     gen_time  = datetime.now().strftime("%d/%m/%Y %H:%M")
 
     # Etiqueta badge
     ETQ_STYLES = {
         "Maestro":       "background:#DBEAFE;color:#1E40AF",
         "Transaccional": "background:#DCFCE7;color:#166534",
-        "Referencia":    "background:#FEF9C3;color:#713F12",
+        "Referencia":    "background:#FEF3C7;color:#713F12",
         "Otro":          "background:#F3F4F6;color:#374151",
     }
     etq_html = ""
@@ -445,11 +429,11 @@ def generate_dashboard_html(
         )
 
     # ── Build HTML sections ──
-    gauge_html       = _gauge_svg(score)
-    dim_bars_html    = _dim_bars(dims_sorted)
-    col_cards_html   = _col_cards(cols_sorted, col_avg)
-    donut_html       = _donut_section(issues_per_dim, scores_per_dim)
-    remed_html       = _remediation_cards(dims_sorted[:3], scores_per_dim, issues_per_dim)
+    gauge_html     = _gauge_svg(score)
+    dim_bars_html  = _dim_bars(dims_sorted)
+    col_cards_html = _col_cards(cols_sorted, col_avg)
+    issues_html    = _issues_section(issues_per_dim, scores_per_dim)
+    remed_html     = _remediation_cards(dims_sorted[:3], scores_per_dim, issues_per_dim)
 
     kpi_html = (
         '<div style="display:grid;grid-template-columns:repeat(4,1fr);'
@@ -458,12 +442,12 @@ def generate_dashboard_html(
         + _kpi_card("Con problemas",      "{:,}".format(total_prob),
                     "registros únicos afectados", _C_RED)
         + _kpi_card("Registros limpios",  "%.1f%%" % pct_clean,
-                    "%s sin problemas" % "{:,}".format(total_reg - total_prob),
+                    "{:,} sin problemas".format(total_reg - total_prob),
                     _score_color(pct_clean))
         + _kpi_card("Peor dimensión",
                     '<span style="font-size:1.1rem;text-transform:capitalize">%s</span>'
                     % peor_dim,
-                    "%.1f%% promedio" % peor_score, _C_RED)
+                    "%.1f promedio" % peor_score, _C_RED)
         + '</div>'
     )
 
@@ -476,14 +460,11 @@ def generate_dashboard_html(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Dashboard de Calidad &middot; %%FILENAME%%</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"
-          crossorigin="anonymous"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
          background:#F1F5F9;color:#1E293B;-webkit-font-smoothing:antialiased}
     .page{max-width:1120px;margin:0 auto;padding:1.5rem 1.25rem}
-    /* ── Header ── */
     .hdr{background:linear-gradient(135deg,#1E293B 0%,#0F172A 100%);
          border-radius:16px;padding:1.75rem 2.25rem;margin-bottom:1.5rem;
          display:flex;justify-content:space-between;align-items:center;
@@ -497,18 +478,14 @@ def generate_dashboard_html(
     .hdr-right{text-align:right;flex-shrink:0}
     .hdr-score-num{font-size:3rem;font-weight:900;line-height:1;letter-spacing:-.02em}
     .hdr-score-sub{font-size:.72rem;color:#64748B;margin-top:.2rem;font-weight:500}
-    /* ── Section title ── */
     .section-lbl{font-size:.68rem;font-weight:700;color:#94A3B8;
                  text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem}
-    /* ── Two-col layout ── */
     .two-col{display:grid;grid-template-columns:220px 1fr;gap:1rem;
              align-items:start;margin-bottom:1.75rem}
     .card{background:#fff;border-radius:12px;padding:1.4rem;
           box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #F1F5F9}
-    /* ── Footer ── */
     .footer{text-align:center;padding:1.75rem 1rem;color:#94A3B8;font-size:.77rem;
             border-top:1px solid #E2E8F0;margin-top:.5rem;line-height:1.6}
-    /* ── Responsive ── */
     @media(max-width:720px){
       .two-col{grid-template-columns:1fr}
       .hdr{flex-direction:column;text-align:center}
@@ -549,16 +526,10 @@ def generate_dashboard_html(
 
   <!-- ══ GAUGE + DIMENSION BARS ══ -->
   <div class="two-col">
-    <!-- Gauge -->
     <div class="card" style="text-align:center">
       <div class="section-lbl" style="text-align:left">Score general</div>
       %%GAUGE%%
-      <div style="font-size:.79rem;color:#64748B;line-height:1.6;
-                  margin-top:1rem;text-align:left">
-        %%INTERP%%
-      </div>
     </div>
-    <!-- Dimension bars -->
     <div class="card">
       <div class="section-lbl">Score por dimensi&#243;n &mdash; peor a mejor</div>
       %%DIM_BARS%%
@@ -568,8 +539,8 @@ def generate_dashboard_html(
   <!-- ══ KPIs ══ -->
   %%KPIS%%
 
-  <!-- ══ DONUT + ISSUES ══ -->
-  %%DONUT%%
+  <!-- ══ ISSUES BARS ══ -->
+  %%ISSUES%%
 
   <!-- ══ COLUMN CARDS ══ -->
   <div class="section-lbl">&#128203;&nbsp; Score por columna analizada</div>
@@ -602,10 +573,9 @@ def generate_dashboard_html(
         .replace("%%SCORE%%",     str(score))
         .replace("%%SC_LABEL%%",  sc_label)
         .replace("%%GAUGE%%",     gauge_html)
-        .replace("%%INTERP%%",    interp)
         .replace("%%DIM_BARS%%",  dim_bars_html)
         .replace("%%KPIS%%",      kpi_html)
-        .replace("%%DONUT%%",     donut_html)
+        .replace("%%ISSUES%%",    issues_html)
         .replace("%%COL_CARDS%%", col_cards_html)
         .replace("%%REMED%%",     remed_html)
         .replace("%%GENTIME%%",   gen_time)
