@@ -140,15 +140,6 @@ def _gauge_svg(score: float) -> str:
         # active status badge
         '<span style="margin-top:.5rem;padding:.3rem 1rem;border-radius:999px;'
         'font-size:.78rem;font-weight:700;background:%s;color:%s">%s</span>'
-        # scale legend badges
-        '<div style="display:flex;gap:.4rem;margin-top:.75rem;flex-wrap:wrap;justify-content:center">'
-        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
-        'background:#DCFCE7;color:#166534;font-weight:600">&ge;80 Buena</span>'
-        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
-        'background:#FEF3C7;color:#92400E;font-weight:600">60-79 Atenci&#243;n</span>'
-        '<span style="font-size:.69rem;padding:.2rem .55rem;border-radius:6px;'
-        'background:#FEE2E2;color:#991B1B;font-weight:600">&lt;60 Cr&#237;tica</span>'
-        '</div>'
         '</div>'
         % (col, off, col, score, bg_c, txt_c, lbl)
     )
