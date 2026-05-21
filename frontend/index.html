@@ -1496,23 +1496,6 @@
 ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-results">
 
-  <!-- ── Dashboard header ── -->
-  <div style="background:linear-gradient(135deg,#1E293B 0%,#0F172A 100%);border-radius:16px;padding:1.5rem 2rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;box-shadow:0 4px 20px rgba(0,0,0,.2)">
-    <div style="flex:1;min-width:0">
-      <div style="font-size:.68rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">DQ4Value &bull; Reporte de Calidad de Datos</div>
-      <div id="dashFilename" style="font-size:1.1rem;font-weight:800;color:#F8FAFC;margin-bottom:.3rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:520px">—</div>
-      <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-        <span id="dashFecha" style="font-size:.77rem;color:#94A3B8">—</span>
-        <span id="dashEtq"></span>
-      </div>
-    </div>
-    <div style="text-align:right;flex-shrink:0">
-      <div id="dashScoreNum" style="font-size:2.8rem;font-weight:900;line-height:1;letter-spacing:-.02em;color:#16A34A">—</div>
-      <div id="dashScoreBadge" style="font-size:.72rem;padding:.2rem .75rem;border-radius:999px;display:inline-block;margin:.2rem 0;background:#DCFCE7;color:#166534">—</div>
-      <div style="font-size:.7rem;color:#64748B;font-weight:500;margin-top:.1rem">Score general del dataset</div>
-    </div>
-  </div>
-
   <!-- ── Gauge + Dimension bars ── -->
   <div style="display:grid;grid-template-columns:220px 1fr;gap:1rem;margin-bottom:1.25rem;align-items:start">
     <div class="card" style="text-align:center;padding:1.25rem 1rem">
@@ -4258,26 +4241,6 @@ function buildResultsScreen(data) {
     : s >= 60
     ? 'El dataset presenta calidad media. Existen problemas que deben atenderse antes de usar los datos en procesos críticos. Revisa las dimensiones con puntuación más baja y aplica las correcciones sugeridas.'
     : 'El dataset presenta calidad crítica. Los datos contienen problemas graves que pueden afectar decisiones y procesos. Es necesario aplicar correcciones urgentes antes de utilizar este dataset.';
-
-  // ── Header ───────────────────────────────────────────────────────
-  document.getElementById('dashFilename').textContent = state.uploadedFilename || data.nombre_archivo || '—';
-  document.getElementById('dashFecha').textContent = new Date().toLocaleDateString('es-MX', {
-    year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
-  });
-  const etqEl = document.getElementById('dashEtq');
-  if (state._etiqueta) {
-    etqEl.textContent = state._etiqueta;
-    etqEl.style.cssText = 'background:#334155;color:#94A3B8;font-size:.72rem;padding:.15rem .6rem;border-radius:999px;margin-left:.5rem';
-  } else { etqEl.textContent = ''; }
-
-  // ── Score number + badge ─────────────────────────────────────────
-  const scoreNumEl = document.getElementById('dashScoreNum');
-  scoreNumEl.textContent = score.toFixed(1);
-  scoreNumEl.style.color = sc_color(score);
-  const badgeEl = document.getElementById('dashScoreBadge');
-  badgeEl.textContent = sc_label(score);
-  badgeEl.style.background = sc_bg(score);
-  badgeEl.style.color = sc_txt(score);
 
   // ── Gauge SVG ────────────────────────────────────────────────────
   const dashoffset = circumference * (1 - score / 100);
