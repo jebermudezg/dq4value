@@ -451,6 +451,7 @@ def generate_dashboard_html(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Dashboard de Calidad &middot; %%FILENAME%%</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='42' cy='42' r='28' fill='none' stroke='%232563EB' stroke-width='6'/%3E%3Cpolyline points='20,42 26,42 30,36 33,21 36,58 39,34 43,42 62,42' fill='none' stroke='%232563EB' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='63' y1='63' x2='84' y2='84' stroke='%232563EB' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
