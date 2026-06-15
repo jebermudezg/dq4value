@@ -461,15 +461,15 @@ def generate_dashboard_html(
          border-radius:16px;padding:1.75rem 2.25rem;margin-bottom:1.5rem;
          display:flex;justify-content:space-between;align-items:center;
          flex-wrap:wrap;gap:1rem;box-shadow:0 4px 20px rgba(0,0,0,.25)}
-    .hdr-brand{font-size:.72rem;font-weight:700;color:#475569;
+    .hdr-brand{font-size:.72rem;font-weight:700;color:#94A3B8;
                text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
     .hdr-title{font-size:1.2rem;font-weight:800;color:#F8FAFC;margin-bottom:.35rem;
                overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
     .hdr-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
-    .hdr-meta-item{font-size:.78rem;color:#94A3B8}
+    .hdr-meta-item{font-size:.78rem;color:#CBD5E1}
     .hdr-right{text-align:right;flex-shrink:0}
     .hdr-score-num{font-size:3rem;font-weight:900;line-height:1;letter-spacing:-.02em}
-    .hdr-score-sub{font-size:.72rem;color:#64748B;margin-top:.2rem;font-weight:500}
+    .hdr-score-sub{font-size:.72rem;color:#94A3B8;margin-top:.2rem;font-weight:500}
     .section-lbl{font-size:.68rem;font-weight:700;color:#94A3B8;
                  text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem}
     .two-col{display:grid;grid-template-columns:220px 1fr;gap:1rem;
