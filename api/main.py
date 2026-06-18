@@ -71,7 +71,7 @@ class AnalyzeRequest(BaseModel):
     id_column: str
     columns_config: dict[str, dict[str, dict]]
     descripcion: Optional[str] = None
-    etiqueta: Optional[str] = None  # "Maestro", "Transaccional", "Otro"
+    etiqueta: Optional[str] = None  # "Maestro de datos", "Dataset transaccional", "Dataset para IA", "Otro"
 
 
 class LoginRequest(BaseModel):

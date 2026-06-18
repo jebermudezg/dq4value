@@ -398,10 +398,10 @@ def generate_dashboard_html(
 
     # Etiqueta badge
     ETQ_STYLES = {
-        "Maestro":       "background:#DBEAFE;color:#1E40AF",
-        "Transaccional": "background:#DCFCE7;color:#166534",
-        "Referencia":    "background:#FEF3C7;color:#713F12",
-        "Otro":          "background:#F3F4F6;color:#374151",
+        "Maestro de datos":      "background:#DBEAFE;color:#1E40AF",
+        "Dataset transaccional": "background:#DCFCE7;color:#166534",
+        "Dataset para IA":       "background:#EDE9FE;color:#5B21B6",
+        "Otro":                  "background:#F3F4F6;color:#374151",
     }
     etq_html = ""
     if etiqueta:
