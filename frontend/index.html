@@ -1842,7 +1842,10 @@
 
 <div id="helpSidebar">
   <div class="help-header">
-    <h2><span>📖</span> Guía de uso</h2>
+    <div>
+      <h2><span>📖</span> Guía de uso — DQ4Value</h2>
+      <p style="font-size:.78rem;color:#94A3B8;margin-top:.2rem;font-weight:400">Mide, explica y acciona la calidad de tus datos</p>
+    </div>
     <button class="help-close" onclick="closeHelp()">
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -1855,6 +1858,7 @@
     <!-- SECCIÓN 1 — Cómo usar -->
     <div class="help-section">
       <div class="help-section-title">¿Cómo usar la plataforma?</div>
+      <p style="font-size:.84rem;color:var(--sub);margin-bottom:1rem">DQ4Value está diseñado para validar la calidad de tus datos antes de usarlos en reportes, procesos de negocio o iniciativas de IA. El flujo es siempre el mismo:</p>
       <div class="help-steps">
         <div class="help-step">
           <div class="help-step-icon blue">
@@ -2130,6 +2134,22 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
               <span class="prep-privacy-icon">🛡️</span>
               <p>DQ4Value procesa los archivos de datos exclusivamente en memoria durante la sesión de análisis. Los archivos subidos se eliminan automáticamente del servidor al finalizar el procesamiento. La plataforma no almacena, replica, indexa ni retiene el contenido de los datos evaluados. El único dato persistente es la metadata del análisis: nombre del archivo, fecha, total de registros analizados y scores de calidad. DQ4Value no tiene ni necesita acceso directo a las bases de datos del cliente.</p>
             </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item acc-xl" data-acc="prep-s5">
+          <div class="acc-trigger" onclick="toggleAcc('prep-s5')">
+            <div class="acc-icon" style="background:#faf5ff;color:#7c3aed">🏷️</div>
+            <span class="acc-title">Tipo de dataset — clasificación opcional</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p class="acc-def">Al subir el archivo puedes clasificar el dataset con una de estas tres etiquetas:</p>
+            <ul style="margin:.8rem 0 0 1.1rem;display:flex;flex-direction:column;gap:.6rem;font-size:.84rem;color:var(--text)">
+              <li><strong>Maestro de datos</strong> — datos de referencia únicos: clientes, productos, proveedores, empleados.</li>
+              <li><strong>Dataset transaccional</strong> — datos de movimientos: órdenes, facturas, pagos, despachos.</li>
+              <li><strong>Dataset para IA</strong> — datos que alimentarán un modelo predictivo, agente o automatización de IA. Selecciona esta opción para que el sistema priorice las dimensiones más críticas para tu iniciativa.</li>
+            </ul>
           </div></div>
         </div>
 
