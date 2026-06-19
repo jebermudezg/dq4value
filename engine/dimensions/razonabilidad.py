@@ -41,12 +41,16 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
         if not columnas_if or len(columnas_if) < 2:
             return check_razonabilidad(df, id_col, target_col, metodo='iqr')
 
-        cols_validas = [c for c in columnas_if
-                        if c in df.columns and pd.api.types.is_numeric_dtype(df[c])]
-        if len(cols_validas) < 2:
+        # Columnas para el modelo IF (las seleccionadas por el usuario, validadas)
+        cols_para_analisis = [c for c in columnas_if
+                              if c in df.columns and pd.api.types.is_numeric_dtype(df[c])]
+        if len(cols_para_analisis) < 2:
             return check_razonabilidad(df, id_col, target_col, metodo='iqr')
 
-        mascara_anomalias = _isolation_forest(df, cols_validas, contamination)
+        # Columnas para mostrar en valor_encontrado: target_col siempre primero, sin duplicados
+        cols_para_mostrar = list(dict.fromkeys([target_col] + cols_para_analisis))
+
+        mascara_anomalias = _isolation_forest(df, cols_para_analisis, contamination)
         issues = df[mascara_anomalias].copy()
 
         if len(issues) == 0:
@@ -54,19 +58,22 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
 
         import json
 
+        # Stats IQR para todas las columnas que se muestran
+        cols_para_stats = list(set(cols_para_analisis + [target_col]))
         stats = {}
-        for col in cols_validas:
-            q1 = df[col].quantile(0.25)
-            q3 = df[col].quantile(0.75)
-            iqr_val = q3 - q1
-            stats[col] = {'lower': q1 - 1.5 * iqr_val, 'upper': q3 + 1.5 * iqr_val}
+        for col in cols_para_stats:
+            if col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
+                q1 = df[col].quantile(0.25)
+                q3 = df[col].quantile(0.75)
+                iqr_val = q3 - q1
+                stats[col] = {'lower': q1 - 1.5 * iqr_val, 'upper': q3 + 1.5 * iqr_val}
 
         def _construir_valor_if(row):
             campos = []
-            for col in cols_validas:
+            for col in cols_para_mostrar:
                 val = row[col] if col in row.index else None
                 es_inusual = (
-                    val is not None and not pd.isna(val) and
+                    val is not None and not pd.isna(val) and col in stats and
                     (val < stats[col]['lower'] or val > stats[col]['upper'])
                 )
                 campos.append({
