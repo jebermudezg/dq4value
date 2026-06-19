@@ -2352,6 +2352,85 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
               <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val"><code>Valores válidos</code> separados por coma, <strong>o</strong> <code>Expresión regular</code> (se activa en el campo de texto).</span></div>
               <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Con valores: <code>estado</code> acepta <code>Activo, Inactivo</code> → detecta <code>Pendiente</code> y <code>ACTIVO</code>.<br/>Con regex: <code>email</code> con patrón estándar → detecta <code>juansindominio.com</code>.</span></span></div>
             </div>
+            <!-- ── Regex guide ─────────────────────────────────── -->
+            <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)">
+              <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:.6rem">Uso de expresiones regulares (Regex)</div>
+              <p style="font-size:.82rem;color:var(--sub);line-height:1.5;margin-bottom:.75rem">Una expresión regular (regex) es un patrón que describe el formato exacto que debe tener un valor. En DQ4Value puedes usarla en la dimensión Validez para validar cualquier formato que no esté en la lista de formatos predefinidos.</p>
+              <div style="font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Cómo leer una regex</div>
+              <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:.85rem">
+                <thead><tr style="background:var(--bg)">
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Símbolo</th>
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Significa</th>
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Ejemplo</th>
+                </tr></thead>
+                <tbody>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>^</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Inicio del valor</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>^20</code> = debe empezar con 20</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>$</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Fin del valor</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>9$</code> = debe terminar con 9</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\d</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cualquier dígito (0-9)</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\d\d</code> = dos dígitos</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>{n}</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Exactamente n veces</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\d{11}</code> = exactamente 11 dígitos</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>(a|b)</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">a o b</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>(10|20)</code> = 10 o 20</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\w</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Letra, dígito o guión bajo</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\w+</code> = una o más letras/dígitos</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>+</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Una o más veces</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\d+</code> = uno o más dígitos</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>*</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cero o más veces</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>\d*</code> = cero o más dígitos</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>.</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cualquier carácter</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>.+</code> = uno o más caracteres</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>[abc]</code></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cualquiera de esos caracteres</td><td style="padding:.25rem .5rem;border:1px solid var(--border)"><code>[aeiou]</code> = vocal</td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.5rem">Ejemplos prácticos — Perú y LATAM</div>
+              <div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.75rem">
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">RUC Perú — 11 dígitos, empieza con 10 o 20</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^(10|20)\d{9}$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>20123456789</code> &nbsp; ❌ <code>30123456789</code> (prefijo incorrecto) · <code>2012345678</code> (10 dígitos)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">NIT Colombia — 9 dígitos + guión + dígito verificador</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^\d{9}-\d$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>900123456-7</code> &nbsp; ❌ <code>90012345-7</code> (faltan dígitos) · <code>900123456</code> (sin verificador)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Correo electrónico</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^[\w.+-]+@[\w-]+\.[\w.-]+$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>contacto@empresa.com.pe</code> &nbsp; ❌ <code>contacto@</code> (sin dominio) · <code>nogmail.com</code> (sin @)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Teléfono celular Perú — 9 dígitos, empieza con 9</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^9\d{8}$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>987654321</code> &nbsp; ❌ <code>01-2345678</code> (fijo) · <code>51987654321</code> (con código de país)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Teléfono celular Colombia — 10 dígitos, empieza con 3</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^3\d{9}$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>3101234567</code> &nbsp; ❌ <code>57310123456</code> (con código de país)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Código postal Perú — 5 dígitos</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^\d{5}$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>15001</code> &nbsp; ❌ <code>1500</code> (4 dígitos) · <code>150011</code> (6 dígitos)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Solo letras y espacios (nombres sin números)</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>Juan Carlos Pérez</code> &nbsp; ❌ <code>Juan123</code> · <code>C@rlos</code></div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Fecha formato ISO — AAAA-MM-DD</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>2024-03-15</code> &nbsp; ❌ <code>15/03/2024</code> · <code>2024-13-01</code> (mes 13)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Código de producto — 3 letras + guión + 4 números</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^[A-Z]{3}-\d{4}$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>PRD-0042</code> &nbsp; ❌ <code>prd-0042</code> (minúsculas) · <code>PRD0042</code> (sin guión)</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Monto en soles — número con hasta 2 decimales</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^\d+(\.\d{1,2})?$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>1500</code> · <code>1500.50</code> · <code>99.9</code> &nbsp; ❌ <code>1500.999</code> (3 decimales) · <code>-500</code> (negativo)</div>
+                </div>
+              </div>
+              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.5rem .75rem;font-size:.82rem;color:#1e40af;line-height:1.5">Los formatos predefinidos de DQ4Value (email, teléfono, número, fecha, URL) ya tienen el regex correcto incorporado — no necesitas escribirlo. Usa regex personalizado solo cuando tu formato no esté en la lista predefinida.</div>
+            </div>
           </div></div>
         </div>
 
