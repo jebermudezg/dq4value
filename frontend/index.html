@@ -5116,21 +5116,25 @@ function switchRazon(sid, mode) {
   if (!isIqr) initRazIfCols(sid);
 }
 
+function _esNumerico(tipoDato) {
+  if (!tipoDato) return false;
+  const t = tipoDato.toString().toLowerCase();
+  return t.includes('int') || t.includes('float') || t.includes('numeric') ||
+         t.includes('number') || t.includes('decimal');
+}
+
 function initRazIfCols(sid) {
   const container = document.getElementById(`razif-cols-${sid}`);
   if (!container || container.dataset.built) return;
   container.dataset.built = '1';
-  const numCols = (state.columns || []).filter(c => {
-    const t = (c.tipo || '').toLowerCase();
-    return t === 'numerico' || t === 'int' || t === 'float' || /int|float/.test(t);
-  });
+  const numCols = (state.columns || []).filter(c => _esNumerico(c.tipo_dato));
   if (numCols.length === 0) {
     container.innerHTML = '<span style="font-size:.78rem;color:var(--sub)">No hay columnas numéricas en el dataset.</span>';
     return;
   }
   container.innerHTML = numCols.map(c => {
     const cid = `razif-cb-${sid}-${safeId(c.nombre)}`;
-    const badge = `<span style="font-size:.65rem;background:#e0e7ff;color:#3730a3;border-radius:3px;padding:0 .3rem;margin-left:.25rem">${c.tipo || 'num'}</span>`;
+    const badge = `<span style="font-size:.65rem;background:#e0e7ff;color:#3730a3;border-radius:3px;padding:0 .3rem;margin-left:.25rem">${c.tipo_dato || 'num'}</span>`;
     return `<label style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;cursor:pointer;white-space:nowrap">
       <input type="checkbox" id="${cid}" value="${c.nombre}" style="width:auto;margin:0" onchange="updateRazPreview('${sid}')" />
       ${c.nombre}${badge}
