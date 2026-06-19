@@ -2557,6 +2557,35 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
               <div class="acc-row"><span class="acc-label">Parámetros</span><span class="acc-val">Ninguno — análisis automático con IQR × 1.5.</span></div>
               <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val"><span class="ex">Columna <code>salario</code> con mayoría entre <code>2000–8000</code> → detecta un valor de <code>950000</code> como estadísticamente sospechoso.</span></span></div>
             </div>
+            <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)">
+              <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.5rem">Isolation Forest — detección multivariable</div>
+              <p style="margin:0 0 .6rem;line-height:1.5;font-size:.82rem">IQR analiza una columna a la vez. Isolation Forest va más allá: analiza varias columnas en conjunto y detecta registros cuya <strong>combinación de valores es anómala</strong> — aunque cada valor individual parezca normal.</p>
+              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.5rem .75rem;color:#1e40af;line-height:1.5;font-size:.8rem;margin-bottom:.75rem">
+                <strong>Ejemplo:</strong> un proveedor con <code>monto_ultimo_pedido = S/. 45,000</code> (normal) y <code>num_ordenes = 1</code> (posible) y <code>score_calificacion = 98</code> (alto) puede parecer correcto columna por columna. Pero la combinación — alto monto, pocas órdenes, score perfecto — es estadísticamente inusual y Isolation Forest la detecta.
+              </div>
+              <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:.75rem">
+                <thead><tr style="background:var(--bg-card)">
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left"></th>
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">IQR</th>
+                  <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Isolation Forest</th>
+                </tr></thead>
+                <tbody>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border);font-weight:600">Columnas</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Una</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Varias</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border);font-weight:600">Tipo de anomalía</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Valor extremo</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Combinación inusual</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border);font-weight:600">Velocidad</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Muy rápido</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Más lento</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border);font-weight:600">Transparencia</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alta</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Media</td></tr>
+                  <tr><td style="padding:.25rem .5rem;border:1px solid var(--border);font-weight:600">Cuándo usar</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Columna con rango conocido</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Varias columnas relacionadas</td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:.78rem;margin-bottom:.4rem"><strong>Parámetros:</strong></div>
+              <ul style="margin:.2rem 0 .6rem 1.1rem;display:flex;flex-direction:column;gap:.25rem;font-size:.78rem">
+                <li><strong>Columnas a analizar:</strong> selecciona 2 o más columnas numéricas del dataset. Elige columnas que estén relacionadas entre sí (monto + órdenes + score).</li>
+                <li><strong>% anomalías esperadas:</strong> estimación de qué proporción del dataset son anomalías. Si no sabes, deja el valor por defecto de 5%. Valores más bajos detectan menos anomalías pero con mayor certeza.</li>
+              </ul>
+              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.5rem .75rem;color:#1e40af;line-height:1.5;font-size:.8rem">
+                Isolation Forest requiere criterio humano para validar los resultados — especialmente con pocas columnas. Revisa cada registro marcado como anomalía antes de concluir que es un error.
+              </div>
+            </div>
           </div></div>
         </div>
 
@@ -4137,6 +4166,36 @@ function buildParamInputs(colName, dtype) {
       </div>
     </div>
 
+    <!-- RAZONABILIDAD -->
+    <div class="dim-params" id="params-${sid}-razonabilidad">
+      <div style="display:flex;flex-direction:column;gap:.6rem;width:100%">
+        <div style="display:flex;gap:.5rem">
+          <div class="vradio active" id="razm-${sid}-iqr" onclick="switchRazon('${sid}','iqr')">
+            <input type="radio" name="razmode-${sid}" value="iqr" checked />IQR — univariable
+          </div>
+          <div class="vradio" id="razm-${sid}-if" onclick="switchRazon('${sid}','if')">
+            <input type="radio" name="razmode-${sid}" value="if" />Isolation Forest — multivariable
+          </div>
+        </div>
+        <div id="razsub-${sid}-iqr" class="validez-subpanel visible">
+          <p class="param-hint" style="margin:.1rem 0">Detecta outliers estadísticos en esta columna usando el método IQR. Sin parámetros adicionales.</p>
+        </div>
+        <div id="razsub-${sid}-if" class="validez-subpanel">
+          <p class="param-hint" style="margin:.1rem 0 .5rem">Analiza varias columnas en conjunto para detectar combinaciones de valores anómalas.</p>
+          <div style="font-size:.78rem;font-weight:600;margin-bottom:.3rem">Columnas a analizar en conjunto (selecciona 2 o más):</div>
+          <div id="razif-cols-${sid}" style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem"></div>
+          <div id="razif-preview-${sid}" class="param-hint" style="margin:.2rem 0"></div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-top:.3rem">
+            <label style="font-size:.78rem;white-space:nowrap">% anomalías esperadas:</label>
+            <input type="range" id="p-${sid}-contamination" min="1" max="20" value="5"
+                   style="width:120px" oninput="document.getElementById('razif-pct-${sid}').textContent=this.value+'%'; updateRazPreview('${sid}')" />
+            <span id="razif-pct-${sid}" style="font-size:.78rem;font-weight:600;color:var(--blue);min-width:2.5rem">5%</span>
+          </div>
+          <div class="param-error" id="razif-err-${sid}" style="display:none;margin-top:.25rem">Isolation Forest requiere seleccionar al menos 2 columnas.</div>
+        </div>
+      </div>
+    </div>
+
     <!-- SIMILITUD -->
     <div class="dim-params" id="params-${sid}-similitud">
       <div style="display:flex;flex-direction:column;gap:.5rem;width:100%">
@@ -4359,6 +4418,27 @@ function collectConfig() {
         params.algoritmo  = algoritmo;
         params.umbral     = umbral;
         params.normalizar = normalizar;
+      }
+      if (d.key === 'razonabilidad') {
+        const isIf = document.getElementById(`razm-${sid}-if`)?.classList.contains('active');
+        if (isIf) {
+          const container = document.getElementById(`razif-cols-${sid}`);
+          const checked = container
+            ? [...container.querySelectorAll('input[type=checkbox]:checked')].map(el => el.value)
+            : [];
+          if (checked.length < 2) {
+            const errEl = document.getElementById(`razif-err-${sid}`);
+            if (errEl) errEl.style.display = '';
+            toast(`Razonabilidad en "${col.nombre}": Isolation Forest requiere seleccionar al menos 2 columnas.`, 'error');
+            hasError = true; return;
+          }
+          const pct = parseInt(document.getElementById(`p-${sid}-contamination`)?.value || '5');
+          params.metodo = 'isolation_forest';
+          params.columnas_if = checked;
+          params.contamination = pct / 100;
+        } else {
+          params.metodo = 'iqr';
+        }
       }
       if (d.key === 'integridad_referencial') {
         const fileIds = _refFileIds[sid];
@@ -5025,6 +5105,53 @@ function switchValidez(sid, mode) {
 function onRegexPreset(sid) {
   const preset = document.getElementById(`p-${sid}-regex_preset`)?.value;
   document.getElementById(`vcustom-${sid}`)?.classList.toggle('visible', preset === 'custom');
+}
+
+function switchRazon(sid, mode) {
+  const isIqr = mode === 'iqr';
+  document.getElementById(`razm-${sid}-iqr`)?.classList.toggle('active',  isIqr);
+  document.getElementById(`razm-${sid}-if`)?.classList.toggle('active',  !isIqr);
+  document.getElementById(`razsub-${sid}-iqr`)?.classList.toggle('visible',  isIqr);
+  document.getElementById(`razsub-${sid}-if`)?.classList.toggle('visible', !isIqr);
+  if (!isIqr) initRazIfCols(sid);
+}
+
+function initRazIfCols(sid) {
+  const container = document.getElementById(`razif-cols-${sid}`);
+  if (!container || container.dataset.built) return;
+  container.dataset.built = '1';
+  const numCols = (state.columns || []).filter(c => {
+    const t = (c.tipo || '').toLowerCase();
+    return t === 'numerico' || t === 'int' || t === 'float' || /int|float/.test(t);
+  });
+  if (numCols.length === 0) {
+    container.innerHTML = '<span style="font-size:.78rem;color:var(--sub)">No hay columnas numéricas en el dataset.</span>';
+    return;
+  }
+  container.innerHTML = numCols.map(c => {
+    const cid = `razif-cb-${sid}-${safeId(c.nombre)}`;
+    const badge = `<span style="font-size:.65rem;background:#e0e7ff;color:#3730a3;border-radius:3px;padding:0 .3rem;margin-left:.25rem">${c.tipo || 'num'}</span>`;
+    return `<label style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;cursor:pointer;white-space:nowrap">
+      <input type="checkbox" id="${cid}" value="${c.nombre}" style="width:auto;margin:0" onchange="updateRazPreview('${sid}')" />
+      ${c.nombre}${badge}
+    </label>`;
+  }).join('');
+  updateRazPreview(sid);
+}
+
+function updateRazPreview(sid) {
+  const container = document.getElementById(`razif-cols-${sid}`);
+  if (!container) return;
+  const checked = [...container.querySelectorAll('input[type=checkbox]:checked')].map(el => el.value);
+  const preview = document.getElementById(`razif-preview-${sid}`);
+  if (preview) {
+    preview.textContent = checked.length >= 2
+      ? `Se analizarán en conjunto: ${checked.join(', ')}`
+      : checked.length === 1
+        ? 'Selecciona al menos una columna más.'
+        : 'Ninguna columna seleccionada.';
+  }
+  document.getElementById(`razif-err-${sid}`)?.style && (document.getElementById(`razif-err-${sid}`).style.display = 'none');
 }
 
 // ─────────────────────────────────────────────────────────────────────

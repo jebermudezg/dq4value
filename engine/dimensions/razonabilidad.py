@@ -1,13 +1,73 @@
 import pandas as pd
+import numpy as np
+
+
+def _isolation_forest(df, columnas, contamination=0.05):
+    """
+    Detecta anomalías multivariables usando Isolation Forest.
+    Analiza varias columnas numéricas en conjunto.
+    contamination: proporción esperada de anomalías (0.01 a 0.20)
+    Retorna una máscara booleana: True = anomalía
+    """
+    from sklearn.ensemble import IsolationForest
+    datos = df[columnas].copy()
+    idx_originales = datos.index
+    datos_limpios = datos.dropna()
+    if len(datos_limpios) < 10:
+        return pd.Series(False, index=idx_originales)
+    modelo = IsolationForest(
+        contamination=contamination,
+        random_state=42,
+        n_estimators=100
+    )
+    predicciones = modelo.fit_predict(datos_limpios)
+    mascara = pd.Series(False, index=idx_originales)
+    mascara[datos_limpios.index] = predicciones == -1
+    return mascara
 
 
 def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params) -> tuple[float, pd.DataFrame]:
     """
-    Detecta outliers estadísticos usando el método IQR.
-    Marca como sospechosos los valores fuera de [Q1 - 1.5*IQR, Q3 + 1.5*IQR].
-    Score = % de valores dentro del rango razonable.
-    El multiplicador IQR es configurable con el parámetro iqr_factor (default 1.5).
+    Detecta valores estadísticamente anómalos.
+    metodo='iqr'               → univariable, solo target_col (default)
+    metodo='isolation_forest'  → multivariable, analiza columnas_if en conjunto
     """
+    metodo = params.get('metodo', 'iqr')
+
+    if metodo == 'isolation_forest':
+        columnas_if = params.get('columnas_if') or []
+        contamination = float(params.get('contamination', 0.05))
+
+        if not columnas_if or len(columnas_if) < 2:
+            return check_razonabilidad(df, id_col, target_col, metodo='iqr')
+
+        cols_validas = [c for c in columnas_if
+                        if c in df.columns and pd.api.types.is_numeric_dtype(df[c])]
+        if len(cols_validas) < 2:
+            return check_razonabilidad(df, id_col, target_col, metodo='iqr')
+
+        mascara_anomalias = _isolation_forest(df, cols_validas, contamination)
+        issues = df[mascara_anomalias].copy()
+
+        if len(issues) == 0:
+            return 100.0, _empty_issues(id_col)
+
+        issues_df = pd.DataFrame({
+            id_col: issues[id_col].astype(str),
+            'columna': target_col,
+            'dimension': 'razonabilidad',
+            'descripcion': (
+                f'Anomalía multivariable detectada por Isolation Forest '
+                f'analizando: {", ".join(cols_validas)}'
+            ),
+            'valor_encontrado': issues[target_col].astype(str),
+        })
+
+        total = len(df.dropna(subset=[target_col]))
+        score = round((1 - len(issues) / total) * 100, 1) if total > 0 else 100.0
+        return score, issues_df.reset_index(drop=True)
+
+    # ── IQR original ───────────────────────────────────────────────────
     iqr_factor = float(params.get("iqr_factor", 1.5))
 
     total = len(df)
@@ -18,7 +78,6 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
     col_valida = col_num.dropna()
 
     if col_valida.empty or col_valida.nunique() <= 1:
-        # Sin variación no hay outliers definibles
         return 100.0, _empty_issues(id_col)
 
     q1 = col_valida.quantile(0.25)

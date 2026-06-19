@@ -291,6 +291,44 @@ class TestRazonabilidad:
         if not issues.empty:
             assert issues["dimension"].iloc[0] == "razonabilidad"
 
+    def test_isolation_forest_basico(self):
+        import random
+        random.seed(7)
+        df = pd.DataFrame({
+            ID_COL: range(100),
+            'monto':  [random.uniform(1000, 50000) for _ in range(98)] + [9999999, -999999],
+            'ordenes':[random.randint(1, 30)        for _ in range(98)] + [1, 1],
+            'score':  [random.uniform(60, 100)      for _ in range(98)] + [99.9, 99.9],
+        })
+        score, issues = check_razonabilidad(
+            df, ID_COL, 'monto',
+            metodo='isolation_forest',
+            columnas_if=['monto', 'ordenes', 'score'],
+            contamination=0.05,
+        )
+        assert 0 <= score <= 100
+        assert len(issues) > 0
+        check_issues_cols(issues)
+        assert 'Isolation Forest' in issues['descripcion'].iloc[0]
+
+    def test_isolation_forest_fallback_iqr(self):
+        """Si se pasan menos de 2 columnas válidas, debe hacer fallback a IQR."""
+        df = pd.DataFrame({ID_COL: range(50), 'valor': range(50)})
+        score, issues = check_razonabilidad(
+            df, ID_COL, 'valor',
+            metodo='isolation_forest',
+            columnas_if=['valor'],
+            contamination=0.05,
+        )
+        assert 0 <= score <= 100
+
+    def test_iqr_sin_cambios_con_metodo_explicito(self):
+        """IQR debe seguir funcionando exactamente igual con metodo='iqr'."""
+        df = pd.DataFrame({ID_COL: range(100), 'edad': list(range(20, 118)) + [200, -5]})
+        score, issues = check_razonabilidad(df, ID_COL, 'edad', metodo='iqr')
+        assert 0 <= score <= 100
+        assert len(issues) > 0
+
 
 # ══════════════════════════════════════════════════════════
 # 6. PRECISIÓN
