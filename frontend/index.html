@@ -4661,6 +4661,33 @@ let _currentPage  = 1;
 let _pageSize     = 25;   // number or 'all'
 let _filteredIssues = [];
 
+function _renderValorEncontrado(valor, dimension) {
+  if (dimension === 'razonabilidad' && valor && String(valor).startsWith('[')) {
+    try {
+      const campos = JSON.parse(valor);
+      const rows = campos.map(c => {
+        const valStr = c.valor !== null && c.valor !== undefined
+          ? Number(c.valor).toLocaleString('es-PE')
+          : '<em style="color:var(--sub)">nulo</em>';
+        const badge = c.inusual
+          ? `<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#FEE2E2;color:#991B1B;white-space:nowrap">inusual</span>`
+          : `<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#DCFCE7;color:#166534;white-space:nowrap">normal</span>`;
+        const valorStyle = c.inusual ? 'color:#DC2626;font-weight:500;' : '';
+        return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+          <span style="font-size:11px;color:#64748B;min-width:110px;flex-shrink:0;">${escHtml(c.campo)}</span>
+          <span style="font-family:monospace;font-size:12px;${valorStyle}">${valStr}</span>
+          ${badge}
+        </div>`;
+      }).join('');
+      return `<div style="line-height:1.6">${rows}</div>`;
+    } catch(e) {
+      return `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(valor))}</code>`;
+    }
+  }
+  if (valor === null || valor === undefined) return '<span style="color:var(--muted)">null</span>';
+  return `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(valor))}</code>`;
+}
+
 function renderIssueRows(rows) {
   _filteredIssues = rows;
   const tbody = document.getElementById('issuesBody');
@@ -4687,15 +4714,12 @@ function renderIssueRows(rows) {
     };
     page.forEach(r => {
       const tr = document.createElement('tr');
-      const valor = r.valor_encontrado !== null && r.valor_encontrado !== undefined
-        ? `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(r.valor_encontrado))}</code>`
-        : '<span style="color:var(--muted)">null</span>';
       tr.innerHTML = `
         <td><span class="pill pill-gray">${escHtml(String(r.id_registro))}</span></td>
         <td><strong>${escHtml(r.columna)}</strong></td>
         <td><span class="pill ${dimPill(r.dimension)}">${escHtml(r.dimension)}</span></td>
         <td style="max-width:320px">${escHtml(r.descripcion)}</td>
-        <td>${valor}</td>
+        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}</td>
       `;
       tbody.appendChild(tr);
     });

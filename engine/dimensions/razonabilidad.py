@@ -52,15 +52,36 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
         if len(issues) == 0:
             return 100.0, _empty_issues(id_col)
 
+        import json
+
+        stats = {}
+        for col in cols_validas:
+            q1 = df[col].quantile(0.25)
+            q3 = df[col].quantile(0.75)
+            iqr_val = q3 - q1
+            stats[col] = {'lower': q1 - 1.5 * iqr_val, 'upper': q3 + 1.5 * iqr_val}
+
+        def _construir_valor_if(row):
+            campos = []
+            for col in cols_validas:
+                val = row[col] if col in row.index else None
+                es_inusual = (
+                    val is not None and not pd.isna(val) and
+                    (val < stats[col]['lower'] or val > stats[col]['upper'])
+                )
+                campos.append({
+                    'campo': col,
+                    'valor': round(float(val), 2) if val is not None and not pd.isna(val) else None,
+                    'inusual': bool(es_inusual),
+                })
+            return json.dumps(campos, ensure_ascii=False)
+
         issues_df = pd.DataFrame({
             id_col: issues[id_col].astype(str),
             'columna': target_col,
             'dimension': 'razonabilidad',
-            'descripcion': (
-                f'Anomalía multivariable detectada por Isolation Forest '
-                f'analizando: {", ".join(cols_validas)}'
-            ),
-            'valor_encontrado': issues[target_col].astype(str),
+            'descripcion': 'Anomalía multivariable — combinación inusual de valores detectada por Isolation Forest',
+            'valor_encontrado': [_construir_valor_if(row) for _, row in issues.iterrows()],
         })
 
         total = len(df.dropna(subset=[target_col]))

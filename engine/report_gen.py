@@ -26,6 +26,23 @@ THIN_BORDER = Border(
 )
 
 
+def _formatear_valor_if(valor, dimension: str) -> str:
+    """Convierte el JSON de Isolation Forest a texto legible para Excel."""
+    if dimension == 'razonabilidad' and valor and str(valor).startswith('['):
+        try:
+            import json
+            campos = json.loads(valor)
+            partes = []
+            for c in campos:
+                estado = '(!)' if c.get('inusual') else '(ok)'
+                val = c.get('valor', 'nulo')
+                partes.append(f"{c['campo']}: {val} {estado}")
+            return ' | '.join(partes)
+        except Exception:
+            return valor
+    return valor
+
+
 def generate_excel_report(analysis_results: dict, output_path: str) -> str:
     """
     Genera un reporte Excel con tres pestañas:
@@ -152,7 +169,9 @@ def _build_issues(wb: Workbook, results: dict) -> None:
 
     # Datos
     for r_idx, row_data in sorted_df.iterrows():
-        for c_idx, value in enumerate(row_data, start=1):
+        for c_idx, (col_name, value) in enumerate(row_data.items(), start=1):
+            if col_name == 'valor_encontrado':
+                value = _formatear_valor_if(value, row_data.get('dimension', ''))
             cell = ws.cell(row=r_idx + 3, column=c_idx, value=value)
             cell.border = THIN_BORDER
             cell.alignment = Alignment(wrap_text=True)
