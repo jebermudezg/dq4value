@@ -2585,6 +2585,77 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
               <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.5rem .75rem;color:#1e40af;line-height:1.5;font-size:.8rem">
                 Isolation Forest requiere criterio humano para validar los resultados — especialmente con pocas columnas. Revisa cada registro marcado como anomalía antes de concluir que es un error.
               </div>
+
+              <!-- Guía de interpretación -->
+              <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)">
+                <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.5rem">Cómo interpretar un resultado de Isolation Forest</div>
+                <p style="margin:0 0 .6rem;line-height:1.5;font-size:.82rem">Cuando Isolation Forest marca un registro como anómalo, la tabla de problemas muestra los valores de todos los campos analizados. Aquí un ejemplo real de cómo leerlo:</p>
+
+                <!-- Ejemplo visual -->
+                <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;margin-bottom:.65rem;font-size:.78rem">
+                  <div style="color:#64748B;margin-bottom:.4rem;font-size:.75rem">ID: 906 &nbsp;|&nbsp; Campo: saldo_deuda_actual &nbsp;|&nbsp; Dimensión: razonabilidad</div>
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="color:#64748B;min-width:160px;flex-shrink:0">saldo_deuda_actual</span>
+                      <code style="font-size:.78rem">65,939,824</code>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="color:#94A3B8;min-width:160px;flex-shrink:0">ingresos_mensuales</span>
+                      <code style="font-size:.78rem;color:#DC2626;font-weight:500">11,400,498</code>
+                      <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#FEE2E2;color:#991B1B">inusual</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="color:#94A3B8;min-width:160px;flex-shrink:0">anios_experiencia</span>
+                      <code style="font-size:.78rem;color:#DC2626;font-weight:500">30</code>
+                      <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#FEE2E2;color:#991B1B">inusual</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="color:#94A3B8;min-width:160px;flex-shrink:0">num_creditos_activos</span>
+                      <code style="font-size:.78rem;color:#94A3B8">0</code>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Interpretación campo a campo -->
+                <ul style="margin:.2rem 0 .65rem 1.1rem;display:flex;flex-direction:column;gap:.3rem;font-size:.78rem">
+                  <li><strong>saldo_deuda_actual:</strong> S/. 65.9 millones de deuda. Sin badge — está dentro del rango estadístico del dataset. Es el campo principal de la dimensión.</li>
+                  <li><strong>ingresos_mensuales:</strong> S/. 11.4 millones mensuales. Badge "inusual" — está en el percentil superior extremo. Individualmente podría ser legítimo.</li>
+                  <li><strong>anios_experiencia:</strong> 30 años. Badge "inusual" — está en el límite superior del dataset. Tampoco es imposible.</li>
+                  <li><strong>num_creditos_activos:</strong> 0 créditos activos. Sin badge — está dentro del rango normal.</li>
+                </ul>
+
+                <!-- La clave -->
+                <div style="border-left:3px solid #2563EB;padding:.5rem .75rem;background:#eff6ff;border-radius:0 8px 8px 0;font-size:.8rem;color:#1e3a8a;line-height:1.55;margin-bottom:.65rem">
+                  <strong>La clave:</strong> el registro fue marcado por la <strong>combinación</strong>: alguien con S/. 11.4 millones de ingresos mensuales, 30 años de experiencia y S/. 65.9 millones de deuda tiene <strong>cero créditos activos</strong>. Esa combinación es estadísticamente rarísima — una persona con ese perfil normalmente tiene múltiples productos financieros activos. Ningún campo solo habría disparado la alerta.
+                </div>
+
+                <!-- Cómo decidir -->
+                <div style="font-size:.78rem;font-weight:600;margin-bottom:.3rem">Cómo decidir si es un error:</div>
+                <ul style="margin:.2rem 0 .65rem 1.1rem;display:flex;flex-direction:column;gap:.3rem;font-size:.78rem">
+                  <li><strong>Error de datos:</strong> los créditos activos no se migraron correctamente. El cliente sí tiene créditos pero el campo quedó en 0.</li>
+                  <li><strong>Dato legítimo pero inusual:</strong> el cliente realmente no tiene créditos activos — los pagó todos recientemente. Es raro pero posible.</li>
+                  <li><strong>Registro inconsistente:</strong> el perfil no tiene coherencia interna. Podría ser un dato de prueba o una integración fallida entre sistemas.</li>
+                </ul>
+
+                <!-- Nota final -->
+                <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:.5rem .75rem;color:#92400E;line-height:1.5;font-size:.8rem;margin-bottom:.65rem">
+                  Isolation Forest detecta candidatos — la decisión de si la anomalía es un error real corresponde al analista que conoce el negocio. El badge "inusual" indica qué campos individuales están en los extremos de su distribución y pueden explicar la anomalía combinada.
+                </div>
+
+                <!-- Guía rápida -->
+                <div style="font-size:.78rem;font-weight:600;margin-bottom:.35rem">Guía rápida de lectura:</div>
+                <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+                  <thead><tr style="background:var(--bg-card)">
+                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Lo que ves</th>
+                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Qué significa</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Valor en rojo + badge "inusual"</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Ese campo está en el percentil extremo (top/bottom 10%) — probable culpable de la anomalía</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Valor en gris sin badge</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Ese campo es normal individualmente — solo aparece como contexto</td></tr>
+                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nota "combinación estadísticamente inusual"</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Ningún campo es extremo individualmente — la anomalía es puramente multivariable</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div></div>
         </div>
