@@ -262,6 +262,7 @@
     .dim-check.chip-media.checked {
       background: var(--blue); border: 1.5px dashed #f59e0b !important; color: #fff;
     }
+    .dim-check.dim-chip-disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
 
     /* Param panels — animación con max-height */
     .dim-params {
@@ -1413,12 +1414,15 @@
       </svg>
       Subir otro archivo
     </button>
-    <button class="btn btn-primary" id="profContinueBtn" onclick="goTo('config')" disabled>
-      Continuar a configuración
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-      </svg>
-    </button>
+    <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;justify-content:flex-end">
+      <span id="profDimCounter" style="font-size:.83rem;color:var(--sub)"></span>
+      <button class="btn btn-primary" id="profContinueBtn" onclick="continueToConfig()" disabled>
+        Continuar a configuración
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1442,6 +1446,13 @@
       <button class="sb-btn" id="suggestBtn" onclick="suggestConfig()">
         ✨ Sugerir configuración
       </button>
+      <div id="suggestConfirm" style="display:none;width:100%;flex-direction:column;gap:.4rem;padding:.6rem .8rem;background:#FEF3C7;border-radius:8px;font-size:.84rem;color:#92400E;border:1px solid #FDE68A">
+        <span>¿Reemplazar tu configuración actual con las sugerencias del sistema? Esta acción no se puede deshacer.</span>
+        <div style="display:flex;gap:.5rem;margin-top:.2rem">
+          <button class="btn btn-primary" style="font-size:.78rem;padding:.3rem .8rem" onclick="_confirmSuggest()">Sí, reemplazar</button>
+          <button class="btn btn-ghost" style="font-size:.78rem;padding:.3rem .8rem" onclick="_cancelSuggest()">Cancelar</button>
+        </div>
+      </div>
       <div class="suggest-result" id="suggestResult"></div>
     </div>
 
@@ -1878,8 +1889,8 @@
             </svg>
           </div>
           <div>
-            <h4>2 · Explorar el perfil de datos</h4>
-            <p>Antes de medir calidad, el sistema genera un diagnóstico automático de cada columna: estadísticas, distribución de valores, formatos detectados y alertas de problemas evidentes. Úsalo para entender tus datos antes de configurar el análisis.</p>
+            <h4>2 · Perfil y selección de dimensiones</h4>
+            <p>Revisa el diagnóstico automático de cada columna y selecciona las dimensiones que quieres evaluar. Puedes hacerlo campo por campo o dejar que el sistema sugiera la configuración en el siguiente paso.</p>
           </div>
         </div>
         <div class="help-step">
@@ -2287,11 +2298,13 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         </div>
 
       </div>
+      <p style="font-size:.8rem;color:var(--sub);margin-top:1rem;line-height:1.5">Al expandir una columna en el perfil verás los chips de dimensiones disponibles para ese campo. Las dimensiones que no aplican al tipo de dato de esa columna aparecen deshabilitadas. Haz clic en un chip para activarlo — las selecciones se transfieren automáticamente al paso 3.</p>
     </div>
 
     <!-- SECCIÓN 3 — Las 11 dimensiones -->
     <div class="help-section">
       <div class="help-section-title">Las 11 dimensiones de calidad</div>
+      <p style="font-size:.84rem;color:var(--sub);margin-bottom:1rem">Puedes seleccionar dimensiones directamente en el paso de perfilamiento (paso 2) mientras revisas cada campo, o configurarlas todas en el paso 3. Ambos enfoques son válidos — la selección en el perfil te da más contexto para decidir.</p>
       <div class="accordion" id="dimAccordion">
 
         <div class="acc-item" data-acc="completitud">
@@ -2821,6 +2834,7 @@ const REGEX_PRESETS = {
 // ─────────────────────────────────────────────────────────────────────
 const API = 'http://127.0.0.1:8000';
 let state = { fileId: null, columns: [], analysisResult: null, uploadedFilename: '', _etiqueta: '', _dimAvg: {}, _dimsSorted: [] };
+let _profDimSel = {}; // { sid: Set<dimKey> } — selections made in profile step
 let allIssues = [];
 let currentUser = null;
 // Cached reference to #profSpinner — loadProfile() detaches it from the DOM when filling
@@ -3073,7 +3087,7 @@ function _buildColCard(colName, perfil) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
       </svg>
     </div>
-    <div class="prof-col-body">${_renderPerfil(perfil, tipo, colName)}</div>
+    <div class="prof-col-body">${_renderPerfil(perfil, tipo, colName)}${_renderProfDimChips(colName, tipo, perfil)}</div>
   `;
   return card;
 }
@@ -3677,6 +3691,7 @@ function buildConfigScreen(data) {
         <div class="dim-checks" id="checks-${safeId(col.nombre)}">
           ${DIMENSIONS.map(d => `
             <div class="dim-check" id="label-${safeId(col.nombre)}-${d.key}"
+                 data-sid="${safeId(col.nombre)}" data-dim="${d.key}"
                  onclick="toggleDim('${safeId(col.nombre)}','${d.key}')">
               ${d.label}
             </div>
@@ -3699,6 +3714,10 @@ function buildConfigScreen(data) {
 // Suggest config — llama al motor de reglas y pre-marca chips + params
 // ─────────────────────────────────────────────────────────────────────
 async function suggestConfig() {
+  if (_hasExistingConfig()) {
+    document.getElementById('suggestConfirm').style.display = 'flex';
+    return;
+  }
   const btn = document.getElementById('suggestBtn');
   const resultEl = document.getElementById('suggestResult');
 
@@ -4086,6 +4105,96 @@ function toggleDim(sid, dimKey) {
 }
 
 function safeId(name) { return name.replace(/[^a-zA-Z0-9]/g, '_'); }
+
+// ─────────────────────────────────────────────────────────────────────
+// Profile Step — Dimension Pre-selection
+// ─────────────────────────────────────────────────────────────────────
+const _PROF_DIM_DISABLED = {
+  texto:      new Set(['exactitud','razonabilidad','oportunidad']),
+  numerico:   new Set(['similitud','vigencia','oportunidad']),
+  fecha:      new Set(['exactitud','razonabilidad','similitud','precision','unicidad']),
+  categorico: new Set(['exactitud','razonabilidad','oportunidad','precision']),
+};
+
+function _profDimDisabled(tipo, dimKey, perfil) {
+  const base = _PROF_DIM_DISABLED[tipo] || new Set();
+  if (base.has(dimKey)) return true;
+  if (tipo === 'numerico' && dimKey === 'validez' && !perfil.es_catalogo) return true;
+  return false;
+}
+
+function _renderProfDimChips(colName, tipo, perfil) {
+  const sid = safeId(colName);
+  const selected = _profDimSel[sid] || new Set();
+  const tipLabel = { texto:'texto', numerico:'numérico', fecha:'fecha', categorico:'categórico' }[tipo] || tipo;
+  const chips = DIMENSIONS.map(d => {
+    if (_profDimDisabled(tipo, d.key, perfil)) {
+      return `<div class="dim-check dim-chip-disabled" title="No aplica a columnas de tipo ${tipLabel}">${d.label}</div>`;
+    }
+    const chk = selected.has(d.key) ? ' checked' : '';
+    return `<div class="dim-check${chk}" id="prof-chip-${sid}-${d.key}" onclick="toggleProfDim('${sid}','${d.key}')">${d.label}</div>`;
+  }).join('');
+  return `<div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:.5rem">Dimensiones a evaluar</div>
+    <div class="dim-checks">${chips}</div>
+  </div>`;
+}
+
+function toggleProfDim(sid, dimKey) {
+  if (!_profDimSel[sid]) _profDimSel[sid] = new Set();
+  const chip = document.getElementById(`prof-chip-${sid}-${dimKey}`);
+  if (!chip || chip.classList.contains('dim-chip-disabled')) return;
+  const now = chip.classList.toggle('checked');
+  if (now) _profDimSel[sid].add(dimKey);
+  else     _profDimSel[sid].delete(dimKey);
+  _updateProfDimCounter();
+}
+
+function _updateProfDimCounter() {
+  let totalDims = 0, totalCols = 0;
+  Object.values(_profDimSel).forEach(s => {
+    if (s.size > 0) { totalCols++; totalDims += s.size; }
+  });
+  const el = document.getElementById('profDimCounter');
+  if (!el) return;
+  if (totalDims === 0) {
+    el.textContent = '';
+  } else {
+    el.innerHTML = `<span style="color:var(--blue);font-weight:600">${totalDims}</span> dimensiones seleccionadas en <span style="color:var(--blue);font-weight:600">${totalCols}</span> campos`;
+  }
+}
+
+function continueToConfig() {
+  Object.entries(_profDimSel).forEach(([sid, dimsSet]) => {
+    dimsSet.forEach(dimKey => {
+      const chip = document.getElementById(`label-${sid}-${dimKey}`);
+      if (chip && !chip.classList.contains('checked')) {
+        chip.classList.add('checked');
+        const panel = document.getElementById(`params-${sid}-${dimKey}`);
+        if (panel) panel.classList.add('visible');
+      }
+    });
+  });
+  goTo('config');
+}
+
+function _hasExistingConfig() {
+  return !!document.querySelector('#colTableBody .dim-check.checked');
+}
+
+function _cancelSuggest() {
+  document.getElementById('suggestConfirm').style.display = 'none';
+}
+
+async function _confirmSuggest() {
+  document.getElementById('suggestConfirm').style.display = 'none';
+  document.querySelectorAll('#colTableBody .dim-check[data-sid][data-dim].checked').forEach(chip => {
+    chip.classList.remove('checked', 'chip-media');
+    const panel = document.getElementById(`params-${chip.dataset.sid}-${chip.dataset.dim}`);
+    if (panel) panel.classList.remove('visible');
+  });
+  await suggestConfig();
+}
 
 function collectConfig() {
   const idCol = document.getElementById('idColSelect').value;
@@ -4647,6 +4756,9 @@ async function downloadReport() {
 function resetearEstadoCompleto() {
   // ── State variables ──────────────────────────────────────────────
   state = { fileId: null, columns: [], analysisResult: null, perfil: null, uploadedFilename: '', _etiqueta: '', _dimAvg: {}, _dimsSorted: [] };
+  _profDimSel = {};
+  const _pdc = document.getElementById('profDimCounter');
+  if (_pdc) _pdc.textContent = '';
   allIssues         = [];
   _refFileIds       = {};
   _currentPage      = 1;
