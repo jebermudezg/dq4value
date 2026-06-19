@@ -4662,24 +4662,36 @@ let _pageSize     = 25;   // number or 'all'
 let _filteredIssues = [];
 
 function _renderValorEncontrado(valor, dimension) {
-  if (dimension === 'razonabilidad' && valor && String(valor).startsWith('[')) {
+  if (dimension === 'razonabilidad' && valor && String(valor).trim().startsWith('[')) {
     try {
       const campos = JSON.parse(valor);
+      const hayInusual = campos.some(c => c.inusual);
       const rows = campos.map(c => {
         const valStr = c.valor !== null && c.valor !== undefined
           ? Number(c.valor).toLocaleString('es-PE')
           : '<em style="color:var(--sub)">nulo</em>';
-        const badge = c.inusual
-          ? `<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#FEE2E2;color:#991B1B;white-space:nowrap">inusual</span>`
-          : `<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#DCFCE7;color:#166534;white-space:nowrap">normal</span>`;
-        const valorStyle = c.inusual ? 'color:#DC2626;font-weight:500;' : '';
-        return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-          <span style="font-size:11px;color:#64748B;min-width:110px;flex-shrink:0;">${escHtml(c.campo)}</span>
-          <span style="font-family:monospace;font-size:12px;${valorStyle}">${valStr}</span>
-          ${badge}
-        </div>`;
+        if (c.inusual) {
+          return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:11px;color:#64748B;min-width:110px;flex-shrink:0;">${escHtml(c.campo)}</span>
+            <span style="font-family:monospace;font-size:12px;color:#DC2626;font-weight:500">${valStr}</span>
+            <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#FEE2E2;color:#991B1B;white-space:nowrap">inusual</span>
+          </div>`;
+        } else if (hayInusual) {
+          return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:11px;color:#94A3B8;min-width:110px;flex-shrink:0;">${escHtml(c.campo)}</span>
+            <span style="font-family:monospace;font-size:12px;color:#94A3B8">${valStr}</span>
+          </div>`;
+        } else {
+          return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:11px;color:#64748B;min-width:110px;flex-shrink:0;">${escHtml(c.campo)}</span>
+            <span style="font-family:monospace;font-size:12px">${valStr}</span>
+          </div>`;
+        }
       }).join('');
-      return `<div style="line-height:1.6">${rows}</div>`;
+      const nota = !hayInusual
+        ? `<div style="font-size:11px;color:#B45309;margin-top:4px;font-style:italic">Combinación estadísticamente inusual — cada valor es normal individualmente</div>`
+        : '';
+      return `<div style="line-height:1.6">${rows}${nota}</div>`;
     } catch(e) {
       return `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(valor))}</code>`;
     }

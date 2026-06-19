@@ -63,10 +63,10 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
         stats = {}
         for col in cols_para_stats:
             if col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
-                q1 = df[col].quantile(0.25)
-                q3 = df[col].quantile(0.75)
-                iqr_val = q3 - q1
-                stats[col] = {'lower': q1 - 1.5 * iqr_val, 'upper': q3 + 1.5 * iqr_val}
+                stats[col] = {
+                    'p10': df[col].quantile(0.10),
+                    'p90': df[col].quantile(0.90),
+                }
 
         def _construir_valor_if(row):
             campos = []
@@ -74,7 +74,7 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
                 val = row[col] if col in row.index else None
                 es_inusual = (
                     val is not None and not pd.isna(val) and col in stats and
-                    (val < stats[col]['lower'] or val > stats[col]['upper'])
+                    (val < stats[col]['p10'] or val > stats[col]['p90'])
                 )
                 campos.append({
                     'campo': col,
