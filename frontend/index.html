@@ -624,12 +624,12 @@
     .acc-item.open .acc-arrow { transform: rotate(180deg); }
     .acc-body {
       max-height: 0; overflow: hidden;
-      transition: max-height .28s ease;
+      transition: max-height .35s ease;
       background: #fafbfc;
       border-top: 0 solid var(--border);
     }
     .acc-item.open .acc-body {
-      max-height: 600px;
+      /* max-height set dynamically by toggleAcc() via scrollHeight */
       border-top-width: 1px;
     }
     .acc-content { padding: .9rem 1rem 1rem; }
@@ -5289,8 +5289,16 @@ function toggleAcc(key) {
   const item = document.querySelector(`[data-acc="${key}"]`);
   if (!item) return;
   const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  document.querySelectorAll('.acc-item.open').forEach(el => {
+    el.classList.remove('open');
+    const body = el.querySelector('.acc-body');
+    if (body) body.style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    const body = item.querySelector('.acc-body');
+    if (body) body.style.maxHeight = body.scrollHeight + 'px';
+  }
 }
 
 // Independent toggle for nested prep-sub panels (multiple can be open simultaneously)
