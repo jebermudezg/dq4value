@@ -770,3 +770,87 @@ def test_brecha_afin_en_check_similitud():
     # Pedro Martínez no debe tener similar
     assert 6 not in ids_con_problema, \
         "Pedro Martínez no debería tener similar"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tests nuevo modelo de conteo: grupos / involucrados / excedentes
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_similitud_conteo_excedentes():
+    """Grupo de 3 variantes → 1 grupo, 3 involucrados, 2 excedentes."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5],
+        'razon': [
+            'Distribuidora del Sur S.A.C.',
+            'Distribuidora del Sur SAC',
+            'DISTRIBUIDORA DEL SUR S.A.C.',
+            'Comercial Andina E.I.R.L.',
+            'Importaciones Pacific S.A.',
+        ]
+    })
+    score, issues = check_similitud(
+        df, 'id', 'razon', algoritmo='monge_elkan', umbral=80, normalizar=True
+    )
+    print(f"\nScore: {score}")
+    print(f"Issues:\n{issues[['id', 'grupo_id', 'similitud_pct', 'es_principal_sugerido']].to_string()}")
+    assert issues['sim_total_grupos'].iloc[0] == 1
+    assert issues['sim_total_involucrados'].iloc[0] == 3
+    assert issues['sim_total_excedentes'].iloc[0] == 2
+    assert score == 60.0
+
+
+def test_similitud_excluye_duplicados_exactos():
+    """Valores byte-idénticos no cuentan en similitud (pertenecen a unicidad)."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3],
+        'razon': [
+            'Comercial Andina S.A.C.',
+            'Comercial Andina S.A.C.',   # byte-idéntico → excluido
+            'Importaciones Pacific S.A.',
+        ]
+    })
+    score, issues = check_similitud(
+        df, 'id', 'razon', algoritmo='jaro_winkler', umbral=90
+    )
+    print(f"\nScore: {score}, issues rows: {len(issues)}")
+    assert score == 100.0
+    if len(issues) > 0:
+        assert issues['sim_dup_exactos_excluidos'].iloc[0] == 2
+
+
+def test_similitud_excluye_placeholders():
+    """Valores vacíos y placeholder se excluyen del análisis."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5],
+        'razon': ['N/A', '', '-', 'Sin dato', 'Comercial Andina S.A.C.'],
+    })
+    score, issues = check_similitud(
+        df, 'id', 'razon', algoritmo='jaro_winkler', umbral=90
+    )
+    print(f"\nScore: {score}, issues rows: {len(issues)}")
+    assert score == 100.0
+
+
+def test_similitud_grupo_id_presente():
+    """Cada issue debe tener grupo_id y es_principal_sugerido."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3],
+        'razon': ['Juan Alberto Garcia', 'Juan A. Garcia', 'Pedro Martinez'],
+    })
+    score, issues = check_similitud(
+        df, 'id', 'razon', algoritmo='brecha_afin', umbral=75
+    )
+    print(f"\nScore: {score}")
+    print(issues[['id', 'grupo_id', 'similitud_pct', 'es_principal_sugerido']].to_string())
+    if len(issues) > 0:
+        assert 'grupo_id' in issues.columns
+        assert 'es_principal_sugerido' in issues.columns
+        assert issues['es_principal_sugerido'].sum() >= 1

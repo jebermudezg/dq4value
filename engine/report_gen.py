@@ -4,6 +4,7 @@ from openpyxl.styles import (
     PatternFill, Font, Alignment, Border, Side
 )
 from openpyxl.utils import get_column_letter
+from engine.nombres import nombre_dual, nombre_negocio
 
 # Paleta de colores
 COLOR_GREEN  = "92D050"
@@ -132,6 +133,35 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
             cal_c.border = THIN_BORDER
             row += 1
 
+    # ── Bloque de detalle de Similitud (si aplica) ──────────────────────
+    issues_df: pd.DataFrame = results.get("issues_df")
+    if issues_df is not None and not issues_df.empty and 'dimension' in issues_df.columns:
+        sim_rows = issues_df[issues_df['dimension'] == 'similitud']
+        if not sim_rows.empty and 'sim_total_grupos' in sim_rows.columns:
+            m = sim_rows.iloc[0]
+            detail_start = row + 2
+
+            ws.merge_cells(f"A{detail_start}:D{detail_start}")
+            title_c = ws[f"A{detail_start}"]
+            title_c.value = "Registros parecidos (similitud) — detalle"
+            title_c.font = Font(bold=True, size=11, color="FFFFFF")
+            title_c.fill = FILL_HEADER
+            title_c.alignment = Alignment(horizontal="left")
+            ws.row_dimensions[detail_start].height = 20
+
+            def _sim_kv(r, label, value):
+                ws.cell(row=r, column=1, value=label).font = Font(bold=True)
+                ws.cell(row=r, column=2, value=value)
+
+            r2 = detail_start + 1
+            _sim_kv(r2,     "Grupos detectados:",         int(m.get('sim_total_grupos', 0)))
+            _sim_kv(r2 + 1, "Registros involucrados:",    int(m.get('sim_total_involucrados', 0)))
+            _sim_kv(r2 + 2, "Registros excedentes:",      int(m.get('sim_total_excedentes', 0)))
+            _sim_kv(r2 + 3, "Duplicados exactos excluidos:", int(m.get('sim_dup_exactos_excluidos', 0)))
+            _sim_kv(r2 + 4, "Valores vacíos excluidos:",  int(m.get('sim_placeholders_excluidos', 0)))
+            _sim_kv(r2 + 5, "Algoritmo:",                 str(m.get('sim_algoritmo', '')))
+            _sim_kv(r2 + 6, "Umbral:",                    f"{m.get('sim_umbral', '')}%")
+
     _autofit(ws, [30, 25, 12, 15])
 
 
@@ -143,7 +173,7 @@ def _build_issues(wb: Workbook, results: dict) -> None:
     ws = wb.create_sheet("Problemas Detallados")
     issues_df: pd.DataFrame = results["issues_df"]
 
-    ws.merge_cells("A1:F1")
+    ws.merge_cells("A1:G1")
     cell = ws["A1"]
     cell.value = "PROBLEMAS DETALLADOS"
     cell.font = Font(bold=True, size=14, color="FFFFFF")
@@ -156,12 +186,37 @@ def _build_issues(wb: Workbook, results: dict) -> None:
         ws["A3"].font = Font(italic=True, color="00AA00")
         return
 
-    sorted_df = issues_df.sort_values("columna").reset_index(drop=True)
+    id_col = issues_df.columns[0]
+    has_sim = (
+        'dimension' in issues_df.columns
+        and (issues_df['dimension'] == 'similitud').any()
+        and 'grupo_id' in issues_df.columns
+    )
+
+    BASE = [id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado']
+
+    if has_sim:
+        df_w = issues_df[BASE].copy()
+        df_w['Grupo']       = issues_df.get('grupo_id', pd.Series(dtype=object))
+        df_w['% Similitud'] = issues_df.get('similitud_pct', pd.Series(dtype=object))
+        df_w['Conservar']   = (
+            issues_df.get('es_principal_sugerido', pd.Series(dtype=object))
+            .apply(lambda x: 'Sí' if x is True or x == 1 else '')
+        )
+        df_w['_sg'] = df_w['Grupo'].fillna('ZZZZ')
+        sorted_df = (
+            df_w.sort_values(['columna', 'dimension', '_sg'])
+            .drop(columns=['_sg'])
+            .reset_index(drop=True)
+        )
+    else:
+        sorted_df = issues_df[BASE].sort_values('columna').reset_index(drop=True)
 
     # Encabezados
     headers = list(sorted_df.columns)
     for col_idx, h in enumerate(headers, start=1):
-        cell = ws.cell(row=2, column=col_idx, value=h)
+        display_h = "Dimensión (técnica)" if h == "dimension" else h
+        cell = ws.cell(row=2, column=col_idx, value=display_h)
         cell.font = Font(bold=True, color="FFFFFF")
         cell.fill = FILL_HEADER
         cell.alignment = Alignment(horizontal="center")
@@ -172,11 +227,20 @@ def _build_issues(wb: Workbook, results: dict) -> None:
         for c_idx, (col_name, value) in enumerate(row_data.items(), start=1):
             if col_name == 'valor_encontrado':
                 value = _formatear_valor_if(value, row_data.get('dimension', ''))
+            if col_name == 'dimension':
+                value = nombre_dual(str(value))
             cell = ws.cell(row=r_idx + 3, column=c_idx, value=value)
             cell.border = THIN_BORDER
             cell.alignment = Alignment(wrap_text=True)
+            if col_name == 'Conservar' and value == 'Sí':
+                cell.fill = PatternFill("solid", fgColor="DCFCE7")
+                cell.font = Font(bold=True, color="166534")
+            if col_name == 'Grupo' and value and str(value).startswith('G'):
+                cell.fill = PatternFill("solid", fgColor="EFF6FF")
+                cell.font = Font(bold=True, color="1D4ED8")
 
-    _autofit(ws, [18, 20, 20, 50, 25])
+    widths = [18, 20, 20, 50, 25] + ([12, 13, 12] if has_sim else [])
+    _autofit(ws, widths)
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -203,7 +267,7 @@ def _build_scores_by_column(wb: Workbook, results: dict) -> None:
                 all_dims.append(d)
 
     # Encabezados
-    headers = ["Columna"] + all_dims + ["Score Promedio"]
+    headers = ["Columna"] + [nombre_dual(d) for d in all_dims] + ["Score Promedio"]
     for col_idx, h in enumerate(headers, start=1):
         cell = ws.cell(row=2, column=col_idx, value=h)
         cell.font = Font(bold=True, color="FFFFFF")

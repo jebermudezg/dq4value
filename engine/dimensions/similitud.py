@@ -1,13 +1,39 @@
 import pandas as pd
-import re
 import numpy as np
+import re
 from unidecode import unidecode
 import jellyfish
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def _normalizar(texto):
+PLACEHOLDERS = {
+    'n/a', 'na', 'n.a.', '-', '--', '---', 'sin dato', 'sin datos',
+    'sin nombre', 's/n', 's/d', 'null', 'none', 'ninguno', '.', '0',
+}
+
+_EMPTY_COLS = [
+    'id_col_placeholder', 'columna', 'dimension', 'descripcion', 'valor_encontrado',
+    'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
+    'sim_total_grupos', 'sim_total_involucrados', 'sim_total_excedentes',
+    'sim_dup_exactos_excluidos', 'sim_placeholders_excluidos',
+    'sim_algoritmo', 'sim_umbral',
+]
+
+
+def _es_placeholder(valor) -> bool:
+    if valor is None or (isinstance(valor, float) and np.isnan(valor)):
+        return True
+    try:
+        if pd.isna(valor):
+            return True
+    except Exception:
+        pass
+    v = str(valor).strip().lower()
+    return v == '' or v in PLACEHOLDERS
+
+
+def _normalizar(texto: str) -> str:
     if pd.isna(texto):
         return ''
     texto = unidecode(str(texto).lower().strip())
@@ -18,34 +44,17 @@ def _normalizar(texto):
 
 def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
     """
-    Similitud de Brecha Afín (Affine Gap).
-    Penaliza abrir una brecha más que extenderla.
-    Ideal para abreviaturas y tokens faltantes.
-    Retorna score normalizado 0-100.
-
-    Optimizaciones de rendimiento:
-    - Early exit cuando el ratio de longitudes < 0.4 (cadenas muy distintas en tamaño)
-    - Truncado a 50 caracteres para limitar la complejidad O(n×m)
-    - Listas Python nativas (más rápidas que numpy para matrices < 50×50)
-    - max() con float('-inf') funciona directamente sin condicionales
+    Affine Gap alignment similarity (0-100).
+    Penalises gap opening more than extension — good for abbreviations.
     """
     if not a or not b:
         return 0.0
-
-    # Early termination: si las longitudes difieren demasiado el score será muy bajo
     len_a, len_b = len(a), len(b)
     if min(len_a, len_b) / max(len_a, len_b) < 0.4:
         return 0.0
-
-    # Truncar para limitar la complejidad O(n×m)
     a, b = a[:50], b[:50]
     n, m = len(a), len(b)
-
     INF = float('-inf')
-    # M[i][j] = mejor score cuando a[i-1] y b[j-1] están alineados
-    # X[i][j] = mejor score cuando hay gap en b (a[i-1] sin par)
-    # Y[i][j] = mejor score cuando hay gap en a (b[j-1] sin par)
-    # max(INF, x) == x en Python — sin condicionales necesarios
     M = [[INF] * (m + 1) for _ in range(n + 1)]
     X = [[INF] * (m + 1) for _ in range(n + 1)]
     Y = [[INF] * (m + 1) for _ in range(n + 1)]
@@ -54,7 +63,6 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
         X[i][0] = gap_open + (i - 1) * gap_extend
     for j in range(1, m + 1):
         Y[0][j] = gap_open + (j - 1) * gap_extend
-
     for i in range(1, n + 1):
         ai = a[i - 1]
         Mi1 = M[i - 1]; Xi1 = X[i - 1]; Yi1 = Y[i - 1]
@@ -64,7 +72,6 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
             Mi[j]  = sim + max(Mi1[j-1], Xi1[j-1], Yi1[j-1])
             Xi[j]  = max(Mi1[j] + gap_open, Xi1[j] + gap_extend)
             Yi[j]  = max(Mi[j-1] + gap_open, Yi[j-1] + gap_extend)
-
     score_raw = max(M[n][m], X[n][m], Y[n][m], 0.0)
     score_max = match * min(n, m)
     if score_max <= 0:
@@ -72,8 +79,7 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
     return min(max(0.0, score_raw / score_max) * 100, 100.0)
 
 
-def _calcular_similitud(a, b, algoritmo):
-    """Calcula similitud entre dos strings usando el algoritmo especificado."""
+def _calcular_similitud(a: str, b: str, algoritmo: str) -> float:
     if not a or not b:
         return 0.0
 
@@ -87,8 +93,7 @@ def _calcular_similitud(a, b, algoritmo):
         max_len = max(len(a), len(b))
         if max_len == 0:
             return 100.0
-        dist = jellyfish.levenshtein_distance(a, b)
-        return (1 - dist / max_len) * 100
+        return (1 - jellyfish.levenshtein_distance(a, b) / max_len) * 100
 
     elif algoritmo == 'soundex':
         tokens_a = [jellyfish.soundex(t) for t in a.split() if t]
@@ -96,7 +101,7 @@ def _calcular_similitud(a, b, algoritmo):
         if not tokens_a or not tokens_b:
             return 0.0
         comunes = len(set(tokens_a) & set(tokens_b))
-        total = max(len(set(tokens_a)), len(set(tokens_b)))
+        total   = max(len(set(tokens_a)), len(set(tokens_b)))
         return (comunes / total) * 100 if total > 0 else 0.0
 
     elif algoritmo == 'monge_elkan':
@@ -104,17 +109,16 @@ def _calcular_similitud(a, b, algoritmo):
         tokens_b = b.split()
         if not tokens_a or not tokens_b:
             return 0.0
-        scores = []
-        for ta in tokens_a:
-            mejor = max(jellyfish.jaro_winkler_similarity(ta, tb) for tb in tokens_b)
-            scores.append(mejor)
+        scores = [
+            max(jellyfish.jaro_winkler_similarity(ta, tb) for tb in tokens_b)
+            for ta in tokens_a
+        ]
         return (sum(scores) / len(scores)) * 100
 
     elif algoritmo == 'qgrams':
         def get_qgrams(s, q=3):
             return set(s[i:i + q] for i in range(len(s) - q + 1))
-        qa = get_qgrams(a)
-        qb = get_qgrams(b)
+        qa, qb = get_qgrams(a), get_qgrams(b)
         if not qa or not qb:
             return 0.0
         interseccion = len(qa & qb)
@@ -125,138 +129,253 @@ def _calcular_similitud(a, b, algoritmo):
         try:
             vectorizer = TfidfVectorizer()
             matriz = vectorizer.fit_transform([a, b])
-            score = cosine_similarity(matriz[0], matriz[1])[0][0]
-            return score * 100
+            return cosine_similarity(matriz[0], matriz[1])[0][0] * 100
         except Exception:
             return 0.0
 
-    elif algoritmo == 'brecha_afin':
-        return _brecha_afin(a, b)
-
     elif algoritmo == 'smith_waterman':
-        match = 2
-        mismatch = -1
-        gap = -1
+        match, mismatch, gap = 2, -1, -1
         n, m = len(a), len(b)
         H = np.zeros((n + 1, m + 1))
         for i in range(1, n + 1):
             for j in range(1, m + 1):
-                diag = H[i - 1][j - 1] + (match if a[i - 1] == b[j - 1] else mismatch)
-                up = H[i - 1][j] + gap
-                left = H[i][j - 1] + gap
-                H[i][j] = max(0, diag, up, left)
-        max_score = H.max()
+                diag = H[i-1][j-1] + (match if a[i-1] == b[j-1] else mismatch)
+                H[i][j] = max(0, diag, H[i-1][j] + gap, H[i][j-1] + gap)
+        max_score   = H.max()
         max_posible = match * min(n, m)
         return (max_score / max_posible) * 100 if max_posible > 0 else 0.0
+
+    elif algoritmo == 'brecha_afin':
+        return _brecha_afin(a, b)
 
     return 0.0
 
 
-def _construir_bloques(indices, valores_norm):
-    """Blocking inteligente con 4 estrategias para reducir comparaciones."""
-    bloques = {}
-
+def _construir_bloques(indices: list, valores_norm: list) -> dict:
+    """Blocking with 4 strategies to cut down comparison count."""
+    bloques: dict = {}
     for i in indices:
         v = valores_norm[i]
-
         if len(v) >= 2:
             bloques.setdefault('pref_' + v[:2], set()).add(i)
-
         primer_token = v.split()[0] if v.split() else ''
         if primer_token and len(primer_token) >= 2:
             try:
-                sx = jellyfish.soundex(primer_token)
-                bloques.setdefault('sdx_' + sx, set()).add(i)
+                bloques.setdefault('sdx_' + jellyfish.soundex(primer_token), set()).add(i)
             except Exception:
                 pass
-
-        grupo_len = (len(v) // 5) * 5
-        bloques.setdefault(f'len_{grupo_len}', set()).add(i)
-
-        tokens = [t for t in v.split() if len(t) > 3]
-        for token in tokens:
+        bloques.setdefault(f'len_{(len(v) // 5) * 5}', set()).add(i)
+        for token in [t for t in v.split() if len(t) > 3]:
             bloques.setdefault('tok_' + token, set()).add(i)
-
     return bloques
 
 
-def check_similitud(df, id_col, target_col, **params):
-    umbral = float(params.get('umbral', 92))
-    algoritmo = params.get('algoritmo', 'jaro_winkler')
-    normalizar_texto = params.get('normalizar', True)
+def _union_find_groups(record_pairs: list, n: int) -> dict:
+    """Union-Find over record indices; returns root -> [member indices]."""
+    parent = list(range(n))
+    rank   = [0] * n
 
-    df = df.reset_index(drop=True)
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(x, y):
+        px, py = find(x), find(y)
+        if px == py:
+            return
+        if rank[px] < rank[py]:
+            px, py = py, px
+        parent[py] = px
+        if rank[px] == rank[py]:
+            rank[px] += 1
+
+    involved = set()
+    for ri, rj in record_pairs:
+        union(ri, rj)
+        involved.add(ri)
+        involved.add(rj)
+
+    groups: dict = {}
+    for ri in involved:
+        groups.setdefault(find(ri), []).append(ri)
+    return groups
+
+
+def check_similitud(
+    df: pd.DataFrame, id_col: str, target_col: str, **params
+) -> tuple:
+    """
+    Detects near-duplicate records in target_col.
+
+    New counting model (groups / involved / excesses):
+      - total_grupos       = distinct groups of similar records
+      - total_involucrados = all records belonging to any group
+      - total_excedentes   = involucrados - grupos  (records to remove)
+      - score = (1 - excedentes / evaluados) * 100
+
+    Exclusions:
+      - Placeholder / null values  (→ completitud)
+      - Byte-identical raw pairs   (→ unicidad)
+      - Different raw but same normalized → COUNTED (formatting variation)
+    """
+    umbral         = float(params.get('umbral', 92))
+    algoritmo      = str(params.get('algoritmo', 'jaro_winkler'))
+    normalizar_txt = params.get('normalizar', True)
+
+    df     = df.reset_index(drop=True)
     valores = df[target_col].tolist()
-    ids = df[id_col].tolist()
+    ids     = df[id_col].tolist()
 
-    if normalizar_texto:
-        valores_norm = [_normalizar(v) for v in valores]
+    # ── Step 1: exclude placeholders, map unique raw values ──────────────
+    unique_vals: dict[str, list] = {}   # raw_str -> [record indices]
+    placeholders_excluidos = 0
+
+    for i, v in enumerate(valores):
+        if _es_placeholder(v):
+            placeholders_excluidos += 1
+        else:
+            unique_vals.setdefault(str(v), []).append(i)
+
+    # Records sharing an identical raw value with at least one other record
+    dup_exactos_excluidos = sum(
+        len(idxs) for idxs in unique_vals.values() if len(idxs) > 1
+    )
+
+    uniq_raw  = list(unique_vals.keys())
+    if normalizar_txt:
+        uniq_norm = [_normalizar(v) for v in uniq_raw]
     else:
-        valores_norm = [str(v).lower().strip() if not pd.isna(v) else '' for v in valores]
+        uniq_norm = [str(v).lower().strip() for v in uniq_raw]
 
-    indices_validos = [i for i, v in enumerate(valores_norm) if v]
-    bloques = _construir_bloques(indices_validos, valores_norm)
+    # ── Step 2: blocking on unique-value indices ──────────────────────────
+    valid_idx = [i for i, nv in enumerate(uniq_norm) if nv]
+    if len(valid_idx) < 2:
+        return 100.0, _empty_df(id_col)
 
-    # Brecha Afín es O(n×m) por par — bloques más pequeños para evitar explosión combinatoria
+    bloques = _construir_bloques(valid_idx, uniq_norm)
+
     max_bloque = 100 if algoritmo == 'brecha_afin' else 200
+    pares_cand: set[tuple] = set()
 
-    pares_candidatos = set()
-    for llave, grupo in bloques.items():
+    for grupo in bloques.values():
         lista = sorted(grupo)
         if len(lista) > max_bloque:
-            subgrupos = {}
+            subgrupos: dict = {}
             for i in lista:
-                sub = valores_norm[i][:3] if len(valores_norm[i]) >= 3 else valores_norm[i]
+                sub = uniq_norm[i][:3] if len(uniq_norm[i]) >= 3 else uniq_norm[i]
                 subgrupos.setdefault(sub, []).append(i)
             for sub_lista in subgrupos.values():
                 for a in range(len(sub_lista)):
                     for b in range(a + 1, len(sub_lista)):
-                        pares_candidatos.add((sub_lista[a], sub_lista[b]))
+                        pares_cand.add((sub_lista[a], sub_lista[b]))
         else:
             for a in range(len(lista)):
                 for b in range(a + 1, len(lista)):
-                    pares_candidatos.add((lista[a], lista[b]))
+                    pares_cand.add((lista[a], lista[b]))
 
-    # Para brecha_afin, limitar a 15 000 pares ordenados por similitud de longitud
-    # (los pares con longitudes más parecidas son los más probables de superar el umbral)
-    if algoritmo == 'brecha_afin' and len(pares_candidatos) > 15_000:
-        pares_candidatos = set(
+    if algoritmo == 'brecha_afin' and len(pares_cand) > 15_000:
+        pares_cand = set(
             sorted(
-                pares_candidatos,
-                key=lambda p: abs(len(valores_norm[p[0]]) - len(valores_norm[p[1]]))
+                pares_cand,
+                key=lambda p: abs(len(uniq_norm[p[0]]) - len(uniq_norm[p[1]]))
             )[:15_000]
         )
 
-    total_pares = len(pares_candidatos)
-    warning = f' | Pares comparados: {total_pares:,}' if total_pares > 10000 else ''
+    # ── Step 3: compare unique-value pairs ───────────────────────────────
+    # By design every pair here has different raw values (deduplication guarantees
+    # uniq_raw[i] != uniq_raw[j] for i != j), so exact-raw exclusion is implicit.
+    similar_pares: list[tuple] = []   # (ui, uj, score)
 
-    similares: dict = {}
-    for i, j in pares_candidatos:
-        score = _calcular_similitud(valores_norm[i], valores_norm[j], algoritmo)
-        if score >= umbral:
-            similares.setdefault(i, []).append((j, score, valores[j]))
-            similares.setdefault(j, []).append((i, score, valores[i]))
+    for ui, uj in pares_cand:
+        nv_i, nv_j = uniq_norm[ui], uniq_norm[uj]
+        if nv_i == nv_j:
+            sim_score = 100.0          # different raw, same normalized
+        else:
+            sim_score = _calcular_similitud(nv_i, nv_j, algoritmo)
+        if sim_score >= umbral:
+            similar_pares.append((ui, uj, sim_score))
 
-    issues_rows = []
-    for idx, parecidos in similares.items():
-        mejor = max(parecidos, key=lambda x: x[1])
-        idx_similar, score_sim, val_similar = mejor
-        issues_rows.append({
-            id_col: ids[idx],
-            'columna': target_col,
-            'dimension': 'similitud',
-            'descripcion': (
-                f"Similar a [ID: {ids[idx_similar]}] '{valores[idx_similar]}' — "
-                f"{score_sim:.1f}% similitud ({algoritmo})"
-            ),
-            'valor_encontrado': f"[ID: {ids[idx]}] {str(valores[idx])}",
-        })
+    if not similar_pares:
+        return 100.0, _empty_df(id_col)
 
-    issues_df = (
-        pd.DataFrame(issues_rows)
-        if issues_rows
-        else pd.DataFrame(columns=[id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado'])
+    # ── Step 4: expand unique-value pairs to record pairs ────────────────
+    record_pairs: list[tuple] = []
+    record_max_sim: dict[int, float] = {}
+
+    for ui, uj, sim_score in similar_pares:
+        for ri in unique_vals[uniq_raw[ui]]:
+            for rj in unique_vals[uniq_raw[uj]]:
+                record_pairs.append((ri, rj))
+                record_max_sim[ri] = max(record_max_sim.get(ri, 0.0), sim_score)
+                record_max_sim[rj] = max(record_max_sim.get(rj, 0.0), sim_score)
+
+    # ── Step 5: transitive closure → groups ──────────────────────────────
+    groups = _union_find_groups(record_pairs, len(df))
+
+    total_grupos       = len(groups)
+    total_involucrados = sum(len(m) for m in groups.values())
+    total_excedentes   = total_involucrados - total_grupos
+    total_evaluados    = len(df) - placeholders_excluidos
+
+    score = (
+        round(max(0.0, min(100.0,
+              (1 - total_excedentes / total_evaluados) * 100)), 1)
+        if total_evaluados > 0 else 100.0
     )
 
-    score = round((1 - len(similares) / len(df)) * 100, 2) if len(df) > 0 else 100.0
-    return score, issues_df
+    # ── Step 6: suggest principal per group ──────────────────────────────
+    def _principal(members: list) -> int:
+        def null_count(idx):  return int(df.iloc[idx].isna().sum())
+        def val_len(idx):
+            v = df.iloc[idx][target_col]
+            return len(str(v)) if not pd.isna(v) else 0
+        def rec_id(idx):      return str(ids[idx])
+        return sorted(members, key=lambda i: (null_count(i), -val_len(i), rec_id(i)))[0]
+
+    # ── Step 7: build issues_df ───────────────────────────────────────────
+    rows = []
+    sorted_groups = sorted(groups.items(), key=lambda kv: min(kv[1]))
+    for group_num, (_, members) in enumerate(sorted_groups, start=1):
+        grupo_id    = f"G{group_num:03d}"
+        grupo_grande = len(members) > 10
+        principal   = _principal(members)
+        desc_base   = f"Parte del grupo {grupo_id} ({len(members)} registros parecidos)"
+        if grupo_grande:
+            desc_base += (
+                f" — Grupo grande ({len(members)} registros)"
+                " — posible encadenamiento, considera subir el umbral"
+            )
+        for ri in members:
+            rows.append({
+                id_col:                    ids[ri],
+                'columna':                 target_col,
+                'dimension':               'similitud',
+                'descripcion':             desc_base,
+                'valor_encontrado':        str(valores[ri]),
+                'grupo_id':                grupo_id,
+                'similitud_pct':           round(record_max_sim.get(ri, 0.0), 1),
+                'es_principal_sugerido':   bool(ri == principal),
+                'grupo_grande':            bool(grupo_grande),
+                'sim_total_grupos':        total_grupos,
+                'sim_total_involucrados':  total_involucrados,
+                'sim_total_excedentes':    total_excedentes,
+                'sim_dup_exactos_excluidos':   dup_exactos_excluidos,
+                'sim_placeholders_excluidos':  placeholders_excluidos,
+                'sim_algoritmo':           algoritmo,
+                'sim_umbral':              umbral,
+            })
+
+    return score, pd.DataFrame(rows)
+
+
+def _empty_df(id_col: str) -> pd.DataFrame:
+    cols = [
+        id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado',
+        'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
+        'sim_total_grupos', 'sim_total_involucrados', 'sim_total_excedentes',
+        'sim_dup_exactos_excluidos', 'sim_placeholders_excluidos',
+        'sim_algoritmo', 'sim_umbral',
+    ]
+    return pd.DataFrame(columns=cols)

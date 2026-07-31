@@ -263,6 +263,9 @@
       background: var(--blue); border: 1.5px dashed #f59e0b !important; color: #fff;
     }
     .dim-check.dim-chip-disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+    /* Dual label inside chips */
+    .dim-tech { font-size: 10px; opacity: .6; margin-left: 3px; font-weight: 400; }
+    .dim-check.checked .dim-tech { opacity: .75; }
 
     /* Param panels — animación con max-height */
     .dim-params {
@@ -2322,13 +2325,14 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
     <!-- SECCIÓN 3 — Las 11 dimensiones -->
     <div class="help-section">
       <div class="help-section-title">Las 11 dimensiones de calidad</div>
+      <p style="font-size:.84rem;color:var(--sub);margin-bottom:.6rem">Cada dimensión tiene dos nombres: el <strong>nombre de negocio</strong> (describe qué problema detecta) y el <strong>nombre técnico</strong> (término estándar según DAMA-DMBOK e ISO 8000). Ambos se muestran en toda la plataforma.</p>
       <p style="font-size:.84rem;color:var(--sub);margin-bottom:1rem">Puedes seleccionar dimensiones directamente en el paso de perfilamiento (paso 2) mientras revisas cada campo, o configurarlas todas en el paso 3. Ambos enfoques son válidos — la selección en el perfil te da más contexto para decidir.</p>
       <div class="accordion" id="dimAccordion">
 
         <div class="acc-item" data-acc="completitud">
           <div class="acc-trigger" onclick="toggleAcc('completitud')">
             <div class="acc-icon" style="background:#f0f7ff;color:#1560a8">✓</div>
-            <span class="acc-title">Completitud</span>
+            <span class="acc-title">Datos faltantes <span class="dim-tech">completitud</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2344,7 +2348,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="unicidad">
           <div class="acc-trigger" onclick="toggleAcc('unicidad')">
             <div class="acc-icon" style="background:#f0fdf4;color:#16a34a">⊕</div>
-            <span class="acc-title">Unicidad</span>
+            <span class="acc-title">Duplicados exactos <span class="dim-tech">unicidad</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2360,7 +2364,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="validez">
           <div class="acc-trigger" onclick="toggleAcc('validez')">
             <div class="acc-icon" style="background:#fef3c7;color:#d97706">✦</div>
-            <span class="acc-title">Validez</span>
+            <span class="acc-title">Valores permitidos <span class="dim-tech">validez</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2455,7 +2459,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="consistencia">
           <div class="acc-trigger" onclick="toggleAcc('consistencia')">
             <div class="acc-icon" style="background:#f3e8ff;color:#7c3aed">⇄</div>
-            <span class="acc-title">Consistencia</span>
+            <span class="acc-title">Formatos uniformes <span class="dim-tech">consistencia</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2471,7 +2475,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="exactitud">
           <div class="acc-trigger" onclick="toggleAcc('exactitud')">
             <div class="acc-icon" style="background:#fef2f2;color:#dc2626">±</div>
-            <span class="acc-title">Exactitud</span>
+            <span class="acc-title">Rangos válidos <span class="dim-tech">exactitud</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2487,7 +2491,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="vigencia">
           <div class="acc-trigger" onclick="toggleAcc('vigencia')">
             <div class="acc-icon" style="background:#ecfdf5;color:#059669">📅</div>
-            <span class="acc-title">Vigencia</span>
+            <span class="acc-title">Fechas fuera de período <span class="dim-tech">vigencia</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2503,7 +2507,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="precision">
           <div class="acc-trigger" onclick="toggleAcc('precision')">
             <div class="acc-icon" style="background:#fff7ed;color:#ea580c">⌶</div>
-            <span class="acc-title">Precisión</span>
+            <span class="acc-title">Longitud y decimales <span class="dim-tech">precisión</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2523,7 +2527,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="oportunidad">
           <div class="acc-trigger" onclick="toggleAcc('oportunidad')">
             <div class="acc-icon" style="background:#f0f9ff;color:#0284c7">⏱</div>
-            <span class="acc-title">Oportunidad</span>
+            <span class="acc-title">Datos sin actualizar <span class="dim-tech">oportunidad</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2546,7 +2550,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="integridad">
           <div class="acc-trigger" onclick="toggleAcc('integridad')">
             <div class="acc-icon" style="background:#fdf4ff;color:#a21caf">⛓</div>
-            <span class="acc-title">Integridad Referencial</span>
+            <span class="acc-title">Códigos que no existen <span class="dim-tech">integridad referencial</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2565,7 +2569,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="razonabilidad">
           <div class="acc-trigger" onclick="toggleAcc('razonabilidad')">
             <div class="acc-icon" style="background:#fff1f2;color:#e11d48">⚡</div>
-            <span class="acc-title">Razonabilidad</span>
+            <span class="acc-title">Valores atípicos <span class="dim-tech">razonabilidad</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2681,7 +2685,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
         <div class="acc-item" data-acc="similitud">
           <div class="acc-trigger" onclick="toggleAcc('similitud')">
             <div class="acc-icon" style="background:#fdf4ff;color:#9333ea">≈</div>
-            <span class="acc-title">Similitud</span>
+            <span class="acc-title">Registros parecidos <span class="dim-tech">similitud</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
@@ -2735,6 +2739,31 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
                   </tbody>
                 </table>
               </span></div>
+              <div class="acc-row"><span class="acc-label" style="min-width:110px">Cómo se cuenta y califica</span><span class="acc-val"></span></div>
+              <p style="font-size:.8rem;color:var(--sub);margin:.5rem 0 .75rem">Registros parecidos es estructuralmente distinta a las otras diez dimensiones. Las demás evalúan un registro contra una regla — esta evalúa pares de registros entre sí. Por eso su conteo funciona diferente.</p>
+              <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:.75rem">
+                <tr style="background:var(--blue-lt)"><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Número</th><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Qué mide</th><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Para qué sirve</th></tr>
+                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Grupos detectados</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Conjuntos de registros que representan la misma entidad</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Es tu cola de trabajo: cada grupo requiere una decisión de consolidación</td></tr>
+                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Registros involucrados</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Todos los registros que pertenecen a algún grupo</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Mide la exposición total del problema</td></tr>
+                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Registros excedentes</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Involucrados menos grupos</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Mide el impacto real: cuántos registros desaparecerían al consolidar</td></tr>
+              </table>
+              <div style="background:#F8FAFC;border-radius:8px;padding:.6rem .75rem;margin-bottom:.75rem;font-size:.79rem">
+                <div style="font-family:monospace;color:var(--text);margin-bottom:.25rem">Excedentes = Involucrados − Grupos</div>
+                <div style="font-family:monospace;color:var(--text)">Score = (1 − Excedentes / Registros evaluados) × 100</div>
+              </div>
+              <p style="font-size:.8rem;color:var(--sub);margin-bottom:.75rem">Se usa excedentes porque si dos registros son el mismo proveedor, uno de los dos es correcto. Contar ambos como problema castigaría al dataset por un solo error de captura.</p>
+              <div class="acc-row"><span class="acc-label" style="min-width:110px">Qué se excluye</span><span class="acc-val"></span></div>
+              <ul style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem;padding-left:1.1rem">
+                <li style="margin-bottom:.35rem">Valores nulos, vacíos y placeholder (N/A, —, Sin dato…) — ya se reportan en <strong>Datos faltantes</strong> (completitud).</li>
+                <li>Duplicados exactos con valores byte-idénticos — pertenecen a <strong>Duplicados exactos</strong> (unicidad). Si el valor es idéntico solo después de normalizar tildes y mayúsculas, sí cuenta en similitud porque unicidad no lo detectaría.</li>
+              </ul>
+              <div class="acc-row"><span class="acc-label" style="min-width:110px">Cierre transitivo</span><span class="acc-val"></span></div>
+              <p style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem">Si A se parece a B y B se parece a C, los tres forman un grupo aunque A y C no superen el umbral entre sí. Esto refleja la realidad: son variantes de la misma entidad. Si un grupo supera 10 registros, el sistema advierte de posible encadenamiento — considera subir el umbral.</p>
+              <div class="acc-row"><span class="acc-label" style="min-width:110px">Registro principal</span><span class="acc-val"></span></div>
+              <p style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem">El sistema sugiere cuál registro conservar de cada grupo: el que tenga menos campos nulos, y en caso de empate el que tenga el valor más completo. La decisión final es del analista que conoce el negocio.</p>
+              <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:.6rem .75rem;font-size:.79rem;color:#92400E">
+                ⚠️ El score de esta dimensión depende del algoritmo y umbral usados. Dos análisis del mismo dataset con configuración distinta no son comparables. El dashboard siempre muestra el algoritmo y umbral junto al score.
+              </div>
             </div>
           </div></div>
         </div>
@@ -3065,6 +3094,29 @@ async function apiFetch(url, options = {}) {
     throw new Error('Sesión expirada. Por favor inicia sesión nuevamente.');
   }
   return res;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Business-friendly dimension names (display only — technical keys never change)
+// ─────────────────────────────────────────────────────────────────────
+const NOMBRES_NEGOCIO = {
+  completitud:            'Datos faltantes',
+  unicidad:               'Duplicados exactos',
+  validez:                'Valores permitidos',
+  consistencia:           'Formatos uniformes',
+  exactitud:              'Rangos válidos',
+  vigencia:               'Fechas fuera de período',
+  precision:              'Longitud y decimales',
+  oportunidad:            'Datos sin actualizar',
+  integridad_referencial: 'Códigos que no existen',
+  razonabilidad:          'Valores atípicos',
+  similitud:              'Registros parecidos',
+};
+function nombreNegocio(k) {
+  return NOMBRES_NEGOCIO[k] || k.replace(/_/g, ' ');
+}
+function chipDual(k) {
+  return `${nombreNegocio(k)}<span class="dim-tech">${k}</span>`;
 }
 
 const DIMENSIONS = [
@@ -3826,7 +3878,7 @@ function _buildHistCard(a) {
       <span class="hist-meta-item">⚙ ${a.total_columnas||'—'} columnas</span>
       <span class="hist-meta-item ${problems > 0 ? 'bad' : ''}">⚠ ${problems.toLocaleString()} problemas</span>
     </div>
-    ${dims.length ? `<div class="hist-chips">${dims.map(d=>`<span class="hist-chip">${d}</span>`).join('')}</div>` : ''}
+    ${dims.length ? `<div class="hist-chips">${dims.map(d=>`<span class="hist-chip">${nombreNegocio(d)}</span>`).join('')}</div>` : ''}
     <div class="hist-card-footer">
       ${etqClass ? `<span class="hist-etq ${etqClass}">${a.etiqueta}</span>` : ''}
       <button class="hist-btn-dl" onclick="downloadHistReport(${a.id})">⬇ Descargar reporte</button>
@@ -3899,7 +3951,7 @@ function buildConfigScreen(data) {
             <div class="dim-check" id="label-${safeId(col.nombre)}-${d.key}"
                  data-sid="${safeId(col.nombre)}" data-dim="${d.key}"
                  onclick="toggleDim('${safeId(col.nombre)}','${d.key}')">
-              ${d.label}
+              ${chipDual(d.key)}
             </div>
           `).join('')}
         </div>
@@ -4196,10 +4248,10 @@ function buildParamInputs(colName, dtype) {
     <div class="dim-params" id="params-${sid}-exactitud">
       <div style="width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem">
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <label>Valor mínimo:</label>
+          <label>Valor mínimo esperado:</label>
           <input type="number" id="p-${sid}-min_value" placeholder="0" style="width:100px"
                  oninput="validateExactitud('${sid}')" />
-          <label>Valor máximo:</label>
+          <label>Valor máximo esperado:</label>
           <input type="number" id="p-${sid}-max_value" placeholder="100" style="width:100px"
                  oninput="validateExactitud('${sid}')" />
         </div>
@@ -4217,9 +4269,9 @@ function buildParamInputs(colName, dtype) {
     <div class="dim-params" id="params-${sid}-vigencia">
       <div style="width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem">
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <label>Fecha desde:</label>
+          <label>Período válido: desde</label>
           <input type="date" id="p-${sid}-date_from" style="width:150px" />
-          <label>Fecha hasta:</label>
+          <label>hasta</label>
           <input type="date" id="p-${sid}-date_to" style="width:150px" />
         </div>
         <button class="param-btn" type="button" onclick="suggestVigenciaRange('${sid}')">
@@ -4260,10 +4312,10 @@ function buildParamInputs(colName, dtype) {
       <div style="display:flex;flex-direction:column;gap:.6rem;width:100%">
         <div style="display:flex;gap:.5rem">
           <div class="vradio active" id="razm-${sid}-iqr" onclick="switchRazon('${sid}','iqr')">
-            <input type="radio" name="razmode-${sid}" value="iqr" checked />IQR — univariable
+            <input type="radio" name="razmode-${sid}" value="iqr" checked />Un solo campo
           </div>
           <div class="vradio" id="razm-${sid}-if" onclick="switchRazon('${sid}','if')">
-            <input type="radio" name="razmode-${sid}" value="if" />Isolation Forest — multivariable
+            <input type="radio" name="razmode-${sid}" value="if" />Varios campos juntos
           </div>
         </div>
         <div id="razsub-${sid}-iqr" class="validez-subpanel visible">
@@ -4274,11 +4326,14 @@ function buildParamInputs(colName, dtype) {
           <div style="font-size:.78rem;font-weight:600;margin-bottom:.3rem">Columnas a analizar en conjunto (selecciona 2 o más):</div>
           <div id="razif-cols-${sid}" style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem"></div>
           <div id="razif-preview-${sid}" class="param-hint" style="margin:.2rem 0"></div>
-          <div style="display:flex;align-items:center;gap:.6rem;margin-top:.3rem">
-            <label style="font-size:.78rem;white-space:nowrap">% anomalías esperadas:</label>
-            <input type="range" id="p-${sid}-contamination" min="1" max="20" value="5"
-                   style="width:120px" oninput="document.getElementById('razif-pct-${sid}').textContent=this.value+'%'; updateRazPreview('${sid}')" />
-            <span id="razif-pct-${sid}" style="font-size:.78rem;font-weight:600;color:var(--blue);min-width:2.5rem">5%</span>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-top:.3rem;flex-wrap:wrap">
+            <label style="font-size:.78rem;white-space:nowrap">Sensibilidad:</label>
+            <div style="display:flex;gap:.35rem">
+              <button type="button" id="razif-cbtn-cons-${sid}" class="param-btn" onclick="_setContamBtn('${sid}',2)" style="font-size:.76rem">Conservador</button>
+              <button type="button" id="razif-cbtn-bal-${sid}" class="param-btn" onclick="_setContamBtn('${sid}',5)" style="font-size:.76rem;background:var(--blue);color:#fff;border-color:var(--blue)">Balanceado</button>
+              <button type="button" id="razif-cbtn-exh-${sid}" class="param-btn" onclick="_setContamBtn('${sid}',10)" style="font-size:.76rem">Exhaustivo</button>
+            </div>
+            <input type="hidden" id="p-${sid}-contamination" value="5" />
           </div>
           <div class="param-error" id="razif-err-${sid}" style="display:none;margin-top:.25rem">Isolation Forest requiere seleccionar al menos 2 columnas.</div>
         </div>
@@ -4289,7 +4344,7 @@ function buildParamInputs(colName, dtype) {
     <div class="dim-params" id="params-${sid}-similitud">
       <div style="display:flex;flex-direction:column;gap:.5rem;width:100%">
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <label>Algoritmo:</label>
+          <label>Tipo de comparación:</label>
           <select id="p-${sid}-algoritmo" style="width:340px">
             <option value="jaro_winkler">Jaro-Winkler — nombres de personas (recomendado)</option>
             <option value="brecha_afin">Brecha Afín — nombres con abreviaturas (Juan A. García)</option>
@@ -4302,7 +4357,7 @@ function buildParamInputs(colName, dtype) {
           </select>
         </div>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <label>Umbral de similitud %:</label>
+          <label>Qué tan parecidos deben ser:</label>
           <input type="number" id="p-${sid}-umbral" value="92" min="70" max="99" style="width:80px" />
           <span class="param-hint" style="margin:0">92%+ muy similar · 85% similar · 75% algo similar — ajusta según el algoritmo elegido</span>
         </div>
@@ -4365,10 +4420,10 @@ function _renderProfDimChips(colName, tipo, perfil) {
   const tipLabel = { texto:'texto', numerico:'numérico', fecha:'fecha', categorico:'categórico' }[tipo] || tipo;
   const chips = DIMENSIONS.map(d => {
     if (_profDimDisabled(tipo, d.key, perfil)) {
-      return `<div class="dim-check dim-chip-disabled" title="No aplica a columnas de tipo ${tipLabel}">${d.label}</div>`;
+      return `<div class="dim-check dim-chip-disabled" title="No aplica a columnas de tipo ${tipLabel}">${nombreNegocio(d.key)}</div>`;
     }
     const chk = selected.has(d.key) ? ' checked' : '';
-    return `<div class="dim-check${chk}" id="prof-chip-${sid}-${d.key}" onclick="toggleProfDim('${sid}','${d.key}')">${d.label}</div>`;
+    return `<div class="dim-check${chk}" id="prof-chip-${sid}-${d.key}" onclick="toggleProfDim('${sid}','${d.key}')">${chipDual(d.key)}</div>`;
   }).join('');
   return `<div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)">
     <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:.5rem">Dimensiones a evaluar</div>
@@ -4663,14 +4718,16 @@ function buildResultsScreen(data) {
     const pct = Math.max(0, Math.min(100, sc));
     const row = document.createElement('div');
     row.style.cssText = 'margin-bottom:.55rem';
+    row.dataset.simBar = dim;
     row.innerHTML = `
       <div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:#475569;margin-bottom:.2rem">
-        <span style="text-transform:capitalize">${escHtml(dim)}</span>
+        <span>${escHtml(nombreNegocio(dim))}<span class="dim-tech">${escHtml(dim)}</span></span>
         <span style="color:${color}">${sc.toFixed(1)}</span>
       </div>
       <div style="background:#E2E8F0;border-radius:999px;height:7px;overflow:hidden">
         <div style="width:${pct}%;height:100%;background:${color};border-radius:999px;transition:width .6s"></div>
-      </div>`;
+      </div>
+      ${dim === 'similitud' ? '<div id="simBarDetail" style="font-size:.7rem;color:#64748B;margin-top:.25rem"></div>' : ''}`;
     dimContainer.appendChild(row);
   });
 
@@ -4687,8 +4744,8 @@ function buildResultsScreen(data) {
 
   const peorDim = dimsSorted.length > 0 ? dimsSorted[0][0] : (data.peor_dimension || '—');
   const peorSc  = dimsSorted.length > 0 ? dimsSorted[0][1] : null;
-  document.getElementById('kpiPeor').textContent     = peorDim;
-  document.getElementById('kpiPeorScore').textContent = peorSc !== null ? `Score: ${peorSc.toFixed(1)}` : '—';
+  document.getElementById('kpiPeor').textContent     = nombreNegocio(peorDim);
+  document.getElementById('kpiPeorScore').textContent = (peorSc !== null ? `Score: ${peorSc.toFixed(1)} · ` : '') + peorDim;
 
   // ── Column cards (worst→best) ─────────────────────────────────────
   const colScores = {};
@@ -4706,7 +4763,7 @@ function buildResultsScreen(data) {
     card.style.cssText = `background:#fff;border-radius:.75rem;padding:1rem;border:1.5px solid ${avg < 60 ? '#FEE2E2' : avg < 80 ? '#FEF3C7' : '#DCFCE7'};box-shadow:0 1px 3px rgba(0,0,0,.06)`;
     const dimRows = Object.entries(dims).map(([d, s]) =>
       `<div style="display:flex;justify-content:space-between;font-size:.72rem;color:#64748B;margin-top:.2rem">
-        <span style="text-transform:capitalize">${escHtml(d)}</span>
+        <span>${escHtml(nombreNegocio(d))}</span>
         <span style="font-weight:700;color:${sc_color(s)}">${s.toFixed(0)}</span>
       </div>`
     ).join('');
@@ -4731,9 +4788,33 @@ async function fetchAndRenderIssues() {
     populateIssueFilters(allIssues);
     renderIssueRows(allIssues);
     renderDonutAndRemed(allIssues, state._dimAvg || {}, state._dimsSorted || []);
+    _updateSimDimBar(allIssues);
   } catch(e) {
     toast('No se pudieron cargar los problemas detallados: ' + e.message, 'error');
   }
+}
+
+function _updateSimDimBar(issues) {
+  const detail = document.getElementById('simBarDetail');
+  if (!detail) return;
+  const simRows = issues.filter(r => r.dimension === 'similitud');
+  if (!simRows.length) return;
+  const m = simRows[0];
+  const grupos = m.sim_total_grupos || 0;
+  const involucrados = m.sim_total_involucrados || 0;
+  const excedentes = m.sim_total_excedentes || 0;
+  const algo = m.sim_algoritmo || '';
+  const umbral = m.sim_umbral || '';
+  let html = `${grupos} grupos · ${involucrados} involucrados · ${excedentes} excedentes<br><span style="opacity:.75">${algo} · umbral ${umbral}%</span>`;
+  const dupEx = m.sim_dup_exactos_excluidos || 0;
+  const phEx = m.sim_placeholders_excluidos || 0;
+  if (dupEx > 0 || phEx > 0) {
+    const parts = [];
+    if (dupEx > 0) parts.push(`${dupEx} dup. exactos excluidos`);
+    if (phEx > 0) parts.push(`${phEx} vacíos excluidos`);
+    html += `<br><span style="opacity:.6">${parts.join(' · ')}</span>`;
+  }
+  detail.innerHTML = html;
 }
 
 function populateIssueFilters(issues) {
@@ -4742,7 +4823,7 @@ function populateIssueFilters(issues) {
   document.getElementById('filterCol').innerHTML =
     '<option value="">Todas las columnas</option>' + cols.map(c => `<option>${c}</option>`).join('');
   document.getElementById('filterDim').innerHTML =
-    '<option value="">Todas las dimensiones</option>' + dims.map(d => `<option>${d}</option>`).join('');
+    '<option value="">Todas las dimensiones</option>' + dims.map(d => `<option value="${d}">${nombreNegocio(d)} (${d})</option>`).join('');
 }
 
 // ── Pagination state ──────────────────────────────────────────────
@@ -4818,9 +4899,9 @@ function renderIssueRows(rows) {
       tr.innerHTML = `
         <td><span class="pill pill-gray">${escHtml(String(r.id_registro))}</span></td>
         <td><strong>${escHtml(r.columna)}</strong></td>
-        <td><span class="pill ${dimPill(r.dimension)}">${escHtml(r.dimension)}</span></td>
+        <td><span class="pill ${dimPill(r.dimension)}">${escHtml(nombreNegocio(r.dimension))}</span><br><span class="dim-tech" style="margin-left:0">${escHtml(r.dimension)}</span>${r.grupo_id ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .4rem;background:#EFF6FF;color:#1D4ED8;border-radius:4px;display:inline-block;margin-top:.2rem">${escHtml(r.grupo_id)}</span>` : ''}${r.grupo_grande ? ' <span title="Grupo grande — posible encadenamiento, considera subir el umbral" style="cursor:help">⚠️</span>' : ''}</td>
         <td style="max-width:320px">${escHtml(r.descripcion)}</td>
-        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}</td>
+        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}${r.es_principal_sugerido ? '<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#DCFCE7;color:#166534;border-radius:4px;display:inline-block;margin-top:.3rem">✓ conservar</span>' : ''}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -4897,6 +4978,12 @@ function filterIssues() {
   const filtered = allIssues.filter(r =>
     (!fc || r.columna === fc) && (!fd || r.dimension === fd)
   );
+  filtered.sort((a, b) => {
+    if (a.dimension === 'similitud' && b.dimension === 'similitud') {
+      return (a.grupo_id || '').localeCompare(b.grupo_id || '');
+    }
+    return 0;
+  });
   _currentPage = 1;
   renderIssueRows(filtered);
 }
@@ -4929,7 +5016,7 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
         const pct = Math.round(cnt / maxCnt * 100);
         return `<div style="margin-bottom:.85rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
-            <span style="font-size:.81rem;font-weight:600;color:#374151;text-transform:capitalize">${escHtml(dim)}</span>
+            <span style="font-size:.81rem;font-weight:600;color:#374151">${escHtml(nombreNegocio(dim))}<span class="dim-tech">${escHtml(dim)}</span></span>
             <span style="font-size:.78rem;font-weight:700;padding:.15rem .5rem;border-radius:6px;background:${bg};color:${txt}">${cnt.toLocaleString()}</span>
           </div>
           <div style="background:#F1F5F9;border-radius:999px;height:8px;overflow:hidden">
@@ -4950,7 +5037,7 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
         const sc = dimAvg[dim] !== undefined ? dimAvg[dim] : 100;
         const bg = sBg(sc), txt = sTxt(sc);
         return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid #F8FAFC">
-          <span style="font-size:.81rem;text-transform:capitalize;color:#374151;font-weight:500">${escHtml(dim)}</span>
+          <span style="font-size:.81rem;color:#374151;font-weight:500">${escHtml(nombreNegocio(dim))}<span class="dim-tech">${escHtml(dim)}</span></span>
           <span style="font-size:.79rem;font-weight:700;padding:.15rem .55rem;border-radius:6px;background:${bg};color:${txt}">${cnt.toLocaleString()}</span>
         </div>`;
       }).join('');
@@ -4985,16 +5072,22 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
     remedGrid.innerHTML = worst3.map(([dim, sc]) => {
       const col = sColor(sc), bg = sBg(sc), txt = sTxt(sc);
       const cnt = dimIssueCnt[dim] || 0;
+      const isSimDim = dim === 'similitud';
+      const displayCnt = isSimDim && allIssues.some(r => r.dimension === 'similitud' && r.sim_total_grupos)
+        ? (allIssues.find(r => r.dimension === 'similitud').sim_total_grupos || cnt)
+        : cnt;
+      const cntLabel = isSimDim ? 'grupos por consolidar' : 'problemas';
       const desc = _remDesc[dim] || 'Revisa los datos de esta dimensión y aplica correcciones según las reglas de negocio.';
       const icon = _remIcon[dim] || '⚠️';
-      const cntBadge = cnt > 0
-        ? `<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;background:${bg};color:${txt}">${cnt.toLocaleString()} problemas</span>`
+      const cntBadge = (cnt > 0 || displayCnt > 0)
+        ? `<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;background:${bg};color:${txt}">${displayCnt.toLocaleString()} ${cntLabel}</span>`
         : '';
       return `<div style="background:#fff;border-radius:12px;padding:1.3rem;border-left:4px solid ${col};box-shadow:0 1px 4px rgba(0,0,0,.07)">
         <div style="display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.75rem">
           <span style="font-size:1.4rem;line-height:1">${icon}</span>
           <div style="flex:1;min-width:0">
-            <div style="font-weight:700;color:#1E293B;font-size:.9rem;margin-bottom:.3rem;text-transform:capitalize">${escHtml(dim)}</div>
+            <div style="font-weight:700;color:#1E293B;font-size:.9rem;margin-bottom:.15rem">${escHtml(nombreNegocio(dim))}</div>
+            <div class="dim-tech" style="margin-left:0;margin-bottom:.2rem">${escHtml(dim)}</div>
             <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
               <span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;background:${bg};color:${txt}">${sc.toFixed(1)}</span>
               ${cntBadge}
@@ -5239,6 +5332,19 @@ function switchRazon(sid, mode) {
   document.getElementById(`razsub-${sid}-iqr`)?.classList.toggle('visible',  isIqr);
   document.getElementById(`razsub-${sid}-if`)?.classList.toggle('visible', !isIqr);
   if (!isIqr) initRazIfCols(sid);
+}
+
+function _setContamBtn(sid, val) {
+  const el = document.getElementById(`p-${sid}-contamination`);
+  if (el) el.value = val;
+  ['cons','bal','exh'].forEach(k => {
+    const b = document.getElementById(`razif-cbtn-${k}-${sid}`);
+    if (b) { b.style.background = ''; b.style.color = ''; b.style.borderColor = ''; }
+  });
+  const key = val === 2 ? 'cons' : val === 5 ? 'bal' : 'exh';
+  const active = document.getElementById(`razif-cbtn-${key}-${sid}`);
+  if (active) { active.style.background = 'var(--blue)'; active.style.color = '#fff'; active.style.borderColor = 'var(--blue)'; }
+  updateRazPreview(sid);
 }
 
 function _esNumerico(tipoDato) {

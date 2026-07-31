@@ -116,7 +116,9 @@ class DQScorer:
             for c in std_cols:
                 if c not in issues_df_final.columns:
                     issues_df_final[c] = None
-            issues_df_final = issues_df_final[std_cols]
+            # Preserve extra columns (e.g. similitud metadata) — keep std_cols first
+            extra_cols = [c for c in issues_df_final.columns if c not in std_cols]
+            issues_df_final = issues_df_final[std_cols + extra_cols]
         else:
             issues_df_final = pd.DataFrame(columns=empty_cols)
 

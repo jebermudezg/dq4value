@@ -5,6 +5,7 @@ Generates a self-contained HTML dashboard from DQ analysis results.
 import json
 import math
 from datetime import datetime
+from engine.nombres import nombre_negocio
 
 # ─────────────────────────────────────────────
 # Constants  (unified amber palette: #B45309 / #FEF3C7 / #92400E)
@@ -145,26 +146,52 @@ def _gauge_svg(score: float) -> str:
     )
 
 
-def _dim_bars(dims_sorted: list) -> str:
+def _dim_bars(dims_sorted: list, sim_meta: dict = None) -> str:
     html = ""
     for dim, s in dims_sorted:
         col = _score_color(s)
         bg  = _score_bg(s)
         txt = _score_txt(s)
+        dim_label = (
+            nombre_negocio(dim) +
+            '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
+            % dim.replace('_', ' ')
+        )
+        detail_html = ""
+        if dim == 'similitud' and sim_meta:
+            detail_html = (
+                '<div style="font-size:.72rem;color:#64748B;margin-top:.3rem">'
+                '%d grupos &middot; %d involucrados &middot; %d excedentes'
+                '<br><span style="opacity:.75">%s &middot; umbral %s%%</span>'
+                % (
+                    sim_meta['grupos'], sim_meta['involucrados'], sim_meta['excedentes'],
+                    sim_meta['algoritmo'], sim_meta['umbral'],
+                )
+            )
+            excl_parts = []
+            if sim_meta.get('dup_exactos'):
+                excl_parts.append('%d dup. exactos excluidos' % sim_meta['dup_exactos'])
+            if sim_meta.get('placeholders'):
+                excl_parts.append('%d vacíos excluidos' % sim_meta['placeholders'])
+            if excl_parts:
+                detail_html += (
+                    '<br><span style="opacity:.6">%s</span>' % ' &middot; '.join(excl_parts)
+                )
+            detail_html += '</div>'
+
         html += (
             '<div style="margin-bottom:.9rem">'
             '<div style="display:flex;justify-content:space-between;'
             'align-items:center;margin-bottom:.35rem">'
-            '<span style="font-size:.82rem;font-weight:600;color:#374151;'
-            'text-transform:capitalize">%s</span>'
+            '<span style="font-size:.82rem;font-weight:600;color:#374151">%s</span>'
             '<span style="font-size:.8rem;font-weight:700;padding:.15rem .55rem;'
             'border-radius:6px;background:%s;color:%s">%.1f</span>'
             '</div>'
             '<div style="background:#F1F5F9;border-radius:999px;height:8px;overflow:hidden">'
             '<div style="background:%s;height:100%%;width:%.1f%%;'
             'border-radius:999px;transition:width .5s ease"></div>'
-            '</div></div>'
-            % (dim, bg, txt, s, col, max(0.0, min(100.0, s)))
+            '</div>%s</div>'
+            % (dim_label, bg, txt, s, col, max(0.0, min(100.0, s)), detail_html)
         )
     return html
 
@@ -196,16 +223,20 @@ def _col_cards(cols_sorted: list, col_avg: dict) -> str:
             c = _score_color(s)
             b = _score_bg(s)
             t = _score_txt(s)
+            dim_label = (
+                nombre_negocio(dim) +
+                '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
+                % dim.replace('_', ' ')
+            )
             dim_rows += (
                 '<div style="display:flex;justify-content:space-between;'
                 'align-items:center;padding:.28rem 0;'
                 'border-bottom:1px solid #F8FAFC">'
-                '<span style="font-size:.76rem;color:#64748B;'
-                'text-transform:capitalize">%s</span>'
+                '<span style="font-size:.76rem;color:#64748B">%s</span>'
                 '<span style="font-size:.75rem;font-weight:700;padding:.1rem .45rem;'
                 'border-radius:5px;background:%s;color:%s">%.1f</span>'
                 '</div>'
-                % (dim, b, t, s)
+                % (dim_label, b, t, s)
             )
         html += (
             '<div style="background:#fff;border-radius:12px;'
@@ -240,12 +271,16 @@ def _issues_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
         bg  = _score_bg(s)
         txt = _score_txt(s)
         pct = round(c / max_cnt * 100, 1)
+        dim_label = (
+            nombre_negocio(d) +
+            '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
+            % d.replace('_', ' ')
+        )
         bars_html += (
             '<div style="margin-bottom:.85rem">'
             '<div style="display:flex;justify-content:space-between;'
             'align-items:center;margin-bottom:.3rem">'
-            '<span style="font-size:.81rem;font-weight:600;color:#374151;'
-            'text-transform:capitalize">%s</span>'
+            '<span style="font-size:.81rem;font-weight:600;color:#374151">%s</span>'
             '<span style="font-size:.78rem;font-weight:700;padding:.15rem .5rem;'
             'border-radius:6px;background:%s;color:%s">%s</span>'
             '</div>'
@@ -253,7 +288,7 @@ def _issues_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
             '<div style="background:%s;height:100%%;width:%.1f%%;'
             'border-radius:999px"></div>'
             '</div></div>'
-            % (d, bg, txt, "{:,}".format(c), col, pct)
+            % (dim_label, bg, txt, "{:,}".format(c), col, pct)
         )
 
     # ── Right panel: text rows with count badges ──
@@ -262,15 +297,20 @@ def _issues_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
         s   = scores_per_dim.get(d, 50.0)
         bg  = _score_bg(s)
         txt = _score_txt(s)
+        dim_label = (
+            nombre_negocio(d) +
+            '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
+            % d.replace('_', ' ')
+        )
         rows_html += (
             '<div style="display:flex;justify-content:space-between;'
             'align-items:center;padding:.45rem 0;border-bottom:1px solid #F8FAFC">'
-            '<span style="font-size:.81rem;text-transform:capitalize;color:#374151;'
+            '<span style="font-size:.81rem;color:#374151;'
             'font-weight:500">%s</span>'
             '<span style="font-size:.79rem;font-weight:700;padding:.15rem .55rem;'
             'border-radius:6px;background:%s;color:%s">%s</span>'
             '</div>'
-            % (d, bg, txt, "{:,}".format(c))
+            % (dim_label, bg, txt, "{:,}".format(c))
         )
 
     return (
@@ -294,7 +334,7 @@ def _issues_section(issues_per_dim: dict, scores_per_dim: dict) -> str:
 
 
 def _remediation_cards(top3_dims: list, scores_per_dim: dict,
-                       issues_per_dim: dict) -> str:
+                       issues_per_dim: dict, sim_meta: dict = None) -> str:
     html = (
         '<div style="display:grid;grid-template-columns:repeat(3,1fr);'
         'gap:1rem;margin-bottom:1.75rem">'
@@ -306,6 +346,12 @@ def _remediation_cards(top3_dims: list, scores_per_dim: dict,
         col = _score_color(s)
         bg  = _score_bg(s)
         txt = _score_txt(s)
+        if dim == 'similitud' and sim_meta:
+            display_cnt   = sim_meta.get('grupos', cnt)
+            cnt_label     = 'grupos por consolidar'
+        else:
+            display_cnt   = cnt
+            cnt_label     = 'problemas'
         html += (
             '<div style="background:#fff;border-radius:12px;padding:1.3rem;'
             'border-left:4px solid %s;'
@@ -329,8 +375,8 @@ def _remediation_cards(top3_dims: list, scores_per_dim: dict,
                 col, icon, title,
                 bg, txt, s,
                 ('<span style="font-size:.73rem;font-weight:700;padding:.15rem .5rem;'
-                 'border-radius:5px;background:%s;color:%s">%s problemas</span>'
-                 % (bg, txt, "{:,}".format(cnt))) if cnt else "",
+                 'border-radius:5px;background:%s;color:%s">%s %s</span>'
+                 % (bg, txt, "{:,}".format(display_cnt), cnt_label)) if display_cnt else "",
                 tip,
             )
         )
@@ -419,12 +465,28 @@ def generate_dashboard_html(
             % descripcion
         )
 
+    # ── Similitud metadata (for dim bar detail) ──
+    sim_meta: dict = {}
+    if issues_df is not None and not issues_df.empty and 'dimension' in issues_df.columns:
+        sim_rows = issues_df[issues_df['dimension'] == 'similitud']
+        if not sim_rows.empty and 'sim_total_grupos' in sim_rows.columns:
+            r = sim_rows.iloc[0]
+            sim_meta = {
+                'grupos':       int(r.get('sim_total_grupos', 0)),
+                'involucrados': int(r.get('sim_total_involucrados', 0)),
+                'excedentes':   int(r.get('sim_total_excedentes', 0)),
+                'dup_exactos':  int(r.get('sim_dup_exactos_excluidos', 0)),
+                'placeholders': int(r.get('sim_placeholders_excluidos', 0)),
+                'algoritmo':    str(r.get('sim_algoritmo', '')),
+                'umbral':       r.get('sim_umbral', ''),
+            }
+
     # ── Build HTML sections ──
     gauge_html     = _gauge_svg(score)
-    dim_bars_html  = _dim_bars(dims_sorted)
+    dim_bars_html  = _dim_bars(dims_sorted, sim_meta)
     col_cards_html = _col_cards(cols_sorted, col_avg)
     issues_html    = _issues_section(issues_per_dim, scores_per_dim)
-    remed_html     = _remediation_cards(dims_sorted[:3], scores_per_dim, issues_per_dim)
+    remed_html     = _remediation_cards(dims_sorted[:3], scores_per_dim, issues_per_dim, sim_meta)
 
     kpi_html = (
         '<div style="display:grid;grid-template-columns:repeat(4,1fr);'
@@ -436,8 +498,9 @@ def generate_dashboard_html(
                     "{:,} sin problemas".format(total_reg - total_prob),
                     _score_color(pct_clean))
         + _kpi_card("Peor dimensión",
-                    '<span style="font-size:1.1rem;text-transform:capitalize">%s</span>'
-                    % peor_dim,
+                    '<span style="font-size:1.1rem">%s</span>'
+                    '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
+                    % (nombre_negocio(peor_dim), peor_dim.replace('_', ' ')),
                     "%.1f promedio" % peor_score, _C_RED)
         + '</div>'
     )
