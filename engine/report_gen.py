@@ -197,12 +197,9 @@ def _build_issues(wb: Workbook, results: dict) -> None:
 
     if has_sim:
         df_w = issues_df[BASE].copy()
-        df_w['Grupo']       = issues_df.get('grupo_id', pd.Series(dtype=object))
-        df_w['% Similitud'] = issues_df.get('similitud_pct', pd.Series(dtype=object))
-        df_w['Conservar']   = (
-            issues_df.get('es_principal_sugerido', pd.Series(dtype=object))
-            .apply(lambda x: 'Sí' if x is True or x == 1 else '')
-        )
+        df_w['Valor correcto'] = issues_df.get('valor_correcto', pd.Series(dtype=object))
+        df_w['Grupo']          = issues_df.get('grupo_id', pd.Series(dtype=object))
+        df_w['% Similitud']    = issues_df.get('similitud_pct', pd.Series(dtype=object))
         df_w['_sg'] = df_w['Grupo'].fillna('ZZZZ')
         sorted_df = (
             df_w.sort_values(['columna', 'dimension', '_sg'])
@@ -232,14 +229,14 @@ def _build_issues(wb: Workbook, results: dict) -> None:
             cell = ws.cell(row=r_idx + 3, column=c_idx, value=value)
             cell.border = THIN_BORDER
             cell.alignment = Alignment(wrap_text=True)
-            if col_name == 'Conservar' and value == 'Sí':
+            if col_name == 'Valor correcto' and value:
                 cell.fill = PatternFill("solid", fgColor="DCFCE7")
                 cell.font = Font(bold=True, color="166534")
             if col_name == 'Grupo' and value and str(value).startswith('G'):
                 cell.fill = PatternFill("solid", fgColor="EFF6FF")
                 cell.font = Font(bold=True, color="1D4ED8")
 
-    widths = [18, 20, 20, 50, 25] + ([12, 13, 12] if has_sim else [])
+    widths = [18, 20, 20, 50, 25] + ([15, 12, 13] if has_sim else [])
     _autofit(ws, widths)
 
 

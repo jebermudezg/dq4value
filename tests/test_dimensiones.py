@@ -794,7 +794,7 @@ def test_similitud_conteo_excedentes():
         df, 'id', 'razon', algoritmo='monge_elkan', umbral=80, normalizar=True
     )
     print(f"\nScore: {score}")
-    print(f"Issues:\n{issues[['id', 'grupo_id', 'similitud_pct', 'es_principal_sugerido']].to_string()}")
+    print(f"Issues:\n{issues[['id', 'grupo_id', 'similitud_pct', 'valor_correcto']].to_string()}")
     assert issues['sim_total_grupos'].iloc[0] == 1
     assert issues['sim_total_involucrados'].iloc[0] == 3
     assert issues['sim_total_excedentes'].iloc[0] == 2
@@ -838,7 +838,7 @@ def test_similitud_excluye_placeholders():
 
 
 def test_similitud_grupo_id_presente():
-    """Cada issue debe tener grupo_id y es_principal_sugerido."""
+    """Cada issue debe tener grupo_id y valor_correcto (solo excedentes en issues)."""
     import pandas as pd
     from engine.dimensions.similitud import check_similitud
     df = pd.DataFrame({
@@ -849,8 +849,8 @@ def test_similitud_grupo_id_presente():
         df, 'id', 'razon', algoritmo='brecha_afin', umbral=75
     )
     print(f"\nScore: {score}")
-    print(issues[['id', 'grupo_id', 'similitud_pct', 'es_principal_sugerido']].to_string())
     if len(issues) > 0:
+        print(issues[['id', 'grupo_id', 'similitud_pct', 'valor_correcto']].to_string())
         assert 'grupo_id' in issues.columns
-        assert 'es_principal_sugerido' in issues.columns
-        assert issues['es_principal_sugerido'].sum() >= 1
+        assert 'valor_correcto' in issues.columns
+        assert issues['valor_correcto'].notna().any()

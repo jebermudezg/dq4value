@@ -4901,7 +4901,7 @@ function renderIssueRows(rows) {
         <td><strong>${escHtml(r.columna)}</strong></td>
         <td><span class="pill ${dimPill(r.dimension)}">${escHtml(nombreNegocio(r.dimension))}</span><br><span class="dim-tech" style="margin-left:0">${escHtml(r.dimension)}</span>${r.grupo_id ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .4rem;background:#EFF6FF;color:#1D4ED8;border-radius:4px;display:inline-block;margin-top:.2rem">${escHtml(r.grupo_id)}</span>` : ''}${r.grupo_grande ? ' <span title="Grupo grande — posible encadenamiento, considera subir el umbral" style="cursor:help">⚠️</span>' : ''}</td>
         <td style="max-width:320px">${escHtml(r.descripcion)}</td>
-        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}${r.es_principal_sugerido ? '<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#DCFCE7;color:#166534;border-radius:4px;display:inline-block;margin-top:.3rem">✓ conservar</span>' : ''}</td>
+        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}${r.valor_correcto ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#DCFCE7;color:#166534;border-radius:4px;display:inline-block;margin-top:.3rem">→ ${escHtml(r.valor_correcto)}</span>` : ''}</td>
       `;
       tbody.appendChild(tr);
     });

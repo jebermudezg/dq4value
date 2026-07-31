@@ -316,14 +316,7 @@ def check_similitud(
 
     total_grupos       = len(groups)
     total_involucrados = sum(len(m) for m in groups.values())
-    total_excedentes   = total_involucrados - total_grupos
     total_evaluados    = len(df) - placeholders_excluidos
-
-    score = (
-        round(max(0.0, min(100.0,
-              (1 - total_excedentes / total_evaluados) * 100)), 1)
-        if total_evaluados > 0 else 100.0
-    )
 
     # ── Step 6: suggest principal per group ──────────────────────────────
     def _principal(members: list) -> int:
@@ -334,38 +327,59 @@ def check_similitud(
         def rec_id(idx):      return str(ids[idx])
         return sorted(members, key=lambda i: (null_count(i), -val_len(i), rec_id(i)))[0]
 
-    # ── Step 7: build issues_df ───────────────────────────────────────────
+    # ── Step 7: build issues_df (only excedente records) ─────────────────
+    # Only records whose raw value ≠ principal raw value are actual problems.
+    # Records already matching the principal are correct data — including them
+    # as issues would mislead the analyst.
+    # sim_total_involucrados still shows the full group size for context.
+    total_excedentes = 0
     rows = []
     sorted_groups = sorted(groups.items(), key=lambda kv: min(kv[1]))
     for group_num, (_, members) in enumerate(sorted_groups, start=1):
-        grupo_id    = f"G{group_num:03d}"
-        grupo_grande = len(members) > 10
-        principal   = _principal(members)
-        desc_base   = f"Parte del grupo {grupo_id} ({len(members)} registros parecidos)"
+        grupo_id      = f"G{group_num:03d}"
+        grupo_grande  = len(members) > 10
+        principal     = _principal(members)
+        principal_raw = str(valores[principal])
+        group_excedentes = sum(
+            1 for ri in members if str(valores[ri]) != principal_raw
+        )
+        total_excedentes += group_excedentes
+        desc_base = (
+            f"Grupo {grupo_id} · corregir a '{principal_raw}' "
+            f"({group_excedentes} de {len(members)} registros a corregir)"
+        )
         if grupo_grande:
-            desc_base += (
-                f" — Grupo grande ({len(members)} registros)"
-                " — posible encadenamiento, considera subir el umbral"
-            )
+            desc_base += " — grupo grande, considera subir el umbral"
         for ri in members:
+            if str(valores[ri]) == principal_raw:
+                continue  # correct value — not an issue
             rows.append({
                 id_col:                    ids[ri],
                 'columna':                 target_col,
                 'dimension':               'similitud',
                 'descripcion':             desc_base,
                 'valor_encontrado':        str(valores[ri]),
-                'grupo_id':                grupo_id,
+                'valor_correcto':          principal_raw,
+                'grupo_id':               grupo_id,
                 'similitud_pct':           round(record_max_sim.get(ri, 0.0), 1),
-                'es_principal_sugerido':   bool(ri == principal),
                 'grupo_grande':            bool(grupo_grande),
                 'sim_total_grupos':        total_grupos,
                 'sim_total_involucrados':  total_involucrados,
-                'sim_total_excedentes':    total_excedentes,
+                'sim_total_excedentes':    0,  # back-filled below
                 'sim_dup_exactos_excluidos':   dup_exactos_excluidos,
                 'sim_placeholders_excluidos':  placeholders_excluidos,
                 'sim_algoritmo':           algoritmo,
                 'sim_umbral':              umbral,
             })
+
+    for row in rows:
+        row['sim_total_excedentes'] = total_excedentes
+
+    score = (
+        round(max(0.0, min(100.0,
+              (1 - total_excedentes / total_evaluados) * 100)), 1)
+        if total_evaluados > 0 else 100.0
+    )
 
     return score, pd.DataFrame(rows)
 
@@ -373,7 +387,7 @@ def check_similitud(
 def _empty_df(id_col: str) -> pd.DataFrame:
     cols = [
         id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado',
-        'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
+        'valor_correcto', 'grupo_id', 'similitud_pct', 'grupo_grande',
         'sim_total_grupos', 'sim_total_involucrados', 'sim_total_excedentes',
         'sim_dup_exactos_excluidos', 'sim_placeholders_excluidos',
         'sim_algoritmo', 'sim_umbral',
