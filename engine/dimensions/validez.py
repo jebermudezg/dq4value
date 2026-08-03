@@ -12,7 +12,7 @@ def check_validez(df: pd.DataFrame, id_col: str, target_col: str, **params) -> t
 
     total = len(df)
     if total == 0 or (valid_values is None and regex_pattern is None):
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     col = df[target_col].astype(str)
 
@@ -40,7 +40,7 @@ def check_validez(df: pd.DataFrame, id_col: str, target_col: str, **params) -> t
             lambda v: f"Formato inválido: {v}"
         )
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

@@ -54,7 +54,7 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
         issues = df[mascara_anomalias].copy()
 
         if len(issues) == 0:
-            return 100.0, _empty_issues(id_col)
+            return 100.0, _empty_issues(id_col), {}
 
         import json
 
@@ -93,20 +93,20 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
 
         total = len(df.dropna(subset=[target_col]))
         score = round((1 - len(issues) / total) * 100, 1) if total > 0 else 100.0
-        return score, issues_df.reset_index(drop=True)
+        return score, issues_df.reset_index(drop=True), {}
 
     # ── IQR original ───────────────────────────────────────────────────
     iqr_factor = float(params.get("iqr_factor", 1.5))
 
     total = len(df)
     if total == 0:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     col_num = pd.to_numeric(df[target_col], errors="coerce")
     col_valida = col_num.dropna()
 
     if col_valida.empty or col_valida.nunique() <= 1:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     q1 = col_valida.quantile(0.25)
     q3 = col_valida.quantile(0.75)
@@ -128,7 +128,7 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
         f"[{limite_inferior:.2f}, {limite_superior:.2f}])"
     )
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

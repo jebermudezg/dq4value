@@ -8,7 +8,7 @@ def check_completitud(df: pd.DataFrame, id_col: str, target_col: str, **params) 
     """
     total = len(df)
     if total == 0:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     nulos = df[target_col].isna()
     score = (nulos.value_counts().get(False, 0) / total) * 100
@@ -19,7 +19,7 @@ def check_completitud(df: pd.DataFrame, id_col: str, target_col: str, **params) 
     issues_df["descripcion"] = "Valor nulo o ausente"
     issues_df["valor_encontrado"] = None
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

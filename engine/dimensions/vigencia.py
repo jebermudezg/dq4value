@@ -13,7 +13,7 @@ def check_vigencia(df: pd.DataFrame, id_col: str, target_col: str, **params) -> 
 
     total = len(df)
     if total == 0:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     # --- Modo fecha ---
     if date_from is not None or date_to is not None:
@@ -41,7 +41,7 @@ def check_vigencia(df: pd.DataFrame, id_col: str, target_col: str, **params) -> 
         descripcion = "Valor marcado como obsoleto"
 
     else:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     n_validos = total - invalidos_mask.sum()
     score = (n_validos / total) * 100
@@ -52,7 +52,7 @@ def check_vigencia(df: pd.DataFrame, id_col: str, target_col: str, **params) -> 
     issues_df["dimension"] = "vigencia"
     issues_df["descripcion"] = descripcion
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

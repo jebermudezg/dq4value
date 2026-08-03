@@ -13,7 +13,7 @@ def check_precision(df: pd.DataFrame, id_col: str, target_col: str, **params) ->
 
     total = len(df)
     if total == 0 or (decimal_places is None and min_length is None and max_length is None):
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     col_notnull = df[target_col].notna()
     invalidos_mask = pd.Series(False, index=df.index)
@@ -48,7 +48,7 @@ def check_precision(df: pd.DataFrame, id_col: str, target_col: str, **params) ->
     issues_df["dimension"] = "precision"
     issues_df["descripcion"] = descripcion
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

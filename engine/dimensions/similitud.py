@@ -252,7 +252,7 @@ def check_similitud(
     # ── Step 2: blocking on unique-value indices ──────────────────────────
     valid_idx = [i for i, nv in enumerate(uniq_norm) if nv]
     if len(valid_idx) < 2:
-        return 100.0, _empty_df(id_col)
+        return 100.0, _empty_df(id_col), {}
 
     bloques = _construir_bloques(valid_idx, uniq_norm)
 
@@ -298,7 +298,7 @@ def check_similitud(
             similar_pares.append((ui, uj, sim_score))
 
     if not similar_pares:
-        return 100.0, _empty_df(id_col)
+        return 100.0, _empty_df(id_col), {}
 
     # ── Step 4: expand unique-value pairs to record pairs ────────────────
     record_pairs: list[tuple] = []
@@ -381,7 +381,7 @@ def check_similitud(
         if total_evaluados > 0 else 100.0
     )
 
-    return score, pd.DataFrame(rows)
+    return score, pd.DataFrame(rows), {}
 
 
 def _empty_df(id_col: str) -> pd.DataFrame:

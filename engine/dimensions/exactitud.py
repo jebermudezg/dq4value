@@ -14,7 +14,7 @@ def check_exactitud(df: pd.DataFrame, id_col: str, target_col: str, **params) ->
 
     total = len(df)
     if total == 0 or (min_value is None and max_value is None and reference_list is None):
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     invalidos_mask = pd.Series(False, index=df.index)
     descripcion = ""
@@ -45,7 +45,7 @@ def check_exactitud(df: pd.DataFrame, id_col: str, target_col: str, **params) ->
     issues_df["dimension"] = "exactitud"
     issues_df["descripcion"] = descripcion
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

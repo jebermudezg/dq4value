@@ -9,7 +9,7 @@ def check_unicidad(df: pd.DataFrame, id_col: str, target_col: str, **params) -> 
     """
     total = len(df)
     if total == 0:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     duplicados_mask = df[target_col].duplicated(keep=False)
     n_unicos = (~duplicados_mask).sum()
@@ -21,7 +21,7 @@ def check_unicidad(df: pd.DataFrame, id_col: str, target_col: str, **params) -> 
     issues_df["dimension"] = "unicidad"
     issues_df["descripcion"] = "Valor duplicado en la columna"
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

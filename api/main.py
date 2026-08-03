@@ -398,8 +398,9 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                 """INSERT INTO analisis
                    (usuario_id, file_id, nombre_archivo, total_registros, score_general,
                     descripcion, etiqueta, total_columnas, total_problemas,
-                    dimensiones_aplicadas, ruta_reporte, ruta_dashboard, estado)
-                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    dimensiones_aplicadas, ruta_reporte, ruta_dashboard, estado,
+                    version_motor)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     current_user["id"],
                     request.file_id,
@@ -414,6 +415,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                     ruta_reporte,
                     ruta_dashboard,
                     "completado",
+                    "v2",
                 ),
             )
             conn.commit()

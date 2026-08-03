@@ -11,7 +11,7 @@ def check_integridad_referencial(df: pd.DataFrame, id_col: str, target_col: str,
 
     total = len(df)
     if total == 0 or reference_ids is None:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     ref_set = {str(v) for v in reference_ids}
     col_str = df[target_col].astype(str)
@@ -26,7 +26,7 @@ def check_integridad_referencial(df: pd.DataFrame, id_col: str, target_col: str,
     issues_df["dimension"] = "integridad_referencial"
     issues_df["descripcion"] = "Valor no encontrado en la tabla de referencia"
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:

@@ -24,11 +24,11 @@ def check_consistencia(df: pd.DataFrame, id_col: str, target_col: str, **params)
     """
     total = len(df)
     if total == 0:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     col_clean = df[target_col].dropna().astype(str).str.strip()
     if col_clean.empty:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     issues_rows = []
 
@@ -71,13 +71,13 @@ def check_consistencia(df: pd.DataFrame, id_col: str, target_col: str, **params)
                                           str(row[target_col])))
 
     if not issues_rows:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     issues_df = pd.DataFrame(issues_rows).drop_duplicates(subset=[id_col])
     n_afectados = len(issues_df)
     score = max(0.0, ((total - n_afectados) / total) * 100)
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _separator(fmt: str) -> str:

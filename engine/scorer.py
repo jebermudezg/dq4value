@@ -62,6 +62,7 @@ class DQScorer:
         scores_por_columna: dict[str, dict[str, float]] = {}
         all_issues: list[pd.DataFrame] = []
         all_scores: list[float] = []
+        metadata_dimensiones: dict = {}
 
         empty_cols = [self.id_col, "columna", "dimension", "descripcion", "valor_encontrado"]
 
@@ -81,7 +82,12 @@ class DQScorer:
                     future = executor.submit(check_fn, self.df, self.id_col, col, **params)
 
                     try:
-                        score, issues_df = future.result(timeout=DIMENSION_TIMEOUT)
+                        resultado = future.result(timeout=DIMENSION_TIMEOUT)
+                        if len(resultado) == 3:
+                            score, issues_df, metadata = resultado
+                        else:
+                            score, issues_df = resultado
+                            metadata = {}
                     except FuturesTimeout:
                         print(
                             f"[DQScorer] TIMEOUT ({DIMENSION_TIMEOUT}s) — "
@@ -89,6 +95,7 @@ class DQScorer:
                         )
                         score     = 0.0
                         issues_df = pd.DataFrame(columns=empty_cols)
+                        metadata  = {}
                     except Exception as e:
                         raise RuntimeError(
                             f"Error al ejecutar dimensión '{dim_name}' en columna '{col}': {e}"
@@ -96,6 +103,7 @@ class DQScorer:
 
                     scores_por_columna[col][dim_name] = score
                     all_scores.append(score)
+                    metadata_dimensiones[(col, dim_name)] = metadata
                     done_dims += 1
 
                     if not issues_df.empty:
@@ -127,11 +135,12 @@ class DQScorer:
         )
 
         return {
-            "scores_por_columna": scores_por_columna,
-            "score_general":      score_general,
-            "issues_df":          issues_df_final,
-            "total_registros":    len(self.df),
-            "total_problemas":    total_problemas,
+            "scores_por_columna":   scores_por_columna,
+            "score_general":        score_general,
+            "issues_df":            issues_df_final,
+            "total_registros":      len(self.df),
+            "total_problemas":      total_problemas,
+            "metadata_dimensiones": metadata_dimensiones,
         }
 
     # ------------------------------------------------------------------

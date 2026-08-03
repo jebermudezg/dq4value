@@ -12,7 +12,7 @@ def check_oportunidad(df: pd.DataFrame, id_col: str, target_col: str, **params) 
 
     total = len(df)
     if total == 0 or max_age_days is None:
-        return 100.0, _empty_issues(id_col)
+        return 100.0, _empty_issues(id_col), {}
 
     col_dt = pd.to_datetime(df[target_col], errors="coerce")
     ahora = datetime.now(timezone.utc).replace(tzinfo=None)
@@ -29,7 +29,7 @@ def check_oportunidad(df: pd.DataFrame, id_col: str, target_col: str, **params) 
     issues_df["dimension"] = "oportunidad"
     issues_df["descripcion"] = f"Fecha más antigua que {max_age_days} días (límite: {limite.date()})"
 
-    return round(score, 2), issues_df.reset_index(drop=True)
+    return round(score, 2), issues_df.reset_index(drop=True), {}
 
 
 def _empty_issues(id_col: str) -> pd.DataFrame:
