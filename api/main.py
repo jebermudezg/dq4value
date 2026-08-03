@@ -17,6 +17,7 @@ from pydantic import BaseModel
 
 from database.db import get_connection, hash_password, init_db, verify_password
 from engine.catalogos import NATURALEZA_DATO, PROPOSITO_ANALISIS, TIPOS_IA
+from engine.pesos import obtener_pesos
 from engine.parsers import get_column_info, parse_file
 from engine.report_gen import generate_excel_report
 from engine.scorer import DQScorer
@@ -332,6 +333,18 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             detail=f"Columnas no encontradas: {missing}. Disponibles: {stored['columns']}",
         )
 
+    # Resolve weights from proposito (with DB overrides)
+    _conn_pesos = get_connection()
+    try:
+        niveles = obtener_pesos(
+            request.proposito_analisis or 'diagnostico_general',
+            request.tipo_ia,
+            _conn_pesos,
+        )
+    finally:
+        _conn_pesos.close()
+    pesos_origen = 'proposito'
+
     # Initialise progress
     col_names  = list(request.columns_config.keys())
     total_dims = sum(len(v) for v in request.columns_config.values())
@@ -352,7 +365,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
         scorer = DQScorer(df, id_col=request.id_column, progress_callback=_progress_cb)
         for col_name, dim_config in request.columns_config.items():
             scorer.configure(col_name, dim_config)
-        return scorer.run_analysis()
+        return scorer.run_analysis(niveles=niveles)
 
     loop = asyncio.get_event_loop()
     try:
@@ -408,6 +421,13 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
         # Collect unique dimension names
         dims = sorted({dim for col_dims in request.columns_config.values() for dim in col_dims})
 
+        # Freeze weights used in this analysis
+        pesos_usados_json = json.dumps({
+            "origen": pesos_origen,
+            "niveles": niveles,
+            "nivel_umbral": results["nivel_umbral"],
+        }, ensure_ascii=False)
+
         # Persist full analysis record
         try:
             conn = get_connection()
@@ -416,8 +436,8 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                    (usuario_id, file_id, nombre_archivo, total_registros, score_general,
                     descripcion, total_columnas, total_problemas,
                     dimensiones_aplicadas, ruta_reporte, ruta_dashboard, estado,
-                    version_motor, naturaleza_dato, proposito_analisis, tipo_ia)
-                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    version_motor, naturaleza_dato, proposito_analisis, tipo_ia, pesos_usados)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     current_user["id"],
                     request.file_id,
@@ -435,6 +455,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                     request.naturaleza_dato,
                     request.proposito_analisis,
                     request.tipo_ia,
+                    pesos_usados_json,
                 ),
             )
             conn.commit()
@@ -445,13 +466,23 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
         _progress_store[fid] = {"pct": 100, "message": "¡Análisis completado!", "done": True, "error": None}
 
         return {
-            "file_id": request.file_id,
-            "score_general": results["score_general"],
-            "total_registros": results["total_registros"],
-            "total_problemas": results["total_problemas"],
-            "pct_limpios": summary["pct_limpios"],
-            "peor_dimension": summary["peor_dimension"],
-            "scores_por_columna": results["scores_por_columna"],
+            "file_id":                      request.file_id,
+            "score_general":                results["score_general"],
+            "score_promedio_simple":        results["score_promedio_simple"],
+            "total_registros":              results["total_registros"],
+            "total_problemas":              results["total_problemas"],
+            "pct_limpios":                  summary["pct_limpios"],
+            "peor_dimension":               summary["peor_dimension"],
+            "scores_por_columna":           results["scores_por_columna"],
+            "scores_por_dimension":         results["scores_por_dimension"],
+            "niveles_dimensiones":          results["niveles_dimensiones"],
+            "nivel_umbral":                 results["nivel_umbral"],
+            "dimensiones_umbral":           results["dimensiones_umbral"],
+            "registros_aprovechables":      results["registros_aprovechables"],
+            "pct_aprovechables":            results["pct_aprovechables"],
+            "peor_dimension_critica":       results["peor_dimension_critica"],
+            "peor_dimension_critica_score": results["peor_dimension_critica_score"],
+            "pesos_origen":                 pesos_origen,
         }
     finally:
         # Always delete the temp file from disk and free RAM,

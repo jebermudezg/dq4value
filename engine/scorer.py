@@ -2,6 +2,7 @@ import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from typing import Callable, Optional
 from engine.dimensions import DIMENSIONS_MAP
+from engine.pesos import peso_numerico, pesos_iguales
 
 DIMENSION_TIMEOUT = 30  # seconds per dimension
 
@@ -42,19 +43,26 @@ class DQScorer:
     # Análisis
     # ------------------------------------------------------------------
 
-    def run_analysis(self) -> dict:
+    def run_analysis(self, niveles: dict = None) -> dict:
         """
         Ejecuta todas las dimensiones configuradas con timeout de 30 s por dimensión.
         Llama a progress_callback(col, dim_name, done, total) antes de cada dimensión.
 
+        niveles: dict {dimension: nivel} de engine.pesos. None → pesos iguales (promedio simple).
+
         Returns dict con:
-            scores_por_columna, score_general, issues_df,
-            total_registros, total_problemas
+            scores_por_columna, score_general, score_promedio_simple, issues_df,
+            total_registros, total_problemas, scores_por_dimension, niveles_dimensiones,
+            nivel_umbral, dimensiones_umbral, registros_aprovechables, pct_aprovechables,
+            peor_dimension_critica, peor_dimension_critica_score
         """
         if not self._config:
             raise RuntimeError(
                 "No hay columnas configuradas. Llama a configure() antes de run_analysis()."
             )
+
+        if niveles is None:
+            niveles = pesos_iguales()
 
         total_dims = sum(len(dc) for dc in self._config.values())
         done_dims  = 0
@@ -111,7 +119,32 @@ class DQScorer:
                             issues_df = issues_df.rename(columns={"id_col_value": self.id_col})
                         all_issues.append(issues_df)
 
-        score_general = round(sum(all_scores) / len(all_scores), 2) if all_scores else 100.0
+        # score_promedio_simple = old unweighted average (kept for comparison)
+        score_promedio_simple = round(sum(all_scores) / len(all_scores), 1) if all_scores else 100.0
+
+        # scores_por_dimension: per-dim average across all columns where it was applied
+        dim_to_scores: dict[str, list[float]] = {}
+        for col, col_scores in scores_por_columna.items():
+            for dim, s in col_scores.items():
+                dim_to_scores.setdefault(dim, []).append(s)
+        scores_por_dimension = {d: sum(vs) / len(vs) for d, vs in dim_to_scores.items()}
+
+        # weighted score_general — only dimensions actually applied
+        numerador = 0.0
+        denominador = 0.0
+        for dim, score_dim in scores_por_dimension.items():
+            peso = peso_numerico(niveles.get(dim, 'media'))
+            numerador += score_dim * peso
+            denominador += peso
+        score_general = round(numerador / denominador, 1) if denominador > 0 else 100.0
+
+        # nivel_umbral = highest nivel present among applied dimensions
+        _orden = ['critica', 'alta', 'media', 'informativa']
+        niveles_dimensiones = {d: niveles.get(d, 'media') for d in scores_por_dimension}
+        niveles_presentes = set(niveles_dimensiones.values())
+        nivel_umbral = next((n for n in _orden if n in niveles_presentes), 'media')
+
+        dimensiones_umbral = {d for d, n in niveles_dimensiones.items() if n == nivel_umbral}
 
         if all_issues:
             typed = []
@@ -130,17 +163,48 @@ class DQScorer:
         else:
             issues_df_final = pd.DataFrame(columns=empty_cols)
 
+        total_registros = len(self.df)
         total_problemas = (
             issues_df_final[self.id_col].nunique() if not issues_df_final.empty else 0
         )
 
+        # registros_aprovechables: records without issues in nivel_umbral dimensions
+        if not issues_df_final.empty and dimensiones_umbral:
+            ids_con_problema_umbral = set(
+                issues_df_final[
+                    issues_df_final['dimension'].isin(dimensiones_umbral)
+                ][self.id_col]
+            )
+        else:
+            ids_con_problema_umbral = set()
+        registros_aprovechables = total_registros - len(ids_con_problema_umbral)
+        pct_aprovechables = round(registros_aprovechables / total_registros * 100, 1) if total_registros > 0 else 100.0
+
+        # peor_dimension_critica = lowest-scoring dim within nivel_umbral dims
+        umbral_scores = [(d, scores_por_dimension[d]) for d in dimensiones_umbral if d in scores_por_dimension]
+        if umbral_scores:
+            peor_dimension_critica, peor_dimension_critica_score = min(umbral_scores, key=lambda x: x[1])
+            peor_dimension_critica_score = round(peor_dimension_critica_score, 1)
+        else:
+            peor_dimension_critica = None
+            peor_dimension_critica_score = None
+
         return {
-            "scores_por_columna":   scores_por_columna,
-            "score_general":        score_general,
-            "issues_df":            issues_df_final,
-            "total_registros":      len(self.df),
-            "total_problemas":      total_problemas,
-            "metadata_dimensiones": metadata_dimensiones,
+            "scores_por_columna":           scores_por_columna,
+            "score_general":                score_general,
+            "score_promedio_simple":        score_promedio_simple,
+            "issues_df":                    issues_df_final,
+            "total_registros":              total_registros,
+            "total_problemas":              total_problemas,
+            "metadata_dimensiones":         metadata_dimensiones,
+            "scores_por_dimension":         scores_por_dimension,
+            "niveles_dimensiones":          niveles_dimensiones,
+            "nivel_umbral":                 nivel_umbral,
+            "dimensiones_umbral":           sorted(dimensiones_umbral),
+            "registros_aprovechables":      registros_aprovechables,
+            "pct_aprovechables":            pct_aprovechables,
+            "peor_dimension_critica":       peor_dimension_critica,
+            "peor_dimension_critica_score": peor_dimension_critica_score,
         }
 
     # ------------------------------------------------------------------

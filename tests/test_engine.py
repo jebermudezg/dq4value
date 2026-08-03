@@ -217,3 +217,66 @@ def test_sugerencias_sin_perfil_compatibilidad():
 
     assert "completitud" in dims
     assert "validez" in dims
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tests motor de pesos (PASO 3)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_pesos_diagnostico_general_vs_reporteria():
+    from engine.pesos import obtener_pesos, peso_numerico
+    gen = obtener_pesos('diagnostico_general')
+    rep = obtener_pesos('reporteria_bi')
+    assert peso_numerico(rep['unicidad']) > peso_numerico(gen['unicidad'])
+    assert peso_numerico(rep['precision']) < peso_numerico(gen['precision'])
+
+
+def test_pesos_tipo_ia():
+    from engine.pesos import obtener_pesos
+    ml = obtener_pesos('iniciativa_ia', 'ml_supervisado')
+    gen_ia = obtener_pesos('iniciativa_ia', 'agente_generativo')
+    assert ml['completitud'] == 'critica'
+    assert gen_ia['vigencia'] == 'critica'
+    assert ml != gen_ia
+
+
+def test_pesos_proposito_desconocido_cae_a_general():
+    from engine.pesos import obtener_pesos, MATRIZ_PROPOSITOS
+    assert obtener_pesos('inventado') == MATRIZ_PROPOSITOS['diagnostico_general']
+
+
+def test_score_ponderado_difiere_de_simple():
+    """Con pesos desiguales el score ponderado debe diferir del promedio simple."""
+    from engine.scorer import DQScorer
+    from engine.pesos import MATRIZ_PROPOSITOS
+
+    # completitud tiene score 0 (todos nulos), unicidad score 100 (todos únicos)
+    # En reporteria_bi: completitud=critica(4), unicidad=critica(4) → mismo peso → igual
+    # En diagnostico_general: completitud=alta(3), unicidad=alta(3) → igual también
+    # Usamos pesos manuales: completitud=critica(4), unicidad=informativa(1)
+    # simple avg = (0 + 100) / 2 = 50
+    # weighted = (0*4 + 100*1) / (4+1) = 100/5 = 20 ≠ 50
+    df = pd.DataFrame({"id": range(5), "valor": [None] * 5, "codigo": [f"C{i}" for i in range(5)]})
+    scorer = DQScorer(df, id_col="id")
+    scorer.configure("valor", {"completitud": {}})
+    scorer.configure("codigo", {"unicidad": {}})
+
+    niveles_desiguales = {"completitud": "critica", "unicidad": "informativa"}
+    res_pond = scorer.run_analysis(niveles=niveles_desiguales)
+
+    niveles_iguales = {"completitud": "media", "unicidad": "media"}
+    scorer2 = DQScorer(df, id_col="id")
+    scorer2.configure("valor", {"completitud": {}})
+    scorer2.configure("codigo", {"unicidad": {}})
+    res_simple = scorer2.run_analysis(niveles=niveles_iguales)
+
+    assert res_pond["score_general"] != res_simple["score_general"]
+    assert res_pond["score_general"] < res_simple["score_general"]
+
+
+def test_todas_las_dimensiones_en_todas_las_matrices():
+    """Cada propósito y tipo de IA debe cubrir las 11 dimensiones."""
+    from engine.pesos import MATRIZ_PROPOSITOS, MATRIZ_TIPOS_IA, DIMENSIONES
+    for nombre, perfil in {**MATRIZ_PROPOSITOS, **MATRIZ_TIPOS_IA}.items():
+        faltantes = set(DIMENSIONES) - set(perfil.keys())
+        assert not faltantes, f"{nombre} le faltan: {faltantes}"

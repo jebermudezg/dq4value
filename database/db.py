@@ -51,6 +51,20 @@ def init_db() -> None:
     """)
 
     # Migrate analisis table: add columns if missing
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS pesos_config (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            proposito TEXT NOT NULL,
+            tipo_ia TEXT,
+            dimension TEXT NOT NULL,
+            nivel TEXT NOT NULL,
+            modificado_por INTEGER,
+            fecha_modificacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(proposito, tipo_ia, dimension)
+        )
+    """)
+    conn.commit()
+
     for col_def in [
         "descripcion TEXT",
         "etiqueta TEXT",
@@ -64,6 +78,7 @@ def init_db() -> None:
         "naturaleza_dato TEXT",
         "proposito_analisis TEXT",
         "tipo_ia TEXT",
+        "pesos_usados TEXT",
     ]:
         try:
             conn.execute(f"ALTER TABLE analisis ADD COLUMN {col_def}")
