@@ -3391,7 +3391,7 @@ function _renderPonderacion() {
     const peso  = _POND_NIVELES[nivel] || 2;
     const pct   = totalPeso > 0 ? Math.round(peso / totalPeso * 100) : 0;
     const badge = modoPonderacion === 'manual'
-      ? `<select class="pond-select" data-dim="${dim}" onchange="pondManualChange(this)">${
+      ? `<select class="pond-select" data-dim="${dim}">${
           ['critica','alta','media','informativa'].map(n =>
             `<option value="${n}"${n === nivel ? ' selected' : ''}>${_nivelLabel(n)}</option>`
           ).join('')}</select>`
@@ -3404,10 +3404,16 @@ function _renderPonderacion() {
 
 function _updatePonderacion() { _renderPonderacion(); }
 
-function pondManualChange(sel) {
-  nivelesManuales[sel.dataset.dim] = sel.value;
-  _renderPonderacion();
-}
+// Event delegation — survives innerHTML rebuilds
+document.addEventListener('change', function(e) {
+  if (e.target.classList.contains('pond-select')) {
+    const dim = e.target.dataset.dim;
+    if (dim) {
+      nivelesManuales[dim] = e.target.value;
+      _renderPonderacion();
+    }
+  }
+});
 
 function togglePonderacion() {
   const body  = document.getElementById('pondBody');

@@ -342,7 +342,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
         if modo == 'iguales':
             niveles = pesos_iguales()
             pesos_origen = 'iguales'
-        elif modo == 'manual' and request.pesos_manuales:
+        elif modo == 'manual' and request.pesos_manuales is not None:
             base = obtener_pesos(
                 request.proposito_analisis or 'diagnostico_general',
                 request.tipo_ia, _conn_pesos,
@@ -360,6 +360,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             pesos_origen = 'proposito'
     finally:
         _conn_pesos.close()
+
 
     # Initialise progress
     col_names  = list(request.columns_config.keys())
