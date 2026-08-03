@@ -274,6 +274,54 @@ def test_score_ponderado_difiere_de_simple():
     assert res_pond["score_general"] < res_simple["score_general"]
 
 
+def test_diagnostico_general_es_neutral():
+    from engine.pesos import obtener_pesos
+    niveles = obtener_pesos('diagnostico_general')
+    assert len(set(niveles.values())) == 1
+    assert list(niveles.values())[0] == 'media'
+
+
+def test_pesos_iguales_equivale_a_promedio_simple():
+    """Con pesos iguales, score ponderado == promedio simple."""
+    from engine.scorer import DQScorer
+    from engine.pesos import pesos_iguales
+
+    df = pd.DataFrame({
+        "id":     range(10),
+        "valor":  [None] * 3 + list(range(7)),
+        "codigo": [f"C{i}" for i in range(10)],
+    })
+    scorer = DQScorer(df, id_col="id")
+    scorer.configure("valor",  {"completitud": {}})
+    scorer.configure("codigo", {"unicidad":    {}})
+    results = scorer.run_analysis(niveles=pesos_iguales())
+    assert results["score_general"] == results["score_promedio_simple"]
+
+
+def test_pesos_manuales_sobreescriben_proposito():
+    from engine.pesos import obtener_pesos, NIVELES
+    base = obtener_pesos('reporteria_bi')
+    manuales = {'precision': 'critica'}
+    resultado = dict(base)
+    for d, n in manuales.items():
+        if n in NIVELES:
+            resultado[d] = n
+    assert resultado['precision'] == 'critica'
+    assert resultado['unicidad'] == base['unicidad']
+
+
+def test_nivel_invalido_se_ignora():
+    from engine.pesos import obtener_pesos, NIVELES
+    base = obtener_pesos('reporteria_bi')
+    original = base['precision']
+    manuales = {'precision': 'urgentisima'}
+    resultado = dict(base)
+    for d, n in manuales.items():
+        if n in NIVELES:
+            resultado[d] = n
+    assert resultado['precision'] == original
+
+
 def test_todas_las_dimensiones_en_todas_las_matrices():
     """Cada propósito y tipo de IA debe cubrir las 11 dimensiones."""
     from engine.pesos import MATRIZ_PROPOSITOS, MATRIZ_TIPOS_IA, DIMENSIONES

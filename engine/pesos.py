@@ -19,13 +19,11 @@ DIMENSIONES = [
 ]
 
 MATRIZ_PROPOSITOS = {
-    'diagnostico_general': {
-        'completitud': 'alta', 'unicidad': 'alta', 'validez': 'alta',
-        'consistencia': 'alta', 'exactitud': 'alta', 'vigencia': 'alta',
-        'precision': 'media', 'oportunidad': 'media',
-        'integridad_referencial': 'media', 'razonabilidad': 'media',
-        'similitud': 'media',
-    },
+    'diagnostico_general': {d: 'media' for d in [
+        'completitud', 'unicidad', 'validez', 'consistencia', 'exactitud',
+        'vigencia', 'precision', 'oportunidad', 'integridad_referencial',
+        'razonabilidad', 'similitud',
+    ]},
     'reporteria_bi': {
         'unicidad': 'critica', 'completitud': 'critica',
         'similitud': 'alta', 'consistencia': 'alta', 'validez': 'alta',

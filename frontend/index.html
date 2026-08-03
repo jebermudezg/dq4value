@@ -451,6 +451,39 @@
       border-radius: 99px;
       transition: width .45s ease;
     }
+    /* ── Ponderación section ── */
+    .pond-section { border:1px solid var(--border); border-radius:var(--radius); margin:1rem 0; overflow:hidden; }
+    .pond-header {
+      display:flex; align-items:center; gap:.6rem; padding:.75rem 1rem;
+      cursor:pointer; user-select:none; background:var(--bg);
+      font-size:.88rem; font-weight:600; color:var(--text);
+    }
+    .pond-header:hover { background:var(--blue-lt); }
+    .pond-caret { color:var(--sub); font-size:.8rem; width:1rem; }
+    .pond-summary { margin-left:auto; font-size:.78rem; font-weight:500; color:var(--sub); }
+    .pond-body { padding:1rem; border-top:1px solid var(--border); }
+    .pond-modes { display:flex; gap:.4rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .pond-mode-btn {
+      padding:.35rem .85rem; border-radius:6px; font-size:.82rem; font-weight:600;
+      border:1.5px solid var(--border); background:var(--bg); color:var(--sub);
+      cursor:pointer; transition:all .15s;
+    }
+    .pond-mode-btn:hover { border-color:var(--blue); color:var(--blue); }
+    .pond-mode-btn.active { border-color:var(--blue); background:var(--blue); color:#fff; }
+    .pond-rows { display:flex; flex-direction:column; gap:.25rem; }
+    .pond-row { display:flex; align-items:center; gap:.6rem; padding:.3rem .4rem; border-radius:6px; }
+    .pond-row:hover { background:var(--border); }
+    .pond-dim-name { flex:1; font-size:.84rem; font-weight:500; color:var(--text); }
+    .pond-pct { min-width:2.5rem; text-align:right; font-size:.78rem; font-weight:700; color:var(--sub); }
+    .pond-badge { font-size:.72rem; font-weight:700; padding:.18rem .55rem; border-radius:99px; white-space:nowrap; }
+    .pond-badge-critica     { background:#FEE2E2; color:#991B1B; }
+    .pond-badge-alta        { background:#FEF3C7; color:#92400E; }
+    .pond-badge-media       { background:#DBEAFE; color:#1E40AF; }
+    .pond-badge-informativa { background:#F1F5F9; color:#64748B; }
+    .pond-select {
+      font-size:.76rem; font-weight:600; border:1.5px solid var(--border);
+      border-radius:6px; padding:.18rem .4rem; background:var(--bg); color:var(--text); cursor:pointer;
+    }
 
     /* ── LARGE FILE WARNING ── */
     .file-warn {
@@ -1528,6 +1561,23 @@
         </thead>
         <tbody id="colTableBody"></tbody>
       </table>
+    </div>
+
+    <!-- Ponderación de dimensiones -->
+    <div class="pond-section" id="pondSection">
+      <div class="pond-header" onclick="togglePonderacion()">
+        <span class="pond-caret" id="pondCaret">▸</span>
+        <span class="pond-title">Ponderación de dimensiones</span>
+        <span class="pond-summary" id="pondSummary">Según propósito · Diagnóstico general</span>
+      </div>
+      <div class="pond-body" id="pondBody" style="display:none">
+        <div class="pond-modes">
+          <button class="pond-mode-btn" id="pondBtnIguales"   onclick="setPonderacionModo('iguales')">Pesos iguales</button>
+          <button class="pond-mode-btn active" id="pondBtnProposito" onclick="setPonderacionModo('proposito')">Según propósito</button>
+          <button class="pond-mode-btn" id="pondBtnManual"    onclick="setPonderacionModo('manual')">Manual</button>
+        </div>
+        <div id="pondTable"><p style="color:var(--sub);font-size:.84rem;padding:.4rem 0">Configura al menos una dimensión para ver la ponderación.</p></div>
+      </div>
     </div>
 
     <!-- Analysis progress bar -->
@@ -3160,6 +3210,90 @@ const NATURALEZA_PRESELECCION = {
   sin_especificar: 'diagnostico_general',
 };
 
+// Mirror of engine/pesos.py — keep in sync with the article
+const _POND_NIVELES = { critica:4, alta:3, media:2, informativa:1 };
+const _POND_MATRICES = {
+  diagnostico_general: {
+    completitud:'media', unicidad:'media', validez:'media', consistencia:'media',
+    exactitud:'media', vigencia:'media', precision:'media', oportunidad:'media',
+    integridad_referencial:'media', razonabilidad:'media', similitud:'media',
+  },
+  reporteria_bi: {
+    unicidad:'critica', completitud:'critica',
+    similitud:'alta', consistencia:'alta', validez:'alta',
+    exactitud:'media', integridad_referencial:'media', razonabilidad:'media', vigencia:'media',
+    precision:'informativa', oportunidad:'informativa',
+  },
+  migracion: {
+    integridad_referencial:'critica', completitud:'critica', validez:'critica',
+    unicidad:'alta', consistencia:'alta', precision:'alta',
+    exactitud:'media', vigencia:'media', similitud:'media',
+    razonabilidad:'informativa', oportunidad:'informativa',
+  },
+  integracion: {
+    consistencia:'critica', validez:'critica', precision:'critica',
+    integridad_referencial:'alta', completitud:'alta',
+    unicidad:'media', exactitud:'media', vigencia:'media', oportunidad:'media',
+    similitud:'informativa', razonabilidad:'informativa',
+  },
+  auditoria: {
+    exactitud:'critica', completitud:'critica', vigencia:'critica',
+    integridad_referencial:'alta', validez:'alta', unicidad:'alta', oportunidad:'alta',
+    consistencia:'media', precision:'media', razonabilidad:'media', similitud:'media',
+  },
+  depuracion_duplicados: {
+    similitud:'critica', unicidad:'critica',
+    completitud:'alta', consistencia:'alta',
+    validez:'media', precision:'media',
+    exactitud:'informativa', vigencia:'informativa', oportunidad:'informativa',
+    integridad_referencial:'informativa', razonabilidad:'informativa',
+  },
+  campanas: {
+    validez:'critica', completitud:'critica', similitud:'critica',
+    unicidad:'alta', vigencia:'alta', consistencia:'alta',
+    oportunidad:'media', precision:'media', integridad_referencial:'media',
+    exactitud:'informativa', razonabilidad:'informativa',
+  },
+};
+const _POND_TIPOS_IA = {
+  ml_supervisado: {
+    completitud:'critica', similitud:'critica', exactitud:'critica',
+    unicidad:'alta', consistencia:'alta', razonabilidad:'alta', validez:'alta',
+    integridad_referencial:'media', precision:'media', vigencia:'media',
+    oportunidad:'informativa',
+  },
+  deteccion_anomalias: {
+    oportunidad:'critica', precision:'critica', exactitud:'critica',
+    similitud:'alta', completitud:'alta', razonabilidad:'alta', vigencia:'alta',
+    consistencia:'media', unicidad:'media', validez:'media',
+    integridad_referencial:'informativa',
+  },
+  series_tiempo: {
+    oportunidad:'critica', vigencia:'critica', completitud:'critica',
+    exactitud:'alta', consistencia:'alta', razonabilidad:'alta',
+    precision:'media', unicidad:'media', validez:'media',
+    similitud:'informativa', integridad_referencial:'informativa',
+  },
+  segmentacion: {
+    completitud:'critica', consistencia:'critica',
+    validez:'alta', similitud:'alta', unicidad:'alta', razonabilidad:'alta',
+    exactitud:'media', integridad_referencial:'media', precision:'media',
+    vigencia:'informativa', oportunidad:'informativa',
+  },
+  agente_generativo: {
+    vigencia:'critica', consistencia:'critica', similitud:'critica',
+    completitud:'alta', validez:'alta', oportunidad:'alta',
+    exactitud:'media', integridad_referencial:'media', unicidad:'media',
+    precision:'informativa', razonabilidad:'informativa',
+  },
+  recomendacion: {
+    similitud:'critica', unicidad:'critica',
+    completitud:'alta', integridad_referencial:'alta', consistencia:'alta',
+    validez:'media', vigencia:'media', oportunidad:'media', exactitud:'media',
+    precision:'informativa', razonabilidad:'informativa',
+  },
+};
+
 function onNaturalezaChange() {
   const val = document.getElementById('uploadNaturaleza').value;
   const hint = document.getElementById('hintNaturaleza');
@@ -3183,18 +3317,118 @@ function onPropositoChange() {
     document.getElementById('uploadTipoIa').value = '';
     document.getElementById('hintTipoIa').textContent = '';
   }
+  _updatePonderacion();
 }
 
 function onTipoIaChange() {
   const val = document.getElementById('uploadTipoIa').value;
   const hint = document.getElementById('hintTipoIa');
   if (hint) hint.textContent = val && CAT_TIPOS_IA[val] ? CAT_TIPOS_IA[val].desc : '';
+  _updatePonderacion();
 }
 
 function _updateHintProposito(val) {
   const hint = document.getElementById('hintProposito');
   if (hint && CAT_PROPOSITO[val]) hint.textContent = CAT_PROPOSITO[val].desc;
 }
+
+// ── Ponderación state ────────────────────────────────────────────────
+let modoPonderacion = 'proposito';
+let nivelesManuales = {};
+
+function _nivelLabel(n) {
+  return { critica:'Crítica', alta:'Alta', media:'Media', informativa:'Informativa' }[n] || n;
+}
+
+function _getActiveDims() {
+  const dims = new Set();
+  document.querySelectorAll('#colTableBody .dim-check.checked').forEach(el => {
+    if (el.dataset.dim) dims.add(el.dataset.dim);
+  });
+  return [...dims].sort();
+}
+
+function _getPropositoPesos() {
+  const prop   = document.getElementById('uploadProposito')?.value || 'diagnostico_general';
+  const tipoIa = document.getElementById('uploadTipoIa')?.value   || null;
+  if (prop === 'iniciativa_ia' && tipoIa && _POND_TIPOS_IA[tipoIa])
+    return { ...(_POND_TIPOS_IA[tipoIa]) };
+  return { ...(_POND_MATRICES[prop] || _POND_MATRICES['diagnostico_general']) };
+}
+
+function _renderPonderacion() {
+  const summary   = document.getElementById('pondSummary');
+  const container = document.getElementById('pondTable');
+  if (!summary || !container) return;
+
+  const prop      = document.getElementById('uploadProposito')?.value || 'diagnostico_general';
+  const propLabel = CAT_PROPOSITO[prop]?.label || 'Diagnóstico general';
+  if (modoPonderacion === 'iguales')         summary.textContent = 'Pesos iguales';
+  else if (modoPonderacion === 'proposito')  summary.textContent = `Según propósito · ${propLabel}`;
+  else                                       summary.textContent = 'Manual';
+
+  document.getElementById('pondBtnIguales')  ?.classList.toggle('active', modoPonderacion === 'iguales');
+  document.getElementById('pondBtnProposito')?.classList.toggle('active', modoPonderacion === 'proposito');
+  document.getElementById('pondBtnManual')   ?.classList.toggle('active', modoPonderacion === 'manual');
+
+  const activeDims = _getActiveDims();
+  if (activeDims.length === 0) {
+    container.innerHTML = '<p style="color:var(--sub);font-size:.84rem;padding:.4rem 0">Configura al menos una dimensión para ver la ponderación.</p>';
+    return;
+  }
+
+  const propPesos      = _getPropositoPesos();
+  const getCurrentNivel = dim => {
+    if (modoPonderacion === 'iguales') return 'media';
+    if (modoPonderacion === 'manual')  return nivelesManuales[dim] ?? propPesos[dim] ?? 'media';
+    return propPesos[dim] ?? 'media';
+  };
+
+  const totalPeso = activeDims.reduce((s, d) => s + (_POND_NIVELES[getCurrentNivel(d)] || 2), 0);
+
+  const rows = activeDims.map(dim => {
+    const nivel = getCurrentNivel(dim);
+    const peso  = _POND_NIVELES[nivel] || 2;
+    const pct   = totalPeso > 0 ? Math.round(peso / totalPeso * 100) : 0;
+    const badge = modoPonderacion === 'manual'
+      ? `<select class="pond-select" data-dim="${dim}" onchange="pondManualChange(this)">${
+          ['critica','alta','media','informativa'].map(n =>
+            `<option value="${n}"${n === nivel ? ' selected' : ''}>${_nivelLabel(n)}</option>`
+          ).join('')}</select>`
+      : `<span class="pond-badge pond-badge-${nivel}">${_nivelLabel(nivel)}</span>`;
+    return `<div class="pond-row"><span class="pond-dim-name">${nombreNegocio(dim)}</span>${badge}<span class="pond-pct">${pct}%</span></div>`;
+  }).join('');
+
+  container.innerHTML = `<div class="pond-rows">${rows}</div>`;
+}
+
+function _updatePonderacion() { _renderPonderacion(); }
+
+function pondManualChange(sel) {
+  nivelesManuales[sel.dataset.dim] = sel.value;
+  _renderPonderacion();
+}
+
+function togglePonderacion() {
+  const body  = document.getElementById('pondBody');
+  const caret = document.getElementById('pondCaret');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : '';
+  if (caret) caret.textContent = open ? '▸' : '▾';
+  if (!open) _renderPonderacion();
+}
+
+function setPonderacionModo(modo) {
+  if (modo === modoPonderacion) return;
+  if (modoPonderacion === 'manual' && Object.keys(nivelesManuales).length > 0) {
+    if (!confirm('Se descartarán tus ajustes manuales. ¿Continuar?')) return;
+    nivelesManuales = {};
+  }
+  modoPonderacion = modo;
+  _renderPonderacion();
+}
+
 let _profDimSel = {}; // { sid: Set<dimKey> } — selections made in profile step
 let allIssues = [];
 let currentUser = null;
@@ -4533,6 +4767,7 @@ function toggleDim(sid, dimKey) {
   const active = chip.classList.toggle('checked');
   const panel = document.getElementById(`params-${sid}-${dimKey}`);
   if (panel) panel.classList.toggle('visible', active);
+  _updatePonderacion();
 }
 
 function safeId(name) { return name.replace(/[^a-zA-Z0-9]/g, '_'); }
@@ -4625,6 +4860,7 @@ async function _confirmSuggest() {
     if (panel) panel.classList.remove('visible');
   });
   await suggestConfig();
+  _updatePonderacion();
 }
 
 function collectConfig() {
@@ -4773,6 +5009,10 @@ async function runAnalysis() {
         naturaleza_dato:    document.getElementById('uploadNaturaleza')?.value || 'sin_especificar',
         proposito_analisis: document.getElementById('uploadProposito')?.value  || 'diagnostico_general',
         tipo_ia:            document.getElementById('uploadTipoIa')?.value     || null,
+        pesos_modo:         modoPonderacion,
+        pesos_manuales:     modoPonderacion === 'manual' ? Object.fromEntries(
+          Object.entries(nivelesManuales).filter(([d]) => _getActiveDims().includes(d))
+        ) : null,
       })
     });
     clearInterval(pollTimer);
@@ -5306,6 +5546,15 @@ function resetearEstadoCompleto() {
   document.getElementById('hintNaturaleza').textContent    = CAT_NATURALEZA.sin_especificar.desc;
   document.getElementById('hintProposito').textContent     = CAT_PROPOSITO.diagnostico_general.desc;
   document.getElementById('hintTipoIa').textContent        = '';
+
+  // ── Ponderación ─────────────────────────────────────────────────
+  modoPonderacion = 'proposito';
+  nivelesManuales = {};
+  const _pondBody  = document.getElementById('pondBody');
+  const _pondCaret = document.getElementById('pondCaret');
+  if (_pondBody)  _pondBody.style.display = 'none';
+  if (_pondCaret) _pondCaret.textContent  = '▸';
+  _updatePonderacion();
 
   // ── Config screen ────────────────────────────────────────────────
   document.getElementById('colTableBody').innerHTML  = '';

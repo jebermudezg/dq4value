@@ -17,7 +17,7 @@ from pydantic import BaseModel
 
 from database.db import get_connection, hash_password, init_db, verify_password
 from engine.catalogos import NATURALEZA_DATO, PROPOSITO_ANALISIS, TIPOS_IA
-from engine.pesos import obtener_pesos
+from engine.pesos import obtener_pesos, pesos_iguales, NIVELES
 from engine.parsers import get_column_info, parse_file
 from engine.report_gen import generate_excel_report
 from engine.scorer import DQScorer
@@ -77,6 +77,8 @@ class AnalyzeRequest(BaseModel):
     proposito_analisis: Optional[str] = None
     tipo_ia: Optional[str] = None
     etiqueta: Optional[str] = None  # kept for backwards compatibility, no longer written
+    pesos_modo: Optional[str] = 'proposito'   # 'iguales' | 'proposito' | 'manual'
+    pesos_manuales: Optional[dict] = None     # {dim: nivel} overrides for manual mode
 
 
 class LoginRequest(BaseModel):
@@ -333,17 +335,31 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             detail=f"Columnas no encontradas: {missing}. Disponibles: {stored['columns']}",
         )
 
-    # Resolve weights from proposito (with DB overrides)
+    # Resolve weights according to the requested mode
     _conn_pesos = get_connection()
     try:
-        niveles = obtener_pesos(
-            request.proposito_analisis or 'diagnostico_general',
-            request.tipo_ia,
-            _conn_pesos,
-        )
+        modo = request.pesos_modo or 'proposito'
+        if modo == 'iguales':
+            niveles = pesos_iguales()
+            pesos_origen = 'iguales'
+        elif modo == 'manual' and request.pesos_manuales:
+            base = obtener_pesos(
+                request.proposito_analisis or 'diagnostico_general',
+                request.tipo_ia, _conn_pesos,
+            )
+            for dim, nivel in request.pesos_manuales.items():
+                if nivel in NIVELES:
+                    base[dim] = nivel
+            niveles = base
+            pesos_origen = 'manual'
+        else:
+            niveles = obtener_pesos(
+                request.proposito_analisis or 'diagnostico_general',
+                request.tipo_ia, _conn_pesos,
+            )
+            pesos_origen = 'proposito'
     finally:
         _conn_pesos.close()
-    pesos_origen = 'proposito'
 
     # Initialise progress
     col_names  = list(request.columns_config.keys())
