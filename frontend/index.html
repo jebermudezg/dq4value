@@ -1006,11 +1006,7 @@
     .hist-chip  { font-size:.68rem; font-weight:600; padding:.2rem .55rem; border-radius:99px;
                   background:#f1f5f9; color:var(--sub); }
     .hist-card-footer { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
-    .hist-etq   { font-size:.7rem; font-weight:700; padding:.2rem .6rem; border-radius:99px; }
-    .hist-etq.maestro      { background:#dbeafe; color:#1e40af; }
-    .hist-etq.transaccional{ background:#dcfce7; color:#166534; }
-    .hist-etq.ia           { background:#EDE9FE; color:#5B21B6; }
-    .hist-etq.otro         { background:#f3e8ff; color:#7c3aed; }
+    /* hist-etq badge colors moved to upload-meta section above */
     .hist-btn-dl { font-size:.76rem; padding:.3rem .85rem; border-radius:7px; cursor:pointer;
                    background:var(--blue); color:#fff; border:none; font-family:inherit; font-weight:600; }
     .hist-btn-dl:hover { background:var(--blue-dk); }
@@ -1033,7 +1029,30 @@
       font-family:inherit; color:var(--text); background:var(--surface); }
     .upload-meta input:focus, .upload-meta select:focus {
       outline:none; border-color:var(--blue); }
-    .upload-meta-lbl { font-size:.75rem; font-weight:600; color:var(--sub); margin-bottom:.15rem; }
+    .upload-meta-lbl { font-size:.75rem; font-weight:600; color:var(--sub); margin-bottom:.15rem; display:flex; align-items:center; gap:.3rem; }
+    .upload-meta-hint { font-size:.72rem; color:var(--sub); margin:.2rem 0 0; line-height:1.4; min-height:1rem; }
+
+    /* Tooltip on ⓘ icon */
+    .info-icon { display:inline-flex; align-items:center; justify-content:center;
+      width:14px; height:14px; border-radius:50%; font-size:.62rem; font-weight:700;
+      background:var(--border); color:var(--sub); cursor:default; position:relative; flex-shrink:0; }
+    .info-icon::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%;
+      transform:translateX(-50%); background:#1e293b; color:#f8fafc; font-size:.7rem; font-weight:400;
+      line-height:1.4; padding:.45rem .6rem; border-radius:6px; white-space:normal; width:220px;
+      pointer-events:none; opacity:0; transition:opacity .15s; z-index:100; text-align:left; }
+    .info-icon:hover::after { opacity:1; }
+
+    /* Propósito badge colors */
+    .hist-etq { font-size:.7rem; font-weight:700; padding:.2rem .6rem; border-radius:99px; }
+    .hist-etq.proposito-diagnostico_general    { background:#F1F5F9; color:#475569; }
+    .hist-etq.proposito-iniciativa_ia          { background:#EDE9FE; color:#5B21B6; }
+    .hist-etq.proposito-reporteria_bi          { background:#DBEAFE; color:#1560A8; }
+    .hist-etq.proposito-migracion              { background:#FEF3C7; color:#92400E; }
+    .hist-etq.proposito-integracion            { background:#CFFAFE; color:#155E75; }
+    .hist-etq.proposito-auditoria              { background:#FEE2E2; color:#991B1B; }
+    .hist-etq.proposito-depuracion_duplicados  { background:#DCFCE7; color:#166534; }
+    .hist-etq.proposito-campanas               { background:#FCE7F3; color:#9D174D; }
+    .hist-etq.naturaleza                       { background:#F1F5F9; color:#64748B; }
 
     /* ── Preparación del archivo — help section ─────────────────── */
     .acc-item.acc-xl.open > .acc-body { max-height:9000px; transition:max-height .5s ease; }
@@ -1318,23 +1337,58 @@
       </button>
     </div>
 
-    <!-- Upload meta (optional description + label) -->
+    <!-- Upload meta (optional description + classification) -->
     <div class="upload-meta" id="uploadMeta" style="display:none">
+      <div>
+        <div class="upload-meta-lbl">
+          Naturaleza del dato
+          <span class="info-icon" data-tip="Describe la estructura del dataset. Ayuda al sistema a sugerir mejor las dimensiones.">i</span>
+        </div>
+        <select id="uploadNaturaleza" onchange="onNaturalezaChange()">
+          <option value="sin_especificar">Sin especificar</option>
+          <option value="maestro">Maestro de datos</option>
+          <option value="transaccional">Dataset transaccional</option>
+        </select>
+        <p class="upload-meta-hint" id="hintNaturaleza">Si no aplica ninguna de las anteriores o prefieres no clasificar el dataset.</p>
+      </div>
+      <div>
+        <div class="upload-meta-lbl">
+          Propósito del análisis
+          <span class="info-icon" data-tip="Describe para qué usarás los datos. Define la importancia relativa de cada dimensión.">i</span>
+        </div>
+        <select id="uploadProposito" onchange="onPropositoChange()">
+          <option value="diagnostico_general">Diagnóstico general</option>
+          <option value="iniciativa_ia">Iniciativa de IA</option>
+          <option value="reporteria_bi">Reportería y BI</option>
+          <option value="migracion">Migración de sistema</option>
+          <option value="integracion">Integración entre sistemas</option>
+          <option value="auditoria">Auditoría y cumplimiento</option>
+          <option value="depuracion_duplicados">Depuración de duplicados</option>
+          <option value="campanas">Campañas comerciales</option>
+        </select>
+        <p class="upload-meta-hint" id="hintProposito">Revisión de calidad sin un objetivo específico. Todas las dimensiones se evalúan con la misma importancia.</p>
+      </div>
+      <div id="tipoIaRow" style="display:none">
+        <div class="upload-meta-lbl">
+          Tipo de iniciativa
+          <span class="info-icon" data-tip="Cada tipo de IA tiene dimensiones críticas distintas.">i</span>
+        </div>
+        <select id="uploadTipoIa" onchange="onTipoIaChange()">
+          <option value="">Selecciona el tipo…</option>
+          <option value="ml_supervisado">ML supervisado</option>
+          <option value="deteccion_anomalias">Detección de anomalías</option>
+          <option value="series_tiempo">Series de tiempo</option>
+          <option value="segmentacion">Segmentación</option>
+          <option value="agente_generativo">Agente generativo</option>
+          <option value="recomendacion">Sistema de recomendación</option>
+        </select>
+        <p class="upload-meta-hint" id="hintTipoIa"></p>
+      </div>
       <div>
         <div class="upload-meta-lbl">Descripción del análisis (opcional)</div>
         <input type="text" id="uploadDescripcion"
                placeholder="Ej: Evaluación mensual base de clientes activos"
                maxlength="200" />
-      </div>
-      <div>
-        <div class="upload-meta-lbl">Tipo de dataset</div>
-        <select id="uploadEtiqueta">
-          <option value="">Sin etiqueta</option>
-          <option value="Maestro de datos">Maestro de datos</option>
-          <option value="Dataset transaccional">Dataset transaccional</option>
-          <option value="Dataset para IA">Dataset para IA</option>
-          <option value="Otro">Otro</option>
-        </select>
       </div>
     </div>
 
@@ -1755,12 +1809,17 @@
       </div>
     </div>
     <div class="hist-filter-row">
-      <span class="hist-filter-lbl">Etiqueta:</span>
-      <select class="hist-sel" id="hEtiqueta" onchange="applyHistFilters()">
-        <option value="">Todas</option>
-        <option value="Maestro de datos">Maestro de datos</option>
-        <option value="Dataset transaccional">Dataset transaccional</option>
-        <option value="Dataset para IA">Dataset para IA</option>
+      <span class="hist-filter-lbl">Propósito:</span>
+      <select class="hist-sel" id="hProposito" onchange="applyHistFilters()">
+        <option value="">Todos</option>
+        <option value="diagnostico_general">Diagnóstico general</option>
+        <option value="iniciativa_ia">Iniciativa de IA</option>
+        <option value="reporteria_bi">Reportería y BI</option>
+        <option value="migracion">Migración de sistema</option>
+        <option value="integracion">Integración entre sistemas</option>
+        <option value="auditoria">Auditoría y cumplimiento</option>
+        <option value="depuracion_duplicados">Depuración de duplicados</option>
+        <option value="campanas">Campañas comerciales</option>
       </select>
       <input class="hist-search" id="hBuscar" type="text" placeholder="Buscar por nombre o descripción…" />
       <button class="btn btn-primary" style="font-size:.8rem;padding:.38rem 1rem" onclick="applyHistFilters()">Filtrar</button>
@@ -3068,7 +3127,74 @@ const REGEX_PRESETS = {
 // State
 // ─────────────────────────────────────────────────────────────────────
 const API = 'http://127.0.0.1:8000';
-let state = { fileId: null, columns: [], analysisResult: null, uploadedFilename: '', _etiqueta: '', _dimAvg: {}, _dimsSorted: [] };
+let state = { fileId: null, columns: [], analysisResult: null, uploadedFilename: '', _naturaleza: 'sin_especificar', _proposito: 'diagnostico_general', _tipoIa: null, _dimAvg: {}, _dimsSorted: [] };
+let _propositoTocadoPorUsuario = false;
+
+const CAT_NATURALEZA = {
+  sin_especificar: { label: 'Sin especificar', desc: 'Si no aplica ninguna de las anteriores o prefieres no clasificar el dataset.' },
+  maestro:         { label: 'Maestro de datos', desc: 'Entidades únicas del negocio: clientes, proveedores, productos, empleados. Cada fila representa una entidad distinta.' },
+  transaccional:   { label: 'Dataset transaccional', desc: 'Movimientos u operaciones: órdenes, facturas, pagos, despachos. Una misma entidad puede aparecer en muchas filas.' },
+};
+const CAT_PROPOSITO = {
+  diagnostico_general:   { label: 'Diagnóstico general',         desc: 'Revisión de calidad sin un objetivo específico. Todas las dimensiones se evalúan con la misma importancia.' },
+  iniciativa_ia:         { label: 'Iniciativa de IA',            desc: 'Los datos alimentarán un modelo predictivo, un agente o una automatización. Requiere especificar el tipo de iniciativa.' },
+  reporteria_bi:         { label: 'Reportería y BI',             desc: 'Los datos irán a tableros o informes de gestión. Un duplicado infla cifras que se presentan a la dirección.' },
+  migracion:             { label: 'Migración de sistema',        desc: 'Los datos se cargarán en otro sistema. Las claves huérfanas y los formatos inválidos bloquean la carga.' },
+  integracion:           { label: 'Integración entre sistemas',  desc: 'Los datos fluyen automáticamente entre aplicaciones. Los formatos mezclados rompen el flujo o lo procesan mal en silencio.' },
+  auditoria:             { label: 'Auditoría y cumplimiento',    desc: 'Los datos serán revisados por auditoría interna o un regulador. La exactitud y la trazabilidad temporal son lo que se revisa.' },
+  depuracion_duplicados: { label: 'Depuración de duplicados',    desc: 'El objetivo principal es encontrar registros repetidos o variantes de la misma entidad para consolidarlos.' },
+  campanas:              { label: 'Campañas comerciales',         desc: 'Los datos se usarán para contactar clientes. Un correo inválido es dinero perdido; un duplicado molesta al cliente.' },
+};
+const CAT_TIPOS_IA = {
+  ml_supervisado:      { label: 'ML supervisado',            desc: 'Clasificación, regresión o scoring. El modelo aprende de datos históricos etiquetados.' },
+  deteccion_anomalias: { label: 'Detección de anomalías',    desc: 'Fraude, comportamiento inusual o valores fuera de patrón.' },
+  series_tiempo:       { label: 'Series de tiempo',          desc: 'Pronóstico de demanda, proyecciones o cualquier predicción basada en secuencia temporal.' },
+  segmentacion:        { label: 'Segmentación',              desc: 'Clustering o perfilamiento de clientes sin etiquetas previas.' },
+  agente_generativo:   { label: 'Agente generativo',         desc: 'RAG, asistentes conversacionales o automatización con modelos de lenguaje.' },
+  recomendacion:       { label: 'Sistema de recomendación',  desc: 'Cross-sell, personalización o sugerencia de productos.' },
+};
+
+const NATURALEZA_PRESELECCION = {
+  maestro:         'depuracion_duplicados',
+  transaccional:   'diagnostico_general',
+  sin_especificar: 'diagnostico_general',
+};
+
+function onNaturalezaChange() {
+  const val = document.getElementById('uploadNaturaleza').value;
+  const hint = document.getElementById('hintNaturaleza');
+  if (hint && CAT_NATURALEZA[val]) hint.textContent = CAT_NATURALEZA[val].desc;
+  if (!_propositoTocadoPorUsuario) {
+    const presel = NATURALEZA_PRESELECCION[val] || 'diagnostico_general';
+    document.getElementById('uploadProposito').value = presel;
+    _updateHintProposito(presel);
+  }
+}
+
+function onPropositoChange() {
+  _propositoTocadoPorUsuario = true;
+  const val = document.getElementById('uploadProposito').value;
+  _updateHintProposito(val);
+  const tipoRow = document.getElementById('tipoIaRow');
+  if (val === 'iniciativa_ia') {
+    tipoRow.style.display = '';
+  } else {
+    tipoRow.style.display = 'none';
+    document.getElementById('uploadTipoIa').value = '';
+    document.getElementById('hintTipoIa').textContent = '';
+  }
+}
+
+function onTipoIaChange() {
+  const val = document.getElementById('uploadTipoIa').value;
+  const hint = document.getElementById('hintTipoIa');
+  if (hint) hint.textContent = val && CAT_TIPOS_IA[val] ? CAT_TIPOS_IA[val].desc : '';
+}
+
+function _updateHintProposito(val) {
+  const hint = document.getElementById('hintProposito');
+  if (hint && CAT_PROPOSITO[val]) hint.textContent = CAT_PROPOSITO[val].desc;
+}
 let _profDimSel = {}; // { sid: Set<dimKey> } — selections made in profile step
 let allIssues = [];
 let currentUser = null;
@@ -3724,7 +3850,7 @@ function closeDrillModal() {
 // ─────────────────────────────────────────────────────────────────────
 // History Screen
 // ─────────────────────────────────────────────────────────────────────
-const _histState = { desde: null, hasta: null, etiqueta: '', buscar: '', activeQl: 'mes' };
+const _histState = { desde: null, hasta: null, proposito: '', buscar: '', activeQl: 'mes' };
 
 function _isoDate(d) { return d.toISOString().slice(0,10); }
 function _fmtDate(iso) {
@@ -3762,16 +3888,16 @@ function setHistPeriod(type) {
 }
 
 function resetHistFilters() {
-  _histState.etiqueta = '';
-  _histState.buscar   = '';
-  document.getElementById('hEtiqueta').value = '';
-  document.getElementById('hBuscar').value   = '';
+  _histState.proposito = '';
+  _histState.buscar    = '';
+  document.getElementById('hProposito').value = '';
+  document.getElementById('hBuscar').value    = '';
   setHistPeriod('mes');
 }
 
 async function applyHistFilters() {
-  _histState.etiqueta = document.getElementById('hEtiqueta').value;
-  _histState.buscar   = document.getElementById('hBuscar').value.trim();
+  _histState.proposito = document.getElementById('hProposito').value;
+  _histState.buscar    = document.getElementById('hBuscar').value.trim();
   const d = document.getElementById('hFechaDesde').value;
   const h = document.getElementById('hFechaHasta').value;
   if (d) _histState.desde = d;
@@ -3794,8 +3920,8 @@ async function loadHistorial() {
     fecha_desde: _histState.desde,
     fecha_hasta: _histState.hasta,
   });
-  if (_histState.etiqueta) params.set('etiqueta', _histState.etiqueta);
-  if (_histState.buscar)   params.set('buscar',   _histState.buscar);
+  if (_histState.proposito) params.set('proposito_analisis', _histState.proposito);
+  if (_histState.buscar)    params.set('buscar',             _histState.buscar);
 
   // Load stats and list in parallel
   try {
@@ -3855,13 +3981,27 @@ function _renderHistList(list) {
 }
 
 function _buildHistCard(a) {
-  const score  = Math.round(a.score_general || 0);
-  const sc     = _scoreClass(score);
-  const dims   = (() => { try { return JSON.parse(a.dimensiones_aplicadas || '[]'); } catch { return []; } })();
+  const score    = Math.round(a.score_general || 0);
+  const sc       = _scoreClass(score);
+  const dims     = (() => { try { return JSON.parse(a.dimensiones_aplicadas || '[]'); } catch { return []; } })();
   const fechaStr = a.fecha ? new Date(a.fecha).toLocaleString('es-ES',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
-  const etqMap = { 'Maestro de datos':'maestro', 'Dataset transaccional':'transaccional', 'Dataset para IA':'ia', Otro:'otro' };
-  const etqClass = etqMap[a.etiqueta] || '';
   const problems = a.total_problemas || 0;
+
+  // Propósito badge
+  const prop = a.proposito_analisis;
+  let propLabel = prop && CAT_PROPOSITO[prop] ? CAT_PROPOSITO[prop].label : '';
+  if (prop === 'iniciativa_ia' && a.tipo_ia && CAT_TIPOS_IA[a.tipo_ia]) {
+    propLabel += ' · ' + CAT_TIPOS_IA[a.tipo_ia].label;
+  }
+  const propBadge = propLabel
+    ? `<span class="hist-etq proposito-${prop}">${propLabel}</span>`
+    : '';
+
+  // Naturaleza badge (only if not sin_especificar)
+  const nat = a.naturaleza_dato;
+  const natBadge = (nat && nat !== 'sin_especificar' && CAT_NATURALEZA[nat])
+    ? `<span class="hist-etq naturaleza">${CAT_NATURALEZA[nat].label}</span>`
+    : '';
 
   return `<div class="hist-card">
     <div class="hist-card-top">
@@ -3880,7 +4020,7 @@ function _buildHistCard(a) {
     </div>
     ${dims.length ? `<div class="hist-chips">${dims.map(d=>`<span class="hist-chip">${nombreNegocio(d)}</span>`).join('')}</div>` : ''}
     <div class="hist-card-footer">
-      ${etqClass ? `<span class="hist-etq ${etqClass}">${a.etiqueta}</span>` : ''}
+      ${propBadge}${natBadge}
       <button class="hist-btn-dl" onclick="downloadHistReport(${a.id})">⬇ Descargar reporte</button>
       <button class="hist-btn-dash" onclick="openHistDashboard(${a.id})">📊 Ver dashboard</button>
       <button class="hist-btn-del" onclick="deleteHistItem(${a.id}, this)">🗑 Eliminar</button>
@@ -4626,11 +4766,13 @@ async function runAnalysis() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        file_id: state.fileId,
-        id_column: idCol,
-        columns_config: colsConfig,
-        descripcion: document.getElementById('uploadDescripcion')?.value?.trim() || null,
-        etiqueta:    document.getElementById('uploadEtiqueta')?.value || null,
+        file_id:            state.fileId,
+        id_column:          idCol,
+        columns_config:     colsConfig,
+        descripcion:        document.getElementById('uploadDescripcion')?.value?.trim() || null,
+        naturaleza_dato:    document.getElementById('uploadNaturaleza')?.value || 'sin_especificar',
+        proposito_analisis: document.getElementById('uploadProposito')?.value  || 'diagnostico_general',
+        tipo_ia:            document.getElementById('uploadTipoIa')?.value     || null,
       })
     });
     clearInterval(pollTimer);
@@ -4639,7 +4781,9 @@ async function runAnalysis() {
     updateProgress(100, '¡Análisis completado!');
     await new Promise(r => setTimeout(r, 400)); // brief pause to show 100%
     state.analysisResult = data;
-    state._etiqueta = document.getElementById('uploadEtiqueta')?.value || '';
+    state._naturaleza = document.getElementById('uploadNaturaleza')?.value || 'sin_especificar';
+    state._proposito  = document.getElementById('uploadProposito')?.value  || 'diagnostico_general';
+    state._tipoIa     = document.getElementById('uploadTipoIa')?.value     || null;
     buildResultsScreen(data);
     goTo('results');
     toast('Análisis completado', 'success');
@@ -5141,7 +5285,8 @@ async function downloadReport() {
 
 function resetearEstadoCompleto() {
   // ── State variables ──────────────────────────────────────────────
-  state = { fileId: null, columns: [], analysisResult: null, perfil: null, uploadedFilename: '', _etiqueta: '', _dimAvg: {}, _dimsSorted: [] };
+  state = { fileId: null, columns: [], analysisResult: null, perfil: null, uploadedFilename: '', _naturaleza: 'sin_especificar', _proposito: 'diagnostico_general', _tipoIa: null, _dimAvg: {}, _dimsSorted: [] };
+  _propositoTocadoPorUsuario = false;
   _profDimSel = {};
   const _pdc = document.getElementById('profDimCounter');
   if (_pdc) _pdc.textContent = '';
@@ -5153,8 +5298,14 @@ function resetearEstadoCompleto() {
 
   // ── Upload screen ────────────────────────────────────────────────
   clearFile();
-  document.getElementById('uploadDescripcion').value    = '';
-  document.getElementById('uploadEtiqueta').selectedIndex = 0;
+  document.getElementById('uploadDescripcion').value       = '';
+  document.getElementById('uploadNaturaleza').value        = 'sin_especificar';
+  document.getElementById('uploadProposito').value         = 'diagnostico_general';
+  document.getElementById('uploadTipoIa').value            = '';
+  document.getElementById('tipoIaRow').style.display       = 'none';
+  document.getElementById('hintNaturaleza').textContent    = CAT_NATURALEZA.sin_especificar.desc;
+  document.getElementById('hintProposito').textContent     = CAT_PROPOSITO.diagnostico_general.desc;
+  document.getElementById('hintTipoIa').textContent        = '';
 
   // ── Config screen ────────────────────────────────────────────────
   document.getElementById('colTableBody').innerHTML  = '';

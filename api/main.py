@@ -16,6 +16,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from database.db import get_connection, hash_password, init_db, verify_password
+from engine.catalogos import NATURALEZA_DATO, PROPOSITO_ANALISIS, TIPOS_IA
 from engine.parsers import get_column_info, parse_file
 from engine.report_gen import generate_excel_report
 from engine.scorer import DQScorer
@@ -71,7 +72,10 @@ class AnalyzeRequest(BaseModel):
     id_column: str
     columns_config: dict[str, dict[str, dict]]
     descripcion: Optional[str] = None
-    etiqueta: Optional[str] = None  # "Maestro de datos", "Dataset transaccional", "Dataset para IA", "Otro"
+    naturaleza_dato: Optional[str] = None
+    proposito_analisis: Optional[str] = None
+    tipo_ia: Optional[str] = None
+    etiqueta: Optional[str] = None  # kept for backwards compatibility, no longer written
 
 
 class LoginRequest(BaseModel):
@@ -208,6 +212,19 @@ def me(authorization: str = Header(None)):
         "rol": user["rol"],
         "max_registros": user["max_registros"],
         "fecha_vencimiento": user["fecha_vencimiento"],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Catalogues (public)
+# ──────────────────────────────────────────────────────────────────────
+
+@app.get("/catalogos")
+def get_catalogos():
+    return {
+        "naturaleza_dato":   NATURALEZA_DATO,
+        "proposito_analisis": PROPOSITO_ANALISIS,
+        "tipos_ia":          TIPOS_IA,
     }
 
 
@@ -397,10 +414,10 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             conn.execute(
                 """INSERT INTO analisis
                    (usuario_id, file_id, nombre_archivo, total_registros, score_general,
-                    descripcion, etiqueta, total_columnas, total_problemas,
+                    descripcion, total_columnas, total_problemas,
                     dimensiones_aplicadas, ruta_reporte, ruta_dashboard, estado,
-                    version_motor)
-                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    version_motor, naturaleza_dato, proposito_analisis, tipo_ia)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     current_user["id"],
                     request.file_id,
@@ -408,7 +425,6 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                     results["total_registros"],
                     results["score_general"],
                     request.descripcion,
-                    request.etiqueta,
                     len(stored["columns"]),
                     results["total_problemas"],
                     json.dumps(dims),
@@ -416,6 +432,9 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
                     ruta_dashboard,
                     "completado",
                     "v2",
+                    request.naturaleza_dato,
+                    request.proposito_analisis,
+                    request.tipo_ia,
                 ),
             )
             conn.commit()
@@ -803,10 +822,10 @@ def user_analyses(user_id: int, authorization: str = Header(None)):
 
 @app.get("/historial")
 def get_historial(
-    fecha_desde: Optional[str] = None,
-    fecha_hasta: Optional[str] = None,
-    etiqueta:    Optional[str] = None,
-    buscar:      Optional[str] = None,
+    fecha_desde:        Optional[str] = None,
+    fecha_hasta:        Optional[str] = None,
+    proposito_analisis: Optional[str] = None,
+    buscar:             Optional[str] = None,
     authorization: str = Header(None),
 ):
     user = get_current_user(authorization)
@@ -817,9 +836,9 @@ def get_historial(
 
     sql    = "SELECT * FROM analisis WHERE usuario_id = ? AND DATE(fecha) BETWEEN ? AND ?"
     params = [user["id"], fecha_desde, fecha_hasta]
-    if etiqueta:
-        sql += " AND etiqueta = ?"
-        params.append(etiqueta)
+    if proposito_analisis:
+        sql += " AND proposito_analisis = ?"
+        params.append(proposito_analisis)
     if buscar:
         sql += " AND (nombre_archivo LIKE ? OR descripcion LIKE ?)"
         params += [f"%{buscar}%", f"%{buscar}%"]
@@ -833,9 +852,9 @@ def get_historial(
 
 @app.get("/historial/stats")
 def historial_stats(
-    fecha_desde: Optional[str] = None,
-    fecha_hasta: Optional[str] = None,
-    etiqueta:    Optional[str] = None,
+    fecha_desde:        Optional[str] = None,
+    fecha_hasta:        Optional[str] = None,
+    proposito_analisis: Optional[str] = None,
     authorization: str = Header(None),
 ):
     user = get_current_user(authorization)
@@ -846,9 +865,9 @@ def historial_stats(
 
     sql    = "SELECT * FROM analisis WHERE usuario_id = ? AND DATE(fecha) BETWEEN ? AND ?"
     params = [user["id"], fecha_desde, fecha_hasta]
-    if etiqueta:
-        sql += " AND etiqueta = ?"
-        params.append(etiqueta)
+    if proposito_analisis:
+        sql += " AND proposito_analisis = ?"
+        params.append(proposito_analisis)
 
     conn  = get_connection()
     rows  = conn.execute(sql, params).fetchall()

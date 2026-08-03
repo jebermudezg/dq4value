@@ -61,6 +61,9 @@ def init_db() -> None:
         "ruta_dashboard TEXT",
         "estado TEXT DEFAULT 'completado'",
         "version_motor TEXT DEFAULT 'v2'",
+        "naturaleza_dato TEXT",
+        "proposito_analisis TEXT",
+        "tipo_ia TEXT",
     ]:
         try:
             conn.execute(f"ALTER TABLE analisis ADD COLUMN {col_def}")
