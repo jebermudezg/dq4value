@@ -1,0 +1,1001 @@
+cliente_id,nombre_completo,nit_empresa,edad,ingresos_mensuales,anios_experiencia,saldo_deuda_actual,num_creditos_activos,score_externo,meses_historial_crediticio,ratio_deuda_ingresos_pct,fecha_vinculacion,fecha_ultimo_pago,ciudad,estado_cliente,tipo_contrato,tipo_vivienda,sector_economico,email,telefono,incumplimiento
+1,Claudia Patricia López Vargas,865737657-3,30,9232948.0,22,59253420.0,8,389,157,641.76,2019-09-25,2022-02-02,Bogotá,Activo,Fijo,Propia,Gobierno,claudiapatricia@gmail.com,3274335942,0
+2,Nicolás Suárez Cruz,920583634-9,39,9999020.0,1,60704589.0,2,732,93,607.11,2018-02-12,2022-06-09,Barranquilla,Inactivo,Indefinido,Propia,Manufactura,nicolassuarez@hotmail.com,3215437923,0
+3,Camila Vega Ramírez,901612049-1,57,4578372.0,21,49481580.0,5,891,55,1080.77,2022-11-25,2022-03-13,Bogotá,Mora,Fijo,Arriendo,Educación,camilavega@gmail.com,3137377459,1
+4,Valentina Rivera Moreno,895367253-3,64,4303267.0,30,54683813.0,1,475,142,1270.75,2023-03-06,2022-09-08,Cali,Inactivo,Pensionado,Arriendo,Gobierno,valentinarivera@hotmail.com,3201938483,1
+5,Juan Carlos Jiménez Romero,871871145-1,35,11087929.0,19,70109410.0,5,517,173,632.3,2020-08-06,2023-02-10,Manizales,Activo,Prestación de servicios,Propia,Comercio,juancarlos@gmail.com,3275408072,0
+6,Laura Romero Moreno,858873467-2,54,6681916.0,25,3769310.0,1,456,166,56.41,2016-10-17,2024-03-22,Pereira,Mora,Indefinido,Arriendo,Manufactura,lauraromero@gmail.com,3249877065,0
+7,Manuela García Ramírez,982995233-8,39,9570287.0,11,8924174.0,6,461,122,93.25,2015-01-14,2024-01-10,Cartagena,Mora,Fijo,Familiar,Educación,manuelagarcia@gmail.com,3199517169,0
+8,Diana Carolina Moreno Rivera,944788454-8,22,7788918.0,16,1558139.0,5,614,67,20.0,2015-08-26,2022-09-04,Ibagué,Activo,Indefinido,Familiar,Servicios,dianacarolina@gmail.com,3273109911,1
+9,Mateo Ríos Rivera,871150596-8,60,5942948.0,7,74313079.0,3,619,108,1250.44,2022-07-14,2023-10-28,Bucaramanga,Inactivo,Pensionado,Propia,Comercio,mateorios@hotmail.com,3201352896,0
+10,Hernán Darío Cruz García,819057061-0,36,2207703.0,2,68770832.0,1,826,66,3115.04,2018-02-14,2023-11-17,Manizales,Activo,Fijo,Familiar,Transporte,hernandario@gmail.com,3178935169,0
+11,Ricardo Augusto Sánchez Sánchez,976894335-6,44,5947576.0,15,69106940.0,0,400,21,1161.93,2019-07-08,2024-01-16,Bucaramanga,Activo,Fijo,Propia,Comercio,ricardoaugusto@gmail.com,3148077999,1
+12,Camila Morales González,918952003-8,28,2031177.0,18,66882207.0,1,542,48,3292.78,2019-07-23,2023-05-13,Manizales,Activo,Pensionado,Propia,Tecnología,camilamorales@gmail.com,3225449368,0
+13,Camila Herrera Mendoza,986989857-8,64,9043287.0,5,15191829.0,3,359,154,167.99,2023-04-02,2023-07-10,Bogotá,Mora,Prestación de servicios,Propia,Salud,camilaherrera@gmail.com,3269910817,1
+14,Samuel Pérez Gómez,818393554-9,26,8589732.0,8,32302044.0,3,892,158,376.05,2015-06-12,2023-09-27,Medellín,Inactivo,Prestación de servicios,Arriendo,Comercio,samuelperez@gmail.com,3205004485,1
+15,Sergio Iván Medina Rojas,884873168-1,22,6311998.0,19,79687716.0,1,850,60,1262.48,2020-09-03,2022-09-29,Cali,Inactivo,Indefinido,Propia,Financiero,sergioivan@hotmail.com,3246075395,0
+16,Sofía García Ríos,880363870-1,30,4276892.0,29,8562878.0,8,459,75,200.21,2018-02-28,2023-09-12,Barranquilla,Mora,Prestación de servicios,Propia,Construcción,sofiagarcia@gmail.com,3181852264,1
+17,Laura Vargas Martínez,800951788-5,30,8189690.0,9,12926558.0,7,864,115,157.84,2021-04-16,2022-01-10,Medellín,Activo,Fijo,Familiar,Salud,lauravargas@gmail.com,3283484601,1
+18,Juan Carlos Medina Moreno,810709198-5,35,8661700.0,22,8223490.0,8,716,164,94.94,2023-05-28,2022-06-08,Barranquilla,Activo,Fijo,Arriendo,Salud,juancarlos@hotmail.com,3207907400,0
+19,Natalia Andrea Vargas Rivera,988247930-1,46,10657751.0,28,37655202.0,3,771,95,353.31,2018-06-04,2024-04-20,Barranquilla,Activo,Indefinido,Familiar,Comercio,nataliaandrea@gmail.com,3182164686,0
+20,Marcela Cristina Ruiz Molina,907287849-8,43,11361990.0,4,70163073.0,4,482,154,617.52,2017-12-23,2022-02-09,Medellín,Mora,Pensionado,Arriendo,Financiero,marcelacristina@gmail.com,3262940214,1
+21,Tomas Diaz Ortiz,811914918-6,22,6959164.0,26,43076160.0,3,672,116,618.98,2015-10-14,2023-11-12,Bucaramanga,Mora,Prestación de servicios,Familiar,Educación,tomasdiaz@gmail.com,3199508103,1
+22,David Jimenez Romero,987155458-4,57,2836522.0,14,53194355.0,6,478,163,1875.34,2021-05-20,2022-11-05,Pereira,Mora,Indefinido,Arriendo,Construcción,davidjimenez@hotmail.com,3286406444,1
+23,Daniel Reyes Molina,927019948-2,64,2390353.0,17,53108307.0,5,395,66,2221.78,2022-07-18,2022-11-14,Barranquilla,Activo,Fijo,Propia,Salud,danielreyes@hotmail.com,3252221854,1
+24,Tomas Diaz Álvarez,932708361-6,37,3049499.0,23,443585.0,1,735,62,14.55,2016-12-21,2024-04-03,Cúcuta,Inactivo,Indefinido,Familiar,Comercio,tomasdiaz@gmail.com,3138658158,1
+25,Camila Aguilar Rios,959840514-5,50,7932849.0,24,71361624.0,6,861,120,899.57,2016-10-13,2024-02-01,Manizales,Inactivo,Prestación de servicios,Propia,Construcción,camilaaguilar@gmail.com,3269130188,0
+26,Marcela Cristina Guerrero Gonzalez,991540741-4,37,4353009.0,11,71442147.0,1,441,44,1641.21,2017-08-05,2023-01-28,Cali,Mora,Fijo,Propia,Manufactura,marcelacristina@gmail.com,3278816912,0
+27,Gloria Esperanza Suarez Álvarez,956787623-0,58,5494001.0,1,75419333.0,4,699,113,1372.76,2021-01-13,2024-02-05,Cúcuta,Mora,Fijo,Arriendo,Comercio,gloriaesperanza@hotmail.com,3251486955,1
+28,Isabela Rivera Rojas,834259824-9,56,1783148.0,13,47351422.0,0,385,170,2655.5,2019-10-22,2022-05-19,Manizales,Activo,Indefinido,Arriendo,Manufactura,isabelarivera@gmail.com,3246483562,1
+29,Alejandro Vargas Suarez,867718622-1,52,1703525.0,18,4166849.0,5,529,172,244.6,2015-10-09,2024-03-10,Bogotá,Activo,Fijo,Propia,Salud,alejandrovargas@gmail.com,3173117636,1
+30,Claudia Patricia Reyes Rojas,987761199-4,45,3261786.0,20,77098780.0,1,467,85,2363.7,2016-03-18,2023-08-16,Bogotá,Inactivo,Pensionado,Arriendo,Comercio,claudiapatricia@hotmail.com,3172709620,0
+31,Paola Andrea Ramirez Martinez,893201800-8,49,8445974.0,3,40476863.0,5,312,113,479.24,2020-06-30,2022-04-19,Pereira,Inactivo,Pensionado,Familiar,Tecnología,paolaandrea@gmail.com,3265531230,0
+32,Nicolas Ramos Rojas,916923636-9,39,4884198.0,8,66458482.0,1,585,121,1360.68,2017-09-25,2024-02-08,Manizales,Mora,Pensionado,Arriendo,Salud,nicolasramos@gmail.com,3204050766,0
+33,Carolina Ortiz Castro,875070252-9,66,10741127.0,18,812089.0,3,387,67,7.56,2023-01-28,2023-02-21,Manizales,Mora,Fijo,Familiar,Servicios,carolinaortiz@gmail.com,3258519121,0
+34,Luisa Maria Herrera Cruz,908555600-3,41,8471580.0,12,37860839.0,8,652,114,446.92,2023-05-14,2023-07-18,Bucaramanga,Inactivo,Pensionado,Arriendo,Construcción,luisamaria@hotmail.com,3134231028,1
+35,Nicolas Gomez Diaz,858085309-7,39,9108143.0,25,41970950.0,4,402,55,460.81,2018-04-28,2022-08-21,Bucaramanga,Activo,Prestación de servicios,Propia,Gobierno,nicolasgomez@hotmail.com,3111914794,0
+36,Sergio Ivan Navarro Sanchez,803292468-9,40,6428668.0,15,27256475.0,0,558,128,423.98,2016-04-12,2024-04-21,Medellín,Inactivo,Pensionado,Propia,Transporte,sergioivan@gmail.com,3113545556,1
+37,Tomas Medina Perez,866623252-1,57,9526656.0,20,47690148.0,3,835,103,500.6,2020-01-20,2023-03-30,Cartagena,Mora,Pensionado,Arriendo,Transporte,tomasmedina@gmail.com,3292664863,0
+38,Gloria Esperanza Reyes Ortiz,977282329-1,32,4018584.0,18,6005190.0,0,718,121,149.44,2022-09-24,2023-09-01,Manizales,Inactivo,Indefinido,Propia,Construcción,gloriaesperanza@gmail.com,3242194198,0
+39,Oscar Eduardo Diaz Mendoza,830810028-8,36,8300165.0,30,21250598.0,2,373,21,256.03,2016-11-10,2024-03-22,Cartagena,Mora,Prestación de servicios,Arriendo,Educación,oscareduardo@gmail.com,3197752972,0
+40,Samuel V. Navarro,917510001-1,60,1918538.0,14,58762714.0,4,326,29,3062.89,2017-07-26,2023-11-22,Ibagué,Mora,Indefinido,Familiar,Construcción,samuelv.@gmail.com,3158893693,1
+41,Daniel V. Gómez,957123224-6,62,10049572.0,3,37600832.0,6,641,88,374.15,2022-07-07,2022-04-18,Cali,Inactivo,Pensionado,Familiar,Servicios,danielv.@hotmail.com,3221615675,1
+42,Sebastián O. Jiménez,831117467-6,54,10161736.0,1,52612831.0,8,773,111,517.75,2015-08-11,2022-07-12,Cúcuta,Inactivo,Pensionado,Familiar,Servicios,sebastiano.@gmail.com,3165480460,1
+43,Fabio A. Guerrero,832595067-0,62,7893153.0,8,56782626.0,4,864,9,719.39,2021-03-12,2023-02-22,Medellín,Activo,Indefinido,Arriendo,Educación,fabioa.@gmail.com,3149361353,0
+44,Fabio A. Molina,911532338-7,52,4059175.0,18,11571357.0,3,820,40,285.07,2015-10-13,2022-10-10,Pereira,Inactivo,Prestación de servicios,Propia,Construcción,fabioa.@gmail.com,3289214801,0
+45,Daniel V. Ramos,892643503-5,57,9510163.0,13,36427569.0,5,493,67,383.04,2021-05-31,2023-01-28,Barranquilla,Inactivo,Indefinido,Arriendo,Servicios,danielv.@gmail.com,3227477326,0
+46,Diana C. Navarro,833888974-8,59,4985944.0,4,69935230.0,7,402,140,1402.65,2020-02-15,2022-01-16,Cali,Inactivo,Fijo,Propia,Servicios,dianac.@gmail.com,3186680114,0
+47,Isabela P. Castro,981021460-8,46,11518466.0,21,57497394.0,7,854,15,499.18,2021-12-04,2022-03-12,Barranquilla,Mora,Prestación de servicios,Propia,Educación,isabelap.@gmail.com,3132686231,1
+48,Paola A. López,887073661-0,40,5263865.0,14,11645584.0,8,721,150,221.24,2022-08-24,2024-03-22,Cali,Activo,Fijo,Propia,Transporte,paolaa.@gmail.com,3295040453,1
+49,Juliana F. Cruz,923788987-4,51,4180930.0,1,71912683.0,7,594,179,1720.02,2021-02-16,2022-06-11,Medellín,Inactivo,Prestación de servicios,Familiar,Construcción,julianaf.@gmail.com,3235195951,1
+50,Paola A. Díaz,929710176-1,37,5504325.0,12,45984954.0,4,322,174,835.43,2019-06-10,2022-10-09,Bogotá,Mora,Indefinido,Familiar,Servicios,paolaa.@gmail.com,3194860745,0
+51,Carolina C. Díaz,966669203-4,65,9433562.0,25,52734523.0,2,399,166,559.01,2022-04-01,2022-02-10,Cartagena,Inactivo,Indefinido,Familiar,Financiero,carolinac.@gmail.com,3125951131,1
+52,David G. Díaz,835476375-8,45,7073950.0,30,21802188.0,2,563,129,308.2,2018-04-23,2024-02-04,Bucaramanga,Activo,Pensionado,Propia,Tecnología,davidg.@gmail.com,3177667458,0
+53,Manuela M. Pérez,905917802-0,38,7134009.0,15,29486853.0,4,898,103,413.33,2022-02-28,2023-01-16,Medellín,Mora,Fijo,Arriendo,Salud,manuelam.@gmail.com,3276503032,0
+54,Hernán D. González,988193969-4,63,5787106.0,5,3627745.0,0,611,132,62.69,2016-04-20,2022-04-10,Barranquilla,Mora,Fijo,Arriendo,Servicios,hernand.@gmail.com,3278031780,0
+55,Diana Carolina Suárez Sánchez,931358094-9,48,11360057.0,9,2617303.0,5,522,119,23.04,2019-12-27,2022-08-30,Bucaramanga,Activo,Prestación de servicios,Familiar,Financiero,dianacarolina@hotmail.com,3184184459,0
+56,Camila Pérez Reyes,972256231-9,23,2031074.0,11,19485512.0,2,878,58,959.37,2015-10-09,2024-04-29,Cúcuta,Activo,Fijo,Propia,Financiero,camilaperez@gmail.com,3291047572,1
+57,Diana Carolina Torres Vega,867284473-2,29,8441105.0,1,10544258.0,5,543,156,124.92,2018-08-19,2022-01-17,Cali,Inactivo,Indefinido,Propia,Manufactura,dianacarolina@gmail.com,3128990081,0
+58,Valentina Molina Sánchez,921334281-8,36,11426864.0,2,58179440.0,8,608,123,509.15,2022-03-20,2022-02-01,Bogotá,Inactivo,Pensionado,Arriendo,Educación,valentinamolina@gmail.com,3242232969,0
+59,Sebastián Flores González,833874296-4,61,8147306.0,18,56972224.0,6,843,81,699.28,2020-02-02,2023-06-02,Ibagué,Inactivo,Indefinido,Familiar,Educación,sebastianflores@gmail.com,3274607488,1
+60,Hernán Darío Suárez Castro,921735184-6,48,9160931.0,11,34141121.0,4,683,45,372.68,2022-09-14,2023-05-01,Medellín,Activo,Indefinido,Propia,Manufactura,hernandario@hotmail.com,3213182975,0
+61,Juliana Ríos Ríos,888488668-1,48,5212780.0,22,75290390.0,6,352,79,1444.34,2021-09-25,2022-11-16,Bucaramanga,Activo,Fijo,Propia,Servicios,julianarios@hotmail.com,3136873938,0
+62,Valentina Ramírez Vargas,954108797-3,49,10374129.0,25,65474149.0,8,326,161,631.13,2022-05-18,2024-04-29,Cartagena,Activo,Fijo,Arriendo,Construcción,valentinaramirez@gmail.com,3211102438,1
+63,Diana Carolina Romero González,838084186-0,27,9334174.0,7,30095552.0,7,649,46,322.42,2019-02-24,2022-11-16,Bucaramanga,Mora,Indefinido,Propia,Tecnología,dianacarolina@hotmail.com,3291834876,0
+64,Marcela Cristina Guerrero Mendoza,930368821-9,50,5848929.0,7,60395451.0,1,653,116,1032.59,2016-03-30,2022-10-18,Ibagué,Inactivo,Prestación de servicios,Propia,Comercio,marcelacristina@gmail.com,3291919088,1
+65,Paola Andrea Reyes Torres,868590495-4,42,2759836.0,16,59761130.0,2,432,103,2165.39,2020-12-21,2023-12-22,Barranquilla,Mora,Prestación de servicios,Propia,Manufactura,paolaandrea@gmail.com,3118318550,1
+66,Pedro Pablo Jiménez Mendoza,953920805-6,67,8221488.0,10,9213870.0,0,632,49,112.07,2023-12-27,2023-09-25,Manizales,Mora,Prestación de servicios,Propia,Manufactura,pedropablo@gmail.com,3178309439,0
+67,Sofía Pérez Romero,883288692-5,36,4997221.0,6,6110350.0,1,843,136,122.27,2017-03-05,2024-03-05,Bucaramanga,Inactivo,Fijo,Propia,Educación,sofiaperez@hotmail.com,3163910830,0
+68,Pedro Pablo Gómez Navarro,924541453-9,59,6213505.0,30,70563853.0,5,623,44,1135.65,2019-12-07,2022-03-11,Manizales,Inactivo,Prestación de servicios,Arriendo,Transporte,pedropablo@hotmail.com,3262244712,1
+69,Daniel Martínez Rodríguez,898982245-4,26,8268998.0,28,7223720.0,8,693,124,87.36,2021-07-05,2023-07-22,Bogotá,Inactivo,Fijo,Arriendo,Transporte,danielmartinez@gmail.com,3142038068,1
+70,Luis Miguel Pérez Molina,973443420-2,24,4101309.0,15,79278882.0,8,835,162,1933.01,2016-10-12,2023-01-08,Bucaramanga,Inactivo,Pensionado,Arriendo,Financiero,luismiguel@gmail.com,3116614484,1
+71,Andrés Felipe Ríos Álvarez,876275123-4,68,10441446.0,30,48216065.0,2,641,26,461.78,2021-07-14,2023-11-11,Cali,Inactivo,Prestación de servicios,Familiar,Manufactura,andresfelipe@hotmail.com,3126193922,0
+72,Luis Miguel Torres Aguilar,825086089-6,54,5299195.0,12,24709286.0,3,649,130,466.28,2017-02-25,2022-08-20,Cali,Activo,Indefinido,Arriendo,Educación,luismiguel@gmail.com,3279833734,1
+73,Luis Miguel Torres Álvarez,841406910-2,33,10229123.0,25,49979238.0,2,748,17,488.6,2019-08-10,2023-01-09,Barranquilla,Inactivo,Prestación de servicios,Familiar,Servicios,luismiguel@hotmail.com,3176192009,0
+74,Mateo Díaz Moreno,982081601-9,50,6347640.0,10,62249923.0,8,840,113,980.68,2016-10-25,2024-04-16,Barranquilla,Mora,Fijo,Arriendo,Salud,mateodiaz@gmail.com,3212721170,0
+75,Sofía Ramírez Herrera,822515056-2,39,6217852.0,17,11787892.0,6,393,62,189.58,2020-01-22,2024-06-24,Bucaramanga,Activo,Pensionado,Propia,Manufactura,sofiaramirez@gmail.com,3177478792,0
+76,Valentina Cruz López,885546318-1,67,8324587.0,26,11683945.0,0,593,126,140.35,2022-10-22,2024-05-01,Cali,Mora,Pensionado,Arriendo,Transporte,valentinacruz@hotmail.com,3121318832,1
+77,Diana Carolina Ríos Aguilar,913616585-1,40,3995222.0,4,3819956.0,6,768,22,95.61,2016-03-30,2024-05-06,Manizales,Mora,Indefinido,Familiar,Gobierno,dianacarolina@gmail.com,3145886733,1
+78,Carolina Morales Suárez,850281694-1,55,11733872.0,3,76272294.0,8,819,135,650.02,2021-03-19,2022-01-21,Pereira,Inactivo,Indefinido,Familiar,Manufactura,carolinamorales@gmail.com,3181272499,1
+79,Pedro Pablo Ruiz Morales,996747356-1,59,9219463.0,11,10672767.0,5,859,92,115.76,2022-03-17,2022-06-29,Manizales,Mora,Pensionado,Familiar,Tecnología,pedropablo@gmail.com,3128678589,1
+80,Ricardo Augusto Martínez Díaz,811249040-5,41,6911528.0,27,43442456.0,4,337,171,628.55,2017-02-21,2022-10-20,Bucaramanga,Activo,Prestación de servicios,Arriendo,Educación,ricardoaugusto@gmail.com,3237711251,0
+81,Alejandro Castro Gómez,933198539-7,45,11205260.0,17,21337656.0,1,734,26,190.43,2019-10-30,2023-09-09,Cali,Mora,Prestación de servicios,Arriendo,Educación,alejandrocastro@hotmail.com,3196142147,0
+82,Laura Rivera Guerrero,894367675-7,24,9131551.0,30,28204745.0,6,581,169,308.87,2023-11-16,2022-02-28,Medellín,Mora,Pensionado,Arriendo,Gobierno,laurarivera@gmail.com,3151522452,1
+83,Daniel Martínez Torres,818047818-3,63,5346449.0,13,75957369.0,0,457,179,1420.71,2020-01-17,2023-01-15,Bucaramanga,Inactivo,Indefinido,Familiar,Tecnología,danielmartinez@gmail.com,3226274512,0
+84,Natalia Andrea Ramírez López,997481216-2,53,6936325.0,30,44933817.0,4,566,120,647.8,2017-05-28,2023-09-19,Cartagena,Mora,Pensionado,Propia,Educación,nataliaandrea@hotmail.com,3128584017,1
+85,Daniel Pérez Jiménez,979271878-5,67,2181860.0,18,23228983.0,4,461,169,1064.64,2016-12-14,2024-03-23,Bucaramanga,Mora,Fijo,Propia,Comercio,danielperez@gmail.com,3179288312,1
+86,Manuela Moreno Rojas,948081597-2,61,10784588.0,3,24743257.0,7,838,111,229.43,2023-08-17,2023-02-24,Ibagué,Activo,Fijo,Arriendo,Educación,manuelamoreno@gmail.com,3266779998,1
+87,Manuela Gómez Torres,916130086-8,25,10229603.0,17,12241237.0,2,465,88,119.66,2022-12-15,2022-08-19,Bucaramanga,Mora,Prestación de servicios,Propia,Construcción,manuelagomez@hotmail.com,3275604524,1
+88,Paola Andrea Vega Pérez,934908451-2,59,11386873.0,5,13696050.0,5,877,16,120.28,2015-04-27,2022-03-25,Bogotá,Mora,Prestación de servicios,Familiar,Comercio,paolaandrea@gmail.com,3231508113,0
+89,Nicolás Herrera Medina,929639512-3,65,5763972.0,15,5837842.0,0,461,118,101.28,2019-08-30,2023-05-11,Manizales,Activo,Prestación de servicios,Familiar,Tecnología,nicolasherrera@gmail.com,3206794356,0
+90,Sergio Iván Moreno Molina,950767100-1,42,4038248.0,4,21397734.0,3,444,30,529.88,2015-07-27,2022-10-25,Pereira,Mora,Pensionado,Propia,Tecnología,sergioivan@gmail.com,3286246485,1
+91,Jorge Alberto Navarro Molina,925309729-7,41,6722388.0,3,75618624.0,8,768,67,1124.88,2017-05-31,2023-08-21,Bucaramanga,Activo,Indefinido,Arriendo,Servicios,jorgealberto@gmail.com,3255794062,1
+92,Andrés Felipe Mendoza Torres,870993902-5,47,5342342.0,13,4092615.0,8,499,98,76.61,2021-03-16,2022-10-23,Medellín,Inactivo,Pensionado,Familiar,Construcción,andresfelipe@gmail.com,3292993318,1
+93,Andrés Felipe Romero Moreno,891022516-8,45,9427134.0,7,48197036.0,6,812,16,511.26,2015-07-05,2022-02-09,Cali,Mora,Prestación de servicios,Arriendo,Gobierno,andresfelipe@gmail.com,3299648751,1
+94,Sebastián Rivera Romero,965490589-4,59,5031921.0,27,40777128.0,7,876,82,810.37,2020-04-29,2024-04-15,Bogotá,Inactivo,Prestación de servicios,Familiar,Educación,sebastianrivera@gmail.com,3286161977,0
+95,María Fernanda Ramos Ortiz,975983861-9,58,3889204.0,2,46681862.0,2,836,167,1200.29,2023-02-01,2023-09-27,Pereira,Activo,Fijo,Propia,Transporte,mariafernanda@gmail.com,3134200829,1
+96,Sebastián Suárez Flores,910853135-3,48,6769105.0,20,73641676.0,0,441,138,1087.91,2017-04-29,2023-07-29,Bucaramanga,Mora,Pensionado,Familiar,Manufactura,sebastiansuarez@gmail.com,3158711874,0
+97,Luis Miguel Vega Ruiz,981427089-4,61,6583891.0,8,22320512.0,4,530,82,339.02,2023-08-25,2022-10-23,Barranquilla,Mora,Pensionado,Arriendo,Servicios,luismiguel@gmail.com,3185828304,1
+98,Nicolás Álvarez Romero,892646383-2,40,1941698.0,23,6322355.0,7,562,128,325.61,2017-05-26,2022-07-26,Cúcuta,Inactivo,Prestación de servicios,Propia,Educación,nicolasalvarez@gmail.com,3285014486,1
+99,Sofía Cruz Cruz,814090474-1,48,4968083.0,16,8043592.0,2,305,146,161.91,2016-10-08,2023-02-21,Manizales,Inactivo,Fijo,Arriendo,Financiero,sofiacruz@hotmail.com,3112500901,0
+100,Hernán Darío Vega Martínez,846993593-6,-5,11970304.0,13,63036850.0,2,596,15,526.61,2015-02-07,2022-11-02,Ibagué,Mora,Indefinido,Arriendo,Construcción,hernandario@gmail.com,3279796605,0
+101,Sergio Iván Molina Rojas,873239146-3,150,3206190.0,15,51862827.0,2,314,92,1617.58,2023-11-13,2022-10-30,Ibagué,Mora,Fijo,Propia,Transporte,sergioivan@gmail.com,3228175669,0
+102,Luisa María Romero Sánchez,849601825-2,150,11326167.0,1,20862822.0,3,757,74,184.2,2018-09-12,2022-11-06,Ibagué,Mora,Indefinido,Arriendo,Financiero,luisamaria@gmail.com,3112983483,0
+103,Jorge Alberto Romero Molina,988859652-4,-5,8206469.0,10,29403512.0,3,524,40,358.3,2020-05-12,2022-06-06,Manizales,Mora,Prestación de servicios,Arriendo,Gobierno,jorgealberto@gmail.com,3274664338,0
+104,Luisa María Aguilar Guerrero,941780392-5,17,2678192.0,27,43811940.0,8,507,152,1635.88,2021-01-07,2022-06-03,Cali,Inactivo,Pensionado,Propia,Comercio,luisamaria@gmail.com,3252525747,0
+105,Daniel Rodríguez Rojas,835418538-8,200,7421067.0,18,36990264.0,4,322,107,498.45,2017-11-08,2024-04-16,Bogotá,Mora,Fijo,Familiar,Educación,danielrodriguez@hotmail.com,3212069713,0
+106,Ana Lucía González Ramos,808518765-4,0,9574207.0,25,51322000.0,6,683,103,536.04,2020-01-12,2024-06-09,Pereira,Inactivo,Indefinido,Familiar,Gobierno,analucia@hotmail.com,3212990334,1
+107,Nicolás Romero Aguilar,834184472-3,-5,11774152.0,15,53879989.0,8,734,142,457.61,2019-04-03,2024-04-23,Barranquilla,Activo,Pensionado,Arriendo,Tecnología,nicolasromero@hotmail.com,3131540516,0
+108,David López Morales,855319614-1,17,1852551.0,20,53761891.0,0,550,17,2902.05,2019-07-06,2023-03-26,Barranquilla,Mora,Fijo,Propia,Tecnología,davidlopez@gmail.com,3194928578,0
+109,Tomás Jiménez Jiménez,863593442-4,17,3820949.0,10,22012314.0,8,479,166,576.1,2022-08-12,2023-03-14,Cúcuta,Inactivo,Indefinido,Arriendo,Manufactura,tomasjimenez@gmail.com,3207984768,1
+110,Paola Andrea Álvarez Gómez,944399019-7,0,4657732.0,23,11548140.0,7,359,149,247.93,2019-08-18,2023-03-03,Cúcuta,Mora,Fijo,Arriendo,Comercio,paolaandrea@hotmail.com,3202326581,0
+111,Valentina Pérez Vega,994504226-3,150,5460264.0,20,48233764.0,1,492,156,883.36,2023-02-14,2023-11-19,Cúcuta,Activo,Pensionado,Propia,Financiero,valentinaperez@gmail.com,3104553544,0
+112,Claudia Patricia Ramos Morales,986730758-9,0,5664637.0,8,44166343.0,4,689,125,779.69,2020-12-25,2023-10-27,Bucaramanga,Inactivo,Prestación de servicios,Arriendo,Gobierno,claudiapatricia@gmail.com,3242654371,0
+113,Mateo Jiménez Reyes,899510345-5,-5,7406510.0,8,59300190.0,0,567,147,800.65,2021-07-20,2023-08-17,Pereira,Inactivo,Fijo,Propia,Financiero,mateojimenez@hotmail.com,3285122665,0
+114,Luis Miguel Ortiz Navarro,994228607-7,0,9194108.0,12,13541257.0,8,800,53,147.28,2021-01-29,2023-10-20,Bogotá,Mora,Indefinido,Propia,Salud,luismiguel@gmail.com,3233306725,0
+115,Hernán Darío González Flores,802453893-3,,6288101.0,2,49426819.0,7,799,10,786.04,2015-01-28,2023-06-29,Cúcuta,Inactivo,Indefinido,Propia,Gobierno,hernandario@gmail.com,3275809835,1
+116,Laura Gómez Sánchez,825854062-8,,4030173.0,20,42116479.0,5,573,107,1045.03,2015-11-20,2023-01-18,Pereira,Inactivo,Fijo,Familiar,Comercio,lauragomez@hotmail.com,3121531577,1
+117,Alejandro Álvarez Ríos,927776646-0,,1599227.0,6,6614890.0,6,639,150,413.63,2016-01-26,2023-06-25,Bogotá,Activo,Fijo,Familiar,Transporte,alejandroalvarez@gmail.com,3112247353,1
+118,Marcela Cristina Vega Martínez,848145106-5,,11595426.0,19,11535325.0,6,378,82,99.48,2016-10-27,2023-08-01,Barranquilla,Mora,Pensionado,Familiar,Gobierno,marcelacristina@gmail.com,3142315798,1
+119,Carolina Rodríguez Sánchez,917329984-3,,5076224.0,25,49109219.0,6,634,13,967.44,2022-02-10,2022-10-07,Manizales,Inactivo,Fijo,Arriendo,Gobierno,carolinarodriguez@gmail.com,3234116163,0
+120,Alejandro Pérez Herrera,866155859-1,27,4313706.0,13,56934172.0,2,698,87,1319.84,2019-01-17,2022-04-20,Medellín,Activo,Prestación de servicios,Arriendo,Financiero,alejandroperez@gmail.com,3133223098,1
+121,Laura Guerrero Ríos,948911884-8,48,2584576.0,3,28313143.0,1,632,104,1095.47,2015-02-20,2022-10-26,Pereira,Inactivo,Indefinido,Familiar,Gobierno,lauraguerrero@gmail.com,3179742683,1
+122,Alejandro Rivera Torres,872187385-4,39,6677801.0,3,13376592.0,4,731,82,200.31,2020-06-06,2024-03-12,Medellín,Inactivo,Prestación de servicios,Propia,Servicios,alejandrorivera@gmail.com,3168681643,1
+123,Paola Andrea García Romero,889178878-9,46,9942803.0,11,35217834.0,6,439,82,354.2,2018-08-06,2023-09-10,Barranquilla,Inactivo,Prestación de servicios,Propia,Manufactura,paolaandrea@gmail.com,3199237735,0
+124,Natalia Andrea Jiménez Álvarez,875242497-6,45,2695822.0,19,15984004.0,8,484,180,592.92,2023-08-11,2023-07-18,Bogotá,Mora,Pensionado,Familiar,Comercio,nataliaandrea@gmail.com,3192160289,0
+125,David Navarro Torres,970009849-4,37,4153158.0,5,57218911.0,6,375,120,1377.72,2021-09-15,2023-05-06,Ibagué,Inactivo,Pensionado,Familiar,Salud,davidnavarro@gmail.com,3212425760,1
+126,Natalia Andrea Ruiz Rivera,973677698-9,24,7413813.0,21,54197752.0,6,639,116,731.04,2016-03-09,2022-01-11,Medellín,Inactivo,Fijo,Familiar,Gobierno,nataliaandrea@gmail.com,3284708297,1
+127,Isabela Rojas Molina,840465284-5,23,6569096.0,10,33278034.0,1,418,42,506.58,2018-11-27,2022-11-16,Bucaramanga,Inactivo,Fijo,Familiar,Servicios,isabelarojas@gmail.com,3138351204,0
+128,Daniel Jiménez González,880601526-0,67,2708395.0,28,27446236.0,1,468,68,1013.38,2020-10-14,2022-06-28,Cúcuta,Activo,Prestación de servicios,Familiar,Manufactura,danieljimenez@gmail.com,3177795568,0
+129,Sandra Milena Mendoza Romero,807836240-9,34,6220538.0,14,31106862.0,3,510,77,500.07,2023-06-09,2023-12-22,Medellín,Mora,Indefinido,Familiar,Tecnología,sandramilena@gmail.com,3168676422,1
+130,Daniela Aguilar Jiménez,960248136-6,61,5621712.0,4,27833971.0,7,476,178,495.12,2022-12-01,2024-03-30,Cartagena,Mora,Indefinido,Familiar,Tecnología,danielaaguilar@gmail.com,3176123426,1
+131,Valentina Flores Molina,904277314-6,60,2947607.0,13,33843103.0,7,850,171,1148.16,2016-12-10,2023-07-23,Cali,Inactivo,Prestación de servicios,Propia,Tecnología,valentinaflores@gmail.com,3241899447,0
+132,Carlos Andrés Navarro Torres,852379404-6,57,6807099.0,16,32730748.0,7,725,119,480.83,2020-06-24,2022-06-21,Medellín,Mora,Indefinido,Propia,Construcción,carlosandres@hotmail.com,3175843084,1
+133,Camila Navarro Ríos,937118436-1,58,2699170.0,25,43448495.0,5,855,16,1609.7,2023-07-10,2024-01-07,Manizales,Mora,Fijo,Arriendo,Educación,camilanavarro@gmail.com,3175994727,0
+134,Juan Carlos Guerrero Ortiz,893570418-1,50,10585550.0,4,62050532.0,3,514,156,586.18,2022-09-23,2022-12-26,Ibagué,Mora,Pensionado,Propia,Transporte,juancarlos@hotmail.com,3164471922,0
+135,Tomás Ruiz Vega,875453185-9,56,3267962.0,23,23410776.0,4,826,179,716.37,2016-01-26,2022-05-19,Pereira,Activo,Prestación de servicios,Familiar,Tecnología,tomasruiz@gmail.com,3145188889,1
+136,Sebastián Morales Romero,931388077-2,58,8140221.0,21,33138007.0,7,377,168,407.09,2023-11-29,2024-06-20,Medellín,Inactivo,Prestación de servicios,Familiar,Financiero,sebastianmorales@gmail.com,3256491002,0
+137,Luisa María Rojas Ruiz,817000200-8,47,3787214.0,14,65987812.0,7,574,88,1742.38,2018-03-07,2022-12-12,Cúcuta,Mora,Fijo,Familiar,Servicios,luisamaria@gmail.com,3111770794,1
+138,Camila López Ramírez,842408377-7,51,1507097.0,14,16185457.0,2,609,46,1073.95,2018-01-27,2022-04-06,Bucaramanga,Inactivo,Indefinido,Arriendo,Tecnología,camilalopez@hotmail.com,3194928281,1
+139,Luisa María Sánchez García,857289810-7,26,2893348.0,8,41555540.0,7,309,8,1436.24,2022-10-20,2022-12-18,Medellín,Inactivo,Fijo,Arriendo,Educación,luisamaria@hotmail.com,3122718442,1
+140,Valentina Medina Torres,902735899-2,63,11925872.0,5,5472929.0,0,468,118,45.89,2018-12-09,2024-01-10,Barranquilla,Mora,Fijo,Arriendo,Transporte,valentinamedina@gmail.com,3162454383,0
+141,Sergio Iván Ramírez Álvarez,894364629-6,42,9806305.0,8,22157413.0,1,554,147,225.95,2021-09-27,2023-09-07,Ibagué,Inactivo,Indefinido,Familiar,Construcción,sergioivan@hotmail.com,3299548370,1
+142,Isabela Herrera Rodríguez,864247630-7,46,2683808.0,16,51046586.0,1,840,9,1902.02,2019-01-19,2022-11-21,Cali,Inactivo,Pensionado,Arriendo,Gobierno,isabelaherrera@gmail.com,3252224599,1
+143,Pedro Pablo García Ortiz,857913055-0,25,11461140.0,13,40528848.0,8,725,114,353.62,2022-11-14,2023-02-16,Medellín,Mora,Fijo,Arriendo,Educación,pedropablo@gmail.com,3264409088,0
+144,Diana Carolina Vega Jiménez,904886188-9,62,9513853.0,21,54484455.0,1,617,117,572.69,2023-03-09,2024-05-16,Barranquilla,Activo,Fijo,Propia,Manufactura,dianacarolina@hotmail.com,3291923227,1
+145,Sandra Milena Ramírez García,990025622-2,66,1619181.0,16,76241296.0,8,829,72,4708.63,2016-11-14,2023-01-16,Cali,Mora,Prestación de servicios,Familiar,Educación,sandramilena@gmail.com,3106620552,0
+146,Marcela Cristina Aguilar González,870585008-9,62,2309235.0,15,40862550.0,0,811,151,1769.53,2016-11-14,2023-01-12,Cali,Inactivo,Indefinido,Familiar,Educación,marcelacristina@hotmail.com,3261043092,1
+147,Carlos Andrés Morales Martínez,926638343-5,46,11162379.0,6,74492806.0,0,866,173,667.36,2019-09-14,2022-08-18,Bucaramanga,Activo,Pensionado,Familiar,Financiero,carlosandres@hotmail.com,3127254683,1
+148,Ana Lucía Gómez Cruz,938452062-0,47,2223728.0,15,69282578.0,4,635,28,3115.6,2021-03-15,2023-04-13,Bogotá,Inactivo,Fijo,Arriendo,Transporte,analucia@gmail.com,3295069884,1
+149,Juliana Navarro Díaz,996619129-8,37,3080947.0,30,32802889.0,3,854,94,1064.7,2022-02-17,2024-05-09,Bogotá,Inactivo,Indefinido,Familiar,Manufactura,juliananavarro@gmail.com,3192743975,1
+61,David Navarro Rodríguez,838218090-4,27,1960953.0,8,71782998.0,8,722,101,3660.62,2020-02-21,2024-02-05,Medellín,Mora,Indefinido,Familiar,Tecnología,davidnavarro@gmail.com,3222255447,1
+151,Ana Lucía Mendoza Torres,863557928-4,38,10434594.0,30,64065346.0,5,625,121,613.97,2018-01-18,2022-08-28,Medellín,Activo,Fijo,Familiar,Educación,analucia@hotmail.com,3158542478,0
+152,David Ramírez Vega,896177052-3,50,4737231.0,9,68198575.0,1,461,83,1439.63,2022-11-26,2023-12-15,Ibagué,Activo,Fijo,Arriendo,Tecnología,davidramirez@hotmail.com,3176968373,1
+153,Ana Lucía Medina Ortiz,846672265-0,47,10473314.0,18,59846276.0,3,396,124,571.42,2016-02-22,2024-04-03,Cali,Activo,Indefinido,Propia,Comercio,analucia@hotmail.com,3227245146,0
+154,Luisa María Ortiz González,805851940-1,34,10976209.0,15,64743893.0,1,639,37,589.86,2015-06-24,2023-04-18,Bogotá,Activo,Pensionado,Familiar,Manufactura,luisamaria@gmail.com,3228158234,1
+155,Gloria Esperanza Gómez Vargas,875122884-7,31,1863819.0,20,49358173.0,4,810,111,2648.23,2021-03-05,2023-05-06,Bogotá,Activo,Prestación de servicios,Arriendo,Tecnología,gloriaesperanza@gmail.com,3265180005,0
+156,Nicolás López Álvarez,991493980-5,52,7217437.0,16,27522730.0,8,629,105,381.34,2018-01-12,2022-07-04,Bogotá,Inactivo,Fijo,Propia,Construcción,nicolaslopez@hotmail.com,3259882399,1
+157,Juliana Cruz Rivera,826879606-3,64,4032104.0,18,65302813.0,0,524,153,1619.57,2023-12-11,2023-02-02,Bucaramanga,Activo,Fijo,Propia,Transporte,julianacruz@gmail.com,3211473227,0
+158,Carolina Flores Díaz,932131105-8,41,3343346.0,2,7220590.0,3,524,11,215.97,2020-11-26,2023-05-05,Bogotá,Inactivo,Fijo,Propia,Financiero,carolinaflores@gmail.com,3201999183,1
+159,Juliana Flores Ramírez,941276204-5,26,5422703.0,22,31647645.0,1,644,83,583.61,2018-08-14,2022-05-20,Cali,Mora,Pensionado,Familiar,Servicios,julianaflores@gmail.com,3156986539,1
+160,Juliana Gómez Álvarez,882362232-4,30,3365937.0,1,75903048.0,6,881,14,2255.03,2017-01-15,2023-09-09,Bucaramanga,Mora,Fijo,Familiar,Transporte,julianagomez@hotmail.com,3253359604,1
+161,Pedro Pablo Morales Ruiz,885770142-2,62,10795863.0,3,65732944.0,5,757,8,608.87,2017-12-22,2022-08-03,Barranquilla,Mora,Indefinido,Arriendo,Construcción,pedropablo@gmail.com,3101807780,1
+162,David Rivera Suárez,932360688-6,44,7233252.0,4,66304558.0,3,466,121,916.66,2015-10-29,2024-03-29,Bogotá,Inactivo,Indefinido,Arriendo,Construcción,davidrivera@gmail.com,3126734590,1
+163,Alejandro Rivera González,946846611-1,43,7737321.0,20,71458094.0,0,741,173,923.55,2016-11-06,2023-09-14,Pereira,Activo,Indefinido,Propia,Financiero,alejandrorivera@hotmail.com,3167866576,0
+164,Nicolás Ortiz Herrera,879832879-3,28,2021172.0,19,43973011.0,7,457,19,2175.62,2019-01-17,2022-01-04,Pereira,Activo,Prestación de servicios,Familiar,Transporte,nicolasortiz@gmail.com,3131431773,1
+165,Fabio Alejandro Pérez Ramos,831006691-4,47,6444917.0,29,52883204.0,1,857,105,820.54,2017-01-27,2023-01-15,Pereira,Inactivo,Fijo,Arriendo,Salud,fabioalejandro@hotmail.com,3245419132,1
+166,Marcela Cristina Rodríguez Flores,986957497-1,27,8515482.0,26,43315920.0,3,866,21,508.67,2019-05-05,2024-04-18,Cúcuta,Inactivo,Pensionado,Familiar,Comercio,marcelacristina@gmail.com,3127623718,0
+167,Juan Carlos Molina Aguilar,953406944-9,31,2762960.0,25,35923179.0,2,516,55,1300.17,2016-05-31,2022-02-13,Pereira,Activo,Pensionado,Propia,Tecnología,juancarlos@gmail.com,3186364506,0
+168,Pedro Pablo Pérez Álvarez,949347878-6,57,4924331.0,9,41575054.0,0,835,113,844.28,2016-04-05,2023-03-01,Cali,Activo,Indefinido,Propia,Transporte,pedropablo@gmail.com,3199986438,0
+169,David Ortiz Álvarez,975768227-7,58,7894103.0,2,13775978.0,6,447,164,174.51,2021-10-29,2023-11-29,Pereira,Activo,Pensionado,Arriendo,Comercio,davidortiz@hotmail.com,3255506097,0
+170,María Fernanda Castro Medina,883469817-4,53,10511465.0,22,7857391.0,3,437,82,74.75,2023-05-05,2023-03-30,Bucaramanga,Inactivo,Pensionado,Familiar,Educación,mariafernanda@hotmail.com,3167831185,0
+171,Sofía Moreno Rodríguez,938316656-2,26,4766792.0,17,32270811.0,8,882,13,676.99,2016-12-12,2022-07-17,Barranquilla,Activo,Fijo,Propia,Servicios,sofiamoreno@hotmail.com,3214340507,1
+172,Camila Molina Romero,970566520-1,65,1820914.0,12,39102939.0,7,481,127,2147.43,2021-07-31,2023-07-19,Bucaramanga,Inactivo,Fijo,Arriendo,Educación,camilamolina@hotmail.com,3221833006,1
+173,Tomás Reyes Cruz,973779717-3,65,3670675.0,21,32760576.0,0,309,127,892.49,2016-06-25,2023-10-25,Cali,Mora,Indefinido,Propia,Construcción,tomasreyes@gmail.com,3195620085,0
+174,Alejandro Ruiz Rojas,867645389-3,51,4672523.0,17,65944866.0,6,898,32,1411.33,2015-01-31,2023-06-08,Bucaramanga,Mora,Prestación de servicios,Arriendo,Educación,alejandroruiz@gmail.com,3205638619,0
+175,Marcela Cristina Ortiz Medina,850562525-2,55,9537481.0,29,4541974.0,6,627,180,47.62,2016-07-27,2024-01-09,Bogotá,Mora,Pensionado,Arriendo,Construcción,marcelacristina@gmail.com,3227514172,0
+176,Juliana Díaz Castro,995031746-3,65,7113669.0,26,38058816.0,5,819,82,535.01,2016-11-27,2024-05-10,Cúcuta,Activo,Prestación de servicios,Propia,Servicios,julianadiaz@hotmail.com,3184071377,0
+177,Luis Miguel Pérez Cruz,895370661-3,41,5914962.0,29,26505371.0,4,899,81,448.11,2020-03-14,2024-05-21,Medellín,Inactivo,Indefinido,Familiar,Transporte,luismiguel@gmail.com,3292194801,0
+178,Ricardo Augusto Molina Ramírez,982723414-6,55,4632735.0,2,69667932.0,2,440,57,1503.82,2018-11-04,2023-02-24,Ibagué,Inactivo,Fijo,Arriendo,Tecnología,ricardoaugusto@gmail.com,3256580596,0
+179,Sandra Milena Jiménez Rodríguez,801265270-7,39,3698515.0,25,13488461.0,2,801,28,364.7,2016-06-14,2023-09-22,Pereira,Mora,Pensionado,Arriendo,Manufactura,sandramilena@gmail.com,3221078335,1
+180,Ricardo Augusto Moreno García,886493429-8,34,1688119.0,1,50134954.0,3,531,94,2969.87,2018-07-02,2022-05-13,Medellín,Inactivo,Prestación de servicios,Propia,Educación,ricardoaugusto@gmail.com,3195879280,1
+181,Sofía Aguilar Castro,916411123-2,43,11959459.0,16,28740071.0,3,468,109,240.31,2015-03-20,2022-08-22,Barranquilla,Mora,Fijo,Propia,Salud,sofiaaguilar@gmail.com,3153066315,1
+182,Juan Carlos Álvarez Ortiz,943541412-9,25,7736203.0,2,52957593.0,0,349,35,684.54,2019-09-04,2023-03-31,Pereira,Activo,Prestación de servicios,Arriendo,Tecnología,juancarlos@hotmail.com,3106051895,0
+183,Andrés Felipe Aguilar Vargas,967181004-9,66,2940217.0,27,71889754.0,8,420,78,2445.05,2016-04-11,2024-03-14,Medellín,Inactivo,Fijo,Familiar,Comercio,andresfelipe@gmail.com,3264383514,1
+184,David Herrera Rivera,810577889-8,53,11058745.0,23,74649948.0,5,540,6,675.03,2015-02-22,2023-11-19,Medellín,Activo,Pensionado,Propia,Educación,davidherrera@gmail.com,3122699372,0
+185,Hernán Darío Rojas Herrera,870900521-7,25,2547994.0,6,69931236.0,4,668,179,2744.56,2018-07-04,2023-03-13,Medellín,Activo,Indefinido,Propia,Tecnología,hernandario@gmail.com,3156514013,1
+186,Daniel Vargas Pérez,900024997-5,33,2695236.0,13,76984794.0,4,694,128,2856.33,2023-12-21,2023-03-08,Cali,Activo,Fijo,Familiar,Salud,danielvargas@gmail.com,3152740017,0
+187,Juliana Ramos Guerrero,848656760-9,46,9681225.0,20,2305298.0,2,794,130,23.81,2016-04-07,2024-06-27,Pereira,Inactivo,Indefinido,Propia,Construcción,julianaramos@gmail.com,3109804983,0
+188,Tomás Cruz Castro,939344759-8,66,8856092.0,4,34627833.0,3,793,94,391.01,2022-06-11,2023-11-24,Pereira,Activo,Indefinido,Propia,Tecnología,tomascruz@gmail.com,3259318729,0
+189,Pedro Pablo Navarro Jiménez,864663905-5,39,2028683.0,8,44039646.0,6,712,66,2170.85,2015-11-19,2023-04-16,Manizales,Mora,Pensionado,Propia,Servicios,pedropablo@gmail.com,3139344540,1
+190,María Fernanda Sánchez Romero,910686287-0,57,7265537.0,27,7271644.0,4,820,149,100.08,2017-04-27,2023-11-02,Manizales,Inactivo,Prestación de servicios,Propia,Comercio,mariafernanda@gmail.com,3208937865,0
+191,Valentina Guerrero Ramírez,826155550-3,22,5084250.0,27,50692894.0,4,860,139,997.06,2019-03-12,2023-12-20,Medellín,Activo,Fijo,Arriendo,Tecnología,valentinaguerrero@gmail.com,3232794516,1
+192,Ricardo Augusto Díaz Ramírez,905467349-3,51,10157819.0,7,57343033.0,1,724,17,564.52,2022-02-06,2024-05-07,Ibagué,Activo,Pensionado,Arriendo,Transporte,ricardoaugusto@gmail.com,3149368955,1
+193,Ana Lucía Ríos Mendoza,957067144-7,54,9701356.0,30,14176195.0,2,431,32,146.13,2019-05-06,2023-11-05,Ibagué,Mora,Prestación de servicios,Familiar,Manufactura,analucia@gmail.com,3295164755,1
+194,Luis Miguel Herrera Guerrero,835801728-2,48,7826507.0,29,59874149.0,4,860,86,765.02,2022-12-25,2024-01-25,Cúcuta,Mora,Fijo,Propia,Comercio,luismiguel@gmail.com,3196793064,0
+195,Sergio Iván Gómez Molina,945623946-5,67,2711755.0,12,44982417.0,6,846,79,1658.79,2019-09-27,2024-04-07,Bogotá,Mora,Indefinido,Propia,Manufactura,sergioivan@hotmail.com,3114353806,1
+196,Jorge Alberto Herrera Ortiz,839306571-0,66,9735753.0,7,60287516.0,0,667,121,619.24,2016-02-24,2023-09-23,Cúcuta,Activo,Pensionado,Propia,Gobierno,jorgealberto@gmail.com,3191788191,0
+197,Alejandro Suárez Jiménez,948209819-0,22,9308535.0,7,49644936.0,7,530,168,533.33,2022-11-26,2023-12-28,Bucaramanga,Mora,Fijo,Familiar,Comercio,alejandrosuarez@hotmail.com,3152249382,1
+198,Sandra Milena Molina Ramírez,901253379-0,49,4430679.0,9,10405322.0,4,305,90,234.85,2020-03-25,2023-12-28,Cali,Activo,Fijo,Arriendo,Transporte,sandramilena@hotmail.com,3296052539,0
+199,Tomás Ríos Ruiz,819563788-5,55,3809601.0,6,41648503.0,8,463,112,1093.25,2021-02-02,2023-07-04,Pereira,Activo,Prestación de servicios,Propia,Comercio,tomasrios@gmail.com,3207053183,1
+200,Sofía Ramos Ríos,900123456-7,29,8523854.0,15,19227830.0,3,340,180,225.58,2018-08-07,2023-01-26,Medellín,Inactivo,Prestación de servicios,Familiar,Construcción,sofiaramos@hotmail.com,3267290752,0
+201,Samuel Guerrero Navarro,900123456-7,63,3521380.0,17,6587636.0,1,471,143,187.08,2020-12-24,2022-01-08,Medellín,Activo,Fijo,Familiar,Manufactura,samuelguerrero@gmail.com,3168302077,0
+202,Pedro Pablo Flores López,900123456-7,24,2418969.0,2,14239373.0,4,871,24,588.65,2021-06-13,2024-04-21,Barranquilla,Inactivo,Pensionado,Arriendo,Servicios,pedropablo@gmail.com,3236308382,1
+203,Claudia Patricia Vega García,900123456-7,26,9437586.0,19,3641348.0,1,666,134,38.58,2016-03-10,2022-10-24,Cartagena,Mora,Indefinido,Arriendo,Servicios,claudiapatricia@gmail.com,3108952193,0
+204,Hernán Darío Torres Romero,900123456-7,62,3012793.0,22,70958250.0,5,311,147,2355.23,2021-03-23,2022-05-25,Medellín,Activo,Indefinido,Familiar,Transporte,hernandario@gmail.com,3272428191,1
+205,Carolina Reyes Suárez,900123456-7,31,3190021.0,8,49350794.0,4,498,35,1547.04,2017-01-12,2023-11-19,Ibagué,Activo,Pensionado,Familiar,Gobierno,carolinareyes@hotmail.com,3125205840,1
+206,Juliana Navarro Castro,900123456-7,64,8382466.0,4,22810972.0,1,498,87,272.13,2020-06-13,2023-04-07,Bucaramanga,Mora,Prestación de servicios,Familiar,Transporte,juliananavarro@hotmail.com,3287115185,0
+207,Laura Rivera García,900123456-7,36,8978091.0,21,34889925.0,5,437,179,388.61,2023-03-22,2022-12-06,Manizales,Inactivo,Pensionado,Arriendo,Construcción,laurarivera@gmail.com,3133948933,0
+208,Luisa María Vargas Torres,900123456-7,38,9202218.0,21,6116990.0,1,319,135,66.47,2022-01-31,2022-02-01,Ibagué,Mora,Pensionado,Familiar,Comercio,luisamaria@gmail.com,3275372416,0
+209,Nicolás Ramos Flores,900123456-7,36,10860094.0,19,58658146.0,4,437,124,540.13,2020-08-14,2023-06-07,Medellín,Inactivo,Prestación de servicios,Familiar,Salud,nicolasramos@gmail.com,3293782393,0
+210,Sergio Iván Guerrero Rivera,900123456-7,58,8423840.0,5,58873585.0,7,667,16,698.89,2017-06-15,2024-02-19,Manizales,Activo,Indefinido,Arriendo,Financiero,sergioivan@hotmail.com,3169688672,0
+211,Valentina Álvarez Ramos,900123456-7,24,11796193.0,11,8258001.0,8,580,73,70.01,2021-06-28,2023-07-12,Ibagué,Activo,Pensionado,Familiar,Manufactura,valentinaalvarez@gmail.com,3129668165,1
+212,Hernán Darío Aguilar Romero,900123456-7,53,9822903.0,29,48336878.0,8,442,118,492.08,2016-11-09,2022-08-24,Medellín,Mora,Prestación de servicios,Propia,Tecnología,hernandario@hotmail.com,3212985251,0
+213,David Castro Ramírez,900123456-7,52,3712391.0,6,51780739.0,6,322,68,1394.81,2015-06-26,2022-05-11,Ibagué,Mora,Fijo,Propia,Gobierno,davidcastro@hotmail.com,3283463987,1
+214,Oscar Eduardo Gómez Aguilar,900123456-7,58,8195038.0,29,57563784.0,4,387,61,702.42,2020-01-14,2023-09-14,Manizales,Inactivo,Fijo,Propia,Manufactura,oscareduardo@gmail.com,3284051509,0
+215,Samuel Ortiz Rivera,900123456-7,51,7763600.0,3,18385103.0,6,435,33,236.81,2015-03-09,2022-07-27,Cúcuta,Mora,Pensionado,Propia,Transporte,samuelortiz@hotmail.com,3251654924,0
+216,Nicolás Molina Ramírez,900123456-7,64,2868453.0,20,43142879.0,0,741,139,1504.05,2019-09-20,2023-01-15,Bogotá,Mora,Pensionado,Propia,Servicios,nicolasmolina@gmail.com,3226880713,0
+217,Tomás Sánchez Mendoza,900123456-7,52,9541518.0,30,68724260.0,4,856,110,720.27,2017-11-21,2022-07-13,Bogotá,Mora,Indefinido,Familiar,Gobierno,tomassanchez@hotmail.com,3107291957,0
+218,Sebastián Suárez Moreno,900123456-7,49,8341547.0,9,20904232.0,8,733,150,250.6,2019-02-06,2023-09-19,Cartagena,Mora,Pensionado,Propia,Manufactura,sebastiansuarez@gmail.com,3279094465,1
+219,Manuela Ríos Ramos,900123456-7,58,5115741.0,23,31850380.0,2,421,64,622.6,2020-01-04,2024-03-12,Cali,Activo,Fijo,Familiar,Manufactura,manuelarios@gmail.com,3271873301,1
+220,Carlos Andrés Pérez Flores,556526,27,2172845.0,8,29666810.0,0,693,108,1365.34,2021-11-19,2023-11-03,Cúcuta,Inactivo,Indefinido,Propia,Servicios,carlosandres@gmail.com,3169693169,1
+221,Juan Carlos Molina Aguilar,745073,32,8577256.0,12,19140530.0,0,461,28,223.15,2018-02-04,2024-03-09,Pereira,Inactivo,Pensionado,Arriendo,Transporte,juancarlos@hotmail.com,3102151205,0
+222,Manuela Herrera Ríos,464354,39,3876103.0,7,36380721.0,6,888,7,938.59,2017-12-05,2022-06-29,Pereira,Mora,Indefinido,Familiar,Educación,manuelaherrera@gmail.com,3202963085,0
+223,Oscar Eduardo Vega Ortiz,495397,58,6578114.0,8,60597863.0,7,771,156,921.2,2015-04-23,2023-05-09,Medellín,Inactivo,Indefinido,Arriendo,Comercio,oscareduardo@gmail.com,3176297082,1
+224,Carolina Aguilar Vega,360316,40,2476599.0,22,59903051.0,5,377,147,2418.76,2017-01-01,2023-05-03,Bucaramanga,Inactivo,Fijo,Familiar,Construcción,carolinaaguilar@hotmail.com,3169371819,0
+225,Natalia Andrea Morales Ortiz,312616,37,10281514.0,12,12479645.0,1,422,26,121.38,2022-07-31,2023-11-11,Manizales,Mora,Indefinido,Familiar,Salud,nataliaandrea@gmail.com,3216291817,0
+226,Tomás Vargas Navarro,393880,47,3831974.0,19,10259676.0,8,733,128,267.74,2021-01-23,2022-02-03,Cúcuta,Inactivo,Pensionado,Familiar,Tecnología,tomasvargas@gmail.com,3139694039,1
+227,Carlos Andrés García Reyes,205641,42,5296824.0,28,20776062.0,8,569,66,392.24,2018-01-08,2023-04-28,Ibagué,Inactivo,Prestación de servicios,Propia,Servicios,carlosandres@gmail.com,3237246319,1
+228,Isabela Vargas Guerrero,237509,58,8703125.0,27,7989579.0,4,541,148,91.8,2019-11-06,2024-05-26,Pereira,Activo,Fijo,Familiar,Tecnología,isabelavargas@gmail.com,3103962978,0
+229,Sergio Iván Aguilar Vega,923481,53,4650359.0,18,68680159.0,0,707,31,1476.88,2022-09-29,2022-06-17,Bogotá,Activo,Prestación de servicios,Arriendo,Educación,sergioivan@gmail.com,3205358202,1
+230,Manuela Ríos Ortiz,531762,29,5186450.0,22,77049325.0,3,890,153,1485.59,2022-04-15,2023-10-27,Cúcuta,Activo,Prestación de servicios,Arriendo,Financiero,manuelarios@gmail.com,3258498243,0
+231,Alejandro Herrera Rojas,275715,62,9981030.0,11,33745319.0,6,373,26,338.09,2016-10-25,2022-12-18,Barranquilla,Inactivo,Prestación de servicios,Familiar,Construcción,alejandroherrera@gmail.com,3297634639,1
+232,Daniel Moreno Aguilar,275445,33,10469224.0,5,58221793.0,4,381,59,556.12,2016-11-14,2023-02-11,Medellín,Activo,Indefinido,Arriendo,Gobierno,danielmoreno@hotmail.com,3229790972,0
+233,Luisa María Sánchez Ortiz,188406,63,11281691.0,13,24749652.0,3,590,119,219.38,2022-01-10,2022-05-10,Cali,Mora,Fijo,Propia,Salud,luisamaria@gmail.com,3208988550,0
+234,Nicolás Vargas Ríos,831510,56,3358885.0,20,36523474.0,6,836,169,1087.37,2022-03-04,2023-07-01,Cartagena,Inactivo,Pensionado,Familiar,Comercio,nicolasvargas@gmail.com,3246165171,1
+235,Oscar Eduardo Flores Medina,802833556-0,55,10061488.0,28,10904036.0,4,780,142,108.37,2015-02-04,2023-12-06,Manizales,Inactivo,Prestación de servicios,Propia,Manufactura,oscareduardo@gmail.com,3294879150,0
+236,Manuela Moreno Díaz,910524504-8,49,5644897.0,6,57195039.0,6,687,62,1013.22,2017-12-13,2022-03-23,Pereira,Mora,Fijo,Familiar,Transporte,manuelamoreno@gmail.com,3185776085,0
+237,Nicolás Vargas Suárez,850466032-1,33,2934552.0,4,50951417.0,7,578,165,1736.26,2020-07-08,2022-07-12,Bucaramanga,Activo,Fijo,Propia,Gobierno,nicolasvargas@hotmail.com,3135733096,1
+238,Daniel García Cruz,824212069-2,22,6682585.0,11,33619442.0,7,680,124,503.09,2022-10-25,2024-03-21,Bogotá,Inactivo,Indefinido,Propia,Salud,danielgarcia@hotmail.com,3222197636,1
+239,Sandra Milena Díaz Ortiz,902428904-0,29,11733284.0,23,19916989.0,7,553,14,169.75,2017-03-26,2023-04-17,Medellín,Mora,Fijo,Arriendo,Manufactura,sandramilena@gmail.com,3196420100,1
+240,Juan Carlos Ríos Aguilar,832787112-4,52,8204460.0,7,28834132.0,0,523,34,351.44,2017-08-24,2023-10-11,Pereira,Inactivo,Indefinido,Propia,Construcción,juancarlos@gmail.com,3225078362,1
+241,Juan Carlos Ramos Flores,899696569-1,37,3155834.0,3,54875572.0,5,361,21,1738.86,2018-12-27,2023-10-23,Cali,Mora,Indefinido,Propia,Servicios,juancarlos@hotmail.com,3276827024,0
+242,Daniel Díaz López,985019132-6,44,9106191.0,9,71893044.0,7,748,149,789.5,2018-04-22,2023-07-10,Manizales,Activo,Fijo,Familiar,Financiero,danieldiaz@gmail.com,3245619177,0
+243,Manuela Rivera González,942576118-2,50,4604563.0,9,43328476.0,7,300,169,940.99,2020-09-03,2023-01-24,Cali,Activo,Prestación de servicios,Familiar,Comercio,manuelarivera@gmail.com,3127501017,1
+244,Daniela Ríos Flores,964561469-4,42,5802948.0,11,8837131.0,8,368,17,152.29,2016-06-15,2022-07-02,Bogotá,Activo,Indefinido,Arriendo,Comercio,danielarios@hotmail.com,3287519606,0
+245,Sofía Ortiz Rodríguez,898342409-3,60,9037375.0,1,74416883.0,3,803,26,823.43,2020-04-01,2024-03-31,Bogotá,Inactivo,Pensionado,Arriendo,Salud,sofiaortiz@gmail.com,3189875496,1
+246,Pedro Pablo Medina González,857955231-8,28,2562864.0,8,42532884.0,3,497,140,1659.58,2022-05-14,2022-09-12,Ibagué,Mora,Fijo,Familiar,Gobierno,pedropablo@gmail.com,3137005628,0
+247,Laura Sánchez Rivera,848424826-8,47,6799274.0,22,12654116.0,7,660,86,186.11,2021-03-03,2022-11-29,Bucaramanga,Inactivo,Pensionado,Familiar,Financiero,laurasanchez@gmail.com,3284589118,1
+248,Manuela Ortiz Moreno,921441132-7,47,1502054.0,2,78636518.0,0,830,40,5235.27,2018-05-21,2022-01-07,Cartagena,Activo,Fijo,Arriendo,Salud,manuelaortiz@gmail.com,3189577712,1
+249,Tomás Flores Sánchez,810129761-7,44,3139125.0,9,29366631.0,3,538,71,935.5,2018-05-15,2022-04-05,Ibagué,Inactivo,Fijo,Familiar,Educación,tomasflores@gmail.com,3253900822,0
+250,Tomás Sánchez Medina,810031860-9,46,2324013.0,2,73749720.0,5,656,117,3173.38,2019-09-03,2024-06-07,Medellín,Activo,Indefinido,Familiar,Manufactura,tomassanchez@hotmail.com,3261690923,1
+251,Tomás Flores Jiménez,934862404-3,31,2030458.0,24,79789384.0,7,889,135,3929.62,2016-01-04,2022-08-16,Pereira,Inactivo,Pensionado,Propia,Tecnología,tomasflores@gmail.com,3251827302,1
+252,Oscar Eduardo Pérez Romero,934707116-6,66,2868939.0,5,38473800.0,3,799,107,1341.05,2022-04-25,2023-08-09,Barranquilla,Mora,Fijo,Propia,Educación,oscareduardo@hotmail.com,3236425946,0
+253,Tomás Pérez Ramírez,980320861-6,49,5335310.0,7,25659069.0,0,612,49,480.93,2018-12-03,2023-09-24,Manizales,Mora,Fijo,Arriendo,Salud,tomasperez@gmail.com,3174350161,0
+254,Diana Carolina Pérez Ramírez,998529932-0,37,11463880.0,30,11814166.0,4,314,93,103.06,2022-10-12,2024-04-03,Medellín,Inactivo,Pensionado,Arriendo,Salud,dianacarolina@gmail.com,3274554677,1
+255,Sofía Ortiz Ríos,929661392-9,68,11919172.0,23,55900419.0,0,685,155,469.0,2022-06-10,2023-06-24,Bogotá,Inactivo,Fijo,Propia,Construcción,sofiaortiz@hotmail.com,3295551347,1
+256,Carlos Andrés González Álvarez,977267481-4,64,10446871.0,22,28817531.0,1,319,80,275.85,2022-04-13,2023-01-31,Barranquilla,Inactivo,Indefinido,Arriendo,Servicios,carlosandres@gmail.com,3272476741,1
+257,Samuel Rojas Ríos,991251993-0,24,4097617.0,17,24394202.0,7,702,46,595.33,2015-03-17,2022-12-22,Bucaramanga,Inactivo,Prestación de servicios,Propia,Gobierno,samuelrojas@hotmail.com,3115323142,0
+258,María Fernanda Ríos Vargas,860554395-2,43,10920341.0,22,10980854.0,6,833,179,100.55,2021-11-13,2024-06-12,Barranquilla,Inactivo,Fijo,Familiar,Tecnología,mariafernanda@gmail.com,3196524481,1
+259,Sergio Iván Reyes Torres,955969241-8,65,9901103.0,28,11048771.0,8,438,116,111.59,2023-08-21,2022-05-29,Ibagué,Activo,Prestación de servicios,Propia,Gobierno,sergioivan@gmail.com,3134089276,1
+260,Diana Carolina López Jiménez,911143056-6,41,6151547.0,30,65735881.0,4,455,54,1068.61,2016-03-13,2022-05-15,Cali,Activo,Prestación de servicios,Familiar,Transporte,dianacarolina@gmail.com,3294895376,1
+261,María Fernanda Ruiz Pérez,984721518-7,30,6774408.0,20,37501080.0,5,488,105,553.57,2020-07-05,2023-05-01,Cali,Activo,Fijo,Propia,Salud,mariafernanda@gmail.com,3105527477,0
+262,Hernán Darío Díaz Reyes,817753335-2,50,10604855.0,16,55029016.0,7,552,115,518.9,2019-07-17,2024-03-05,Bogotá,Mora,Pensionado,Familiar,Financiero,hernandario@gmail.com,3289995261,1
+263,Juan Carlos Aguilar Sánchez,921228026-7,24,10716689.0,8,41496212.0,6,340,148,387.21,2019-05-06,2023-06-13,Bogotá,Activo,Prestación de servicios,Arriendo,Manufactura,juancarlos@gmail.com,3198740121,1
+264,Fabio Alejandro Rodríguez Aguilar,838182156-7,63,6242830.0,24,40052623.0,2,899,145,641.58,2016-07-08,2023-02-07,Pereira,Inactivo,Pensionado,Propia,Tecnología,fabioalejandro@gmail.com,3168628318,1
+265,Sebastián Rivera Ramírez,824478962-1,67,6218683.0,12,6824524.0,6,823,162,109.74,2016-10-16,2023-01-23,Cúcuta,Inactivo,Indefinido,Propia,Financiero,sebastianrivera@gmail.com,3143719990,0
+266,Sandra Milena Rodríguez Suárez,882694818-4,68,9570619.0,15,23102443.0,2,420,39,241.39,2017-04-10,2022-01-04,Ibagué,Inactivo,Indefinido,Arriendo,Servicios,sandramilena@gmail.com,3271096478,0
+267,Daniela Morales Reyes,958071526-7,51,5806589.0,3,48097325.0,0,550,146,828.32,2018-02-13,2023-09-27,Cúcuta,Activo,Indefinido,Propia,Tecnología,danielamorales@hotmail.com,3211616077,1
+268,Juan Carlos Medina Castro,823542511-0,28,5878048.0,6,12906818.0,4,886,149,219.58,2016-12-27,2023-04-12,Ibagué,Inactivo,Indefinido,Propia,Construcción,juancarlos@gmail.com,3222135258,0
+269,Manuela González Herrera,926383934-2,29,8793504.0,9,26336682.0,6,837,59,299.5,2022-10-21,2022-08-03,Ibagué,Activo,Indefinido,Familiar,Gobierno,manuelagonzalez@gmail.com,3255818203,1
+270,Sebastián Ortiz Aguilar,954388688-9,44,11234606.0,20,45010747.0,8,809,132,400.64,2017-01-06,2024-06-23,Ibagué,Activo,Prestación de servicios,Propia,Salud,sebastianortiz@hotmail.com,3242978465,0
+271,Gloria Esperanza Suárez Suárez,812211717-5,44,7384363.0,21,16987035.0,3,588,71,230.04,2023-11-11,2022-03-11,Cartagena,Inactivo,Prestación de servicios,Propia,Educación,gloriaesperanza@gmail.com,3207644605,0
+272,María Fernanda Gómez Díaz,888721899-5,65,6530637.0,16,63780351.0,2,793,45,976.63,2022-01-13,2023-04-17,Cúcuta,Inactivo,Pensionado,Arriendo,Salud,mariafernanda@gmail.com,3196293259,0
+273,María Fernanda Reyes Castro,894917581-1,31,4444830.0,1,27132193.0,6,847,48,610.42,2021-05-27,2023-09-13,Pereira,Activo,Indefinido,Arriendo,Financiero,mariafernanda@gmail.com,3187943579,1
+274,Natalia Andrea Moreno Guerrero,881236274-3,55,4674342.0,4,29937255.0,0,506,29,640.46,2019-12-23,2023-06-03,Bogotá,Inactivo,Fijo,Propia,Financiero,nataliaandrea@gmail.com,3266206955,0
+275,Diana Carolina Sánchez Aguilar,981654913-2,35,9107992.0,15,31007057.0,8,418,7,340.44,2018-06-27,2022-02-15,Ibagué,Activo,Prestación de servicios,Arriendo,Salud,dianacarolina@hotmail.com,3191377156,0
+276,Paola Andrea Reyes Jiménez,853836210-3,40,4404820.0,11,61822968.0,1,579,44,1403.53,2016-10-07,2022-10-08,Medellín,Activo,Indefinido,Propia,Gobierno,paolaandrea@gmail.com,3205547499,1
+277,Fabio Alejandro Morales Rivera,819124113-4,61,10868553.0,18,35491811.0,2,329,126,326.56,2022-07-29,2022-02-21,Medellín,Inactivo,Indefinido,Propia,Manufactura,fabioalejandro@gmail.com,3298479891,0
+278,Paola Andrea Castro Díaz,991367283-8,27,11723660.0,25,61154263.0,2,395,125,521.63,2016-02-03,2023-04-12,Cartagena,Mora,Pensionado,Arriendo,Comercio,paolaandrea@gmail.com,3145329406,0
+279,Isabela Gómez Castro,887177391-7,53,1817773.0,16,9030965.0,7,772,49,496.81,2018-03-02,2024-02-26,Bucaramanga,Mora,Fijo,Familiar,Educación,isabelagomez@gmail.com,3136467186,1
+280,Pedro Pablo Medina Vega,923741995-6,59,5841140.0,20,19495285.0,2,793,104,333.76,2015-09-28,2022-12-15,Barranquilla,Mora,Pensionado,Arriendo,Transporte,pedropablo@gmail.com,3274962012,1
+281,Pedro Pablo Navarro Ramírez,958957580-9,51,4916470.0,4,65761844.0,2,615,109,1337.58,2015-10-13,2023-09-05,Medellín,Mora,Pensionado,Arriendo,Servicios,pedropablo@gmail.com,3112518891,1
+282,Sergio Iván García Flores,977403999-2,50,7078186.0,13,49245773.0,7,500,58,695.74,2022-08-23,2024-06-17,Bucaramanga,Inactivo,Prestación de servicios,Arriendo,Financiero,sergioivan@gmail.com,3281136218,0
+283,Samuel Romero Torres,878969594-0,45,10961295.0,2,67465.0,8,667,34,0.62,2018-03-01,2024-06-05,Bogotá,Activo,Pensionado,Familiar,Transporte,samuelromero@gmail.com,3207422144,0
+284,Laura Vega Reyes,977835150-2,52,2960223.0,18,30767605.0,5,727,45,1039.37,2018-03-27,2024-06-12,Cali,Activo,Indefinido,Propia,Salud,lauravega@hotmail.com,3258327199,0
+285,Sergio Iván Pérez Torres,972400764-6,51,10882616.0,23,48354361.0,6,484,122,444.33,2020-09-17,2023-03-11,Cúcuta,Inactivo,Pensionado,Arriendo,Comercio,sergioivan@hotmail.com,3291124654,0
+286,Natalia Andrea Molina Vargas,910283434-8,58,5353185.0,2,45451966.0,5,415,154,849.06,2020-05-26,2023-12-09,Medellín,Activo,Prestación de servicios,Arriendo,Gobierno,nataliaandrea@hotmail.com,3292483883,1
+287,Pedro Pablo Vega Medina,964561435-0,43,7117849.0,1,37509505.0,8,780,152,526.98,2023-03-25,2022-12-06,Pereira,Inactivo,Prestación de servicios,Arriendo,Tecnología,pedropablo@hotmail.com,3296101462,0
+288,Tomás Ortiz Rodríguez,968926446-7,59,3275332.0,2,52505591.0,4,327,79,1603.06,2020-06-08,2022-03-26,Cali,Mora,Indefinido,Arriendo,Construcción,tomasortiz@hotmail.com,3185617376,0
+289,Carlos Andrés Ramírez Gómez,958852082-2,64,6189858.0,26,14031949.0,3,796,52,226.69,2023-12-19,2023-06-25,Bogotá,Inactivo,Indefinido,Propia,Transporte,carlosandres@gmail.com,3149320631,0
+290,David Álvarez Morales,977346525-7,68,8194534.0,7,46220592.0,5,355,170,564.04,2017-12-18,2024-02-13,Medellín,Activo,Fijo,Arriendo,Manufactura,davidalvarez@gmail.com,3259934217,1
+291,Alejandro Ramos Ortiz,838963361-8,49,1624562.0,30,63784724.0,6,623,141,3926.27,2022-08-29,2022-02-12,Medellín,Mora,Prestación de servicios,Arriendo,Transporte,alejandroramos@gmail.com,3186619820,1
+292,Andrés Felipe Ortiz Romero,923777895-3,68,8554843.0,25,15594055.0,5,484,86,182.28,2021-02-21,2022-01-11,Bogotá,Activo,Indefinido,Arriendo,Educación,andresfelipe@gmail.com,3246897466,1
+293,Fabio Alejandro Ortiz Díaz,809138017-0,61,2465383.0,20,52528441.0,3,424,36,2130.64,2015-12-20,2024-05-26,Ibagué,Activo,Pensionado,Familiar,Transporte,fabioalejandro@gmail.com,3152859671,0
+294,Oscar Eduardo Herrera Rojas,977295670-1,62,6261160.0,9,61548730.0,5,563,47,983.02,2023-10-03,2022-03-17,Cartagena,Activo,Pensionado,Arriendo,Financiero,oscareduardo@gmail.com,3185440339,1
+295,Pedro Pablo Navarro Díaz,963826665-6,33,8277573.0,4,11509808.0,6,523,163,139.05,2022-03-20,2022-04-19,Manizales,Mora,Prestación de servicios,Propia,Salud,pedropablo@hotmail.com,3285204309,0
+296,María Fernanda Navarro Flores,975252202-0,24,8478361.0,9,12128598.0,5,700,153,143.05,2015-01-16,2023-06-12,Manizales,Inactivo,Pensionado,Arriendo,Educación,mariafernanda@gmail.com,3107449562,0
+297,Mateo Ramírez Vega,896346404-5,65,4679695.0,2,50581802.0,1,674,142,1080.88,2018-10-24,2022-03-24,Manizales,Inactivo,Fijo,Propia,Gobierno,mateoramirez@hotmail.com,3224204501,1
+298,Alejandro Sánchez Ruiz,930594801-1,62,6098829.0,7,11195436.0,3,325,157,183.57,2017-09-03,2023-05-16,Pereira,Activo,Prestación de servicios,Arriendo,Gobierno,alejandrosanchez@gmail.com,3241275453,1
+299,Ana Lucía Castro Martínez,908852686-1,35,9974589.0,22,41849571.0,8,452,154,419.56,2017-08-12,2022-03-15,Bogotá,Mora,Fijo,Arriendo,Salud,analucia@gmail.com,3291768424,1
+300,Sergio Iván García Gómez,969828766-0,41,50000000,15,48898071.0,1,408,35,97.8,2020-07-29,2023-09-02,Ibagué,Activo,Indefinido,Propia,Manufactura,sergioivan@gmail.com,3226439759,1
+301,Tomás Vega Torres,886326127-3,24,-500000,3,9659639.0,2,725,49,104.44,2021-03-16,2022-06-18,Manizales,Activo,Indefinido,Propia,Educación,tomasvega@gmail.com,3297310431,0
+9,Daniela Pérez García,801939177-2,27,-500000,14,55480282.0,7,429,58,21.46,2018-01-14,2023-06-20,Manizales,Inactivo,Fijo,Propia,Transporte,danielaperez@gmail.com,3294019906,0
+303,Luisa María Medina Ruiz,912416977-0,57,50000000,17,78143318.0,5,852,135,156.29,2017-06-17,2023-04-21,Barranquilla,Inactivo,Indefinido,Propia,Educación,luisamaria@gmail.com,3259346913,1
+304,Juan Carlos Rodríguez Moreno,876521424-3,49,0,2,8353688.0,0,850,51,23.71,2015-04-30,2023-05-12,Cúcuta,Activo,Indefinido,Propia,Servicios,juancarlos@gmail.com,3208030765,0
+305,Sebastián Cruz Ramírez,887545452-3,28,0,28,15996467.0,3,375,126,87.76,2015-08-11,2024-06-30,Pereira,Activo,Fijo,Familiar,Servicios,sebastiancruz@hotmail.com,3213288489,0
+306,Ricardo Augusto Ruiz Vargas,854280573-5,30,50000000,9,10920120.0,7,769,113,21.84,2016-12-02,2024-02-18,Bucaramanga,Activo,Prestación de servicios,Familiar,Tecnología,ricardoaugusto@gmail.com,3293851044,0
+307,Manuela Cruz Pérez,910513841-8,53,100000000,19,37879119.0,7,585,9,37.88,2023-03-10,2023-03-15,Barranquilla,Activo,Prestación de servicios,Arriendo,Transporte,manuelacruz@hotmail.com,3283499296,0
+308,Carlos Andrés Suárez Martínez,810753169-7,68,50000000,14,42489738.0,7,400,121,84.98,2020-07-21,2022-09-04,Medellín,Mora,Indefinido,Familiar,Manufactura,carlosandres@gmail.com,3147013049,1
+309,Luisa María López Ramos,979592879-4,32,50000000,15,37100851.0,2,715,53,74.2,2023-11-10,2024-06-11,Bucaramanga,Mora,Pensionado,Familiar,Salud,luisamaria@gmail.com,3127457202,0
+310,Luis Miguel Aguilar Martínez,879615267-6,39,100000000,26,54773215.0,5,356,137,54.77,2022-07-26,2023-01-08,Bogotá,Activo,Pensionado,Arriendo,Servicios,luismiguel@gmail.com,3217147725,0
+311,Manuela González Ríos,990411236-3,30,100000000,18,9084614.0,7,894,59,9.08,2023-06-12,2024-02-02,Barranquilla,Inactivo,Prestación de servicios,Arriendo,Gobierno,manuelagonzalez@gmail.com,3181913687,1
+312,Carolina Guerrero Navarro,934606985-8,29,-500000,15,49676101.0,1,492,123,13.1,2019-05-20,2022-07-03,Cartagena,Activo,Indefinido,Propia,Construcción,carolinaguerrero@hotmail.com,3149327014,1
+313,Gloria Esperanza Aguilar López,878697073-6,65,100000000,16,27736020.0,7,321,80,27.74,2017-02-13,2022-03-06,Bogotá,Activo,Prestación de servicios,Arriendo,Transporte,gloriaesperanza@gmail.com,3209156216,0
+314,Sofía Ríos Guerrero,922945342-4,58,-500000,6,63141416.0,3,795,101,145.61,2023-08-19,2024-05-15,Bogotá,Activo,Prestación de servicios,Arriendo,Servicios,sofiarios@gmail.com,3293697606,0
+315,Fabio Alejandro Gómez Gómez,990082140-2,32,,2,79501843.0,2,751,72,55.45,2017-04-20,2023-07-30,Bogotá,Mora,Prestación de servicios,Arriendo,Tecnología,fabioalejandro@gmail.com,3273727935,0
+316,Claudia Patricia López Romero,934061206-2,51,,5,343544.0,8,819,90,97.09,2018-04-25,2023-05-01,Cartagena,Mora,Fijo,Familiar,Servicios,claudiapatricia@gmail.com,3139035971,0
+317,Sergio Iván Ríos Ramírez,882700187-0,47,,8,35677815.0,1,634,20,91.22,2017-03-10,2023-08-21,Cúcuta,Activo,Prestación de servicios,Propia,Salud,sergioivan@hotmail.com,3242465941,0
+318,Isabela Díaz Navarro,885297463-9,60,,2,72675756.0,5,707,43,107.39,2019-10-18,2023-01-14,Pereira,Inactivo,Indefinido,Arriendo,Financiero,isabeladiaz@gmail.com,3242469661,1
+319,Daniel Suárez Guerrero,877479604-2,68,,14,58288441.0,6,442,156,89.69,2016-08-11,2022-08-01,Cartagena,Inactivo,Prestación de servicios,Propia,Transporte,danielsuarez@gmail.com,3121111046,1
+320,Marcela Cristina Suárez Gómez,949200143-7,67,,30,10954163.0,2,690,80,83.08,2015-06-22,2024-04-22,Cartagena,Mora,Prestación de servicios,Arriendo,Gobierno,marcelacristina@gmail.com,3171450300,0
+321,Diana Carolina Ortiz Medina,971947728-7,29,,29,23015123.0,2,803,171,36.71,2016-05-03,2024-02-23,Cartagena,Inactivo,Indefinido,Familiar,Financiero,dianacarolina@gmail.com,3288316015,0
+322,Mateo Ramírez Moreno,937580114-9,23,,6,46532360.0,2,627,124,131.75,2016-07-08,2023-01-01,Cali,Activo,Prestación de servicios,Arriendo,Manufactura,mateoramirez@gmail.com,3211817300,1
+323,Sofía González Molina,852026772-2,28,,6,43496987.0,5,608,75,102.82,2022-09-20,2023-01-07,Medellín,Mora,Prestación de servicios,Propia,Salud,sofiagonzalez@hotmail.com,3197258139,0
+324,David Castro Rivera,827492584-3,31,,27,15073343.0,8,838,142,106.88,2022-11-16,2024-02-14,Medellín,Inactivo,Pensionado,Propia,Educación,davidcastro@gmail.com,3109044980,1
+325,Valentina Torres Guerrero,960430085-8,43,3308175.0,10,2300763.0,1,527,38,69.55,2022-10-14,2022-05-26,Barranquilla,Inactivo,Fijo,Propia,Tecnología,valentinatorres@gmail.com,3232874387,1
+326,Mateo Mendoza Martínez,852707568-1,24,9827079.0,17,47454094.0,7,421,70,482.89,2015-06-27,2022-03-09,Cartagena,Mora,Indefinido,Propia,Educación,mateomendoza@gmail.com,3164355853,1
+327,Carolina López Pérez,839072653-4,59,5152284.0,6,68411047.0,3,817,151,1327.78,2015-10-07,2022-04-12,Ibagué,Activo,Fijo,Familiar,Comercio,carolinalopez@gmail.com,3151072627,0
+328,Andrés Felipe Reyes Molina,989986828-7,45,8830396.0,6,35173266.0,1,485,96,398.32,2019-04-04,2023-03-11,Barranquilla,Mora,Fijo,Arriendo,Educación,andresfelipe@gmail.com,3203073922,0
+329,Sofía Torres Navarro,896972430-4,57,9082434.0,3,26249233.0,1,694,78,289.01,2020-02-15,2023-09-07,Cartagena,Mora,Pensionado,Propia,Gobierno,sofiatorres@gmail.com,3234167286,0
+330,Mateo Moreno Gómez,803432173-7,65,2604305.0,15,41812990.0,1,422,42,1605.53,2019-06-06,2023-02-15,Ibagué,Activo,Fijo,Propia,Financiero,mateomoreno@gmail.com,3204359863,0
+331,Isabela Ramírez Cruz,914005666-7,39,9530579.0,25,46553490.0,4,709,97,488.46,2020-05-02,2023-11-14,Ibagué,Inactivo,Pensionado,Familiar,Construcción,isabelaramirez@hotmail.com,3242812554,1
+332,Daniela Navarro Cruz,968677063-2,23,2545836.0,2,66424997.0,7,327,51,2609.16,2019-04-17,2023-09-12,Bucaramanga,Activo,Prestación de servicios,Familiar,Transporte,danielanavarro@hotmail.com,3129723295,0
+333,Camila Díaz Herrera,977729299-7,53,6800345.0,18,27489252.0,8,859,10,404.23,2023-07-27,2022-02-02,Pereira,Activo,Pensionado,Arriendo,Financiero,camiladiaz@gmail.com,3248711752,1
+334,Sandra Milena Ríos Medina,989531325-2,53,6022152.0,10,57257855.0,7,412,151,950.79,2022-07-27,2023-05-18,Cúcuta,Mora,Pensionado,Arriendo,Gobierno,sandramilena@gmail.com,3261935113,1
+335,Daniela Álvarez Ruiz,876353120-5,25,1795543.0,2,10255845.0,5,657,155,571.18,2015-04-21,2024-02-23,Bucaramanga,Inactivo,Indefinido,Arriendo,Financiero,danielaalvarez@gmail.com,3236893320,1
+336,Natalia Andrea Morales Morales,973968409-4,59,2391888.0,23,5240019.0,4,417,92,219.07,2016-11-26,2022-01-21,Cúcuta,Inactivo,Indefinido,Arriendo,Manufactura,nataliaandrea@gmail.com,3235473122,1
+337,Mateo López Jiménez,901398163-9,46,4885424.0,4,64666125.0,1,510,92,1323.65,2020-07-27,2023-05-30,Bucaramanga,Activo,Prestación de servicios,Arriendo,Manufactura,mateolopez@hotmail.com,3129989803,1
+338,Oscar Eduardo Rodríguez Medina,953953288-6,36,8058009.0,3,57416547.0,1,644,75,712.54,2015-10-03,2023-08-04,Cúcuta,Inactivo,Pensionado,Propia,Financiero,oscareduardo@gmail.com,3199466446,0
+339,Laura Vega Jiménez,853707756-6,47,4138280.0,17,36258288.0,8,484,10,876.17,2022-01-15,2023-12-22,Cúcuta,Activo,Pensionado,Propia,Servicios,lauravega@hotmail.com,3278276689,0
+340,Ana Lucía Aguilar Díaz,897784236-7,31,4023926.0,24,54824531.0,4,745,111,1362.46,2018-07-29,2024-05-30,Medellín,Mora,Fijo,Arriendo,Construcción,analucia@gmail.com,3155302460,0
+341,Natalia Andrea Romero Morales,830483148-2,34,1790894.0,26,66178306.0,7,797,149,3695.27,2019-11-22,2023-03-09,Bogotá,Activo,Fijo,Arriendo,Tecnología,nataliaandrea@hotmail.com,3183952542,1
+342,Juan Carlos Navarro López,814851801-1,42,7816797.0,28,5086536.0,6,672,177,65.07,2022-05-16,2024-06-25,Medellín,Inactivo,Fijo,Propia,Educación,juancarlos@gmail.com,3263024047,1
+343,Juliana Aguilar Ortiz,933265077-1,37,7798124.0,25,64534980.0,5,898,105,827.57,2023-05-24,2024-02-01,Barranquilla,Inactivo,Fijo,Propia,Educación,julianaaguilar@hotmail.com,3188373173,0
+344,Juliana Rodríguez Navarro,943202255-5,66,11461464.0,11,43659603.0,7,552,77,380.93,2023-10-18,2022-05-29,Bucaramanga,Inactivo,Prestación de servicios,Arriendo,Salud,julianarodriguez@gmail.com,3291584005,0
+345,Ana Lucía Morales Ortiz,948371767-6,41,8208965.0,23,29028408.0,1,847,66,353.62,2019-12-18,2023-02-02,Bogotá,Inactivo,Prestación de servicios,Arriendo,Educación,analucia@gmail.com,3175989928,1
+346,Jorge Alberto Guerrero Jiménez,972987727-6,24,4377384.0,3,65855822.0,7,782,111,1504.46,2018-09-24,2024-01-05,Pereira,Activo,Fijo,Familiar,Construcción,jorgealberto@gmail.com,3218061035,0
+347,Manuela Jiménez Rojas,986619040-0,25,8234414.0,6,50412507.0,2,303,108,612.22,2017-03-30,2023-10-06,Cartagena,Inactivo,Indefinido,Propia,Tecnología,manuelajimenez@hotmail.com,3147883963,0
+348,Sebastián Guerrero Ramos,997346261-2,38,3321530.0,19,66141489.0,4,503,27,1991.3,2019-08-25,2023-01-12,Cali,Inactivo,Pensionado,Familiar,Comercio,sebastianguerrero@hotmail.com,3104837070,0
+349,Camila Díaz Ortiz,988243357-2,25,5710867.0,14,48031418.0,2,391,100,841.05,2016-11-27,2023-08-04,Medellín,Activo,Pensionado,Arriendo,Servicios,camiladiaz@hotmail.com,3164196800,0
+350,Marcela Cristina Herrera Navarro,902562079-2,49,10491546.0,20,17245328.0,4,493,113,164.37,14.3.2000,2022-09-26,Barranquilla,Mora,Pensionado,Propia,Financiero,marcelacristina@gmail.com,3242438456,1
+351,Sergio Iván Jiménez Romero,984375550-3,67,5526702.0,14,58888328.0,4,374,30,1065.52,1-2-2010,2023-04-28,Bucaramanga,Mora,Indefinido,Propia,Construcción,sergioivan@gmail.com,3226075231,0
+352,Valentina Torres Ríos,811039404-9,33,4233062.0,17,39427186.0,5,779,39,931.41,2016/12/11,2022-05-26,Cartagena,Activo,Prestación de servicios,Propia,Tecnología,valentinatorres@gmail.com,3187049733,0
+353,Fabio Alejandro Ortiz Ortiz,938773798-5,49,10873054.0,11,58949539.0,7,454,148,542.16,8-21-2001,2022-06-02,Bogotá,Activo,Fijo,Propia,Servicios,fabioalejandro@hotmail.com,3248322078,1
+354,Daniela Martínez Guerrero,895702638-8,53,6306477.0,4,67667068.0,2,426,95,1072.98,5-7-2005,2024-02-07,Cúcuta,Inactivo,Fijo,Familiar,Salud,danielamartinez@gmail.com,3284029442,0
+355,Pedro Pablo Morales Navarro,981706247-1,43,1772603.0,22,78506758.0,1,703,101,4428.9,4/6/2004,2022-03-25,Manizales,Mora,Pensionado,Arriendo,Construcción,pedropablo@gmail.com,3106526866,0
+356,Daniel Jiménez Torres,856738359-0,63,4471017.0,26,4442802.0,1,860,160,99.37,7-3-2008,2022-09-03,Pereira,Activo,Indefinido,Propia,Tecnología,danieljimenez@gmail.com,3225780430,0
+357,Diana Carolina Ramírez Medina,931760227-6,41,10989210.0,20,10502933.0,1,676,137,95.57,2012/8/16,2022-10-02,Ibagué,Mora,Pensionado,Propia,Manufactura,dianacarolina@gmail.com,3294126532,0
+358,Laura Pérez Martínez,937799048-5,51,8602620.0,21,54898923.0,2,807,140,638.17,21.9.2002,2023-04-25,Pereira,Activo,Pensionado,Arriendo,Tecnología,lauraperez@gmail.com,3195171713,0
+359,Fabio Alejandro Rodríguez Ríos,820544041-0,54,2630138.0,14,33041552.0,7,882,70,1256.27,9-10-2002,2022-01-17,Medellín,Mora,Pensionado,Propia,Tecnología,fabioalejandro@gmail.com,3112397383,1
+360,Paola Andrea Jiménez Rojas,979921513-7,61,9982258.0,11,77337570.0,2,516,53,774.75,24/10/2008,2023-03-21,Cúcuta,Activo,Indefinido,Arriendo,Educación,paolaandrea@hotmail.com,3258720254,0
+361,Daniela Medina Moreno,985398247-6,41,2420169.0,5,1110073.0,1,316,54,45.87,8-7-2020,2023-10-28,Barranquilla,Inactivo,Fijo,Propia,Construcción,danielamedina@gmail.com,3148952217,0
+362,Claudia Patricia Rivera Flores,998315062-7,53,6450637.0,28,35961302.0,3,506,81,557.48,27.7.2001,2022-01-09,Medellín,Mora,Pensionado,Arriendo,Servicios,claudiapatricia@gmail.com,3295878387,1
+363,Isabela Navarro Molina,958655896-9,65,11003268.0,28,39032120.0,0,840,10,354.73,19/6/2017,2022-10-02,Pereira,Inactivo,Indefinido,Arriendo,Transporte,isabelanavarro@gmail.com,3218521651,0
+364,María Fernanda Rivera Herrera,994940280-3,52,5110398.0,8,40610876.0,5,779,39,794.67,2012/12/24,2024-05-03,Bucaramanga,Inactivo,Fijo,Familiar,Comercio,mariafernanda@hotmail.com,3129101545,1
+365,Ricardo Augusto Rivera Navarro,827086137-6,53,4688345.0,7,44546441.0,0,667,72,950.15,2026-11-25,2022-06-12,Cali,Mora,Indefinido,Propia,Financiero,ricardoaugusto@gmail.com,3294803231,1
+366,Hernán Darío Navarro Ortiz,891355085-5,24,9585996.0,18,21399299.0,2,827,160,223.24,2025-04-17,2023-12-25,Bogotá,Inactivo,Pensionado,Propia,Educación,hernandario@gmail.com,3292709062,0
+367,Juan Carlos Molina Sánchez,844841149-1,35,11065351.0,6,58267942.0,7,818,133,526.58,2025-04-12,2022-06-07,Bucaramanga,Inactivo,Fijo,Propia,Comercio,juancarlos@gmail.com,3231110521,1
+368,Mateo Castro Herrera,935566007-2,27,4293164.0,23,60387617.0,5,551,44,1406.6,2026-06-27,2023-03-08,Barranquilla,Activo,Pensionado,Arriendo,Manufactura,mateocastro@gmail.com,3267069566,0
+369,Daniel Flores García,992636190-8,26,2390171.0,11,32132069.0,2,744,21,1344.34,2025-02-07,2023-11-08,Cali,Mora,Indefinido,Familiar,Gobierno,danielflores@gmail.com,3237744488,0
+370,Manuela Medina Jiménez,892384038-0,39,10952189.0,20,73636047.0,6,756,170,672.34,2017-04-20,2013-01-19,Ibagué,Mora,Pensionado,Familiar,Financiero,manuelamedina@gmail.com,3224310073,0
+371,Luisa María Martínez Vega,889789761-6,68,9048246.0,29,10080452.0,8,590,60,111.41,2016-01-16,2013-02-04,Cartagena,Mora,Prestación de servicios,Familiar,Tecnología,luisamaria@hotmail.com,3275340101,1
+372,Paola Andrea Mendoza Molina,829646522-0,45,4227443.0,17,28357868.0,0,427,120,670.8,2018-05-05,2014-02-18,Bogotá,Inactivo,Prestación de servicios,Propia,Transporte,paolaandrea@gmail.com,3274923148,1
+373,Fabio Alejandro Torres Álvarez,939496953-3,28,4942393.0,19,15404421.0,5,765,31,311.68,2016-08-23,2012-05-21,Pereira,Activo,Indefinido,Propia,Manufactura,fabioalejandro@gmail.com,3254603484,0
+374,Valentina Aguilar Romero,957904326-8,55,9677660.0,28,21095497.0,7,733,118,217.98,2022-09-23,2014-02-07,Pereira,Activo,Fijo,Familiar,Tecnología,valentinaaguilar@gmail.com,3243170723,0
+375,Samuel Aguilar Ramírez,986420560-3,51,6470233.0,24,12547176.0,8,678,36,193.92,2021-09-30,2012-04-16,Medellín,Activo,Prestación de servicios,Familiar,Construcción,samuelaguilar@hotmail.com,3142975386,1
+376,Valentina Medina Herrera,930439644-0,31,2992468.0,19,33740557.0,4,590,61,1127.52,2017-01-19,2014-02-23,Manizales,Activo,Indefinido,Familiar,Financiero,valentinamedina@hotmail.com,3118005748,0
+377,Paola Andrea Guerrero Castro,901282209-7,68,10253676.0,5,60956099.0,8,771,121,594.48,2022-06-25,2010-11-02,Bucaramanga,Activo,Pensionado,Arriendo,Comercio,paolaandrea@gmail.com,3201768727,0
+378,Daniel Vargas Pérez,844456878-0,58,8116147.0,25,56591908.0,8,426,170,697.28,2021-04-10,2011-01-30,Ibagué,Mora,Indefinido,Familiar,Gobierno,danielvargas@hotmail.com,3259432879,0
+379,Claudia Patricia Vega Gómez,805093183-4,35,4075510.0,23,67113395.0,7,386,142,1646.75,2021-10-21,2012-04-02,Ibagué,Activo,Pensionado,Propia,Financiero,claudiapatricia@gmail.com,3231403608,0
+380,Sebastián Álvarez Ortiz,824434360-1,28,7188682.0,10,11522740.0,4,391,45,160.29,2018-06-10,2013-10-21,Cali,Activo,Prestación de servicios,Propia,Salud,sebastianalvarez@gmail.com,3197542102,1
+381,Diana Carolina Suárez Jiménez,869238709-6,29,2044720.0,8,60170699.0,3,804,136,2942.74,2023-06-09,2012-02-28,Medellín,Inactivo,Indefinido,Arriendo,Servicios,dianacarolina@gmail.com,3129123050,1
+382,Hernán Darío López Vargas,948733445-9,65,2565849.0,25,44376596.0,2,611,151,1729.51,2019-07-25,,Medellín,Mora,Fijo,Propia,Financiero,hernandario@gmail.com,3155113127,0
+383,Laura Ríos Guerrero,811218476-0,51,11591702.0,20,23139956.0,2,300,21,199.63,2020-05-29,,Ibagué,Inactivo,Pensionado,Arriendo,Comercio,laurarios@gmail.com,3265719620,1
+384,Nicolás González Medina,824082714-6,66,2791258.0,5,58005903.0,4,742,59,2078.13,2021-11-05,,Bucaramanga,Mora,Prestación de servicios,Familiar,Construcción,nicolasgonzalez@gmail.com,3245580400,1
+385,Sebastián Castro Reyes,923426445-9,43,1666683.0,23,10698060.0,0,787,7,641.88,2015-02-09,,Cali,Inactivo,Pensionado,Arriendo,Gobierno,sebastiancastro@hotmail.com,3121519213,0
+386,Daniel Ramírez Ruiz,901032783-9,44,5560886.0,27,61437268.0,0,427,124,1104.81,2019-02-26,,Manizales,Activo,Fijo,Familiar,Salud,danielramirez@gmail.com,3214213032,1
+387,Paola Andrea Cruz Cruz,932555754-5,24,4447942.0,29,56323816.0,3,307,56,1266.29,2022-02-28,,Medellín,Inactivo,Pensionado,Propia,Gobierno,paolaandrea@hotmail.com,3283944885,1
+388,Sergio Iván González Torres,869692414-9,36,10750532.0,24,62580217.0,3,323,179,582.11,2020-12-22,,Cartagena,Mora,Pensionado,Propia,Manufactura,sergioivan@gmail.com,3116419028,0
+389,David Vargas Ramírez,982582677-8,51,6703535.0,17,60721737.0,3,348,77,905.82,2019-09-17,,Manizales,Inactivo,Indefinido,Arriendo,Comercio,davidvargas@gmail.com,3281425670,0
+390,Hernán Darío Mendoza González,867104613-3,32,4956859.0,3,50079575.0,1,328,128,1010.31,2019-11-05,2024-04-07,Bogotá,Mora,Prestación de servicios,Arriendo,Comercio,hernandario@hotmail.com,3176717708,0
+391,Luis Miguel Aguilar Morales,819571852-9,61,6104560.0,4,50027901.0,1,387,21,819.52,2015-05-17,2023-01-22,Bucaramanga,Mora,Indefinido,Propia,Salud,luismiguel@gmail.com,3241919204,1
+392,Laura González Sánchez,981882324-0,57,2048133.0,28,30516439.0,1,720,65,1489.96,2021-09-21,2024-03-17,Ibagué,Activo,Pensionado,Arriendo,Servicios,lauragonzalez@gmail.com,3292699161,1
+393,María Fernanda Rojas Aguilar,888098817-9,34,2634069.0,1,47614009.0,1,498,152,1807.62,2016-05-31,2023-10-15,Cúcuta,Inactivo,Prestación de servicios,Arriendo,Servicios,mariafernanda@gmail.com,3244119277,1
+394,Juan Carlos Rodríguez Torres,883662435-9,49,6887820.0,21,60349891.0,4,897,144,876.18,2023-09-12,2022-05-30,Cali,Inactivo,Prestación de servicios,Familiar,Financiero,juancarlos@hotmail.com,3109685239,0
+395,Diana Carolina Rodríguez Morales,936125730-8,25,5931642.0,7,78120862.0,3,370,93,1317.02,2017-02-14,2023-11-15,Manizales,Mora,Pensionado,Familiar,Financiero,dianacarolina@gmail.com,3286631448,0
+396,David Castro Rivera,828144893-7,24,6707272.0,30,295766.0,3,535,125,4.41,2021-12-30,2022-08-07,Barranquilla,Inactivo,Prestación de servicios,Familiar,Manufactura,davidcastro@hotmail.com,3151112833,0
+397,Pedro Pablo Ruiz López,948898894-1,31,4551050.0,7,50506766.0,5,344,13,1109.78,2017-03-26,2022-07-22,Cartagena,Activo,Fijo,Arriendo,Tecnología,pedropablo@gmail.com,3275126595,1
+398,María Fernanda Gómez Ortiz,827163043-0,65,2941057.0,21,62993126.0,1,646,59,2141.85,2018-06-03,2023-04-13,Barranquilla,Inactivo,Prestación de servicios,Familiar,Tecnología,mariafernanda@gmail.com,3298276581,0
+399,Pedro Pablo Ramírez Flores,835109929-3,34,7091824.0,23,29940424.0,6,550,17,422.18,2023-07-23,2023-09-23,Ibagué,Activo,Prestación de servicios,Propia,Financiero,pedropablo@hotmail.com,3183121622,0
+400,,995232716-1,52,9805471.0,20,5189843.0,8,697,171,52.93,2023-06-04,2023-06-06,Bucaramanga,Inactivo,Pensionado,Propia,Financiero,cliente400@gmail.com,3219816018,0
+401,,956011113-6,62,11172445.0,19,51978981.0,3,524,57,465.24,2020-01-26,2024-06-02,Barranquilla,Inactivo,Fijo,Arriendo,Manufactura,cliente401@gmail.com,3223637534,0
+402,,822752299-2,27,4598004.0,17,28125996.0,0,776,137,611.7,2021-12-19,2022-12-11,Pereira,Inactivo,Pensionado,Arriendo,Manufactura,cliente402@gmail.com,3219347387,1
+403,,918564852-3,38,8276226.0,12,72118068.0,4,813,137,871.39,2021-02-17,2023-10-22,Medellín,Inactivo,Fijo,Propia,Educación,cliente403@gmail.com,3127043772,1
+404,,981222742-5,38,4678514.0,27,61478628.0,4,495,160,1314.06,2016-07-18,2024-05-25,Cúcuta,Inactivo,Indefinido,Arriendo,Construcción,cliente404@gmail.com,3217774826,0
+405,,975581225-8,31,10587394.0,8,18154104.0,3,785,65,171.47,2020-10-13,2023-08-25,Cúcuta,Inactivo,Pensionado,Arriendo,Educación,cliente405@gmail.com,3204151542,0
+406,,920788420-8,23,5434352.0,19,69900017.0,4,309,133,1286.26,2022-05-22,2024-05-04,Bucaramanga,Inactivo,Fijo,Arriendo,Manufactura,cliente406@gmail.com,3226027078,1
+407,,841256177-5,58,8113313.0,20,73100176.0,6,690,58,900.99,2019-05-20,2022-03-07,Cúcuta,Inactivo,Fijo,Arriendo,Educación,cliente407@gmail.com,3208575505,0
+408,,828001354-8,33,1836621.0,23,48269113.0,0,491,56,2628.15,2015-10-12,2023-01-31,Cartagena,Activo,Fijo,Arriendo,Gobierno,cliente408@gmail.com,3128627990,1
+409,,887717208-6,47,3148872.0,4,10331014.0,6,789,23,328.09,2019-05-13,2024-06-05,Barranquilla,Activo,Fijo,Arriendo,Manufactura,cliente409@gmail.com,3253663907,0
+410,,992407031-7,39,3617879.0,5,35658526.0,6,552,140,985.62,2018-09-09,2023-08-06,Manizales,Inactivo,Pensionado,Familiar,Salud,cliente410@gmail.com,3125830358,0
+411,,904982520-9,33,5858054.0,6,71997170.0,6,768,104,1229.03,2022-05-23,2022-07-07,Ibagué,Activo,Pensionado,Familiar,Salud,cliente411@gmail.com,3173649663,1
+412,,987379757-3,53,5818421.0,25,44225912.0,5,378,32,760.1,2020-08-28,2024-02-24,Bucaramanga,Inactivo,Pensionado,Propia,Construcción,cliente412@gmail.com,3169490354,1
+413,,902315668-5,47,10485618.0,13,3021973.0,4,417,40,28.82,2018-09-01,2023-11-18,Manizales,Inactivo,Pensionado,Propia,Educación,cliente413@gmail.com,3275065012,0
+414,,874931578-2,32,10304206.0,20,8041210.0,4,427,142,78.04,2023-04-25,2023-02-05,Cali,Activo,Indefinido,Familiar,Construcción,cliente414@gmail.com,3148393014,1
+415,Gloria Esperanza Martínez Vega,858026752-7,66,2001438.0,21,64920946.0,1,699,84,3243.72,2019-12-24,2022-02-23,Ibagué,Activo,Indefinido,Arriendo,Comercio,gloriaesperanza@gmail.com,3215002042,1
+416,María Fernanda Suárez López,803908410-5,34,8639575.0,3,17645428.0,1,471,48,204.24,2015-06-30,2023-03-02,Cúcuta,Activo,Prestación de servicios,Arriendo,Gobierno,mariafernanda@gmail.com,3294474885,0
+417,Isabela Mendoza Ramírez,862386585-3,28,5244051.0,6,1199566.0,5,312,105,22.87,2017-05-21,2023-04-15,Barranquilla,Activo,Prestación de servicios,Familiar,Transporte,isabelamendoza@gmail.com,3124666842,0
+418,Daniela Sánchez Vega,952794820-2,38,11569864.0,20,25948343.0,6,436,91,224.28,2016-12-19,2023-10-13,Bucaramanga,Mora,Pensionado,Propia,Financiero,danielasanchez@hotmail.com,3288531486,1
+419,Hernán Darío Molina García,862439672-0,61,9468881.0,4,24707890.0,6,549,164,260.94,2015-11-22,2022-03-03,Cali,Inactivo,Pensionado,Arriendo,Comercio,hernandario@hotmail.com,3161635969,1
+420,Daniel Castro Torres,874658999-5,63,9763194.0,2,41669829.0,6,595,12,426.81,2017-07-27,2024-05-17,Bucaramanga,Inactivo,Fijo,Propia,Gobierno,danielcastro@hotmail.com,3174731991,0
+421,Alejandro Aguilar Jiménez,849270112-7,62,1563448.0,28,39331383.0,3,353,168,2515.68,2016-08-02,2022-07-29,Cali,Activo,Fijo,Familiar,Gobierno,alejandroaguilar@gmail.com,3164964626,1
+422,Laura Rojas Medina,844066045-3,37,5952176.0,20,19917554.0,4,890,120,334.63,2022-02-16,2022-07-26,Cartagena,Inactivo,Indefinido,Arriendo,Manufactura,laurarojas@gmail.com,3258405061,0
+423,Laura Flores Ramos,805317995-6,49,10467443.0,25,72516563.0,4,850,45,692.78,2021-03-14,2024-01-15,Cali,Inactivo,Pensionado,Arriendo,Construcción,lauraflores@gmail.com,3229067229,1
+424,Sergio Iván Ramos Díaz,841533528-3,22,1634760.0,17,58429491.0,5,803,109,3574.19,2019-08-31,2023-02-09,Bucaramanga,Inactivo,Pensionado,Arriendo,Transporte,sergioivan@hotmail.com,3113088386,1
+425,Tomás Rivera Díaz,917117836-4,68,5160076.0,23,39089747.0,5,359,172,757.54,2019-04-28,2023-03-11,Barranquilla,Activo,Pensionado,Propia,Financiero,tomasrivera@gmail.com,3103481086,1
+426,Camila Flores Ortiz,866414904-9,59,11493672.0,27,12914193.0,1,394,170,112.36,2022-12-24,2023-01-29,Pereira,Mora,Indefinido,Familiar,Comercio,camilaflores@gmail.com,3158161714,1
+427,Paola Andrea Molina Vega,976761005-6,59,4733778.0,14,60196980.0,1,411,168,1271.65,2021-06-03,2024-03-06,Bucaramanga,Activo,Prestación de servicios,Familiar,Comercio,paolaandrea@gmail.com,3226169066,1
+428,Jorge Alberto Navarro García,826003521-1,66,5887316.0,14,52361695.0,6,474,51,889.4,2019-03-15,2022-07-10,Cali,Activo,Pensionado,Propia,Gobierno,jorgealberto@gmail.com,3244566389,1
+429,Ana Lucía Gómez Díaz,869619249-6,50,8081792.0,20,8735636.0,2,381,81,108.09,2015-12-18,2023-01-22,Medellín,Inactivo,Indefinido,Arriendo,Salud,analucia@gmail.com,3259140210,0
+430,Andrés Felipe García Rodríguez,871425507-0,64,7615677.0,2,7747348.0,8,307,102,101.73,2021-10-05,2023-06-17,Cartagena,Inactivo,Pensionado,Arriendo,Transporte,andresfelipe@gmail.com,3216755884,0
+431,Natalia Andrea Moreno Romero,901585559-9,25,11740703.0,28,26420420.0,1,303,122,225.03,2022-10-31,2023-02-16,Cali,Activo,Indefinido,Familiar,Construcción,nataliaandrea@gmail.com,3177181227,0
+432,Mateo Molina Suárez,977228715-3,22,11854905.0,27,25774686.0,5,346,89,217.42,2022-08-08,2023-03-31,Barranquilla,Mora,Pensionado,Arriendo,Transporte,mateomolina@gmail.com,3218179243,0
+433,Mateo Sánchez Álvarez,878883240-9,34,8975391.0,28,41604354.0,8,332,38,463.54,2020-08-01,2024-03-26,Medellín,Inactivo,Pensionado,Propia,Servicios,mateosanchez@gmail.com,3255041658,1
+434,Jorge Alberto Pérez Sánchez,916740809-0,32,11254537.0,11,72211882.0,4,525,71,641.62,2022-06-20,2023-05-03,Medellín,Mora,Fijo,Familiar,Servicios,jorgealberto@hotmail.com,3204754845,0
+435,Pedro Pablo Castro Álvarez,992587067-6,63,8242073.0,18,77299840.0,6,538,63,937.87,2017-11-27,2022-04-29,Cartagena,Activo,Indefinido,Propia,Financiero,pedropablo@gmail.com,3162947939,0
+436,Sergio Iván Jiménez Álvarez,954864935-0,41,2149792.0,18,15188614.0,6,733,87,706.52,2023-08-26,2023-01-09,Cali,Mora,Fijo,Propia,Manufactura,sergioivan@hotmail.com,3246300362,1
+437,Fabio Alejandro Cruz Navarro,982530989-7,31,7815387.0,5,59764795.0,0,627,85,764.71,2020-08-19,2023-12-07,Medellín,Inactivo,Pensionado,Familiar,Comercio,fabioalejandro@gmail.com,3221986711,0
+438,Luis Miguel Flores Reyes,996671410-3,66,9225119.0,30,69234552.0,2,799,106,750.5,2018-05-10,2024-04-14,Cali,Activo,Pensionado,Arriendo,Manufactura,luismiguel@gmail.com,3217565976,1
+439,Sofía Herrera Herrera,986932093-3,66,10490648.0,13,7785565.0,5,894,19,74.21,2022-12-16,2022-11-08,Manizales,Mora,Fijo,Familiar,Tecnología,sofiaherrera@gmail.com,3255883538,0
+440,Gloria Esperanza Reyes Díaz,997385663-0,45,9122554.0,19,8155827.0,2,685,115,89.4,2022-08-15,2024-05-11,Cali,Activo,Indefinido,Arriendo,Servicios,gloriaesperanza@hotmail.com,3112968753,0
+441,Luis Miguel Mendoza Flores,968301661-6,37,1856925.0,8,31731584.0,4,476,173,1708.82,2023-05-11,2023-01-20,Medellín,Inactivo,Pensionado,Arriendo,Servicios,luismiguel@gmail.com,3132956687,1
+442,Daniela Molina Cruz,806181199-9,58,11867168.0,16,21897985.0,1,485,104,184.53,2020-06-06,2023-10-23,Pereira,Inactivo,Fijo,Propia,Financiero,danielamolina@hotmail.com,3274101936,0
+443,María Fernanda Romero Ríos,943993285-8,53,2171282.0,27,46777723.0,1,512,174,2154.38,2016-04-25,2022-07-05,Ibagué,Mora,Fijo,Propia,Gobierno,mariafernanda@gmail.com,3203064357,1
+444,Tomás Reyes Rivera,823574250-8,38,10440226.0,2,6768826.0,1,818,82,64.83,2019-01-29,2023-07-12,Cali,Inactivo,Indefinido,Propia,Construcción,tomasreyes@hotmail.com,3265922381,0
+445,Daniel Torres Navarro,986589886-5,55,11063223.0,12,48493771.0,8,514,31,438.33,2022-06-07,2024-04-19,Bogotá,Activo,Indefinido,Propia,Tecnología,danieltorres@hotmail.com,3163251636,0
+446,Gloria Esperanza Ruiz Vargas,834491839-9,49,2280776.0,9,20853955.0,2,709,122,914.34,2015-12-08,2022-09-18,Pereira,Mora,Fijo,Familiar,Comercio,gloriaesperanza@hotmail.com,3184231751,0
+447,Tomás Molina Rivera,912658728-2,42,11920714.0,14,30315352.0,3,379,75,254.31,2016-05-25,2023-06-29,Medellín,Mora,Pensionado,Propia,Financiero,tomasmolina@gmail.com,3216595492,0
+448,Diana Carolina Cruz Vargas,802647669-1,46,11784595.0,8,30290588.0,1,426,50,257.04,2020-11-26,2024-01-16,Cartagena,Mora,Pensionado,Propia,Gobierno,dianacarolina@gmail.com,3285731119,0
+449,Andrés Felipe Rodríguez Rivera,885361505-6,33,5124315.0,24,54224951.0,8,864,158,1058.19,2019-07-08,2023-05-04,Ibagué,Activo,Prestación de servicios,Propia,Gobierno,andresfelipe@gmail.com,3143393607,1
+450,Marcela Cristina Rodríguez Moreno,989918733-3,65,7891381.0,23,36622927.0,7,662,125,464.09,2020-08-19,2022-10-21,Cartajena,Mora,Fijo,Arriendo,Educación,marcelacristina@gmail.com,3236246854,0
+451,Luisa María González Morales,825134581-2,58,2102821.0,24,22868069.0,7,310,114,1087.49,2022-08-05,2023-06-05,Bucaramang,Inactivo,Indefinido,Arriendo,Salud,luisamaria@gmail.com,3108129962,1
+452,Carolina Morales Aguilar,983630817-9,24,7877422.0,6,53961773.0,8,530,50,685.02,2015-11-04,2023-01-11,Ciudad,Inactivo,Indefinido,Arriendo,Servicios,carolinamorales@gmail.com,3212899743,1
+453,Natalia Andrea Vega Ramírez,877863661-4,52,4582223.0,7,178745.0,6,522,84,3.9,2022-03-18,2023-06-12,Bucaramang,Mora,Pensionado,Propia,Financiero,nataliaandrea@hotmail.com,3246512184,1
+454,Andrés Felipe García Ruiz,993926790-2,47,5222589.0,4,34464305.0,3,386,141,659.91,2020-10-07,2022-06-07,BOGOTÁ,Inactivo,Indefinido,Propia,Construcción,andresfelipe@hotmail.com,3227279870,1
+221,Sandra Milena Vega Vargas,829177588-7,64,10313253.0,6,11189952.0,6,305,97,108.5,2022-12-14,2022-07-23,Medellin,Inactivo,Indefinido,Propia,Manufactura,sandramilena@gmail.com,3201530269,1
+456,Ricardo Augusto Ramos Vargas,831888067-6,53,7276299.0,26,54538919.0,2,632,108,749.54,2020-08-17,2024-01-14,bogotá,Activo,Indefinido,Propia,Tecnología,ricardoaugusto@hotmail.com,3261228991,0
+457,Natalia Andrea Rodríguez Castro,915337332-9,22,6060449.0,10,22577870.0,1,739,69,372.54,2021-12-04,2022-06-06,bogotá,Activo,Prestación de servicios,Propia,Construcción,nataliaandrea@gmail.com,3178200092,1
+458,Andrés Felipe Molina Gómez,850645447-9,62,8162011.0,8,9636895.0,6,339,76,118.07,2017-02-26,2022-05-30,Bogota,Mora,Fijo,Propia,Salud,andresfelipe@gmail.com,3266141309,0
+459,Hernán Darío Cruz Castro,914373866-7,25,6853569.0,21,4132439.0,1,575,99,60.3,2018-02-23,2022-12-26,Medellin,Inactivo,Indefinido,Propia,Salud,hernandario@hotmail.com,3204556393,1
+460,Marcela Cristina Sánchez Mendoza,849617610-4,53,5317603.0,10,8922289.0,0,865,39,167.79,2018-09-18,2023-01-05,Otra,Mora,Prestación de servicios,Propia,Construcción,marcelacristina@hotmail.com,3222463496,0
+461,Sergio Iván Ramírez Martínez,957453890-3,34,8898931.0,30,7890993.0,8,651,83,88.67,2023-02-19,2023-05-01,Ciudad,Mora,Fijo,Propia,Tecnología,sergioivan@hotmail.com,3275236674,0
+462,Manuela Ruiz Moreno,920388528-1,49,2210939.0,14,41901021.0,8,322,48,1895.17,2021-09-20,2022-10-08,CALI,Activo,Indefinido,Familiar,Comercio,manuelaruiz@gmail.com,3229305156,1
+463,Samuel González Rivera,917506263-8,46,7406235.0,13,32067917.0,4,511,53,432.99,2015-01-15,2022-06-13,Medellin,Mora,Indefinido,Familiar,Servicios,samuelgonzalez@gmail.com,3265342524,1
+464,Hernán Darío Herrera Vargas,948216884-1,32,3851259.0,18,19057342.0,0,451,77,494.83,2016-06-28,2022-10-04,--,Activo,Fijo,Familiar,Educación,hernandario@hotmail.com,3217192640,1
+465,Manuela Ortiz Torres,909613706-9,40,4908669.0,2,50076424.0,0,664,62,1020.16,2023-03-12,2022-10-14,CALI,Activo,Indefinido,Familiar,Manufactura,manuelaortiz@gmail.com,3184458774,0
+466,Hernán Darío Jiménez Vargas,854738990-9,62,9981196.0,25,31637073.0,7,537,117,316.97,2019-02-18,2022-06-01,BOGOTÁ,Inactivo,Fijo,Arriendo,Tecnología,hernandario@gmail.com,3154168543,0
+467,Sandra Milena Herrera López,883258001-2,33,10083742.0,22,48625766.0,1,446,24,482.22,2019-10-13,2022-09-09,--,Inactivo,Indefinido,Familiar,Gobierno,sandramilena@hotmail.com,3102673190,1
+468,María Fernanda Ramírez García,973001849-0,30,4107601.0,3,21412518.0,0,309,33,521.29,2021-01-30,2024-01-24,Otra,Activo,Fijo,Propia,Servicios,mariafernanda@gmail.com,3243737109,1
+469,Mateo Flores Morales,814998967-8,66,4308295.0,18,9846041.0,0,405,145,228.54,2018-04-30,2022-04-16,Cartajena,Activo,Indefinido,Propia,Salud,mateoflores@hotmail.com,3223472567,1
+470,Fabio Alejandro Cruz Álvarez,984352420-1,53,3280370.0,4,17961797.0,4,665,25,547.55,2021-11-26,2022-12-08,barranquilla,Activo,Indefinido,Familiar,Tecnología,fabioalejandro@hotmail.com,3266617751,0
+471,Laura Flores Medina,967707271-4,44,10691723.0,9,73298748.0,5,571,25,685.57,2023-11-06,2022-01-03,--,Activo,Prestación de servicios,Propia,Manufactura,lauraflores@gmail.com,3252129335,1
+472,Laura Vargas Flores,824279186-5,30,3409660.0,13,28208701.0,7,734,129,827.32,2022-10-11,2023-02-28,--,Inactivo,Fijo,Familiar,Comercio,lauravargas@gmail.com,3279339992,1
+473,Daniela Vega Vega,861770895-6,27,7600121.0,14,42155676.0,3,389,66,554.67,2019-01-21,2022-01-03,Bogota,Inactivo,Pensionado,Propia,Educación,danielavega@hotmail.com,3217054201,0
+474,Sergio Iván Herrera Rojas,838692351-8,48,4046223.0,27,17966976.0,2,420,42,444.04,2019-03-27,2024-01-21,Otra,Inactivo,Prestación de servicios,Propia,Educación,sergioivan@gmail.com,3128999822,0
+475,Jorge Alberto López Flores,898044499-2,27,4072981.0,1,45534652.0,6,453,52,1117.97,2020-04-08,2024-02-01,,Mora,Prestación de servicios,Arriendo,Manufactura,jorgealberto@gmail.com,3241221617,1
+476,Diana Carolina Rodríguez Martínez,962181615-2,54,3183662.0,13,66614408.0,7,867,72,2092.38,2021-06-01,2023-05-29,,Mora,Fijo,Arriendo,Tecnología,dianacarolina@hotmail.com,3129749335,1
+477,Sergio Iván Reyes Romero,966173295-0,36,5619055.0,27,59679659.0,8,379,125,1062.09,2020-05-09,2022-11-17,,Inactivo,Fijo,Propia,Financiero,sergioivan@gmail.com,3165528498,1
+478,Pedro Pablo Moreno Castro,807529309-3,40,3208984.0,4,5225533.0,0,616,54,162.84,2021-03-09,2022-07-26,,Activo,Prestación de servicios,Propia,Transporte,pedropablo@gmail.com,3289116934,1
+479,Sebastián Pérez Medina,802275990-5,40,11566760.0,17,15590697.0,6,664,39,134.79,2022-11-18,2023-11-22,,Inactivo,Pensionado,Familiar,Gobierno,sebastianperez@hotmail.com,3141397373,0
+480,Alejandro Ramos Martínez,877878329-2,31,8664927.0,3,70816310.0,1,537,61,817.28,2022-08-23,2023-11-01,Cali,Mora,Fijo,Familiar,Gobierno,alejandroramos@gmail.com,3299779300,0
+481,Luis Miguel Guerrero Torres,891005179-4,45,8046443.0,14,3201032.0,6,544,59,39.78,2021-11-05,2023-09-14,Medellín,Activo,Pensionado,Propia,Salud,luismiguel@hotmail.com,3192462431,0
+482,Camila Jiménez Rivera,879351716-2,26,4441232.0,12,28269478.0,1,483,123,636.52,2017-11-22,2023-04-30,Cartagena,Inactivo,Fijo,Propia,Transporte,camilajimenez@gmail.com,3215808770,0
+483,Sergio Iván Guerrero Moreno,937567601-9,42,5423673.0,22,33055539.0,7,569,180,609.47,2015-06-24,2023-09-28,Bogotá,Mora,Fijo,Familiar,Gobierno,sergioivan@hotmail.com,3135876475,1
+484,Tomás Romero González,859874875-6,51,8526081.0,12,37270208.0,8,776,33,437.13,2015-12-18,2022-07-04,Medellín,Inactivo,Pensionado,Propia,Manufactura,tomasromero@gmail.com,3206744913,0
+485,Daniela Reyes Ramos,830689268-4,51,1901965.0,5,75882694.0,2,518,87,3989.7,2021-05-16,2022-02-02,Ibagué,Inactivo,Indefinido,Arriendo,Manufactura,danielareyes@gmail.com,3161907270,1
+486,María Fernanda Mendoza Vargas,867664870-2,27,2988248.0,9,32405478.0,4,762,113,1084.43,2020-11-19,2022-08-08,Cartagena,Activo,Indefinido,Propia,Manufactura,mariafernanda@gmail.com,3193760410,1
+487,David Ramos Ramos,943748875-2,66,6086232.0,30,55432115.0,6,310,149,910.78,2023-10-13,2023-09-04,Barranquilla,Activo,Fijo,Arriendo,Financiero,davidramos@hotmail.com,3243474414,1
+488,Sebastián Ramírez Suárez,870545560-8,68,1538607.0,15,75465900.0,2,760,169,4904.82,2021-06-27,2022-04-10,Bogotá,Activo,Fijo,Arriendo,Gobierno,sebastianramirez@gmail.com,3297334348,1
+489,Gloria Esperanza Díaz García,899389949-5,23,4670417.0,10,40166816.0,1,811,172,860.03,2020-02-11,2023-02-28,Pereira,Inactivo,Prestación de servicios,Familiar,Manufactura,gloriaesperanza@gmail.com,3202902200,0
+490,Camila Mendoza Moreno,847484933-8,60,3207900.0,14,30525066.0,6,590,164,951.56,2016-02-11,2022-03-31,Medellín,Activo,Indefinido,Familiar,Manufactura,camilamendoza@hotmail.com,3292672723,0
+491,Samuel Martínez Herrera,912914920-3,36,9657243.0,18,30486386.0,3,780,37,315.68,2018-12-07,2024-03-23,Manizales,Inactivo,Pensionado,Propia,Financiero,samuelmartinez@gmail.com,3265758092,1
+492,Oscar Eduardo Medina Suárez,980737811-3,22,10951966.0,14,2613969.0,0,457,101,23.87,2020-10-26,2024-04-19,Ibagué,Inactivo,Prestación de servicios,Propia,Transporte,oscareduardo@gmail.com,3177565971,0
+493,Isabela Rodríguez Mendoza,834593400-6,68,3324031.0,29,25449996.0,2,747,65,765.64,2016-02-12,2023-12-29,Cali,Mora,Indefinido,Familiar,Transporte,isabelarodriguez@gmail.com,3183668469,0
+494,Gloria Esperanza Pérez Pérez,806882746-6,22,8103388.0,19,12243889.0,8,380,152,151.1,2019-04-16,2022-01-26,Cali,Inactivo,Prestación de servicios,Propia,Comercio,gloriaesperanza@gmail.com,3175981533,1
+495,Natalia Andrea Álvarez Ortiz,976968140-0,39,2371115.0,5,50195041.0,1,413,123,2116.94,2021-09-06,2022-05-06,Medellín,Activo,Prestación de servicios,Arriendo,Tecnología,nataliaandrea@hotmail.com,3257063240,0
+496,Gloria Esperanza Romero Sánchez,931811728-0,48,2272548.0,21,6105015.0,6,684,86,268.64,2022-02-08,2023-04-07,Cali,Activo,Prestación de servicios,Propia,Tecnología,gloriaesperanza@gmail.com,3291527651,1
+497,Luis Miguel Ruiz Ramos,964820711-9,56,1552653.0,17,59335746.0,1,497,161,3821.57,2015-05-02,2023-07-03,Bogotá,Mora,Fijo,Propia,Financiero,luismiguel@hotmail.com,3161494887,1
+498,Hernán Darío Pérez Torres,871830786-4,52,3591994.0,3,27884270.0,8,601,125,776.29,2023-05-11,2024-04-08,Manizales,Inactivo,Pensionado,Propia,Construcción,hernandario@hotmail.com,3187590525,1
+499,Juliana Medina Rivera,855252552-7,49,10770002.0,14,47706383.0,4,626,165,442.96,2016-03-16,2023-09-14,Pereira,Inactivo,Fijo,Familiar,Financiero,julianamedina@gmail.com,3128539737,1
+500,Juan Carlos Molina Ortiz,957536513-6,40,7840762.0,100,76030247.0,8,660,107,969.68,2015-05-03,2022-04-28,Cali,Inactivo,Pensionado,Propia,Financiero,juancarlos@hotmail.com,3167235425,1
+501,Sebastián Ramírez García,885520621-0,67,4953129.0,100,63619154.0,3,875,22,1284.42,2019-04-29,2022-10-18,Ibagué,Activo,Fijo,Propia,Gobierno,sebastianramirez@hotmail.com,3292255341,0
+502,David Mendoza Jiménez,885931937-3,34,2021427.0,-5,3743348.0,4,731,36,185.18,2016-05-23,2023-04-09,Cali,Mora,Prestación de servicios,Familiar,Manufactura,davidmendoza@hotmail.com,3105782125,1
+503,Tomás García Rojas,876333868-2,47,1888586.0,100,3129620.0,0,371,126,165.71,2016-01-25,2024-04-29,Pereira,Mora,Prestación de servicios,Arriendo,Financiero,tomasgarcia@gmail.com,3222338271,1
+504,Sebastián Navarro Rodríguez,905583044-4,66,11831652.0,100,77372202.0,1,682,164,653.94,2016-02-25,2022-01-30,Barranquilla,Activo,Indefinido,Propia,Educación,sebastiannavarro@gmail.com,3234797376,1
+505,Ricardo Augusto Moreno Vega,801326435-0,38,10774853.0,-2,3840271.0,4,376,73,35.64,2018-09-10,2023-12-06,Ibagué,Inactivo,Prestación de servicios,Familiar,Tecnología,ricardoaugusto@gmail.com,3288729158,1
+506,Sebastián Flores Suárez,970967520-7,64,2784920.0,-2,46230778.0,7,587,88,1660.04,2023-08-31,2024-01-19,Manizales,Activo,Indefinido,Arriendo,Construcción,sebastianflores@gmail.com,3215066398,0
+507,Gloria Esperanza González González,932769720-0,35,1637845.0,-5,65480916.0,3,799,32,3997.99,2018-10-26,2022-08-02,Ibagué,Mora,Prestación de servicios,Arriendo,Servicios,gloriaesperanza@gmail.com,3262772688,0
+508,Hernán Darío Moreno Álvarez,921448761-9,54,3631718.0,-2,5491145.0,6,468,84,151.2,2021-06-22,2023-10-26,Medellín,Activo,Pensionado,Propia,Educación,hernandario@hotmail.com,3244137838,1
+509,Mateo Aguilar Guerrero,894477690-4,29,11232741.0,-5,34517891.0,2,706,134,307.3,2019-10-31,2023-06-05,Bucaramanga,Activo,Pensionado,Arriendo,Financiero,mateoaguilar@hotmail.com,3228089856,1
+510,Ricardo Augusto Romero Gómez,959463859-4,55,7878205.0,,34685227.0,0,554,34,440.27,2017-06-18,2022-04-28,Bogotá,Activo,Prestación de servicios,Propia,Educación,ricardoaugusto@gmail.com,3184799452,0
+511,Isabela Romero Romero,827193659-3,68,10152721.0,,21461356.0,3,475,58,211.39,2018-11-24,2023-10-15,Cartagena,Mora,Prestación de servicios,Familiar,Salud,isabelaromero@hotmail.com,3268998677,0
+512,Natalia Andrea Rivera Jiménez,982923324-1,32,3467116.0,,36417306.0,0,785,115,1050.36,2018-09-30,2022-01-22,Cali,Inactivo,Indefinido,Propia,Salud,nataliaandrea@gmail.com,3251016885,0
+513,Natalia Andrea Ramos Ramírez,812126979-0,58,8640486.0,,66828722.0,8,815,48,773.44,2023-06-20,2022-05-31,Medellín,Activo,Prestación de servicios,Familiar,Financiero,nataliaandrea@gmail.com,3215317440,0
+514,Oscar Eduardo Moreno Rojas,803640267-5,41,8956650.0,,41426484.0,7,415,75,462.52,2022-09-09,2023-06-16,Bogotá,Activo,Pensionado,Propia,Tecnología,oscareduardo@gmail.com,3105099811,0
+515,Laura Moreno Reyes,999813990-1,34,11166796.0,,51098700.0,4,857,121,457.59,2020-11-28,2022-06-29,Cartagena,Mora,Prestación de servicios,Arriendo,Manufactura,lauramoreno@gmail.com,3186189583,1
+516,Juliana Aguilar Castro,964381130-1,49,9850995.0,,77452243.0,5,595,34,786.24,2015-02-04,2023-05-26,Cali,Inactivo,Fijo,Familiar,Construcción,julianaaguilar@gmail.com,3156094327,0
+517,Pedro Pablo Herrera García,921831628-0,35,4471682.0,,9874861.0,7,613,7,220.83,2019-10-29,2022-12-27,Bogotá,Activo,Prestación de servicios,Propia,Financiero,pedropablo@gmail.com,3263601089,0
+518,Marcela Cristina Flores Díaz,915977749-9,27,4553421.0,2,37854221.0,5,554,179,831.34,2022-02-22,2023-01-31,Pereira,Inactivo,Indefinido,Arriendo,Construcción,marcelacristina@gmail.com,3158311783,0
+519,Sebastián Torres Díaz,867114352-2,48,7319980.0,10,24399688.0,4,880,166,333.33,2020-03-03,2023-07-13,Cali,Inactivo,Pensionado,Propia,Tecnología,sebastiantorres@gmail.com,3209452615,0
+520,Carolina Rojas Ruiz,914801569-7,48,11595193.0,15,2213835.0,8,327,113,19.09,2015-12-29,2024-02-13,Cali,Mora,Prestación de servicios,Propia,Transporte,carolinarojas@gmail.com,3145921482,1
+521,Isabela Torres Romero,979873025-0,51,9978551.0,28,41440662.0,0,386,20,415.3,2018-01-11,2024-04-29,Medellín,Inactivo,Indefinido,Arriendo,Transporte,isabelatorres@gmail.com,3202021141,1
+522,Juliana Molina Rodríguez,988326978-3,55,3013595.0,24,77382277.0,2,528,178,2567.77,2022-03-05,2024-05-22,Cali,Inactivo,Prestación de servicios,Familiar,Salud,julianamolina@gmail.com,3294367185,1
+523,Carlos Andrés Flores Ramírez,939538806-1,37,3645083.0,16,1972511.0,8,754,106,54.11,2015-08-16,2022-05-05,Cartagena,Inactivo,Pensionado,Propia,Comercio,carlosandres@gmail.com,3275366631,0
+524,Daniel Ramírez Mendoza,839257710-0,33,2987705.0,24,52597229.0,2,823,145,1760.46,2017-03-31,2023-05-03,Manizales,Inactivo,Prestación de servicios,Familiar,Educación,danielramirez@gmail.com,3257162932,0
+525,Isabela Álvarez Sánchez,924544307-6,49,3055749.0,10,36566582.0,6,311,154,1196.65,2018-05-25,2022-02-04,Ibagué,Inactivo,Indefinido,Arriendo,Tecnología,isabelaalvarez@gmail.com,3245645678,1
+526,Jorge Alberto Ruiz Molina,935078231-3,44,10976780.0,17,31249946.0,1,478,173,284.69,2016-09-12,2022-12-27,Ibagué,Inactivo,Pensionado,Familiar,Tecnología,jorgealberto@hotmail.com,3197609027,1
+527,Mateo Álvarez Ramos,962629418-2,58,8939252.0,17,62031840.0,8,565,39,693.93,2022-10-29,2022-11-28,Ibagué,Mora,Prestación de servicios,Familiar,Transporte,mateoalvarez@gmail.com,3121753785,1
+528,Jorge Alberto Cruz Sánchez,978579632-1,53,11309456.0,16,25892750.0,3,542,32,228.95,2016-12-13,2024-01-16,Pereira,Inactivo,Indefinido,Propia,Transporte,jorgealberto@hotmail.com,3112222751,0
+529,Valentina López Gómez,886210520-1,66,6219851.0,5,79109669.0,8,504,56,1271.89,2017-10-31,2023-05-18,Manizales,Mora,Prestación de servicios,Propia,Comercio,valentinalopez@gmail.com,3239867252,0
+530,Ricardo Augusto Pérez López,968876949-1,35,1849012.0,5,71463281.0,5,717,151,3864.94,2021-02-16,2024-06-04,Medellín,Inactivo,Fijo,Familiar,Gobierno,ricardoaugusto@gmail.com,3168947918,1
+531,Carolina Ríos Torres,818026696-7,49,8067442.0,28,5669409.0,1,430,138,70.28,2018-05-06,2022-04-14,Medellín,Inactivo,Fijo,Propia,Transporte,carolinarios@gmail.com,3104758452,0
+532,Fabio Alejandro Ortiz Álvarez,988783493-5,26,10660647.0,6,77449185.0,1,847,153,726.5,2017-09-15,2024-05-23,Cúcuta,Mora,Prestación de servicios,Arriendo,Transporte,fabioalejandro@hotmail.com,3138901711,0
+533,Oscar Eduardo López Martínez,890743328-6,38,3605368.0,29,61178873.0,2,509,146,1696.88,2023-03-25,2022-12-04,Bogotá,Activo,Pensionado,Propia,Transporte,oscareduardo@gmail.com,3116802325,0
+534,David Pérez Ríos,928519240-2,39,9094963.0,4,2848007.0,8,530,172,31.31,2018-12-05,2023-03-18,Manizales,Inactivo,Fijo,Propia,Salud,davidperez@hotmail.com,3169962151,0
+535,Alejandro López Ríos,929432421-0,46,9539656.0,23,10018991.0,6,862,41,105.02,2016-04-18,2023-03-25,Medellín,Mora,Prestación de servicios,Arriendo,Comercio,alejandrolopez@gmail.com,3114995833,1
+536,Juliana García Cruz,910881420-8,58,1980687.0,26,1191885.0,3,358,25,60.18,2015-08-21,2022-05-10,Manizales,Activo,Prestación de servicios,Propia,Financiero,julianagarcia@gmail.com,3175905871,1
+537,Isabela Ramos Ramírez,976252113-1,26,4127088.0,18,16468877.0,5,525,119,399.04,2022-12-30,2022-11-06,Bucaramanga,Mora,Prestación de servicios,Familiar,Comercio,isabelaramos@gmail.com,3186349565,0
+538,Samuel Sánchez Rodríguez,893049245-6,67,11480916.0,16,22382708.0,3,440,139,194.96,2017-08-02,2022-11-09,Cúcuta,Activo,Indefinido,Arriendo,Tecnología,samuelsanchez@hotmail.com,3178386629,0
+539,Camila Ramírez López,933924459-0,39,4418657.0,13,24033028.0,1,361,77,543.9,2021-11-02,2023-01-29,Manizales,Activo,Pensionado,Arriendo,Servicios,camilaramirez@hotmail.com,3167364050,1
+540,Laura Vega Rodríguez,977275435-4,24,7186266.0,12,74977911.0,5,568,157,1043.35,2017-06-05,2024-02-15,Bogotá,Inactivo,Pensionado,Arriendo,Salud,lauravega@gmail.com,3277511414,0
+541,Fabio Alejandro Vega Rojas,913772347-9,68,7467182.0,17,20808057.0,6,778,66,278.66,2016-06-24,2022-01-16,Cartagena,Mora,Prestación de servicios,Propia,Comercio,fabioalejandro@gmail.com,3196662853,0
+542,Juan Carlos Vargas Moreno,872141317-4,63,10007725.0,20,987129.0,4,882,175,9.86,2018-08-07,2024-05-06,Cartagena,Activo,Pensionado,Arriendo,Salud,juancarlos@gmail.com,3241620820,0
+543,Mateo Ríos Reyes,909685650-0,59,11357760.0,9,71763543.0,8,621,22,631.85,2019-12-10,2022-07-04,Cartagena,Inactivo,Prestación de servicios,Arriendo,Tecnología,mateorios@hotmail.com,3153464602,0
+544,Ana Lucía Cruz Ramírez,975718072-0,33,8686635.0,28,35224710.0,5,342,147,405.5,2023-01-17,2022-08-22,Bogotá,Mora,Prestación de servicios,Arriendo,Salud,analucia@gmail.com,3211750496,0
+545,Carolina Sánchez González,936080116-7,29,6865873.0,8,16323353.0,5,725,24,237.75,2022-03-14,2023-03-13,Cartagena,Activo,Indefinido,Arriendo,Transporte,carolinasanchez@gmail.com,3207847411,0
+546,Valentina Ramos Herrera,966944405-0,32,5367170.0,10,74424681.0,0,408,161,1386.67,2017-05-16,2024-04-07,Bucaramanga,Mora,Prestación de servicios,Propia,Manufactura,valentinaramos@gmail.com,3113517835,1
+547,Luisa María González Cruz,951774046-8,58,8118406.0,24,33446409.0,1,840,19,411.98,2021-10-22,2023-04-29,Cúcuta,Mora,Pensionado,Arriendo,Construcción,luisamaria@hotmail.com,3285916819,0
+548,Luis Miguel Morales Moreno,861979250-7,42,9355977.0,4,55445851.0,7,719,98,592.62,2015-11-23,2022-12-27,Cúcuta,Mora,Indefinido,Arriendo,Servicios,luismiguel@gmail.com,3248027140,1
+549,Sergio Iván Vega Morales,909418972-9,64,2950472.0,9,63668476.0,5,621,36,2157.91,2015-11-30,2023-02-23,Pereira,Mora,Fijo,Familiar,Servicios,sergioivan@gmail.com,3164018484,0
+550,Carlos Andrés Rivera Ramírez,912373954-4,57,8969510.0,16,59428319.0,2,334,116,662.56,2015-04-09,2023-12-08,Cali,Active,Pensionado,Arriendo,Financiero,carlosandres@hotmail.com,3275050605,0
+551,Claudia Patricia Castro Castro,958773667-9,61,2631604.0,24,3619016.0,5,759,110,137.52,2022-01-27,2023-04-06,Pereira,null,Fijo,Familiar,Tecnología,claudiapatricia@gmail.com,3289545877,1
+552,Carlos Andrés Moreno Rojas,901837589-5,50,3355584.0,24,47046470.0,1,537,82,1402.04,2020-07-13,2022-12-16,Bogotá,1,Prestación de servicios,Arriendo,Manufactura,carlosandres@gmail.com,3153402439,1
+553,Gloria Esperanza Mendoza Aguilar,874693837-9,61,4800858.0,12,22783277.0,1,594,76,474.57,2020-06-16,2023-03-26,Barranquilla,En mora,Prestación de servicios,Familiar,Educación,gloriaesperanza@gmail.com,3183365639,1
+554,Manuela Molina Rivera,807341743-9,24,11578495.0,18,43033274.0,3,306,131,371.67,2015-04-16,2023-01-14,Barranquilla,1,Pensionado,Familiar,Tecnología,manuelamolina@gmail.com,3192839032,0
+555,Claudia Patricia Guerrero Mendoza,932407278-4,27,10577279.0,9,58530699.0,1,662,26,553.36,2023-05-07,2024-03-23,Barranquilla,ACTIVO,Prestación de servicios,Propia,Gobierno,claudiapatricia@gmail.com,3249604096,0
+556,Pedro Pablo Jiménez Martínez,916333920-1,67,9839073.0,11,15231894.0,8,336,168,154.81,2022-01-13,2022-01-09,Barranquilla,1,Fijo,Familiar,Comercio,pedropablo@hotmail.com,3149128681,0
+557,Daniela Herrera Torres,853304024-1,55,10500146.0,24,17135126.0,6,368,131,163.19,2021-04-03,2023-09-18,Barranquilla,Active,Indefinido,Arriendo,Construcción,danielaherrera@gmail.com,3284937877,0
+558,Mateo Aguilar Gómez,880557632-3,40,8513746.0,16,63739694.0,6,665,145,748.67,2020-05-24,2022-10-30,Medellín,ACTIVO,Prestación de servicios,Arriendo,Servicios,mateoaguilar@gmail.com,3232943123,1
+559,Sebastián Ramírez Ruiz,987091079-6,67,2844608.0,29,38699099.0,7,721,66,1360.44,2015-04-29,2022-10-25,Cartagena,Vigente,Pensionado,Propia,Gobierno,sebastianramirez@gmail.com,3186328751,1
+560,Daniel Mendoza Romero,869980956-0,39,6597807.0,8,27187325.0,0,615,120,412.07,2019-08-06,2022-08-15,Ibagué,Vigente,Indefinido,Familiar,Transporte,danielmendoza@gmail.com,3291334200,0
+561,María Fernanda Álvarez Pérez,989174658-5,44,9551842.0,18,5077182.0,0,831,59,53.15,2019-01-23,2023-07-03,Barranquilla,1,Fijo,Arriendo,Tecnología,mariafernanda@gmail.com,3207935621,0
+562,Natalia Andrea García Martínez,805376325-8,28,6765743.0,26,38791996.0,2,589,83,573.36,2015-04-10,2022-08-24,Barranquilla,En mora,Indefinido,Arriendo,Manufactura,nataliaandrea@hotmail.com,3182424664,1
+563,Samuel Suárez López,803957217-8,60,11149233.0,4,58869872.0,6,498,161,528.02,2018-07-02,2024-03-14,Bucaramanga,activo,Prestación de servicios,Arriendo,Servicios,samuelsuarez@hotmail.com,3188908785,1
+564,Laura Pérez Cruz,909073570-8,39,6575170.0,30,56230357.0,8,550,103,855.19,2015-03-12,2023-05-24,Pereira,ACTIVO,Pensionado,Propia,Transporte,lauraperez@gmail.com,3224894252,1
+565,Mateo Sánchez Medina,889237468-2,62,11746083.0,4,44870834.0,3,801,157,382.01,2017-10-20,2022-03-27,Cali,null,Fijo,Propia,Servicios,mateosanchez@hotmail.com,3196668492,0
+566,Juan Carlos Jiménez Suárez,801495661-4,66,3696854.0,18,63575663.0,8,811,86,1719.72,2022-04-24,2022-08-30,Bucaramanga,null,Indefinido,Propia,Manufactura,juancarlos@gmail.com,3223135445,0
+567,Jorge Alberto Aguilar Ramírez,844613160-3,50,10632366.0,4,3124956.0,6,807,49,29.39,2022-01-08,2024-04-02,Cúcuta,Active,Pensionado,Arriendo,Salud,jorgealberto@hotmail.com,3235936253,0
+568,Marcela Cristina Aguilar Jiménez,965114779-5,58,8327318.0,5,23215742.0,3,680,138,278.79,2021-10-12,2022-09-15,Manizales,Vigente,Prestación de servicios,Familiar,Tecnología,marcelacristina@hotmail.com,3251164772,1
+569,Sandra Milena Flores Ramos,817998063-0,41,8865379.0,7,55523614.0,8,769,90,626.3,2016-01-23,2022-03-04,Ibagué,Active,Indefinido,Arriendo,Gobierno,sandramilena@gmail.com,3211237053,0
+570,Marcela Cristina Herrera Mendoza,956892036-4,45,8057260.0,13,74744634.0,8,854,170,927.67,2022-05-24,2022-07-27,Medellín,Mora,Fijo,Propia,Comercio,marcelacristina@hotmail.com,3182716680,1
+571,Sofía Álvarez Castro,954526402-9,60,4410994.0,26,58981242.0,7,514,49,1337.14,2015-01-11,2024-03-13,Barranquilla,Activo,Indefinido,Familiar,Tecnología,sofiaalvarez@hotmail.com,3251004141,1
+572,Ana Lucía Torres Molina,918028122-6,64,6452735.0,10,40030008.0,1,546,149,620.36,2019-05-30,2023-01-22,Pereira,Mora,Pensionado,Arriendo,Construcción,analucia@gmail.com,3209903425,1
+573,Gloria Esperanza Rivera Vargas,990950939-2,49,7385102.0,16,55607980.0,4,423,148,752.98,2019-11-19,2023-10-30,Bucaramanga,Activo,Indefinido,Arriendo,Servicios,gloriaesperanza@gmail.com,3218114847,1
+574,Manuela Díaz Álvarez,900450120-2,22,3556279.0,12,42080208.0,0,900,85,1183.27,2018-09-07,2022-04-07,Bucaramanga,Inactivo,Indefinido,Familiar,Construcción,manueladiaz@hotmail.com,3189031838,1
+575,Oscar Eduardo Vargas Rodríguez,953593645-0,67,11239536.0,20,50579207.0,7,477,127,450.01,2023-05-30,2024-06-14,Cúcuta,Activo,Indefinido,Arriendo,Salud,oscareduardo@gmail.com,3143968018,0
+576,Sergio Iván Pérez Suárez,832058378-0,50,8193521.0,2,25138924.0,8,584,55,306.81,2022-05-07,2023-09-21,Bogotá,Inactivo,Prestación de servicios,Familiar,Tecnología,sergioivan@gmail.com,3287144765,1
+577,Isabela Suárez Rodríguez,817436198-3,54,3048896.0,9,6717496.0,7,345,76,220.33,2021-10-28,2022-07-23,Cúcuta,Inactivo,Fijo,Familiar,Salud,isabelasuarez@gmail.com,3276883514,1
+578,Camila Pérez Rojas,823665795-1,27,3416260.0,3,14852711.0,0,473,8,434.77,2017-06-09,2023-10-16,Bucaramanga,Inactivo,Indefinido,Familiar,Comercio,camilaperez@gmail.com,3163226920,1
+579,Alejandro Herrera Gómez,874883667-2,58,4813180.0,8,66822021.0,4,504,51,1388.31,2018-04-23,2022-09-23,Manizales,Inactivo,Indefinido,Arriendo,Financiero,alejandroherrera@gmail.com,3219775200,0
+580,Jorge Alberto Martínez Álvarez,841796534-8,58,3711959.0,23,34708272.0,4,512,93,935.04,2022-11-05,2023-05-31,Cúcuta,Mora,Prestación de servicios,Propia,Gobierno,jorgealberto@gmail.com,3184661709,0
+581,Juan Carlos Ramírez Aguilar,976719698-2,52,2968060.0,19,25839277.0,6,334,88,870.58,2022-11-12,2022-04-18,Bucaramanga,Activo,Fijo,Arriendo,Servicios,juancarlos@gmail.com,3134139210,0
+582,Paola Andrea Rivera Rojas,946774630-2,23,6109591.0,20,36515654.0,6,708,127,597.68,2017-09-24,2022-09-16,Bucaramanga,Mora,Prestación de servicios,Arriendo,Manufactura,paolaandrea@gmail.com,3179505390,1
+583,Laura Vargas Romero,959202640-0,32,6878146.0,30,24046621.0,8,503,151,349.61,2023-06-07,2022-05-23,Cali,Mora,Prestación de servicios,Propia,Educación,lauravargas@gmail.com,3146806635,1
+584,Jorge Alberto Rojas García,976793900-2,34,10771025.0,10,24602140.0,2,541,58,228.41,2019-11-24,2022-04-03,Barranquilla,Activo,Prestación de servicios,Propia,Servicios,jorgealberto@hotmail.com,3138898724,0
+585,Isabela Reyes Ramos,979432151-6,51,8915353.0,25,73355979.0,6,431,87,822.81,2023-07-23,2022-05-17,Pereira,Inactivo,Prestación de servicios,Familiar,Manufactura,isabelareyes@gmail.com,3272202201,1
+586,Juliana López Cruz,963348970-2,37,5375892.0,11,40116475.0,0,707,25,746.23,2022-03-29,2022-08-24,Cali,Inactivo,Fijo,Propia,Comercio,julianalopez@gmail.com,3126697318,1
+587,Sandra Milena Mendoza Flores,876494475-4,46,8590366.0,16,2786133.0,6,483,47,32.43,2019-06-20,2023-11-30,Cúcuta,Activo,Pensionado,Propia,Financiero,sandramilena@gmail.com,3137785940,0
+588,Carlos Andrés Rivera Jiménez,834558248-9,54,5531898.0,15,927093.0,6,732,19,16.76,2018-05-25,2023-03-12,Cartagena,Mora,Indefinido,Familiar,Servicios,carlosandres@gmail.com,3256621432,0
+589,Valentina Ramírez Gómez,913834115-8,46,10638300.0,3,12030978.0,5,564,56,113.09,2020-10-10,2024-04-12,Ibagué,Mora,Pensionado,Arriendo,Salud,valentinaramirez@gmail.com,3113039294,0
+590,Camila Moreno Rodríguez,960880944-5,38,5969877.0,22,23691556.0,0,855,74,396.85,2017-01-02,2022-10-28,Bucaramanga,Inactivo,Indefinido,Arriendo,Financiero,camilamoreno@hotmail.com,3112873734,1
+591,Juan Carlos Vega Romero,866740226-2,27,7117345.0,5,58142992.0,7,741,76,816.92,2018-11-15,2023-04-15,Ibagué,Activo,Pensionado,Propia,Educación,juancarlos@gmail.com,3113462063,0
+592,Andrés Felipe Álvarez Molina,994722830-1,43,11238126.0,24,24158878.0,6,322,53,214.97,2023-05-17,2022-09-21,Medellín,Inactivo,Indefinido,Propia,Transporte,andresfelipe@hotmail.com,3199624152,1
+593,Natalia Andrea Rodríguez Moreno,953903715-7,35,9487550.0,14,21982940.0,2,583,134,231.7,2022-07-13,2022-02-16,Ibagué,Inactivo,Fijo,Familiar,Construcción,nataliaandrea@hotmail.com,3234475171,1
+594,David Torres Vargas,871686568-7,60,9797711.0,21,25452752.0,3,530,10,259.78,2022-12-14,2022-11-29,Barranquilla,Activo,Prestación de servicios,Familiar,Transporte,davidtorres@gmail.com,3288059261,0
+595,Luis Miguel Vega Álvarez,927668676-8,22,5100983.0,11,27709305.0,7,455,124,543.22,2023-04-30,2023-05-26,Barranquilla,Mora,Fijo,Familiar,Manufactura,luismiguel@hotmail.com,3112318832,0
+596,Manuela Ruiz Pérez,855714100-8,45,4692344.0,25,25227047.0,7,330,45,537.62,2022-01-03,2023-08-22,Cali,Mora,Prestación de servicios,Familiar,Manufactura,manuelaruiz@gmail.com,3105762844,0
+597,Daniela Morales Álvarez,944308944-2,46,7874778.0,28,9879521.0,6,523,60,125.46,2016-03-29,2023-08-08,Cartagena,Activo,Fijo,Familiar,Manufactura,danielamorales@gmail.com,3214653282,1
+598,Marcela Cristina Jiménez Moreno,969188335-1,64,10789958.0,21,60940251.0,5,814,143,564.79,2020-12-21,2023-02-06,Barranquilla,Inactivo,Pensionado,Arriendo,Construcción,marcelacristina@gmail.com,3243633482,0
+599,Sandra Milena Romero Herrera,800895871-8,43,9510816.0,21,13781653.0,1,692,154,144.91,2022-04-29,2023-03-05,Pereira,Inactivo,Fijo,Familiar,Salud,sandramilena@gmail.com,3149445000,0
+600,Tomás Suárez López,887246975-9,37,3247818.0,21,-1000000,5,323,159,-30.79,2023-11-10,2023-11-01,Pereira,Mora,Fijo,Propia,Servicios,tomassuarez@gmail.com,3173939552,0
+206,Sebastián Torres Herrera,817398058-0,35,7564824.0,15,-5000000,3,481,124,-66.1,2020-08-10,2023-10-19,Medellín,Mora,Prestación de servicios,Propia,Comercio,sebastiantorres@gmail.com,3121115482,0
+602,David Aguilar Ramos,903432367-1,48,11554536.0,29,-1000000,8,324,118,-8.65,2020-05-23,2024-04-27,Bogotá,Inactivo,Pensionado,Familiar,Salud,davidaguilar@gmail.com,3268382743,0
+603,Claudia Patricia Sánchez Flores,870464064-9,29,9080939.0,12,-5000000,2,548,129,-55.06,2017-05-10,2022-09-28,Medellín,Inactivo,Indefinido,Arriendo,Servicios,claudiapatricia@gmail.com,3186745238,0
+604,Daniel Castro Guerrero,987787157-4,58,4390639.0,2,-1000000,8,595,12,-22.78,2017-06-24,2024-06-20,Bucaramanga,Mora,Prestación de servicios,Familiar,Construcción,danielcastro@gmail.com,3156112711,0
+605,Daniel Herrera Flores,999644351-2,31,7878219.0,28,-1000000,0,516,155,-12.69,2018-05-25,2022-06-01,Ibagué,Activo,Prestación de servicios,Arriendo,Gobierno,danielherrera@gmail.com,3267808943,0
+606,Jorge Alberto Ruiz Flores,957607965-8,42,6995043.0,13,-5000000,2,837,129,-71.48,2016-12-19,2023-05-11,Pereira,Activo,Indefinido,Arriendo,Comercio,jorgealberto@gmail.com,3173518067,0
+607,Claudia Patricia Díaz Ruiz,933892987-7,58,11083376.0,30,-1000000,3,672,176,-9.02,2015-05-15,2023-02-13,Medellín,Inactivo,Indefinido,Arriendo,Gobierno,claudiapatricia@gmail.com,3272332904,0
+608,Ana Lucía Guerrero Aguilar,866564462-3,38,9871334.0,6,-1000000,3,767,51,-10.13,2015-06-14,2023-09-16,Cartagena,Mora,Prestación de servicios,Propia,Comercio,analucia@gmail.com,3123223802,0
+609,Ana Lucía Reyes Cruz,865482304-9,59,6511464.0,4,-1000000,5,374,56,-15.36,2020-05-13,2022-04-30,Manizales,Activo,Pensionado,Propia,Educación,analucia@gmail.com,3169174374,0
+610,Carlos Andrés Mendoza Ramírez,993268548-7,63,3545387.0,26,,7,300,70,0.0,2023-06-18,2023-02-21,Ibagué,Inactivo,Pensionado,Familiar,Tecnología,carlosandres@gmail.com,3259626848,1
+611,Paola Andrea Ortiz Vega,866846334-5,39,8617347.0,17,,7,414,52,0.0,2020-06-20,2022-01-07,Bucaramanga,Mora,Pensionado,Arriendo,Tecnología,paolaandrea@hotmail.com,3236111027,1
+612,Daniel Castro Vega,849031258-3,28,9509953.0,7,,4,627,141,0.0,2020-04-16,2022-04-16,Cartagena,Mora,Fijo,Familiar,Tecnología,danielcastro@gmail.com,3167647803,0
+613,Jorge Alberto Rivera Jiménez,938637864-7,63,7749911.0,14,,4,534,73,0.0,2020-04-17,2024-05-26,Cartagena,Inactivo,Fijo,Arriendo,Financiero,jorgealberto@gmail.com,3208544846,0
+614,Tomás Romero Suárez,801522706-6,25,11671140.0,12,,2,767,76,0.0,2015-03-21,2024-04-18,Barranquilla,Activo,Prestación de servicios,Arriendo,Financiero,tomasromero@hotmail.com,3237415713,0
+615,Manuela Díaz Reyes,965773882-8,50,10492236.0,4,,2,633,128,0.0,2023-02-02,2023-08-31,Manizales,Activo,Pensionado,Familiar,Servicios,manueladiaz@hotmail.com,3297291774,1
+616,Ana Lucía Castro Vargas,944390281-5,50,11197864.0,4,,1,632,111,0.0,2016-09-13,2024-06-13,Cali,Mora,Prestación de servicios,Familiar,Comercio,analucia@gmail.com,3245114220,0
+617,Nicolás Ortiz Ríos,942546603-4,66,1729444.0,25,,5,669,120,0.0,2023-05-19,2024-06-24,Barranquilla,Activo,Prestación de servicios,Arriendo,Comercio,nicolasortiz@gmail.com,3204338417,0
+618,Oscar Eduardo Ortiz López,837653424-1,63,5813179.0,13,,0,841,21,0.0,2020-09-29,2023-01-18,Bogotá,Mora,Pensionado,Propia,Gobierno,oscareduardo@gmail.com,3209254549,0
+619,Luis Miguel González González,951748390-1,57,9696176.0,18,,8,389,152,0.0,2020-04-02,2023-09-17,Barranquilla,Activo,Pensionado,Arriendo,Servicios,luismiguel@gmail.com,3146543686,1
+620,Tomás Castro Rojas,941657138-6,23,5715394.0,10,508317.0,6,319,8,8.89,2017-07-11,2022-11-27,Pereira,Activo,Prestación de servicios,Propia,Transporte,tomascastro@gmail.com,3209931590,0
+621,Ricardo Augusto Ruiz Flores,850693330-2,35,4739057.0,4,2097959.0,0,430,144,44.27,2018-11-28,2022-03-12,Bucaramanga,Inactivo,Fijo,Familiar,Comercio,ricardoaugusto@hotmail.com,3158118298,0
+622,Hernán Darío Reyes Ruiz,807327333-2,50,2792656.0,13,2033911.0,3,689,18,72.83,2020-01-05,2023-03-26,Pereira,Activo,Fijo,Arriendo,Transporte,hernandario@gmail.com,3123937636,0
+623,Juliana Aguilar Ramírez,843723570-3,29,11377306.0,24,48387873.0,5,725,54,425.3,2017-05-11,2022-04-03,Cúcuta,Inactivo,Pensionado,Arriendo,Gobierno,julianaaguilar@hotmail.com,3241270875,1
+624,David Romero Sánchez,895208982-5,41,10283614.0,14,75675248.0,4,534,27,735.88,2022-04-18,2023-10-22,Pereira,Inactivo,Indefinido,Arriendo,Financiero,davidromero@hotmail.com,3173975579,0
+625,Sergio Iván Aguilar Flores,837640117-7,24,2142405.0,26,16786048.0,4,680,164,783.51,2019-08-27,2024-04-23,Cali,Inactivo,Fijo,Propia,Gobierno,sergioivan@gmail.com,3157124824,0
+626,Claudia Patricia Rivera López,933561508-3,41,5738370.0,12,72718468.0,4,628,13,1267.23,2023-10-14,2022-01-27,Bucaramanga,Activo,Pensionado,Propia,Tecnología,claudiapatricia@gmail.com,3117325627,0
+627,Sofía Rivera Rivera,826874482-0,44,10920481.0,3,33590630.0,1,415,127,307.59,2020-03-17,2023-03-02,Cúcuta,Inactivo,Fijo,Familiar,Salud,sofiarivera@gmail.com,3255309422,1
+628,Nicolás Moreno Sánchez,928255734-7,58,3561015.0,8,41178722.0,2,530,174,1156.38,2015-12-03,2024-02-01,Medellín,Mora,Pensionado,Arriendo,Transporte,nicolasmoreno@hotmail.com,3175205556,1
+629,Paola Andrea Castro Rojas,979410544-9,55,6927496.0,29,21338070.0,2,635,114,308.02,2019-03-16,2023-11-09,Cali,Mora,Indefinido,Familiar,Manufactura,paolaandrea@gmail.com,3164056346,1
+630,Juan Carlos Morales Rivera,906505417-5,22,7506911.0,16,68614436.0,3,891,109,914.02,2020-01-26,2022-08-08,Manizales,Mora,Prestación de servicios,Familiar,Servicios,juancarlos@hotmail.com,3189631725,0
+631,Luis Miguel Gómez Ortiz,891531924-7,57,6291318.0,4,53441015.0,5,831,73,849.44,2015-09-16,2024-03-11,Bucaramanga,Inactivo,Indefinido,Familiar,Tecnología,luismiguel@hotmail.com,3242864568,1
+632,Fabio Alejandro Torres Ruiz,882417847-7,49,7309635.0,3,77303404.0,8,486,107,1057.55,2020-09-23,2022-07-19,Cali,Mora,Fijo,Propia,Comercio,fabioalejandro@gmail.com,3219817680,0
+633,Diana Carolina Aguilar Aguilar,812615182-8,45,7164301.0,23,75773080.0,8,470,101,1057.65,2016-10-12,2022-04-13,Cali,Mora,Fijo,Familiar,Tecnología,dianacarolina@gmail.com,3298113803,0
+634,Marcela Cristina Rodríguez Romero,879590154-6,55,11706093.0,29,38123666.0,5,439,82,325.67,2015-01-02,2022-03-18,Cartagena,Mora,Prestación de servicios,Propia,Transporte,marcelacristina@gmail.com,3121993584,0
+635,Sergio Iván Flores Ramos,843017575-3,47,9756285.0,21,33520742.0,3,554,95,343.58,2015-10-16,2022-08-20,Cartagena,Activo,Pensionado,Propia,Transporte,sergioivan@gmail.com,3144453272,0
+636,Marcela Cristina Jiménez García,970928050-1,55,4767186.0,4,61732642.0,7,537,175,1294.95,2019-12-01,2022-11-02,Medellín,Mora,Pensionado,Propia,Educación,marcelacristina@gmail.com,3205565127,0
+637,Juan Carlos Álvarez Ortiz,830289605-7,49,7642275.0,29,56780854.0,7,598,63,742.98,2020-11-11,2022-04-16,Medellín,Mora,Prestación de servicios,Propia,Servicios,juancarlos@gmail.com,3238074517,1
+638,Andrés Felipe Vargas Vargas,867557367-8,43,5906276.0,27,20099925.0,5,385,9,340.31,2016-02-19,2024-01-01,Manizales,Activo,Pensionado,Propia,Transporte,andresfelipe@gmail.com,3182744250,0
+639,Daniela Ríos Álvarez,962840419-8,64,5517166.0,20,8623814.0,1,889,30,156.31,2016-04-26,2024-02-22,Barranquilla,Inactivo,Pensionado,Arriendo,Salud,danielarios@gmail.com,3248729984,0
+640,Sofía Martínez Romero,968609235-6,64,11034854.0,7,45354400.0,0,636,31,411.01,2018-04-12,2023-02-27,Bogotá,Mora,Pensionado,Arriendo,Financiero,sofiamartinez@gmail.com,3216911929,0
+641,Natalia Andrea Vargas Guerrero,812830976-5,51,8840596.0,21,21053896.0,2,514,148,238.15,2023-08-24,2024-06-03,Cúcuta,Mora,Prestación de servicios,Familiar,Manufactura,nataliaandrea@gmail.com,3159385863,0
+642,Luis Miguel Ruiz Vega,998604474-3,42,10201173.0,4,73133705.0,1,715,86,716.91,2021-12-21,2023-05-25,Cali,Inactivo,Fijo,Arriendo,Servicios,luismiguel@gmail.com,3247064346,0
+643,Jorge Alberto Jiménez López,829925347-3,59,4760540.0,17,56018264.0,8,603,149,1176.72,2021-01-13,2022-07-02,Pereira,Mora,Indefinido,Propia,Educación,jorgealberto@hotmail.com,3297788683,0
+644,Diana Carolina Castro Vega,894972370-6,30,11173212.0,4,67600759.0,4,883,27,605.03,2018-08-19,2022-08-19,Manizales,Activo,Fijo,Familiar,Tecnología,dianacarolina@gmail.com,3181442233,0
+645,Hernán Darío Morales Cruz,918207136-3,31,1630393.0,8,77167239.0,7,749,112,4733.05,2021-03-28,2023-07-19,Ibagué,Activo,Pensionado,Propia,Gobierno,hernandario@gmail.com,3287494523,1
+646,Valentina Ortiz Mendoza,899382457-5,37,4861625.0,12,6163236.0,2,629,69,126.77,2023-12-03,2023-07-06,Ibagué,Activo,Indefinido,Familiar,Servicios,valentinaortiz@gmail.com,3134822259,0
+647,Manuela Cruz Rojas,872244957-9,25,6332508.0,15,39770636.0,6,366,49,628.04,2015-04-01,2023-07-28,Manizales,Mora,Indefinido,Arriendo,Servicios,manuelacruz@gmail.com,3142069997,0
+648,Pedro Pablo Vargas Ortiz,995356722-0,67,7776254.0,14,56337426.0,2,705,61,724.48,2022-06-03,2023-04-08,Cartagena,Mora,Prestación de servicios,Arriendo,Comercio,pedropablo@gmail.com,3267830709,1
+649,Nicolás Jiménez García,963636761-0,67,9421896.0,19,9574671.0,1,365,141,101.62,2019-08-22,2024-01-18,Cali,Mora,Fijo,Propia,Transporte,nicolasjimenez@gmail.com,3154040670,1
+650,Daniela Ramírez Castro,823919137-1,47,7527030.0,22,30996091.0,6,690,127,411.8,2016-07-21,2024-05-17,Bucaramanga,Activo,Indefindo,Arriendo,Tecnología,danielaramirez@gmail.com,3189383269,1
+651,Oscar Eduardo Romero Díaz,860838267-5,63,8146577.0,11,36138199.0,1,836,71,443.6,2015-03-25,2024-06-19,Ibagué,Activo,otro,Arriendo,Educación,oscareduardo@hotmail.com,3261211031,1
+652,Alejandro Medina López,952492452-9,45,10523266.0,6,15078568.0,7,486,143,143.29,2017-06-13,2022-12-20,Medellín,Mora,N/A,Arriendo,Transporte,alejandromedina@hotmail.com,3243977821,1
+653,Daniel López Martínez,944308175-1,41,11317841.0,4,27924322.0,2,830,48,246.73,2016-02-13,2023-05-25,Barranquilla,Mora,N/A,Arriendo,Servicios,daniellopez@gmail.com,3277523750,0
+654,Claudia Patricia Ríos González,890823511-3,45,2984504.0,27,39261452.0,6,342,97,1315.51,2015-08-29,2023-05-07,Ibagué,Activo,otro,Familiar,Financiero,claudiapatricia@gmail.com,3289924232,1
+655,Nicolás Díaz Herrera,885984284-2,50,9516987.0,10,75539782.0,6,713,117,793.74,2019-03-25,2022-03-26,Manizales,Activo,indefinido,Arriendo,Gobierno,nicolasdiaz@gmail.com,3226132109,1
+656,Fabio Alejandro Rodríguez Aguilar,811175651-3,27,4724758.0,19,59828111.0,8,477,170,1266.27,2018-07-08,2024-01-27,Bogotá,Mora,indefinido,Arriendo,Manufactura,fabioalejandro@hotmail.com,3271879717,0
+657,Laura Molina Aguilar,847859388-8,45,8651901.0,2,72852968.0,1,768,53,842.05,2017-06-26,2023-12-31,Bucaramanga,Activo,indef,Propia,Transporte,lauramolina@gmail.com,3101758898,0
+658,Gloria Esperanza Ramírez Herrera,801272057-3,64,10043196.0,27,26460056.0,2,699,64,263.46,2019-03-03,2024-05-07,Pereira,Activo,INDEFINIDO,Familiar,Comercio,gloriaesperanza@gmail.com,3188094088,0
+659,Paola Andrea Reyes Vargas,909844703-0,48,10147327.0,13,22246935.0,3,799,70,219.24,2021-09-24,2022-01-11,Pereira,Activo,INDEFINIDO,Familiar,Comercio,paolaandrea@hotmail.com,3132934050,1
+660,Daniela González Gómez,944133654-5,32,11406783.0,9,76425376.0,6,591,143,670.0,2018-03-19,2022-10-19,Ibagué,Inactivo,indefinido,Arriendo,Comercio,danielagonzalez@gmail.com,3279354503,1
+661,Sofía Martínez Ramos,928532208-1,29,3900773.0,27,31045108.0,1,369,67,795.87,2019-11-21,2023-09-23,Bucaramanga,Inactivo,indef,Familiar,Salud,sofiamartinez@gmail.com,3264170380,0
+662,Sebastián Martínez García,840992920-5,38,11179318.0,12,36962834.0,0,700,103,330.64,2016-09-19,2022-10-26,Cúcuta,Activo,INDEFINIDO,Familiar,Comercio,sebastianmartinez@gmail.com,3241424625,0
+663,Pedro Pablo Morales Aguilar,877257479-8,32,3005316.0,11,4537050.0,1,719,138,150.97,2020-12-28,2022-01-18,Ibagué,Mora,otro,Arriendo,Financiero,pedropablo@hotmail.com,3134920197,1
+664,Carlos Andrés Rodríguez Álvarez,952190764-1,36,9502851.0,2,45091101.0,1,320,172,474.5,2020-05-05,2023-08-09,Pereira,Inactivo,indef,Familiar,Comercio,carlosandres@gmail.com,3295195013,1
+665,Camila Ramos Flores,921929610-8,45,3850318.0,10,50967457.0,2,697,71,1323.72,2016-10-18,2023-01-12,Bogotá,Inactivo,,Propia,Salud,camilaramos@gmail.com,3274808186,0
+666,Sergio Iván Ruiz Reyes,908929056-6,48,6336106.0,15,35511431.0,6,774,99,560.46,2018-10-15,2022-11-30,Pereira,Activo,,Propia,Comercio,sergioivan@gmail.com,3284264878,0
+667,Valentina Rojas Ríos,909577524-5,63,4722439.0,13,11306519.0,1,855,172,239.42,2020-01-27,2022-11-04,Ibagué,Inactivo,,Propia,Comercio,valentinarojas@gmail.com,3157447324,0
+668,Laura Gómez Guerrero,806398265-3,46,7457626.0,6,21865599.0,2,711,153,293.2,2023-10-08,2024-03-31,Barranquilla,Activo,,Arriendo,Servicios,lauragomez@hotmail.com,3149165219,1
+669,Sofía Martínez Sánchez,817544685-1,23,1591021.0,28,69557099.0,5,392,86,4371.85,2019-01-01,2022-07-27,Cali,Activo,,Propia,Financiero,sofiamartinez@gmail.com,3208492990,1
+670,Sandra Milena Herrera Medina,827246061-8,32,10958579.0,5,13060540.0,1,845,164,119.18,2019-08-06,2022-06-12,Cúcuta,Mora,,Familiar,Construcción,sandramilena@gmail.com,3172901872,0
+671,Diana Carolina Guerrero Sánchez,810570544-2,46,6464537.0,16,13636637.0,0,900,98,210.95,2019-12-12,2023-08-22,Ibagué,Activo,,Propia,Servicios,dianacarolina@gmail.com,3286768490,0
+672,Luisa María Moreno González,847576285-2,61,4651098.0,13,73341121.0,1,501,168,1576.86,2018-08-06,2022-10-27,Medellín,Inactivo,Pensionado,Propia,Transporte,luisamaria@gmail.com,3233836358,1
+673,Oscar Eduardo Díaz Molina,875227918-8,23,6640895.0,29,13350554.0,3,613,73,201.04,2020-01-13,2023-03-20,Bucaramanga,Activo,Prestación de servicios,Familiar,Servicios,oscareduardo@gmail.com,3201526365,1
+674,Carlos Andrés López Medina,902185625-3,52,5490178.0,2,55623063.0,4,684,91,1013.14,2019-02-11,2024-04-02,Cúcuta,Inactivo,Pensionado,Familiar,Financiero,carlosandres@hotmail.com,3215388717,0
+675,Daniela Herrera Vargas,822362316-7,64,2390351.0,22,73067336.0,8,416,11,3056.76,2016-06-10,2024-04-05,Medellín,Activo,Indefinido,Propia,Financiero,danielaherrera@hotmail.com,3284975282,0
+676,Pedro Pablo García García,997703659-5,61,2239019.0,19,50090110.0,7,638,176,2237.15,2016-03-09,2023-09-20,Medellín,Activo,Fijo,Propia,Educación,pedropablo@hotmail.com,3121064443,1
+677,Hernán Darío Reyes Rodríguez,992462633-1,46,4864252.0,17,15411087.0,3,807,160,316.82,2022-12-02,2022-07-10,Manizales,Inactivo,Indefinido,Arriendo,Tecnología,hernandario@gmail.com,3123950288,0
+678,Oscar Eduardo Flores Vega,954466908-3,66,2802108.0,25,6062381.0,2,629,64,216.35,2016-10-27,2023-02-09,Ibagué,Inactivo,Pensionado,Familiar,Construcción,oscareduardo@hotmail.com,3186784096,0
+679,Sofía García Ortiz,875550927-2,26,2147006.0,16,27537860.0,0,740,26,1282.62,2022-07-23,2024-02-22,Manizales,Activo,Indefinido,Arriendo,Transporte,sofiagarcia@gmail.com,3212105263,1
+680,Sebastián Guerrero Ruiz,999230821-7,45,6746797.0,25,39126997.0,8,494,64,579.93,2021-08-02,2022-06-24,Bogotá,Mora,Prestación de servicios,Arriendo,Servicios,sebastianguerrero@gmail.com,3207765272,1
+681,Camila Guerrero Flores,838140084-6,48,11471158.0,28,11154562.0,5,690,167,97.24,2016-09-03,2023-02-14,Bucaramanga,Activo,Pensionado,Familiar,Tecnología,camilaguerrero@hotmail.com,3154640551,1
+682,Isabela Ramos Flores,872716502-5,34,1727647.0,13,12665307.0,8,584,64,733.1,2017-02-17,2023-05-14,Ibagué,Mora,Pensionado,Arriendo,Manufactura,isabelaramos@gmail.com,3159176244,0
+683,Ana Lucía Ruiz Sánchez,817959963-5,67,6505353.0,10,11318224.0,8,806,61,173.98,2019-09-02,2023-05-18,Bogotá,Inactivo,Fijo,Arriendo,Construcción,analucia@gmail.com,3233044259,0
+684,Sofía Herrera Castro,994550408-5,66,10573024.0,12,45226215.0,7,364,10,427.75,2020-01-06,2023-01-14,Pereira,Activo,Fijo,Arriendo,Comercio,sofiaherrera@gmail.com,3208989103,0
+685,Manuela Castro Castro,987456411-3,30,11637476.0,26,50614539.0,3,542,69,434.93,2020-06-24,2023-07-31,Manizales,Activo,Prestación de servicios,Familiar,Educación,manuelacastro@gmail.com,3146396474,1
+686,Daniela Rojas Vargas,817965162-7,46,9663049.0,26,61595655.0,2,672,21,637.43,2020-04-24,2022-09-10,Barranquilla,Mora,Indefinido,Arriendo,Financiero,danielarojas@gmail.com,3253451490,0
+687,Sebastián Navarro Jiménez,962341984-8,34,10153433.0,21,15055605.0,1,602,21,148.28,2023-04-01,2024-06-25,Barranquilla,Mora,Prestación de servicios,Propia,Manufactura,sebastiannavarro@gmail.com,3106002580,1
+688,Diana Carolina Herrera López,807736640-6,27,5370632.0,25,72784530.0,2,757,166,1355.23,2019-04-14,2023-07-23,Cali,Mora,Pensionado,Arriendo,Educación,dianacarolina@gmail.com,3245629663,1
+689,Camila Herrera Rivera,957432116-2,42,11539108.0,4,4193879.0,5,865,128,36.34,2019-02-19,2022-05-26,Bucaramanga,Mora,Pensionado,Familiar,Salud,camilaherrera@gmail.com,3207636021,0
+690,Juan Carlos Herrera Jiménez,951831626-9,24,10774226.0,2,57822134.0,2,808,22,536.67,2015-10-06,2022-05-24,Cali,Activo,Fijo,Familiar,Comercio,juancarlos@hotmail.com,3216990825,1
+691,David Castro González,932192570-6,56,2152580.0,14,51345497.0,6,458,146,2385.3,2016-01-02,2024-04-13,Barranquilla,Inactivo,Fijo,Propia,Construcción,davidcastro@hotmail.com,3111406431,1
+692,Hernán Darío Ramos Martínez,811321501-3,36,11474643.0,28,11013849.0,5,630,105,95.98,2023-06-24,2023-10-12,Pereira,Activo,Prestación de servicios,Arriendo,Salud,hernandario@gmail.com,3232140205,1
+693,Juliana Martínez Reyes,861607544-9,53,1575100.0,23,6450195.0,5,821,48,409.51,2019-06-15,2022-08-06,Cali,Mora,Indefinido,Familiar,Transporte,julianamartinez@hotmail.com,3277279721,1
+694,Jorge Alberto Díaz Ortiz,889787833-3,42,10928245.0,13,9533413.0,4,762,13,87.24,2019-12-30,2023-09-10,Cúcuta,Inactivo,Fijo,Propia,Educación,jorgealberto@hotmail.com,3134449113,1
+695,Tomás Medina Reyes,959251527-4,45,6369688.0,21,50089411.0,4,522,136,786.37,2015-04-08,2022-11-14,Bogotá,Activo,Fijo,Arriendo,Comercio,tomasmedina@gmail.com,3226492169,0
+696,Isabela Rivera Navarro,928896149-8,60,4496096.0,22,68588722.0,3,379,163,1525.52,2016-03-15,2024-06-24,Bogotá,Activo,Indefinido,Propia,Construcción,isabelarivera@gmail.com,3198466878,1
+697,Tomás Rivera Sánchez,814371455-5,35,8280607.0,14,59347719.0,5,377,77,716.71,2019-09-07,2023-11-01,Bogotá,Inactivo,Indefinido,Propia,Construcción,tomasrivera@hotmail.com,3244433725,1
+698,María Fernanda Ramos Gómez,803850449-1,27,9110495.0,15,69583343.0,8,579,75,763.77,2015-04-03,2023-12-21,Ibagué,Inactivo,Indefinido,Familiar,Tecnología,mariafernanda@hotmail.com,3227332141,1
+699,Daniela Mendoza Rojas,910709292-2,22,7555987.0,2,52528802.0,4,588,128,695.19,2017-04-10,2024-04-01,Cartagena,Activo,Prestación de servicios,Propia,Comercio,danielamendoza@gmail.com,3101740262,0
+700,Laura Ríos Navarro,862148413-0,40,5322365.0,20,29383772.0,100,467,101,552.08,2022-05-21,2023-01-16,Cúcuta,Mora,Fijo,Arriendo,Financiero,laurarios@gmail.com,3287740736,1
+701,Carolina Herrera Flores,980565241-7,65,7193820.0,12,76910913.0,100,559,41,1069.12,2018-09-25,2023-01-03,Manizales,Inactivo,Fijo,Propia,Financiero,carolinaherrera@gmail.com,3146731933,1
+702,Jorge Alberto Torres Reyes,986083432-6,27,10146155.0,29,8950397.0,100,342,139,88.21,2016-03-01,2023-08-13,Bogotá,Inactivo,Fijo,Familiar,Comercio,jorgealberto@gmail.com,3209207078,1
+703,Valentina Ríos Romero,940424231-6,36,7558704.0,24,32639876.0,-1,764,45,431.82,2022-10-13,2024-02-11,Barranquilla,Mora,Indefinido,Familiar,Educación,valentinarios@gmail.com,3126143155,1
+704,Isabela Medina Reyes,945483127-1,34,1746809.0,1,23662726.0,-1,373,23,1354.63,2017-11-04,2023-04-09,Medellín,Inactivo,Prestación de servicios,Familiar,Manufactura,isabelamedina@hotmail.com,3296036779,1
+705,Valentina Reyes Medina,915031002-9,59,11155335.0,21,49184254.0,100,803,14,440.9,2020-08-09,2022-11-24,Bucaramanga,Activo,Prestación de servicios,Familiar,Servicios,valentinareyes@gmail.com,3222644281,1
+706,Juliana Ruiz Navarro,807335838-6,24,11609067.0,25,72470033.0,-3,856,29,624.25,2015-12-06,2022-09-09,Medellín,Inactivo,Pensionado,Familiar,Financiero,julianaruiz@hotmail.com,3251576165,1
+707,Manuela Guerrero Reyes,964743471-6,28,1608086.0,5,47474325.0,100,755,23,2952.23,2020-08-18,2022-07-05,Manizales,Inactivo,Pensionado,Familiar,Salud,manuelaguerrero@hotmail.com,3139669396,1
+708,Daniel Herrera Rivera,810688159-4,60,4979864.0,4,54944589.0,1,503,129,1103.34,2020-06-14,2022-09-13,Bogotá,Inactivo,Fijo,Arriendo,Salud,danielherrera@gmail.com,3176705434,0
+709,Juliana Navarro Cruz,991616731-7,66,11454432.0,4,8123018.0,2,435,160,70.92,2021-04-24,2022-01-25,Manizales,Inactivo,Prestación de servicios,Familiar,Manufactura,juliananavarro@hotmail.com,3267178852,0
+710,Andrés Felipe Suárez Ramos,809002483-4,49,7351456.0,14,5355084.0,1,569,176,72.84,2019-01-04,2023-05-02,Pereira,Mora,Fijo,Propia,Educación,andresfelipe@hotmail.com,3124133828,0
+711,Daniel Vega Moreno,949617461-4,52,2201598.0,26,52501016.0,6,418,149,2384.68,2015-06-12,2022-08-26,Barranquilla,Activo,Prestación de servicios,Propia,Manufactura,danielvega@hotmail.com,3119559668,0
+712,Claudia Patricia Aguilar Vargas,957188515-8,22,4685114.0,26,10964943.0,3,791,60,234.04,2017-02-11,2023-11-11,Manizales,Inactivo,Pensionado,Propia,Educación,claudiapatricia@hotmail.com,3272189815,1
+713,Sergio Iván Molina Flores,818252005-7,54,11893603.0,3,45292593.0,3,723,166,380.81,2019-01-21,2022-08-19,Cartagena,Inactivo,Indefinido,Arriendo,Salud,sergioivan@gmail.com,3221464145,1
+714,Valentina Romero Guerrero,962789061-3,30,6533341.0,26,40763783.0,6,461,67,623.93,2021-09-19,2023-06-18,Cartagena,Inactivo,Indefinido,Arriendo,Transporte,valentinaromero@hotmail.com,3122423423,0
+715,Diana Carolina Martínez Moreno,874461159-6,39,6377324.0,26,78934312.0,5,610,143,1237.73,2021-10-15,2022-12-01,Cartagena,Inactivo,Pensionado,Arriendo,Transporte,dianacarolina@gmail.com,3293302963,0
+716,Luisa María Navarro Castro,943006066-8,61,8129342.0,9,50329710.0,4,595,158,619.11,2020-10-04,2022-08-22,Bucaramanga,Inactivo,Fijo,Familiar,Comercio,luisamaria@gmail.com,3194218650,0
+717,Sofía Suárez Vargas,870842840-9,49,8531689.0,7,61465124.0,2,602,54,720.43,2022-09-15,2023-12-04,Bucaramanga,Mora,Prestación de servicios,Propia,Servicios,sofiasuarez@gmail.com,3152966470,0
+718,Fabio Alejandro Morales Reyes,960559632-5,33,10816369.0,26,39756455.0,3,701,129,367.56,2023-01-16,2022-10-05,Ibagué,Inactivo,Prestación de servicios,Propia,Construcción,fabioalejandro@gmail.com,3183087576,0
+719,Manuela Romero García,817863415-3,38,11241960.0,15,74780082.0,8,897,76,665.19,2020-09-24,2023-08-05,Pereira,Activo,Prestación de servicios,Propia,Manufactura,manuelaromero@gmail.com,3252813267,1
+720,Alejandro Jiménez Ramírez,837507779-2,29,5294017.0,26,79535198.0,0,371,77,1502.36,2016-03-16,2023-07-16,Cúcuta,Inactivo,Fijo,Familiar/Propia,Comercio,alejandrojimenez@hotmail.com,3282004617,1
+721,Luis Miguel Vargas Herrera,915374269-3,36,3814595.0,20,45649368.0,4,865,96,1196.7,2017-08-26,2022-06-05,Bogotá,Mora,Prestación de servicios,PROPIA,Manufactura,luismiguel@hotmail.com,3291292604,0
+722,Luisa María Vargas Navarro,833437201-1,37,10376514.0,8,19361961.0,2,477,62,186.59,2018-02-18,2022-04-20,Bogotá,Activo,Prestación de servicios,N/A,Transporte,luisamaria@gmail.com,3244580053,1
+723,Luisa María Suárez Guerrero,918790087-2,46,10431157.0,25,30413011.0,8,578,58,291.56,2022-07-20,2023-05-19,Pereira,Mora,Prestación de servicios,propia,Servicios,luisamaria@gmail.com,3228418708,0
+724,Valentina Flores González,961317238-6,32,9774734.0,7,17434269.0,5,714,76,178.36,2017-10-15,2024-01-03,Cartagena,Activo,Pensionado,Familiar/Propia,Salud,valentinaflores@gmail.com,3285094863,0
+725,Pedro Pablo Guerrero López,904386462-9,44,5274966.0,1,39276598.0,7,734,28,744.58,2019-11-27,2022-09-19,Bucaramanga,Activo,Prestación de servicios,Arrendada,Servicios,pedropablo@hotmail.com,3179676669,0
+726,Ricardo Augusto Martínez Álvarez,897864009-0,36,2444711.0,30,12700294.0,8,351,70,519.5,2015-11-21,2023-06-22,Cartagena,Inactivo,Fijo,PROPIA,Manufactura,ricardoaugusto@hotmail.com,3154843470,1
+727,Jorge Alberto Aguilar González,862227535-1,61,2047539.0,21,62648060.0,2,595,146,3059.68,2020-04-10,2023-03-10,Cali,Activo,Indefinido,N/A,Educación,jorgealberto@hotmail.com,3135513811,0
+728,Sandra Milena Vega Ramírez,924161364-8,45,9093689.0,5,42692587.0,2,551,8,469.47,2018-08-26,2024-05-25,Cali,Inactivo,Indefinido,N/A,Salud,sandramilena@gmail.com,3151811085,0
+729,Sergio Iván Morales Moreno,954045579-4,51,4080784.0,6,56816735.0,3,465,169,1392.3,2021-10-18,2024-02-12,Bogotá,Activo,Pensionado,propia,Construcción,sergioivan@gmail.com,3257627284,0
+730,Isabela Aguilar Rojas,973772565-8,44,9757040.0,19,57468468.0,6,557,140,588.99,2019-07-28,2022-06-20,Cúcuta,Inactivo,Fijo,PROPIA,Educación,isabelaaguilar@gmail.com,3216007028,1
+731,David Álvarez Álvarez,880401241-5,23,4802724.0,7,60024910.0,3,745,169,1249.81,2023-06-01,2022-05-31,Manizales,Mora,Fijo,Arrendada,Manufactura,davidalvarez@hotmail.com,3104809627,0
+732,Oscar Eduardo Navarro Romero,925184619-7,45,10765026.0,15,10433129.0,0,551,43,96.92,2022-03-06,2022-04-14,Cartagena,Inactivo,Indefinido,Familiar/Propia,Manufactura,oscareduardo@gmail.com,3232310694,0
+733,Carolina Molina Ríos,928072731-0,52,2211434.0,11,15478344.0,8,469,8,699.92,2016-02-19,2022-05-30,Cúcuta,Inactivo,Indefinido,N/A,Comercio,carolinamolina@gmail.com,3211404999,1
+734,Luis Miguel Rojas Ruiz,966905831-5,40,5363659.0,26,41359802.0,1,748,130,771.11,2019-11-11,2024-02-21,Cúcuta,Activo,Indefinido,Familiar/Propia,Financiero,luismiguel@gmail.com,3245481292,1
+735,Ricardo Augusto Pérez Álvarez,874023715-6,36,1939862.0,10,969179.0,2,499,113,49.96,2021-05-20,2022-07-18,Pereira,Activo,Pensionado,Familiar,Transporte,ricardoaugusto@hotmail.com,3161009512,0
+736,Jorge Alberto Martínez Ortiz,995216446-7,26,3800492.0,30,78495782.0,7,416,26,2065.41,2022-07-04,2023-04-16,Bucaramanga,Mora,Prestación de servicios,Arriendo,Construcción,jorgealberto@gmail.com,3276546545,0
+737,Sebastián Aguilar Flores,979248275-9,55,8667315.0,26,47508026.0,3,531,11,548.13,2019-11-13,2023-05-10,Cartagena,Inactivo,Prestación de servicios,Arriendo,Manufactura,sebastianaguilar@hotmail.com,3286038910,0
+738,Oscar Eduardo Sánchez Flores,948985459-3,36,10747835.0,8,37147806.0,2,400,144,345.63,2020-09-02,2023-01-07,Pereira,Mora,Pensionado,Arriendo,Transporte,oscareduardo@gmail.com,3125068377,1
+739,Mateo González Jiménez,815274793-6,47,10058139.0,5,33137832.0,0,641,100,329.46,2016-04-29,2022-11-12,Barranquilla,Inactivo,Pensionado,Arriendo,Transporte,mateogonzalez@hotmail.com,3234944513,1
+740,Jorge Alberto Castro Rivera,960519614-5,59,5456900.0,3,8052787.0,1,308,44,147.57,2021-01-22,2023-03-15,Manizales,Activo,Fijo,Propia,Salud,jorgealberto@gmail.com,3113239478,1
+741,Valentina Ruiz Pérez,810852801-2,41,4966488.0,2,79705243.0,1,340,163,1604.86,2015-01-01,2024-04-21,Barranquilla,Activo,Pensionado,Arriendo,Educación,valentinaruiz@hotmail.com,3199826283,1
+742,Fabio Alejandro Torres González,924107526-9,38,3152637.0,25,55995418.0,1,808,161,1776.15,2017-07-05,2023-12-07,Cartagena,Activo,Pensionado,Arriendo,Tecnología,fabioalejandro@gmail.com,3247018858,0
+743,Paola Andrea Herrera Romero,912197859-3,41,8495681.0,7,19254502.0,2,458,15,226.64,2015-11-22,2022-03-02,Ibagué,Activo,Fijo,Propia,Servicios,paolaandrea@hotmail.com,3125739148,0
+744,Sebastián Morales Ramos,916859305-6,29,11263669.0,22,75406298.0,8,609,59,669.46,2020-04-22,2023-11-03,Bogotá,Inactivo,Fijo,Arriendo,Comercio,sebastianmorales@gmail.com,3111526460,0
+745,Oscar Eduardo Álvarez Gómez,933578027-7,64,11648802.0,26,56731338.0,5,760,40,487.01,2018-09-01,2024-02-03,Pereira,Mora,Prestación de servicios,Familiar,Tecnología,oscareduardo@hotmail.com,3155204376,0
+746,Daniela Castro Flores,811281126-2,37,6884236.0,16,76565009.0,3,484,112,1112.18,2015-06-07,2024-02-29,Bogotá,Mora,Prestación de servicios,Familiar,Financiero,danielacastro@gmail.com,3216656938,1
+747,Mateo Molina Díaz,856656461-2,43,8643735.0,28,58923637.0,8,580,141,681.69,2019-05-20,2024-06-29,Cúcuta,Mora,Fijo,Arriendo,Salud,mateomolina@gmail.com,3285868635,1
+748,Camila Martínez Herrera,889283085-0,48,7687863.0,26,5023877.0,6,774,161,65.35,2021-05-31,2022-08-25,Bucaramanga,Mora,Fijo,Arriendo,Construcción,camilamartinez@gmail.com,3114849916,0
+749,Juliana Ortiz Romero,871233620-0,55,3906819.0,8,76160687.0,7,544,107,1949.43,2015-01-10,2023-03-17,Bogotá,Activo,Prestación de servicios,Familiar,Gobierno,julianaortiz@gmail.com,3109417998,0
+750,Paola Andrea Rodríguez Navarro,955739875-3,56,8443530.0,10,62373984.0,3,698,149,738.72,2023-02-20,2022-12-03,Cali,Mora,Fijo,Propia,salud,paolaandrea@gmail.com,3179050790,1
+751,Sergio Iván Ortiz Rivera,976484815-4,64,4199471.0,6,72476363.0,3,467,98,1725.85,2016-02-04,2024-02-23,Cartagena,Inactivo,Indefinido,Propia,salud,sergioivan@gmail.com,3105019005,1
+752,Marcela Cristina Gómez Ramírez,921142665-5,29,6754862.0,27,62363002.0,7,823,37,923.23,2020-05-25,2023-11-16,Ibagué,Inactivo,Indefinido,Arriendo,Tech,marcelacristina@hotmail.com,3165198933,0
+753,Luisa María González Rivera,839141363-5,32,6981910.0,23,42784738.0,7,659,13,612.79,2018-10-25,2024-05-23,Pereira,Inactivo,Indefinido,Familiar,EDUCACION,luisamaria@hotmail.com,3299110494,0
+754,Pedro Pablo Cruz Navarro,949641429-7,46,4883247.0,12,15929046.0,0,337,121,326.2,2017-02-09,2022-01-04,Ibagué,Inactivo,Indefinido,Familiar,Otro,pedropablo@gmail.com,3106287678,0
+755,Luisa María Torres Sánchez,959624739-8,57,9544314.0,19,10861624.0,7,866,147,113.8,2023-02-21,2024-02-19,Bucaramanga,Activo,Indefinido,Familiar,EDUCACION,luisamaria@gmail.com,3235923296,1
+756,Andrés Felipe Rodríguez Medina,978462242-2,66,4211955.0,13,79942460.0,4,648,111,1897.99,2015-11-01,2023-06-28,Bucaramanga,Activo,Pensionado,Arriendo,Comercio/Servicios,andresfelipe@hotmail.com,3196498797,1
+757,Luisa María Torres Aguilar,961841457-9,28,5306588.0,4,77971127.0,5,625,37,1469.33,2017-01-18,2023-08-14,Barranquilla,Mora,Indefinido,Propia,Tech,luisamaria@gmail.com,3272336525,0
+758,Manuela Vega Medina,948274818-4,28,10900921.0,25,74462988.0,4,730,29,683.09,2022-05-18,2022-12-08,Cartagena,Mora,Indefinido,Propia,salud,manuelavega@gmail.com,3281067267,1
+759,Mateo Martínez Ramos,896939612-6,56,2622355.0,6,47268308.0,8,553,26,1802.51,2018-09-30,2022-06-22,Cali,Mora,Indefinido,Familiar,Comercio/Servicios,mateomartinez@hotmail.com,3143841550,0
+760,Samuel Morales Suárez,801419081-8,39,7555253.0,24,62100985.0,3,804,146,821.96,2017-09-01,2022-03-02,Pereira,Activo,Pensionado,Propia,Tech,samuelmorales@gmail.com,3227904546,0
+761,Fabio Alejandro Vargas Morales,965459547-1,67,5912354.0,21,48420474.0,0,417,109,818.97,2021-08-16,2022-07-15,Cartagena,Mora,Fijo,Familiar,Otro,fabioalejandro@gmail.com,3173222118,0
+762,Hernán Darío Morales Martínez,996294095-1,65,5644547.0,7,22123926.0,1,888,6,391.95,2022-04-23,2022-08-04,Medellín,Mora,Indefinido,Arriendo,Tech,hernandario@hotmail.com,3143466041,0
+763,Claudia Patricia Moreno Jiménez,910361020-6,64,6948092.0,9,35472942.0,3,449,58,510.54,2019-05-14,2022-12-28,Barranquilla,Mora,Fijo,Arriendo,Tech,claudiapatricia@gmail.com,3181051294,0
+764,Jorge Alberto Rodríguez Rodríguez,923144125-8,40,3640319.0,4,70504527.0,2,590,77,1936.77,2016-12-26,2023-03-13,Bogotá,Inactivo,Indefinido,Familiar,Tech,jorgealberto@gmail.com,3178538725,1
+765,Marcela Cristina Ramos Álvarez,872380800-2,52,3815939.0,29,10678939.0,3,797,104,279.85,2017-06-15,2023-07-19,Cúcuta,Mora,Fijo,Propia,,marcelacristina@gmail.com,3265275022,0
+766,Marcela Cristina Aguilar Medina,908371351-0,26,7455137.0,29,8569532.0,4,558,68,114.95,2023-07-01,2023-11-16,Cúcuta,Mora,Fijo,Familiar,,marcelacristina@gmail.com,3103501420,0
+767,Sebastián Ríos Suárez,952458203-5,22,6550702.0,6,8677299.0,4,735,70,132.46,2022-10-21,2024-04-03,Cartagena,Mora,Fijo,Familiar,,sebastianrios@gmail.com,3296987578,1
+768,Mateo Díaz Morales,887165034-0,43,5247247.0,25,19293371.0,5,804,64,367.69,2019-10-31,2023-07-30,Bogotá,Mora,Indefinido,Propia,,mateodiaz@gmail.com,3177890994,0
+769,Gloria Esperanza Rojas Suárez,943607790-1,28,8650088.0,18,35302494.0,2,526,60,408.12,2017-06-13,2023-01-15,Medellín,Activo,Prestación de servicios,Propia,,gloriaesperanza@gmail.com,3188547010,0
+770,Luisa María Castro Morales,964221842-1,27,9956866.0,26,47865877.0,3,345,127,480.73,2022-09-23,2022-10-11,Cúcuta,Activo,Indefinido,Arriendo,Comercio,luisamaria@gmail.com,3202679291,1
+771,Juliana Cruz Vargas,800024941-6,66,5164068.0,12,60266191.0,8,468,12,1167.03,2023-04-15,2022-04-10,Ibagué,Activo,Prestación de servicios,Propia,Tecnología,julianacruz@gmail.com,3171758400,0
+772,Ricardo Augusto Reyes Díaz,835602102-4,51,2143389.0,15,18050014.0,2,332,36,842.12,2023-02-20,2024-01-12,Barranquilla,Inactivo,Prestación de servicios,Familiar,Manufactura,ricardoaugusto@hotmail.com,3123668732,1
+773,Carlos Andrés Rivera Moreno,809430004-8,33,8686616.0,29,33628532.0,1,461,60,387.13,2015-10-27,2022-06-07,Pereira,Activo,Pensionado,Propia,Tecnología,carlosandres@hotmail.com,3269906450,0
+774,Juliana Castro Guerrero,842250977-9,56,8435425.0,7,76289448.0,6,476,162,904.39,2023-11-30,2023-04-01,Cartagena,Inactivo,Prestación de servicios,Familiar,Comercio,julianacastro@gmail.com,3104292858,1
+775,Alejandro Vega Rojas,824434268-9,29,9864319.0,5,72066475.0,3,846,34,730.58,2021-04-13,2023-05-06,Pereira,Mora,Fijo,Propia,Gobierno,alejandrovega@hotmail.com,3173121094,1
+776,Ana Lucía Molina Vega,819910644-3,56,7298912.0,11,42006070.0,1,565,72,575.51,2018-09-22,2023-07-17,Cali,Activo,Indefinido,Arriendo,Servicios,analucia@gmail.com,3163343985,0
+777,Hernán Darío Pérez Aguilar,839680725-9,50,2250070.0,24,50708358.0,1,629,123,2253.63,2016-11-05,2023-11-29,Cartagena,Inactivo,Indefinido,Propia,Salud,hernandario@gmail.com,3101509145,1
+778,Jorge Alberto Pérez Pérez,984671891-3,52,11507431.0,4,35118325.0,8,680,20,305.18,2023-10-31,2023-10-08,Ibagué,Activo,Fijo,Arriendo,Financiero,jorgealberto@gmail.com,3139456053,0
+779,Fabio Alejandro Ortiz Rivera,822827868-8,31,7803657.0,19,43201068.0,4,802,139,553.6,2023-08-12,2022-03-20,Cali,Activo,Prestación de servicios,Familiar,Transporte,fabioalejandro@gmail.com,3207366035,0
+780,Samuel Mendoza Rojas,807046795-0,60,2012958.0,22,20902824.0,3,686,94,1038.41,2022-02-20,2022-12-16,Medellín,Inactivo,Prestación de servicios,Familiar,Tecnología,samuelmendoza@gmail.com,3283062630,1
+781,Diana Carolina Vargas Molina,861161609-5,45,8443901.0,12,24810110.0,2,890,102,293.82,2023-03-08,2022-02-12,Cúcuta,Mora,Indefinido,Familiar,Servicios,dianacarolina@hotmail.com,3165033072,0
+782,Manuela Rojas Ruiz,804561889-9,62,11507607.0,28,73971389.0,2,428,22,642.8,2015-09-06,2022-10-02,Bogotá,Activo,Pensionado,Arriendo,Gobierno,manuelarojas@hotmail.com,3279880006,0
+783,Oscar Eduardo Ortiz Gómez,946962417-7,53,10744767.0,8,41253068.0,6,492,141,383.94,2022-04-07,2022-03-07,Pereira,Inactivo,Fijo,Propia,Educación,oscareduardo@hotmail.com,3225951813,0
+784,Sofía Medina Suárez,879882829-2,23,4048520.0,14,60518356.0,2,677,141,1494.83,2019-10-31,2022-08-08,Medellín,Inactivo,Prestación de servicios,Propia,Servicios,sofiamedina@gmail.com,3225892660,0
+785,Alejandro Rivera Ruiz,900304923-4,24,3459185.0,26,18326325.0,5,648,145,529.79,2022-08-30,2022-07-11,Cartagena,Activo,Indefinido,Familiar,Educación,alejandrorivera@gmail.com,3197898650,0
+786,Fabio Alejandro Molina Aguilar,935617976-0,36,9173191.0,12,19315471.0,8,831,51,210.56,2018-02-02,2022-12-06,Cali,Inactivo,Indefinido,Familiar,Financiero,fabioalejandro@hotmail.com,3115888482,1
+787,Gloria Esperanza Reyes Ruiz,852164771-8,38,7664776.0,29,56710244.0,6,527,42,739.88,2016-02-23,2022-04-03,Medellín,Mora,Pensionado,Familiar,Servicios,gloriaesperanza@gmail.com,3131810848,0
+205,Natalia Andrea Pérez Díaz,932226221-3,30,5752442.0,11,79955486.0,0,716,14,1389.94,2023-02-10,2022-03-20,Medellín,Mora,Pensionado,Arriendo,Manufactura,nataliaandrea@hotmail.com,3267831640,0
+789,Sofía García García,849614607-3,23,11971263.0,1,46887223.0,5,724,34,391.66,2021-03-01,2022-05-11,Ibagué,Mora,Indefinido,Propia,Manufactura,sofiagarcia@gmail.com,3255427291,0
+790,Claudia Patricia Suárez García,966714014-3,47,5363001.0,26,27663406.0,0,378,85,515.82,2021-10-08,2022-03-14,Medellín,Mora,Prestación de servicios,Propia,Gobierno,claudiapatricia@hotmail.com,3177660590,0
+791,Luis Miguel López Torres,909328131-3,32,10056937.0,6,75328011.0,8,451,24,749.02,2017-09-10,2023-04-08,Cartagena,Inactivo,Prestación de servicios,Arriendo,Educación,luismiguel@hotmail.com,3115931635,1
+792,Nicolás Suárez Martínez,898471778-0,43,3995311.0,30,31639724.0,6,347,138,791.92,2022-10-12,2022-04-09,Medellín,Mora,Fijo,Arriendo,Salud,nicolassuarez@gmail.com,3161929247,1
+793,Gloria Esperanza Moreno Álvarez,906791760-9,27,10090809.0,25,2181562.0,2,766,24,21.62,2018-08-05,2024-02-03,Barranquilla,Activo,Fijo,Propia,Construcción,gloriaesperanza@gmail.com,3211873288,0
+794,Samuel Ríos Gómez,917102406-9,28,6596554.0,28,38821612.0,8,446,165,588.51,2017-05-13,2023-06-22,Cartagena,Inactivo,Indefinido,Propia,Comercio,samuelrios@gmail.com,3271083198,0
+795,Daniel Díaz Castro,880111946-3,52,10559754.0,30,44023057.0,8,439,110,416.89,2015-07-08,2022-08-06,Barranquilla,Mora,Prestación de servicios,Familiar,Educación,danieldiaz@hotmail.com,3218575481,0
+796,María Fernanda Rodríguez Molina,898849429-9,59,8929246.0,26,23147968.0,2,316,121,259.24,2017-11-11,2023-08-20,Cali,Inactivo,Pensionado,Familiar,Transporte,mariafernanda@gmail.com,3198653803,1
+797,Sofía Herrera Flores,943683997-5,59,5533038.0,19,19856065.0,5,878,32,358.86,2018-04-20,2022-01-22,Cúcuta,Inactivo,Fijo,Propia,Comercio,sofiaherrera@hotmail.com,3175939743,0
+798,Laura Romero Ríos,814702886-6,61,8846615.0,18,37838204.0,6,420,123,427.71,2023-07-26,2023-03-04,Bogotá,Mora,Pensionado,Propia,Comercio,lauraromero@gmail.com,3179724047,0
+799,Sebastián Moreno Morales,939642412-2,64,10919191.0,25,1399942.0,4,303,94,12.82,2019-07-28,2024-06-27,Medellín,Activo,Pensionado,Arriendo,Salud,sebastianmoreno@gmail.com,3147815424,0
+800,Carolina Vega Flores,916540064-4,27,9727809.0,13,45833062.0,5,-50,61,471.16,2015-03-03,2023-07-30,Manizales,Inactivo,Indefinido,Familiar,Tecnología,carolinavega@gmail.com,3266262923,0
+801,Claudia Patricia Ortiz Díaz,871684899-6,56,3063996.0,19,63702685.0,4,1500,166,2079.07,2015-06-16,2024-05-25,Bogotá,Activo,Pensionado,Propia,Salud,claudiapatricia@hotmail.com,3268285474,0
+802,Alejandro González Rodríguez,831348951-6,54,3621616.0,3,53465204.0,5,-50,22,1476.28,2019-03-17,2023-06-25,Bogotá,Mora,Prestación de servicios,Propia,Construcción,alejandrogonzalez@gmail.com,3126392076,1
+803,David Gómez Aguilar,852586374-9,50,8241769.0,21,11491849.0,5,1500,75,139.43,2015-03-10,2023-05-23,Manizales,Inactivo,Prestación de servicios,Arriendo,Tecnología,davidgomez@hotmail.com,3243344288,0
+804,David Torres Torres,892489566-0,57,9886003.0,24,69795867.0,7,-50,47,706.01,2021-05-04,2023-12-18,Ibagué,Activo,Prestación de servicios,Propia,Manufactura,davidtorres@gmail.com,3275409036,1
+805,Ricardo Augusto Díaz Díaz,921833844-3,27,11341038.0,30,25136012.0,2,1500,108,221.64,2016-03-21,2023-04-24,Cúcuta,Activo,Pensionado,Propia,Comercio,ricardoaugusto@gmail.com,3152705514,1
+806,Jorge Alberto García Álvarez,830231208-3,49,3998716.0,17,78363537.0,5,2000,132,1959.72,2021-02-14,2023-08-11,Bucaramanga,Inactivo,Indefinido,Propia,Comercio,jorgealberto@gmail.com,3275978272,1
+807,Juliana Rodríguez Rivera,955372192-5,25,2978937.0,13,23521321.0,0,2000,76,789.59,2018-03-12,2022-02-24,Barranquilla,Inactivo,Fijo,Familiar,Construcción,julianarodriguez@gmail.com,3228891969,0
+808,Diana Carolina Rojas Navarro,979120632-8,32,11109291.0,3,1121082.0,2,2000,156,10.09,2021-01-05,2024-04-27,Cali,Activo,Fijo,Arriendo,Gobierno,dianacarolina@gmail.com,3233879299,0
+809,Luis Miguel Navarro Guerrero,862777526-6,36,10684699.0,18,19442351.0,1,0,145,181.96,2022-08-23,2022-11-23,Pereira,Activo,Prestación de servicios,Propia,Transporte,luismiguel@gmail.com,3109268249,0
+810,Juliana Vega Mendoza,908120807-1,51,6522373.0,2,32212747.0,7,2000,138,493.88,2023-09-30,2024-04-06,Cali,Activo,Prestación de servicios,Propia,Manufactura,julianavega@gmail.com,3123867901,1
+811,Carolina Jiménez Rivera,823136217-6,65,10671232.0,12,1186572.0,5,2000,32,11.12,2022-09-13,2022-09-29,Pereira,Mora,Fijo,Familiar,Educación,carolinajimenez@gmail.com,3152220597,0
+812,Sergio Iván Jiménez Romero,922601376-9,24,7354027.0,18,61805671.0,4,2000,165,840.43,2021-10-30,2023-07-09,Cartagena,Mora,Indefinido,Propia,Tecnología,sergioivan@gmail.com,3116551272,0
+813,Hernán Darío Vega Mendoza,993055811-9,67,8759768.0,17,77525249.0,2,1500,162,885.01,2020-09-28,2023-07-21,Medellín,Mora,Indefinido,Arriendo,Financiero,hernandario@gmail.com,3279515022,0
+814,Juan Carlos Guerrero Pérez,895814779-2,37,10899559.0,13,35806334.0,7,0,12,328.51,2021-11-26,2023-04-08,Cartagena,Inactivo,Indefinido,Familiar,Educación,juancarlos@gmail.com,3249303014,0
+815,Daniela Álvarez Vega,840243059-9,58,11110842.0,17,39778086.0,2,,87,358.01,2020-10-15,2023-08-14,Barranquilla,Inactivo,Indefinido,Familiar,Gobierno,danielaalvarez@gmail.com,3261010982,1
+816,Sandra Milena Morales Moreno,813924288-4,23,8467486.0,28,28828581.0,6,,164,340.46,2018-09-21,2023-12-04,Manizales,Mora,Indefinido,Propia,Educación,sandramilena@hotmail.com,3273951233,0
+817,Luis Miguel Moreno Vargas,867432526-2,55,5628320.0,19,31525360.0,2,,162,560.12,2018-04-19,2022-07-10,Barranquilla,Mora,Fijo,Familiar,Gobierno,luismiguel@gmail.com,3187566356,0
+818,Hernán Darío Díaz Vega,953704657-1,43,5751461.0,9,6368556.0,5,,142,110.73,2023-07-17,2022-12-12,Manizales,Activo,Prestación de servicios,Arriendo,Tecnología,hernandario@gmail.com,3157772146,0
+819,Hernán Darío Cruz Castro,942201244-9,65,5385545.0,8,68836016.0,8,,149,1278.16,2022-12-20,2023-02-05,Bucaramanga,Inactivo,Indefinido,Familiar,Servicios,hernandario@gmail.com,3226442132,1
+820,Sebastián Navarro Herrera,870251441-3,22,3538675.0,21,49854423.0,8,,25,1408.84,2016-04-08,2023-05-08,Ibagué,Inactivo,Fijo,Propia,Comercio,sebastiannavarro@gmail.com,3204959725,1
+821,Juan Carlos Pérez Moreno,856421338-6,41,2426176.0,10,36294138.0,5,,57,1495.94,2016-03-15,2022-08-10,Cali,Inactivo,Fijo,Arriendo,Servicios,juancarlos@gmail.com,3262633729,1
+822,Laura Guerrero Jiménez,812292242-0,61,4290421.0,28,11974920.0,1,,28,279.11,2015-05-25,2024-03-05,Bucaramanga,Activo,Pensionado,Arriendo,Transporte,lauraguerrero@gmail.com,3139786580,0
+823,Ana Lucía Torres Ramos,801805639-4,45,2862647.0,28,41140462.0,8,,108,1437.15,2016-10-28,2024-06-30,Cali,Inactivo,Pensionado,Arriendo,Salud,analucia@gmail.com,3289496643,1
+824,Daniel Vega Guerrero,875037933-4,32,2951300.0,23,27031242.0,5,,144,915.91,2022-02-02,2022-12-14,Ibagué,Inactivo,Prestación de servicios,Arriendo,Transporte,danielvega@hotmail.com,3263162530,1
+825,Claudia Patricia Pérez Mendoza,889199701-0,30,11292033.0,1,70599200.0,0,459,84,625.21,2019-03-06,2023-10-17,Barranquilla,Mora,Fijo,Propia,Comercio,claudiapatricia@hotmail.com,3136469014,0
+826,Pedro Pablo Reyes García,886966804-5,52,1854788.0,7,50673428.0,6,868,52,2732.03,2022-08-25,2022-04-13,Cartagena,Inactivo,Prestación de servicios,Familiar,Gobierno,pedropablo@gmail.com,3229231395,1
+827,Hernán Darío Mendoza Guerrero,971079775-7,68,11469304.0,21,33062356.0,0,432,99,288.27,2020-10-11,2024-01-27,Cali,Inactivo,Prestación de servicios,Propia,Educación,hernandario@gmail.com,3152776056,0
+828,Ricardo Augusto González Torres,853735703-9,31,10725972.0,21,566743.0,4,394,21,5.28,2019-03-25,2024-01-27,Bogotá,Activo,Fijo,Arriendo,Construcción,ricardoaugusto@gmail.com,3168770973,0
+829,Nicolás Rivera Ramos,908454731-8,67,2414465.0,15,14155293.0,2,658,128,586.27,2020-03-16,2022-11-25,Cartagena,Mora,Prestación de servicios,Familiar,Construcción,nicolasrivera@gmail.com,3223596356,0
+830,Juan Carlos Jiménez Flores,966057265-1,54,10075014.0,28,53582738.0,7,691,174,531.84,2021-03-18,2022-09-04,Medellín,Inactivo,Indefinido,Familiar,Tecnología,juancarlos@gmail.com,3138864697,1
+831,Camila Reyes Díaz,918889608-3,58,8381659.0,6,76535280.0,0,633,52,913.13,2016-12-07,2022-06-08,Ibagué,Mora,Fijo,Familiar,Manufactura,camilareyes@gmail.com,3138165549,0
+832,Juliana González Medina,863423799-8,57,3010666.0,29,13325106.0,5,550,153,442.6,2021-01-21,2022-07-28,Bucaramanga,Mora,Prestación de servicios,Arriendo,Manufactura,julianagonzalez@hotmail.com,3249272875,1
+833,Isabela Herrera Morales,805250681-9,43,4240898.0,9,46208714.0,7,419,52,1089.6,2020-01-05,2023-09-11,Ibagué,Inactivo,Indefinido,Propia,Transporte,isabelaherrera@hotmail.com,3123719411,1
+834,Natalia Andrea Rojas Aguilar,933600570-1,35,6648439.0,29,65400019.0,2,893,148,983.69,2020-10-26,2022-09-06,Cali,Activo,Indefinido,Familiar,Educación,nataliaandrea@hotmail.com,3217662764,0
+835,Ana Lucía Ríos Díaz,846510827-0,24,4285771.0,18,39115634.0,7,831,134,912.69,2020-09-03,2024-06-03,Ibagué,Inactivo,Prestación de servicios,Familiar,Comercio,analucia@gmail.com,3219629101,1
+836,Natalia Andrea Vega Romero,816342621-0,34,1682039.0,10,18902987.0,6,383,152,1123.81,2023-11-28,2023-08-11,Bucaramanga,Activo,Pensionado,Propia,Financiero,nataliaandrea@gmail.com,3154524077,0
+837,Tomás Pérez López,840054697-9,32,9681815.0,24,75346203.0,5,324,29,778.22,2018-05-25,2022-07-23,Manizales,Inactivo,Fijo,Propia,Transporte,tomasperez@gmail.com,3107972349,0
+838,Luisa María Reyes Navarro,824945498-9,29,3024433.0,2,50663255.0,2,418,59,1675.13,2016-10-06,2022-05-01,Manizales,Inactivo,Pensionado,Familiar,Tecnología,luisamaria@hotmail.com,3292497141,1
+839,Alejandro Romero Sánchez,834763056-2,24,2770046.0,24,2553389.0,2,651,175,92.18,2023-04-30,2023-06-26,Manizales,Activo,Fijo,Familiar,Comercio,alejandroromero@hotmail.com,3284228684,0
+840,Luis Miguel Reyes Vega,803599468-2,51,8331579.0,22,64900738.0,8,406,44,778.97,2023-07-28,2024-03-14,Cartagena,Activo,Indefinido,Propia,Construcción,luismiguel@hotmail.com,3277623371,0
+841,Sergio Iván Castro García,954734129-5,30,3076345.0,10,30046155.0,0,498,99,976.68,2018-12-04,2024-01-09,Pereira,Activo,Indefinido,Propia,Transporte,sergioivan@gmail.com,3149330861,0
+842,Andrés Felipe Cruz Rojas,831849957-2,39,3502943.0,30,28721286.0,5,852,99,819.92,2019-05-06,2022-11-11,Cali,Activo,Indefinido,Arriendo,Educación,andresfelipe@gmail.com,3141430260,1
+843,Mateo Rodríguez Mendoza,833047855-5,61,3200516.0,8,44602272.0,4,361,48,1393.6,2021-09-19,2023-09-27,Bogotá,Inactivo,Indefinido,Arriendo,Manufactura,mateorodriguez@gmail.com,3107917936,1
+844,Sergio Iván Herrera Aguilar,974508351-1,43,4854069.0,28,12687876.0,0,527,79,261.39,2015-05-13,2022-09-13,Bogotá,Activo,Indefinido,Familiar,Financiero,sergioivan@gmail.com,3229327992,0
+845,Daniel Moreno Mendoza,882747733-9,26,5394324.0,19,54165478.0,5,680,78,1004.12,2019-10-08,2024-05-13,Cali,Activo,Prestación de servicios,Arriendo,Educación,danielmoreno@hotmail.com,3188746810,0
+846,Claudia Patricia Martínez Ríos,815944656-1,54,2787687.0,7,2131633.0,6,867,64,76.47,2016-02-16,2023-04-06,Pereira,Inactivo,Indefinido,Arriendo,Tecnología,claudiapatricia@gmail.com,3111220268,1
+847,Valentina Guerrero Sánchez,839763918-9,23,10618542.0,4,77936093.0,0,774,27,733.96,2017-03-11,2023-06-05,Bogotá,Inactivo,Pensionado,Propia,Comercio,valentinaguerrero@hotmail.com,3176572372,1
+848,Ana Lucía Herrera Moreno,942457121-4,53,4652484.0,26,32049371.0,1,501,12,688.87,2015-03-13,2023-08-02,Pereira,Activo,Prestación de servicios,Familiar,Gobierno,analucia@gmail.com,3248145557,0
+849,Oscar Eduardo Navarro López,854911667-1,57,1557400.0,7,79980699.0,3,712,46,5135.53,2019-12-06,2022-09-18,Pereira,Inactivo,Pensionado,Propia,Educación,oscareduardo@gmail.com,3129801594,1
+850,Sergio Iván Ramos López,808612653-0,39,5731336.0,14,8013374.0,5,325,23,139.82,2023-12-01,2022-04-30,Bogotá,Inactivo,Pensionado,Familiar,Servicios,cliente850gmail.com,3111329636,0
+851,Oscar Eduardo Morales Vega,948185669-1,67,7410668.0,23,68633625.0,4,887,6,926.15,2018-07-14,2022-09-13,Medellín,Inactivo,Fijo,Propia,Construcción,cliente 851@gmail.com,3115993383,0
+852,Daniela Romero Aguilar,932291549-3,63,2183746.0,15,47225372.0,1,724,103,2162.59,2021-10-05,2023-07-24,Cartagena,Activo,Pensionado,Arriendo,Educación,@hotmail.com,3191823831,1
+853,Tomás Vargas Morales,862625691-2,42,6087384.0,7,58957437.0,8,596,155,968.52,2021-05-17,2022-04-27,Ibagué,Inactivo,Indefinido,Propia,Construcción,@hotmail.com,3141441357,1
+854,Ana Lucía Molina Rojas,945102874-2,28,2434740.0,2,67282195.0,0,565,30,2763.42,2021-02-13,2024-03-29,Medellín,Activo,Prestación de servicios,Familiar,Transporte,cliente 854@gmail.com,3268525927,0
+855,Claudia Patricia Pérez Guerrero,806016486-8,54,8072587.0,10,74224270.0,8,331,24,919.46,2021-02-16,2023-02-13,Cartagena,Inactivo,Fijo,Propia,Educación,cliente855gmail.com,3269609150,0
+856,Hernán Darío Guerrero Molina,900340981-7,22,7160547.0,2,64949623.0,4,853,17,907.05,2019-09-12,2023-05-01,Bucaramanga,Inactivo,Indefinido,Propia,Comercio,cliente856@,3197765068,1
+857,Luisa María Rivera Molina,934132994-9,39,9810365.0,20,53632987.0,8,816,44,546.7,2020-03-12,2024-01-14,Pereira,Mora,Pensionado,Familiar,Salud,cliente 857@gmail.com,3214847640,0
+858,Oscar Eduardo Pérez Mendoza,830197109-5,49,1962223.0,29,44147841.0,3,481,130,2249.89,2018-03-09,2023-11-22,Cúcuta,Mora,Fijo,Arriendo,Manufactura,@hotmail.com,3287679985,1
+859,Juan Carlos Suárez Herrera,963698598-6,46,7241384.0,24,21186510.0,6,326,74,292.58,2020-01-30,2023-06-08,Cartagena,Activo,Indefinido,Arriendo,Salud,cliente859gmail.com,3137474918,1
+860,Carolina Morales Suárez,873878063-8,56,2813106.0,17,77412901.0,3,572,142,2751.87,2019-06-27,2023-06-30,Cúcuta,Activo,Indefinido,Arriendo,Tecnología,@hotmail.com,3253539041,0
+861,Sofía Guerrero González,914062101-0,61,10246717.0,3,23991975.0,3,415,156,234.14,2023-06-27,2024-01-13,Barranquilla,Inactivo,Fijo,Propia,Manufactura,nogmail861,3257838938,0
+862,Luis Miguel Gómez Morales,811755018-4,42,7341085.0,4,32048664.0,0,469,98,436.57,2018-02-14,2024-02-08,Cartagena,Inactivo,Fijo,Arriendo,Educación,@hotmail.com,3201529586,0
+863,Fabio Alejandro Vargas López,952261780-6,47,10373843.0,16,60448440.0,7,366,138,582.7,2016-06-03,2023-12-18,Cartagena,Mora,Indefinido,Familiar,Gobierno,cliente863@,3228746461,0
+864,Diana Carolina Sánchez Vargas,821372685-7,39,5843844.0,28,79622113.0,3,634,165,1362.5,2017-01-26,2023-02-08,Pereira,Inactivo,Pensionado,Familiar,Gobierno,nogmail864,3287640884,0
+865,Manuela Guerrero Medina,936022468-6,58,4779678.0,29,69338580.0,5,648,156,1450.7,2017-12-05,2022-11-18,Bogotá,Activo,Indefinido,Familiar,Tecnología,nogmail865,3119015427,0
+866,Natalia Andrea Álvarez Martínez,894290918-1,26,6482049.0,14,54621284.0,0,532,158,842.65,2021-01-11,2024-02-10,Cúcuta,Inactivo,Fijo,Arriendo,Financiero,nogmail866,3139634692,0
+867,Sebastián Moreno Rodríguez,901732454-7,22,2016093.0,20,52485119.0,4,439,82,2603.31,2020-12-12,2023-08-18,Cartagena,Activo,Indefinido,Arriendo,Manufactura,cliente867gmail.com,3278296545,1
+868,David Rodríguez Jiménez,916985242-4,32,1650728.0,26,74511432.0,5,733,99,4513.85,2020-06-30,2024-02-14,Manizales,Inactivo,Indefinido,Familiar,Servicios,cliente868gmail.com,3204703279,1
+869,Samuel López Mendoza,835126344-3,45,4209930.0,13,70070852.0,2,488,113,1664.42,2018-10-10,2023-12-19,Cartagena,Activo,Indefinido,Arriendo,Financiero,cliente869gmail.com,3171900920,1
+870,Laura Rivera Gómez,831786593-2,31,4588179.0,25,63855352.0,6,789,174,1391.74,2020-04-25,2022-11-15,Pereira,Activo,Prestación de servicios,Familiar,Educación,,3132326491,1
+871,Andrés Felipe Pérez Moreno,935119802-4,56,9867260.0,21,31059594.0,0,306,143,314.77,2015-03-03,2022-04-21,Manizales,Mora,Pensionado,Arriendo,Servicios,,3144286384,0
+872,Sandra Milena Ruiz Guerrero,803656083-4,50,2916555.0,23,32683895.0,4,468,169,1120.63,2019-10-07,2022-03-19,Cali,Mora,Indefinido,Propia,Salud,,3184838753,0
+873,Mateo Castro Cruz,915449719-5,66,7681793.0,13,69311870.0,8,349,124,902.29,2021-03-19,2022-12-25,Cali,Inactivo,Prestación de servicios,Familiar,Tecnología,,3134901721,1
+874,Oscar Eduardo Moreno Vargas,812656484-0,65,11418014.0,9,24440247.0,5,592,172,214.05,2020-03-28,2022-12-13,Cali,Activo,Indefinido,Propia,Tecnología,,3148506955,1
+875,Nicolás Navarro Pérez,920997313-7,47,9523651.0,8,53159844.0,2,801,49,558.19,2015-05-06,2022-07-16,Cúcuta,Mora,Pensionado,Familiar,Tecnología,,3256932930,0
+876,Nicolás Rodríguez González,962870669-6,37,10180366.0,9,26316105.0,3,333,104,258.5,2021-10-29,2024-03-22,Barranquilla,Inactivo,Fijo,Arriendo,Transporte,,3204850679,0
+877,Carlos Andrés Martínez Sánchez,938164324-1,67,10662163.0,15,37933651.0,4,826,23,355.78,2019-10-07,2022-12-20,Cali,Inactivo,Prestación de servicios,Arriendo,Financiero,,3231897366,0
+878,Gloria Esperanza Vega Moreno,984800102-1,52,7829058.0,7,36026916.0,8,409,9,460.17,2022-03-13,2023-12-04,Bucaramanga,Activo,Indefinido,Propia,Gobierno,gloriaesperanza@gmail.com,3269598194,0
+879,Nicolás Álvarez Mendoza,957390645-8,54,9652318.0,29,70937985.0,0,613,86,734.93,2020-05-25,2023-08-16,Cali,Inactivo,Indefinido,Arriendo,Servicios,nicolasalvarez@gmail.com,3187322362,1
+880,Luisa María Vega Álvarez,990716037-4,33,4311896.0,29,16298807.0,8,531,157,378.0,2020-01-16,2022-06-16,Cúcuta,Activo,Fijo,Familiar,Educación,luisamaria@hotmail.com,3139388090,1
+881,Jorge Alberto Reyes Gómez,938802901-8,25,8972752.0,18,73929843.0,2,449,37,823.94,2015-07-03,2024-04-15,Medellín,Activo,Fijo,Propia,Tecnología,jorgealberto@gmail.com,3102057480,0
+882,Alejandro Rojas Mendoza,901845063-1,24,11055428.0,17,67302005.0,8,792,104,608.77,2016-05-13,2022-01-12,Cúcuta,Activo,Prestación de servicios,Propia,Financiero,alejandrorojas@gmail.com,3125844654,1
+883,Natalia Andrea Ríos Herrera,885718070-3,63,11405756.0,19,40826780.0,0,794,76,357.95,2019-09-21,2024-03-12,Cúcuta,Mora,Fijo,Propia,Financiero,nataliaandrea@gmail.com,3286308180,0
+884,Andrés Felipe Martínez García,853299400-0,51,10270661.0,13,73279944.0,0,678,77,713.49,2018-09-11,2024-01-31,Ibagué,Inactivo,Pensionado,Propia,Financiero,andresfelipe@hotmail.com,3118313384,0
+885,Alejandro Mendoza Vargas,824703453-1,22,11002364.0,13,73291190.0,4,388,29,666.14,2022-11-23,2024-05-10,Barranquilla,Inactivo,Indefinido,Arriendo,Gobierno,alejandromendoza@gmail.com,3225510798,0
+886,Mateo Martínez Aguilar,965134924-0,45,9616559.0,25,15571787.0,6,861,57,161.93,2018-04-20,2023-07-22,Cali,Inactivo,Pensionado,Propia,Manufactura,mateomartinez@gmail.com,3109857606,1
+887,Laura Ríos Ríos,939596908-9,29,6461023.0,22,52832947.0,7,374,99,817.72,2015-05-06,2023-01-15,Ibagué,Inactivo,Fijo,Arriendo,Servicios,laurarios@gmail.com,3288624752,0
+888,María Fernanda Morales Torres,805979921-1,30,6031936.0,23,61120041.0,5,765,167,1013.27,2020-11-08,2023-08-15,Cúcuta,Activo,Pensionado,Propia,Construcción,mariafernanda@gmail.com,3271098052,0
+889,Tomás Moreno Torres,819552746-7,45,5023951.0,11,77721234.0,1,771,130,1547.01,2020-02-15,2022-10-25,Medellín,Mora,Fijo,Arriendo,Construcción,tomasmoreno@gmail.com,3152252054,1
+694,Manuela Flores Vargas,824669771-9,67,7718317.0,5,34859396.0,2,466,42,451.65,2021-10-06,2023-05-04,Bucaramanga,Mora,Indefinido,Arriendo,Salud,manuelaflores@gmail.com,3187147865,1
+891,Sergio Iván Sánchez Ríos,893042801-4,45,6604119.0,27,3629714.0,6,817,38,54.96,2015-01-12,2024-05-15,Ibagué,Activo,Fijo,Arriendo,Servicios,sergioivan@gmail.com,3281303026,0
+892,Ana Lucía González Romero,858936960-5,48,4388644.0,2,36748653.0,3,439,77,837.36,2020-04-09,2022-07-01,Cúcuta,Activo,Prestación de servicios,Familiar,Construcción,analucia@hotmail.com,3129144915,0
+893,Sofía Gómez Rivera,984911040-4,67,6252552.0,3,10899978.0,6,374,105,174.33,2021-01-30,2024-03-24,Bucaramanga,Activo,Pensionado,Propia,Salud,sofiagomez@gmail.com,3271989886,1
+894,Tomás Moreno García,963857945-2,51,10802040.0,4,78484390.0,1,622,53,726.57,2019-10-17,2022-03-24,Bogotá,Mora,Prestación de servicios,Propia,Servicios,tomasmoreno@hotmail.com,3283284457,1
+895,Juan Carlos Rojas González,915477703-9,42,8645097.0,1,76558488.0,4,388,135,885.57,2021-06-09,2024-03-15,Cartagena,Mora,Prestación de servicios,Familiar,Construcción,juancarlos@hotmail.com,3149756078,0
+896,Juliana Ríos Reyes,910628967-5,30,7749368.0,9,76523991.0,1,723,28,987.49,2022-01-01,2024-03-23,Cúcuta,Activo,Pensionado,Propia,Construcción,julianarios@gmail.com,3124577194,0
+897,Pedro Pablo Martínez Ortiz,889198456-0,31,5193848.0,18,53119027.0,6,527,52,1022.73,2015-10-09,2023-04-25,Cartagena,Activo,Prestación de servicios,Arriendo,Construcción,pedropablo@gmail.com,3176660550,0
+898,Diana Carolina Suárez Aguilar,816233764-6,39,11779643.0,14,3113423.0,6,758,55,26.43,2021-08-06,2023-07-16,Barranquilla,Mora,Prestación de servicios,Arriendo,Gobierno,dianacarolina@gmail.com,3276094229,0
+899,Sebastián Cruz Álvarez,969281297-4,47,11107547.0,18,3794627.0,5,354,120,34.16,2019-12-25,2022-10-11,Bogotá,Inactivo,Prestación de servicios,Arriendo,Transporte,sebastiancruz@gmail.com,3127110632,0
+900,Jorge Alberto Reyes Gómez,995739518-0,60,1857150.0,30,26664520.0,5,409,-12,1435.78,2022-01-20,2023-12-18,Cartagena,Mora,Indefinido,Familiar,Transporte,jorgealberto@hotmail.com,3172673189,0
+901,Andrés Felipe Rojas Molina,904126176-1,60,11855942.0,1,11385937.0,4,755,-12,96.04,2015-08-10,2023-12-05,Cali,Activo,Indefinido,Arriendo,Transporte,andresfelipe@gmail.com,3176286954,0
+902,Marcela Cristina Pérez Gómez,800174491-1,64,2919948.0,15,72089353.0,5,360,-6,2468.86,2019-09-07,2024-02-17,Bogotá,Activo,Prestación de servicios,Propia,Financiero,marcelacristina@hotmail.com,3156822105,0
+903,Juliana Ortiz Guerrero,970111981-9,43,1835902.0,10,3506071.0,7,402,0,190.97,2017-02-22,2024-05-14,Cali,Inactivo,Indefinido,Arriendo,Transporte,julianaortiz@gmail.com,3104868819,1
+904,Pedro Pablo Rodríguez García,905406663-4,65,8031427.0,10,61828908.0,0,508,-6,769.84,2015-01-13,2022-10-12,Bucaramanga,Activo,Indefinido,Propia,Manufactura,pedropablo@hotmail.com,3295768275,1
+905,Nicolás Medina Sánchez,859426613-5,61,7974294.0,6,76787548.0,5,654,-12,962.94,2022-09-10,2023-08-04,Bucaramanga,Activo,Indefinido,Arriendo,Manufactura,nicolasmedina@hotmail.com,3117837673,0
+906,Tomás García López,906779185-9,49,11400498.0,30,65939824.0,0,375,-12,578.39,2023-01-16,2023-03-26,Manizales,Inactivo,Indefinido,Familiar,Comercio,tomasgarcia@gmail.com,3265480454,0
+907,Sergio Iván Reyes Díaz,953082297-4,41,7601058.0,12,68951042.0,0,302,-12,907.12,2020-02-21,2023-01-22,Cali,Inactivo,Prestación de servicios,Propia,Comercio,sergioivan@hotmail.com,3211185458,1
+908,Gloria Esperanza Álvarez Jiménez,868478924-2,47,3428271.0,4,36750281.0,4,488,-6,1071.98,2022-01-15,2022-07-11,Ibagué,Mora,Fijo,Propia,Comercio,gloriaesperanza@gmail.com,3132170110,1
+909,Juan Carlos Martínez Suárez,981668230-0,44,4064996.0,21,61144434.0,8,869,0,1504.17,2017-11-03,2022-09-06,Bogotá,Activo,Indefinido,Propia,Manufactura,juancarlos@gmail.com,3173283061,0
+910,Carlos Andrés Herrera Castro,922551132-5,58,7343077.0,18,36091809.0,2,389,49,491.51,2021-08-27,2024-01-25,Ibagué,Inactivo,Prestación de servicios,Propia,Manufactura,carlosandres@hotmail.com,3178031000,0
+911,Sandra Milena García Flores,922828851-5,44,6966938.0,3,20466761.0,7,325,158,293.77,2016-05-31,2022-01-02,Manizales,Activo,Indefinido,Arriendo,Tecnología,sandramilena@hotmail.com,3271102663,1
+912,Laura Rivera Sánchez,973687115-9,68,8432659.0,3,28205731.0,8,427,139,334.48,2021-06-04,2023-05-16,Bogotá,Mora,Prestación de servicios,Familiar,Educación,laurarivera@gmail.com,3139441169,1
+913,Nicolás Moreno Castro,947703409-8,27,9168465.0,29,25035788.0,7,781,48,273.06,2022-11-23,2023-12-09,Medellín,Inactivo,Indefinido,Familiar,Salud,nicolasmoreno@gmail.com,3204965012,1
+914,Gloria Esperanza González Ríos,900780792-9,31,6839463.0,19,38367349.0,2,821,76,560.97,2018-09-20,2024-06-22,Cartagena,Activo,Indefinido,Familiar,Tecnología,gloriaesperanza@hotmail.com,3253726525,1
+915,Sandra Milena Ríos Reyes,965099055-4,56,2838339.0,30,67094613.0,3,438,175,2363.87,2016-09-28,2022-03-02,Cartagena,Activo,Prestación de servicios,Arriendo,Servicios,sandramilena@gmail.com,3163209208,0
+916,Sofía Ramírez González,913134854-5,58,7825656.0,7,56088063.0,2,313,38,716.72,2015-05-28,2023-10-12,Barranquilla,Activo,Prestación de servicios,Familiar,Tecnología,sofiaramirez@hotmail.com,3143190844,0
+917,Daniela Ruiz Torres,986684135-1,37,5415772.0,7,3314307.0,2,815,29,61.2,2019-09-08,2022-12-10,Bogotá,Inactivo,Prestación de servicios,Arriendo,Comercio,danielaruiz@hotmail.com,3116778649,0
+918,Hernán Darío Guerrero Rojas,923372631-5,47,10982480.0,4,48888420.0,3,435,24,445.15,2022-09-01,2022-01-24,Cali,Mora,Indefinido,Arriendo,Educación,hernandario@gmail.com,3221685796,0
+919,Jorge Alberto Aguilar Reyes,832032841-0,38,4103386.0,24,43296980.0,4,368,164,1055.15,2019-05-05,2023-02-06,Cali,Activo,Indefinido,Propia,Educación,jorgealberto@gmail.com,3109406848,1
+920,Isabela Ríos Moreno,912121206-6,51,11517490.0,29,71273979.0,6,539,106,618.83,2016-09-18,2022-03-28,Ibagué,Mora,Pensionado,Arriendo,Financiero,isabelarios@hotmail.com,3XXXXXXXXX,0
+921,Daniel Mendoza Romero,852706542-4,60,9587207.0,23,17977578.0,6,652,8,187.52,2018-05-23,2023-10-25,Ibagué,Inactivo,Fijo,Arriendo,Comercio,danielmendoza@hotmail.com,3206,0
+922,Claudia Patricia Pérez Herrera,839421909-4,35,9751220.0,22,10995635.0,5,868,88,112.76,2017-12-27,2023-11-21,Cali,Activo,Indefinido,Familiar,Servicios,claudiapatricia@gmail.com,(+57)329-264-5611,0
+923,Paola Andrea Pérez Álvarez,870778301-3,34,7376909.0,26,19153755.0,2,588,123,259.64,2017-02-03,2024-06-29,Bucaramanga,Mora,Indefinido,Arriendo,Gobierno,paolaandrea@hotmail.com,573175374525,0
+924,Natalia Andrea González Pérez,989624371-5,64,7054521.0,13,2239154.0,4,678,125,31.74,2023-09-24,2024-01-16,Pereira,Mora,Prestación de servicios,Arriendo,Financiero,nataliaandrea@gmail.com,(+57)322-550-0507,0
+925,Natalia Andrea Mendoza Moreno,951482871-7,39,5626788.0,30,58250676.0,8,691,22,1035.24,2019-10-31,2022-08-02,Cartagena,Activo,Indefinido,Propia,Financiero,nataliaandrea@hotmail.com,3XXXXXXXXX,0
+926,Paola Andrea Molina Pérez,891721843-2,47,7757418.0,11,62922190.0,5,889,103,811.12,2019-06-15,2022-11-06,Manizales,Activo,Indefinido,Propia,Salud,paolaandrea@gmail.com,3XXXXXXXXX,0
+927,Juliana Ramírez Vargas,848745907-6,29,11297814.0,10,4211131.0,4,857,155,37.27,2017-03-11,2022-09-11,Cali,Inactivo,Indefinido,Arriendo,Financiero,julianaramirez@gmail.com,8418,0
+928,Camila Cruz Sánchez,982715858-0,23,7108658.0,22,58469651.0,7,843,97,822.51,2016-11-15,2022-05-26,Medellín,Activo,Prestación de servicios,Familiar,Gobierno,camilacruz@gmail.com,(+57)327-571-1903,1
+929,Marcela Cristina Gómez Mendoza,935690351-7,38,4304123.0,22,52038948.0,7,349,34,1209.05,2020-07-29,2022-07-18,Cali,Mora,Indefinido,Familiar,Gobierno,marcelacristina@gmail.com,4646,1
+930,Sergio Iván Mendoza Romero,983064545-5,48,3477153.0,15,272424.0,4,363,171,7.83,2015-07-11,2024-02-21,Bucaramanga,Activo,Pensionado,Familiar,Educación,sergioivan@hotmail.com,573216460709,1
+931,Diana Carolina Ramos Gómez,995820505-2,26,4746482.0,11,37049176.0,3,422,114,780.56,2015-04-19,2023-09-11,Cartagena,Activo,Indefinido,Propia,Manufactura,dianacarolina@gmail.com,573129294271,1
+932,Ricardo Augusto Álvarez Ruiz,894238139-2,55,9643437.0,6,72518735.0,0,490,153,752.0,2023-02-22,2023-10-09,Manizales,Activo,Prestación de servicios,Propia,Financiero,ricardoaugusto@gmail.com,(+57)321-457-7047,1
+933,Daniel Cruz Díaz,940180341-9,60,3330216.0,10,29087246.0,7,527,96,873.43,2017-07-12,2022-05-13,Barranquilla,Inactivo,Pensionado,Propia,Gobierno,danielcruz@gmail.com,573118877614,0
+934,Manuela Rojas Martínez,937291488-2,46,7874910.0,26,76768712.0,8,462,57,974.85,2019-04-11,2022-02-09,Medellín,Activo,Pensionado,Propia,Tecnología,manuelarojas@gmail.com,573214728927,0
+935,Daniela Mendoza Ortiz,943380064-4,47,6524002.0,11,35409298.0,4,434,43,542.75,2017-05-09,2022-08-10,Cali,Activo,Fijo,Familiar,Gobierno,danielamendoza@hotmail.com,,1
+936,Diana Carolina Ruiz Ríos,979946501-9,31,9032227.0,22,79264993.0,2,482,96,877.58,2019-07-17,2022-02-28,Pereira,Activo,Prestación de servicios,Propia,Financiero,dianacarolina@gmail.com,,0
+937,Mateo Morales González,973880218-1,56,2081930.0,13,54693937.0,7,582,32,2627.08,2017-08-25,2022-01-07,Manizales,Mora,Prestación de servicios,Propia,Gobierno,mateomorales@gmail.com,,1
+938,Pedro Pablo Cruz Álvarez,846845954-6,64,2101985.0,26,22945903.0,6,534,152,1091.63,2023-01-28,2023-04-30,Bucaramanga,Inactivo,Indefinido,Arriendo,Construcción,pedropablo@gmail.com,,1
+939,Tomás González Gómez,968096757-1,45,2408019.0,24,21413450.0,1,879,178,889.26,2018-11-02,2022-12-04,Pereira,Inactivo,Indefinido,Familiar,Educación,tomasgonzalez@gmail.com,,1
+940,Daniel Ríos Navarro,896033509-2,25,6510184.0,1,64896278.0,0,559,49,996.84,2019-11-16,2022-06-12,Bogotá,Activo,Pensionado,Propia,Tecnología,danielrios@gmail.com,3123511065,1
+941,Ricardo Augusto Morales Mendoza,966511640-6,51,7085793.0,21,36312257.0,0,879,139,512.47,2020-04-27,2022-08-09,Medellín,Activo,Pensionado,Arriendo,Servicios,ricardoaugusto@hotmail.com,3294110064,1
+942,Alejandro López Rojas,891031535-9,55,7115034.0,16,51899867.0,6,660,66,729.44,2022-02-23,2022-08-01,Ibagué,Mora,Prestación de servicios,Propia,Educación,alejandrolopez@gmail.com,3226516611,1
+943,María Fernanda Molina Castro,848771771-3,29,3019683.0,6,9684111.0,1,660,12,320.7,2023-09-08,2022-12-24,Manizales,Inactivo,Prestación de servicios,Arriendo,Transporte,mariafernanda@gmail.com,3199052022,1
+944,Ana Lucía García Torres,912975059-8,51,5654254.0,10,43580442.0,6,808,108,770.75,2018-05-04,2023-08-10,Manizales,Mora,Pensionado,Arriendo,Educación,analucia@gmail.com,3167470249,0
+945,Laura Martínez Ortiz,888751706-0,23,5770413.0,12,25178778.0,3,781,56,436.34,2015-06-04,2023-08-26,Pereira,Inactivo,Pensionado,Familiar,Tecnología,lauramartinez@gmail.com,3242326711,1
+946,Tomás Ruiz Torres,952822924-6,36,4871510.0,2,55577719.0,7,308,51,1140.87,2019-02-16,2022-12-25,Medellín,Activo,Fijo,Arriendo,Manufactura,tomasruiz@gmail.com,3236028293,1
+947,Luisa María Jiménez Herrera,940799836-9,57,10325208.0,25,26831935.0,6,657,78,259.87,2019-08-23,2023-11-05,Pereira,Activo,Prestación de servicios,Arriendo,Construcción,luisamaria@gmail.com,3194714587,1
+948,Oscar Eduardo González Medina,964278933-1,47,7478547.0,20,47127061.0,3,564,76,630.16,2021-06-26,2023-04-07,Cartagena,Activo,Prestación de servicios,Arriendo,Construcción,oscareduardo@hotmail.com,3273874563,1
+949,Ana Lucía Castro Molina,912777316-2,60,9090975.0,24,74814341.0,8,834,155,822.95,2018-01-09,2022-04-13,Barranquilla,Activo,Indefinido,Propia,Transporte,analucia@gmail.com,3113908113,1
+950,Mateo Martínez Ramos,887731011-4,55,5151350.0,10,50423781.0,6,679,92,341.79,2021-07-26,2022-05-16,Cali,Activo,Fijo,Propia,Salud,mateomartinez@gmail.com,3288261804,0
+951,Alejandro González Flores,994222312-9,36,7449022.0,27,2190865.0,5,409,40,433.64,2017-04-15,2024-01-22,Manizales,Inactivo,Pensionado,Arriendo,Gobierno,alejandrogonzalez@gmail.com,3224192948,1
+952,Luis Miguel Ramos García,949082941-6,27,11188328.0,20,17472070.0,1,567,98,365.77,2017-02-13,2022-09-23,Bucaramanga,Inactivo,Pensionado,Propia,Educación,luismiguel@hotmail.com,3277224122,1
+953,Gloria Esperanza Herrera Gómez,851135262-6,32,11294276.0,24,10858549.0,3,499,85,337.26,2017-01-20,2022-09-29,Pereira,Activo,Indefinido,Propia,Construcción,gloriaesperanza@hotmail.com,3247974040,0
+954,Isabela Vega López,808769662-8,63,4794822.0,23,71774911.0,4,690,155,487.78,2016-09-18,2024-06-26,Medellín,Mora,Pensionado,Arriendo,Construcción,isabelavega@hotmail.com,3184159546,0
+955,Paola Andrea Reyes Jiménez,815688805-2,36,7133896.0,26,66777215.0,0,467,47,444.52,2021-11-01,2022-10-15,Pereira,Inactivo,Prestación de servicios,Propia,Servicios,paolaandrea@gmail.com,3154338168,1
+956,Sofía Flores Cruz,802501625-2,23,2911642.0,13,45889353.0,1,520,58,463.34,2017-07-29,2022-01-23,Barranquilla,Activo,Prestación de servicios,Arriendo,Servicios,sofiaflores@gmail.com,3138176895,0
+957,Valentina García Guerrero,914586549-2,52,7901561.0,12,60072301.0,5,555,20,252.07,2022-03-13,2023-01-15,Barranquilla,Activo,Indefinido,Propia,Comercio,valentinagarcia@gmail.com,3275333808,0
+958,Jorge Alberto Morales López,858192732-4,67,11137948.0,26,10544799.0,2,853,81,337.54,2023-12-19,2023-08-19,Bogotá,Activo,Pensionado,Familiar,Tecnología,jorgealberto@gmail.com,3145910256,1
+959,Valentina Rodríguez Guerrero,993867398-6,38,8435815.0,18,37005596.0,1,787,170,390.82,2020-07-21,2022-11-25,Cartagena,Inactivo,Indefinido,Familiar,Transporte,valentinarodriguez@gmail.com,3155424313,1
+960,Valentina Vega Cruz,944102309-7,31,9780508.0,16,50313785.0,5,817,22,514.43,2017-01-06,2022-06-09,Bucaramanga,Mora,Indefinido,Familiar,Financiero,valentinavega@gmail.com,3275726937,0
+961,Samuel Flores Morales,930316767-3,62,3470078.0,19,61553678.0,1,490,31,1773.84,2016-06-16,2022-03-28,Medellín,Activo,Indefinido,Familiar,Servicios,samuelflores@gmail.com,3114954493,0
+962,Manuela Suárez Rodríguez,979746967-1,51,10478106.0,28,65950333.0,4,336,167,629.41,2017-07-12,2023-09-05,Cali,Inactivo,Indefinido,Familiar,Transporte,manuelasuarez@gmail.com,3213989746,0
+963,Claudia Patricia Navarro Sánchez,846349003-2,31,11005818.0,13,59875063.0,3,525,148,544.03,2020-02-05,2022-07-06,Cali,Activo,Prestación de servicios,Arriendo,Tecnología,claudiapatricia@hotmail.com,3223955265,1
+964,Sebastián Ortiz Álvarez,851635610-3,22,8769739.0,27,15640161.0,4,601,83,178.34,2019-12-19,2024-06-17,Bogotá,Inactivo,Pensionado,Familiar,Transporte,sebastianortiz@gmail.com,3201197024,1
+965,María Fernanda Rivera García,900446136-9,65,5463993.0,17,54748377.0,1,620,54,1001.98,2023-11-02,2023-11-30,Manizales,Inactivo,Prestación de servicios,Familiar,Tecnología,mariafernanda@gmail.com,3163683655,0
+966,Sebastián Suárez Cruz,871942704-2,50,11173460.0,16,25512543.0,2,463,97,228.33,2021-05-12,2022-06-07,Bogotá,Inactivo,Indefinido,Arriendo,Financiero,sebastiansuarez@gmail.com,3143245147,1
+967,Valentina Rivera Flores,959055836-4,29,2249027.0,30,69174830.0,6,523,16,3075.77,2016-09-13,2023-08-29,Bucaramanga,Inactivo,Pensionado,Propia,Manufactura,valentinarivera@hotmail.com,3147855263,1
+968,Fabio Alejandro Gómez Martínez,915820357-6,26,5019857.0,9,49880190.0,0,864,92,993.66,2016-02-02,2022-07-19,Barranquilla,Mora,Indefinido,Propia,Gobierno,fabioalejandro@gmail.com,3111731644,1
+969,Nicolás Cruz Rivera,817242237-1,33,10430289.0,4,75980545.0,2,378,101,728.46,2023-05-27,2022-10-31,Cúcuta,Mora,Indefinido,Familiar,Financiero,nicolascruz@gmail.com,3237998722,0
+970,Isabela Medina García,827912239-9,29,7073802.0,9,44501762.0,0,698,85,629.11,2018-06-05,2024-02-08,Cali,Mora,Indefinido,Propia,Manufactura,isabelamedina@hotmail.com,3269352168,0
+971,Sofía Ramos Morales,884202398-8,42,9647353.0,13,51024471.0,4,708,85,528.9,2023-09-10,2024-02-03,Medellín,Mora,Pensionado,Familiar,Tecnología,sofiaramos@hotmail.com,3152875576,0
+972,Laura Flores Gómez,820160500-3,33,1679631.0,23,5117108.0,4,467,162,304.66,2017-11-02,2023-06-29,Barranquilla,Activo,Prestación de servicios,Familiar,Servicios,lauraflores@gmail.com,3282877649,1
+973,Daniel Flores Suárez,957874277-9,60,11756024.0,9,46029385.0,8,398,172,391.54,2016-10-20,2023-06-11,Barranquilla,Activo,Indefinido,Propia,Comercio,danielflores@gmail.com,3237875661,1
+974,Jorge Alberto García Rodríguez,801444892-5,34,9353955.0,18,26932845.0,8,705,54,287.93,2016-01-30,2022-01-04,Bucaramanga,Mora,Indefinido,Arriendo,Tecnología,jorgealberto@hotmail.com,3264941694,1
+975,Carlos Andrés Ruiz Ríos,984982219-2,48,10345738.0,20,13673287.0,0,361,121,132.16,2019-06-19,2023-07-01,Pereira,Activo,Pensionado,Arriendo,Comercio,carlosandres@gmail.com,3154469681,0
+976,Samuel Álvarez Reyes,857576763-7,48,10951347.0,3,40452655.0,1,855,109,369.39,2016-12-26,2023-02-12,Manizales,Activo,Fijo,Arriendo,Gobierno,samuelalvarez@gmail.com,3131013765,0
+977,Ricardo Augusto Flores Molina,842104444-3,36,9027411.0,5,7931948.0,8,820,63,87.87,2018-12-01,2022-07-11,Manizales,Mora,Indefinido,Familiar,Servicios,ricardoaugusto@gmail.com,3107812566,0
+978,Mateo Navarro Álvarez,825493831-0,49,9432935.0,24,29618726.0,2,306,168,313.99,2021-01-13,2023-06-20,Medellín,Mora,Prestación de servicios,Propia,Educación,mateonavarro@gmail.com,3248459060,0
+979,Claudia Patricia Rojas Molina,986507227-1,44,11684338.0,14,46364432.0,8,552,144,396.81,2022-10-08,2022-11-03,Bucaramanga,Mora,Pensionado,Propia,Salud,claudiapatricia@gmail.com,3147556355,1
+980,Isabela Vega Álvarez,845852783-9,44,7534835.0,4,11069265.0,7,509,84,146.91,2021-12-01,2023-06-04,Ibagué,Mora,Fijo,Arriendo,Financiero,isabelavega@hotmail.com,3188300694,0
+981,Carlos Andrés Guerrero Medina,836642429-9,60,1735986.0,9,50192126.0,2,721,114,2891.27,2021-08-14,2022-11-08,Medellín,Inactivo,Pensionado,Arriendo,Salud,carlosandres@gmail.com,3278671957,1
+982,Daniela Ortiz Ríos,894474069-9,58,4484380.0,9,6021438.0,8,498,161,134.28,2023-12-29,2023-06-01,Cartagena,Activo,Pensionado,Arriendo,Comercio,danielaortiz@hotmail.com,3249707166,0
+983,Luis Miguel Reyes Romero,996783626-9,56,9988486.0,4,79779320.0,4,898,142,798.71,2015-04-25,2022-09-29,Cartagena,Inactivo,Indefinido,Familiar,Tecnología,luismiguel@gmail.com,3267618586,0
+984,Sebastián Rivera Ramírez,808428614-2,47,2965180.0,15,3126762.0,6,596,147,105.45,2021-10-01,2022-03-04,Bogotá,Mora,Fijo,Arriendo,Gobierno,sebastianrivera@gmail.com,3219725552,1
+985,Hernán Darío García Ríos,944854206-9,57,3494516.0,22,64359831.0,5,794,84,1841.74,2022-06-24,2024-04-14,Cúcuta,Mora,Fijo,Familiar,Transporte,hernandario@gmail.com,3182778155,0
+986,David Morales García,840098169-7,45,11109585.0,2,50550.0,0,653,105,0.46,2023-07-10,2023-11-27,Pereira,Activo,Prestación de servicios,Familiar,Comercio,davidmorales@hotmail.com,3217499536,0
+987,Manuela Ortiz Díaz,917648526-8,64,10369043.0,10,34559456.0,0,814,128,333.29,2023-02-01,2022-01-20,Medellín,Mora,Pensionado,Propia,Manufactura,manuelaortiz@gmail.com,3111523952,1
+988,Gloria Esperanza Mendoza Moreno,984665378-1,25,3924725.0,30,23650112.0,4,434,159,602.59,2021-09-04,2022-02-14,Pereira,Inactivo,Prestación de servicios,Familiar,Financiero,gloriaesperanza@gmail.com,3277725470,0
+989,Valentina Rivera Medina,810366806-6,31,9767673.0,5,9346332.0,5,746,128,95.69,2016-07-14,2022-11-19,Pereira,Activo,Fijo,Propia,Educación,valentinarivera@gmail.com,3204957943,1
+990,Fabio Alejandro Guerrero López,869422723-7,41,6544203.0,13,24285919.0,4,633,101,371.11,2021-09-12,2022-08-17,Ibagué,Inactivo,Prestación de servicios,Propia,Educación,fabioalejandro@gmail.com,3179965367,1
+991,Carlos Andrés Navarro Pérez,836823944-4,43,9150869.0,7,8130190.0,0,303,69,88.85,2019-06-04,2022-05-11,Cali,Activo,Indefinido,Familiar,Servicios,carlosandres@hotmail.com,3148773126,0
+992,Laura Vargas Vega,972479995-8,68,4086998.0,12,44454804.0,5,867,89,1087.71,2016-12-01,2022-07-05,Ibagué,Mora,Prestación de servicios,Propia,Financiero,lauravargas@hotmail.com,3202701262,0
+993,Samuel Jiménez Navarro,898849582-9,27,6210580.0,2,26879060.0,0,841,169,432.79,2015-07-13,2023-01-07,Cartagena,Mora,Indefinido,Arriendo,Servicios,samueljimenez@gmail.com,3188912402,1
+994,Valentina Reyes Ruiz,837888610-4,50,10675373.0,24,59467992.0,4,414,124,557.06,2016-05-02,2022-12-31,Ibagué,Inactivo,Pensionado,Propia,Construcción,valentinareyes@hotmail.com,3294408703,1
+995,Hernán Darío Navarro Molina,943429251-0,36,3549975.0,17,17421859.0,1,370,57,490.76,2017-09-08,2024-04-25,Cúcuta,Mora,Fijo,Arriendo,Salud,hernandario@gmail.com,3269974936,0
+996,Manuela González Ruiz,846731469-7,56,6489787.0,1,22819281.0,8,745,53,351.62,2018-07-18,2023-12-02,Medellín,Inactivo,Fijo,Propia,Servicios,manuelagonzalez@gmail.com,3236481363,0
+997,Gloria Esperanza Jiménez Cruz,929555250-8,25,2566035.0,19,69078159.0,5,735,128,2692.02,2017-02-09,2022-10-27,Cartagena,Inactivo,Pensionado,Propia,Servicios,gloriaesperanza@gmail.com,3223727728,0
+998,Isabela González Medina,860259436-3,47,2933793.0,20,46047341.0,6,740,73,1569.55,2018-10-30,2022-02-23,Ibagué,Mora,Indefinido,Familiar,Salud,isabelagonzalez@hotmail.com,3276709023,1
+999,Tomás López Vega,862801157-5,32,2499596.0,3,43224206.0,6,834,80,1729.25,2018-03-23,2022-06-24,Cartagena,Inactivo,Prestación de servicios,Familiar,Gobierno,tomaslopez@gmail.com,3198680964,1
+1000,Daniel Rivera Ríos,899572173-7,43,8168649.0,19,27882358.0,8,429,138,341.33,2023-04-27,2022-04-24,Ibagué,Activo,Fijo,Propia,Educación,danielrivera@gmail.com,3288763837,0
