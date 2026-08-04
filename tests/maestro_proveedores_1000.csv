@@ -1,1001 +1,1001 @@
-id,razon_social
-1,Comercial Directa LTDA.
-2,Papelería Lima S.A.C.
-3,Central Ica S.A.S.
-4,Inversiones Nacional E.I.R.L.
-5,Importaciones Global EIRL
-6,Norte Arequipa E.I.R.L.
-7,Plásticos Industriales S.A.
-8,Papelería Arequipa S.A.
-9,Global Central SRL
-10,Sur Tacna S.R.L.
-11,Sur Principal E.I.R.L.
-12,Servicios Principal S.A.
-13,Consultora Industrial SA
-14,Tecnología Directa SAC
-15,Ferretería Norte SA
-16,Pacífico Cusco SRL
-17,Andina Arequipa SAC
-18,Industrial Ica SA
-19,Global Premier S.A.C.
-20,Inversiones Global E.I.R.L.
-21,Global Lima S.R.L.
-22,Distribuidora Norte EIRL
-23,Seguridad Trujillo LTDA.
-24,Electrónica Trujillo SA
-25,Consultora Callao EIRL
-26,Consultora Rápida S.A.C.
-27,Textiles Trujillo SRL
-28,Industrial Global LTDA.
-29,Seguridad Rápida SAC
-30,Consultora Cusco SAC
-31,Importaciones Directa S.A.
-32,Global Cusco S.A.
-33,Global Junín SA
-34,Construcciones Tacna SAC
-35,Distribuidora Junín E.I.R.L.
-36,Alimentos Nacional S.A.
-37,Industrial Junín S.R.L.
-38,Nacional Puno E.I.R.L.
-39,Importaciones Ica S.A.S.
-40,Sur Lima SRL
-41,Suministros Ica S.R.L.
-42,Logística Junín S.A.C.
-43,Pacífico Digital S.A.C.
-44,Importaciones Junín S.A.
-45,Suministros Puno SA
-46,Servicios Global SA
-47,Textiles Principal EIRL
-48,Comercial Digital S.A.S.
-49,Central Cusco EIRL
-50,Central Industrial EIRL
-51,Lima Principal SA
-52,Tecnología Andina S.A.S.
-53,Textiles Lima E.I.R.L.
-54,Industrial Arequipa SA
-55,Comercial Premier LTDA.
-56,Andina Lima S.A.S.
-57,Norte Arequipa SA
-58,Perú Digital S.A.S.
-59,Norte Junín SAC
-60,Alimentos Rápida S.R.L.
-61,Nacional Lima LTDA.
-62,Tecnología Puno E.I.R.L.
-63,Comercial Callao SRL
-64,Logística Digital S.A.S.
-65,Seguridad Principal S.R.L.
-66,Tecnología Cusco SRL
-67,Sur Trujillo EIRL
-68,Consultora Ica S.R.L.
-69,Comercial Directa SAC
-70,Tecnología Junín SRL
-71,Inversiones Principal SA
-72,Construcciones Industrial S.A.
-73,Perú Premier SRL
-74,Servicios Sur E.I.R.L.
-75,Electrónica Lima S.R.L.
-76,Electrónica Arequipa SRL
-77,Logística Arequipa SA
-78,Importaciones Industrial S.A.S.
-79,Global Arequipa LTDA.
-80,Seguridad Lima SAC
-81,Nacional Puno SA
-82,Perú Norte S.A.
-83,Transporte Puno S.A.C.
-84,Lima Nacional S.A.C.
-85,Suministros Global E.I.R.L.
-86,Suministros Lima SA
-87,Comercial Puno SAC
-88,Servicios Lima SRL
-89,Consultora Industrial SRL
-90,Global Norte S.R.L.
-91,Industrial Principal LTDA.
-92,Nacional Norte S.A.
-93,Tecnología Principal LTDA.
-94,Distribuidora Piura S.R.L.
-95,Sur Norte SAC
-96,Central Ica LTDA.
-97,Lima Trujillo SA
-98,Nacional Principal SA
-99,Construcciones Global E.I.R.L.
-100,Norte Tacna SRL
-101,Comercial Andina E.I.R.L.
-102,Nacional Premier SRL
-103,Suministros Directa S.R.L.
-104,Pacífico Junín E.I.R.L.
-105,Logística Norte S.A.S.
-106,Perú Rápida S.A.C.
-107,Global Premier E.I.R.L.
-108,Ferretería Tacna S.A.C.
-109,Alimentos Ica E.I.R.L.
-110,Seguridad Andina SA
-111,Sur Rápida S.A.C.
-112,Global Industrial LTDA.
-113,Sur Norte S.A.S.
-114,Industrial Industrial S.A.C.
-115,Nacional Directa SRL
-116,Norte Ica S.A.C.
-117,Central Callao S.R.L.
-118,Perú Nacional SA
-119,Ferretería Tacna SAC
-120,Nacional Andina E.I.R.L.
-121,Plásticos Andina S.A.C.
-122,Pacífico Premier E.I.R.L.
-123,Transporte Arequipa S.A.S.
-124,Ferretería Lima SAC
-125,Inversiones Tacna S.R.L.
-126,Electrónica Nacional SA
-127,Andina Premier S.A.S.
-128,Inversiones Puno LTDA.
-129,Perú Nacional S.A.S.
-130,Lima Callao EIRL
-131,Textiles Sur S.A.S.
-132,Tecnología Junín E.I.R.L.
-133,Importaciones Sur SA
-134,Textiles Global SAC
-135,Pacífico Arequipa SA
-136,Importaciones Sur S.A.
-137,Seguridad Rápida SRL
-138,Sur Industrial S.R.L.
-139,Servicios Norte SRL
-140,Perú Directa SA
-141,Papelería Lima S.A.
-142,Global Sur SA
-143,Andina Ica SA
-144,Logística Ica LTDA.
-145,Ferretería Central S.A.S.
-146,Tecnología Industrial S.A.
-147,Comercial Digital SRL
-148,Ferretería Trujillo SA
-149,Electrónica Trujillo E.I.R.L.
-150,Construcciones Central LTDA.
-151,Ferretería Lima S.R.L.
-152,Transporte Norte E.I.R.L.
-153,Consultora Global LTDA.
-154,Tecnología Ica E.I.R.L.
-155,Electrónica Directa SAC
-156,Sur Puno LTDA.
-157,Importaciones Principal S.A.S.
-158,Lima Premier S.A.C.
-159,Construcciones Andina S.A.
-160,Consultora Lima LTDA.
-161,Global Global S.A.
-162,Sur Andina SRL
-163,Inversiones Digital S.A.
-164,Comercial Principal E.I.R.L.
-165,Pacífico Arequipa EIRL
-166,Ferretería Premier LTDA.
-167,Electronica Andina SAC
-168,Comercial Global S.A.
-169,Importaciones Pacific S.A.
-170,Transporte Directa S.A.
-171,Perú Callao S.A.
-172,Distribuidora Industrial S.A.C.
-173,Logística Junín SRL
-174,Andina Andina S.A.C.
-175,Sur Global SA
-176,Pacífico Rápida SAC
-177,Importaciones Arequipa LTDA.
-178,Andina Piura SAC
-179,Industrial Piura SA
-180,Servicios Principal SA
-181,Inversiones Tacna S.A.
-182,Global Cusco LTDA.
-183,Nacional Rápida SRL
-184,Logística Nacional S.A.S.
-185,Seguridad Premier S.A.
-186,Construcciones Norte E.I.R.L.
-187,Industrial Norte S.A.S.
-188,Nacional Puno S.R.L.
-189,Transporte Junín S.A.S.
-190,Servicios Ica LTDA.
-191,Transporte Directa SAC
-192,Logística Global SA
-193,Electrónica Sur S.R.L.
-194,Logística Central S.A.C.
-195,Global Lima S.A.C.
-196,Importaciones Premier SRL
-197,Transporte Premier SA
-198,Lima Norte S.A.
-199,Industrial Premier S.R.L.
-200,Norte Puno S.R.L.
-201,Ferretería Directa SA
-202,Lima Directa S.R.L.
-203,Papelería Norte SRL
-204,Perú Directa SAC
-205,Papelería Junín S.A.
-206,Construcciones Ica SRL
-207,Consultora Callao S.A.S.
-208,Comercial Premier SAC
-209,Importaciones Norte S.A.
-210,Comercial Ica SAC
-211,Inversiones Sur S.A.
-212,Nacional Callao E.I.R.L.
-213,Consultora Junín S.A.
-214,Sur Digital SAC
-215,Ferretería Digital EIRL
-216,Sur Cusco SAC
-217,Seguridad Andina LTDA.
-218,Alimentos Premier SA
-219,Sur Industrial LTDA.
-220,Perú Premier EIRL
-221,Logística Lima S.A.
-222,Central Industrial SAC
-223,Papelería Digital S.A.S.
-224,Tecnología Digital SRL
-225,Tecnología Norte EIRL
-226,Sur Digital EIRL
-227,Global Tacna S.A.
-228,Central Sur E.I.R.L.
-229,Papelería Rápida LTDA.
-230,Andina Trujillo SRL
-231,Pacífico Digital LTDA.
-232,Electrónica Piura SAC
-233,Papelería y Oficina E.I.R.L.
-234,Logística Lima SA
-235,Textiles del Norte S.A.
-236,Lima Sur SA
-237,Distribuidora Cusco SRL
-238,Global Rápida S.A.S.
-239,Global Directa S.A.C.
-240,Textiles Central S.R.L.
-241,Lima Global EIRL
-242,Suministros Nacional LTDA.
-243,Construcciones Directa EIRL
-244,Suministros Norte SRL
-245,Central Nacional EIRL
-246,Electrónica Nacional S.A.
-247,Seguridad Industrial E.I.R.L.
-248,Textiles Lima S.R.L.
-249,Andina Junín S.A.C.
-250,Alimentos Puno S.R.L.
-251,Ferretería Piura SA
-252,Distribuidora Sur S.R.L.
-253,Plásticos Puno EIRL
-254,Logística Junín S.A.S.
-255,Nacional Trujillo SAC
-256,Industrial Digital S.R.L.
-257,Tecnología Nacional S.A.C.
-258,Papeleria y Oficina E.I.R.L.
-259,Transporte Sur SRL
-260,Seguridad Digital EIRL
-261,Pacífico Arequipa S.A.S.
-262,Construcciones Sur LTDA.
-263,Electrónica Puno SRL
-264,Papelería Principal S.A.S.
-265,Suministros Puno SRL
-266,Importaciones Directa E.I.R.L.
-267,Importaciones Pacific SA
-268,Distribuidora del Sur SAC
-269,Industrial Sur E.I.R.L.
-270,Servicios Andina S.A.S.
-271,Importaciones Junín S.R.L.
-272,Importaciones Nacional SA
-273,Papelería Piura EIRL
-274,Servicios Lima S.A.C.
-275,Construcciones Puno S.A.C.
-276,Distribuidora Tacna SRL
-277,Plásticos Tacna S.A.C.
-278,Perú Norte EIRL
-279,Papelería Callao LTDA.
-280,Tecnología Tacna S.A.C.
-281,Distribuidora Callao S.R.L.
-282,Andina Andina LTDA.
-283,Logística Cusco LTDA.
-284,Pacífico Directa EIRL
-285,Transporte Rápido S.A.C.
-286,Seguridad Directa S.A.
-287,Andina Directa EIRL
-288,Importaciones Premier S.R.L.
-289,Sur Junín SRL
-290,Plasticos Industriales S.A.
-291,Tecnología Trujillo SAC
-292,Consultora Principal S.A.C.
-293,Ferretería Andina SAC
-294,Construcciones Digital SRL
-295,Inversiones Puno EIRL
-296,Plásticos Puno SA
-297,Alimentos Cusco LTDA.
-298,Seguridad Nacional S.R.L.
-299,Nacional Sur S.A.
-300,Consultora Digital S.A.S.
-301,Global Lima SAC
-302,Servicios Directa SA
-303,Distribuidora Sur LTDA.
-304,Sur Central LTDA.
-305,Logística Junín S.A.
-306,Transporte Arequipa S.R.L.
-307,Lima Puno LTDA.
-308,Construcciones Lima SAC
-309,Andina Tacna S.R.L.
-310,Andina Ica S.A.S.
-311,Industrial Tacna SAC
-312,Sur Trujillo SA
-313,Andina Industrial LTDA.
-314,Perú Trujillo EIRL
-315,Central Puno SAC
-316,Industrial Cusco EIRL
-317,Plásticos Junín S.A.C.
-318,Logística Global S.A.
-319,Consultora Andina S.A.S.
-320,Tecnología Digital LTDA.
-321,Global Premier EIRL
-322,Papelería Nacional S.R.L.
-323,Seguridad Cusco EIRL
-324,Norte Premier E.I.R.L.
-325,Perú Industrial SAC
-326,Andina Digital S.A.
-327,Textiles Directa S.A.S.
-328,Papelería Nacional S.A.S.
-329,Papelería Rápida E.I.R.L.
-330,Perú Ica S.R.L.
-331,Pacífico Cusco SA
-332,Transporte Rápida S.A.S.
-333,Electrónica Cusco S.R.L.
-334,Servicios Digital EIRL
-335,Textiles Central SA
-336,Andina Arequipa SA
-337,Pacífico Tacna S.R.L.
-338,Andina Directa S.R.L.
-339,Textiles Cusco S.R.L.
-340,Industrial Rápida SAC
-341,Comercial Rápida SA
-342,Ferretería Digital SA
-343,Alimentos Directa EIRL
-344,Alimentos del Sur S.A.
-345,Seguridad Industrial EIRL
-346,Andina Premier LTDA.
-347,Lima Digital S.A.
-348,Logistica Norte S.A.
-349,Consultora Digital S.A.C.
-350,Lima Sur LTDA.
-351,LOGISTICA NORTE SA
-352,Ferretería Principal LTDA.
-353,Plásticos Global SA
-354,Sur Premier LTDA.
-355,Textiles Cusco SRL
-356,Ferretería Junín SAC
-357,Alimentos Global LTDA.
-358,Ferretería Directa S.A.
-359,Plásticos Principal SRL
-360,Construcciones Tacna S.R.L.
-361,Textiles Trujillo LTDA.
-362,Tecnología Piura EIRL
-363,Consultora Global SRL
-364,Transporte Callao S.A.
-365,Andina Directa SAC
-366,Transporte Digital EIRL
-367,Nacional Nacional LTDA.
-368,Tecnología Digital S.A.S.
-369,Andina Central S.A.
-370,Lima Nacional SAC
-371,Pacífico Callao SRL
-372,Seguridad Piura SA
-373,Comercial Industrial LTDA.
-374,Industrial Nacional S.R.L.
-375,Seguridad Ica S.A.C.
-376,Importaciones Digital E.I.R.L.
-377,Alimentos Arequipa SRL
-378,Construcciones Central SA
-379,Construcciones Trujillo EIRL
-380,Transporte Sur S.R.L.
-381,Inversiones Central LTDA.
-382,Textiles Sur S.A.C.
-383,Distribuidora Puno EIRL
-384,Electrónica Nacional S.R.L.
-385,Central Rápida SA
-386,TEXTILES DEL NORTE S.A.
-387,Global Digital S.A.
-388,Andina Premier EIRL
-389,Tecnología Sur S.A.
-390,Pacífico Industrial S.A.C.
-391,Consultora Industrial S.A.C.
-392,Logística Directa LTDA.
-393,Alimentos Industrial SA
-394,Industrial Rápida E.I.R.L.
-395,Seguridad Global SRL
-396,Logística Tacna SA
-397,Tecnología Arequipa EIRL
-398,Transporte Industrial SA
-399,Consultora Ica SAC
-400,Global Nacional S.R.L.
-401,Consultora Piura LTDA.
-402,Ferretería Nacional SAC
-403,Consultora Premier S.A.S.
-404,Plásticos Industrial E.I.R.L.
-405,Tecnología Industrial LTDA.
-406,Construcciones Callao S.R.L.
-407,Ferretería Digital LTDA.
-408,Alimentos Puno S.A.
-409,Logística Central S.A.
-410,Distribuidora Digital S.R.L.
-411,Servicios Global SAC
-412,Servicios Premier EIRL
-413,Construcciones Junín S.A.
-414,Construcciones Sur SRL
-415,Alimentos Cusco S.A.
-416,Suministros Rápida EIRL
-417,Sur Rápida SAC
-418,Distribuidora Puno LTDA.
-419,Global Global SAC
-420,Transporte Digital SAC
-421,Plásticos Andina EIRL
-422,Industrial Junín S.A.C.
-423,Nacional Andina S.A.S.
-424,Nacional Industrial S.A.
-425,Importaciones Central SRL
-426,Importaciones Norte SRL
-427,Servicios Directa S.A.
-428,Norte Trujillo SA
-429,Consultora Digital SAC
-430,Papelería Premier SA
-431,Comercial Puno SA
-432,Central Arequipa S.A.S.
-433,Andina Callao S.A.
-434,Pacífico Global SA
-435,Alimentos Andina LTDA.
-436,Electrónica Andina SA
-437,Importaciones Trujillo S.A.
-438,Servicios Callao EIRL
-439,Comercial Principal S.A.
-440,Perú Industrial EIRL
-441,Distribuidora Andina SRL
-442,Plásticos Directa SRL
-443,Construcciones Callao SRL
-444,Pacífico Sur S.A.S.
-445,Seguridad Puno EIRL
-446,Transporte Piura SAC
-447,Alimentos Sur SA
-448,Industrial Arequipa EIRL
-449,CONSULTORA DIGITAL S.A.C.
-450,Norte Industrial E.I.R.L.
-451,Industrial Directa S.R.L.
-452,Electrónica Rápida SRL
-453,Servicios Digital S.R.L.
-454,Comercial Tacna SAC
-455,Alimentos Puno SA
-456,Pacífico Cusco LTDA.
-457,Inversiones Nacional S.A.S.
-458,Inversiones Lima SAC
-459,Nacional Principal SAC
-460,Central Nacional S.A.
-461,Pacífico Junín LTDA.
-462,Nacional Directa S.A.C.
-463,Electrónica Central SAC
-464,Norte Principal LTDA.
-465,Distribuidora Industrial SA
-466,Central Andina S.A.C.
-467,Seguridad Cusco S.A.
-468,Ferretería Arequipa LTDA.
-469,Transporte Trujillo E.I.R.L.
-470,Andina Norte E.I.R.L.
-471,Sur Trujillo SAC
-472,Nacional Global SRL
-473,Transporte Ica SA
-474,Perú Nacional SRL
-475,Distribuidora Puno E.I.R.L.
-476,Seguridad Central S.A.
-477,Pacífico Rápida SA
-478,Plásticos Ica E.I.R.L.
-479,Consultora Arequipa SA
-480,Importaciones Piura LTDA.
-481,Suministros Cusco S.A.
-482,Lima Lima SAC
-483,Pacífico Ica E.I.R.L.
-484,Plásticos Callao LTDA.
-485,Norte Callao E.I.R.L.
-486,Papelería Cusco SA
-487,Importaciones Norte S.R.L.
-488,Construcciones Directa SRL
-489,Consultora Rápida SRL
-490,Comercial Central LTDA.
-491,Andina Cusco S.A.C.
-492,Logística Industrial S.A.
-493,Inversiones Ica SRL
-494,Plásticos Central S.A.C.
-495,Alimentos Global E.I.R.L.
-496,Importaciones Digital S.A.
-497,Consultora Puno S.A.C.
-498,Pacífico Arequipa E.I.R.L.
-499,Inversiones Premier E.I.R.L.
-500,Alimentos Ica EIRL
-501,Electrónica Andina S.A.
-502,Consultora Central S.A.S.
-503,Tecnología Sur SRL
-504,Global Principal SRL
-505,Perú Lima EIRL
-506,Electrónica Callao S.A.C.
-507,Seguridad Sur SRL
-508,Construcciones Tacna S.A.
-509,Distribuidora del Sur S.A.C.
-510,Lima Piura E.I.R.L.
-511,Nacional Trujillo S.A.C.
-512,Industrial Arequipa S.A.
-513,Pacífico Sur S.A.
-514,Plasticos Industriales SA
-515,Importaciones Trujillo S.A.S.
-516,Comercial Ica SRL
-517,Industrial Puno S.A.C.
-518,Ferretería Puno E.I.R.L.
-519,Industrial Ica S.R.L.
-520,Pacífico Central SAC
-521,Seguridad Lima SA
-522,Consultora Junín E.I.R.L.
-523,Central Puno LTDA.
-524,Importaciones Tacna S.A.S.
-525,Andina Digital LTDA.
-526,Inversiones Callao S.A.
-527,Norte Tacna EIRL
-528,Transporte Central SA
-529,Importaciones Piura E.I.R.L.
-530,Alimentos Ica SA
-531,Ferretería Tacna EIRL
-532,Suministros Digital S.R.L.
-533,Construcciones Global EIRL
-534,Global Tacna LTDA.
-535,DISTRIBUIDORA DEL SUR S.A.C.
-536,Norte Rápida EIRL
-537,Andina Piura SRL
-538,Industrial Callao E.I.R.L.
-539,Seguridad Directa SRL
-540,Sur Premier S.A.C.
-541,Pacífico Premier EIRL
-542,Industrial Directa SA
-543,Inversiones Nacional SA
-544,Importaciones Rápida SAC
-545,Lima Callao S.R.L.
-546,Alimentos Junín S.A.C.
-547,Suministros Global SA
-548,Seguridad Tacna E.I.R.L.
-549,Nacional Rápida E.I.R.L.
-550,Plásticos Trujillo SRL
-551,Comercial Central SA
-552,Electrónica Premier S.A.S.
-553,Ferretería Callao SA
-554,Papelería Sur E.I.R.L.
-555,Ferretería Digital S.A.
-556,Nacional Sur EIRL
-557,Lima Arequipa S.R.L.
-558,Construcciones Ica S.A.
-559,Seguridad Ica S.A.S.
-560,Alimentos Directa E.I.R.L.
-561,Servicios Sur S.A.S.
-562,Sur Global S.A.C.
-563,Transporte Arequipa S.A.
-564,Distribuidora Central SRL
-565,Central Piura S.A.
-566,Central Lima EIRL
-567,Seguridad Arequipa S.R.L.
-568,Consultora Callao E.I.R.L.
-569,Central Tacna LTDA.
-570,Electrónica Andina EIRL
-571,Seguridad Arequipa LTDA.
-572,Andina Global S.A.S.
-573,Logística Ica S.A.
-574,Tecnología Ica EIRL
-575,Suministros Principal SRL
-576,Andina Directa S.A.S.
-577,Electrónica Directa S.A.
-578,Lima Sur S.A.S.
-579,Tecnología Lima E.I.R.L.
-580,Norte Nacional S.R.L.
-581,Comercial Digital S.R.L.
-582,Inversiones Andina SA
-583,Andina Digital E.I.R.L.
-584,Plásticos Cusco EIRL
-585,Papelería Norte SA
-586,Distribuidora Central LTDA.
-587,Servicios Nacional LTDA.
-588,Consultora Arequipa LTDA.
-589,Seguridad Tacna S.A.
-590,Consultora Lima S.A.S.
-591,Electrónica Piura S.A.C.
-592,Suministros Premier S.A.
-593,Tecnología Norte S.A.S.
-594,Electrónica Junín SRL
-595,Central Puno SA
-596,Distribuidora Lima S.R.L.
-597,Textiles Premier S.A.C.
-598,Norte Junín SRL
-599,Plásticos Central SRL
-600,Perú Rápida LTDA.
-601,Pacífico Sur E.I.R.L.
-602,Seguridad Junín E.I.R.L.
-603,Industrial Ica S.A.C.
-604,Lima Puno S.A.S.
-605,Comercial Directa S.A.
-606,Textiles Premier LTDA.
-607,Electrónica Arequipa SAC
-608,Global Digital S.A.C.
-609,Importaciones Tacna SRL
-610,Suministros Trujillo EIRL
-611,Seguridad Digital S.R.L.
-612,Inversiones Directa SRL
-613,Perú Lima SA
-614,Transporte Rapido S.A.C.
-615,Lima Arequipa SRL
-616,Lima Rápida SRL
-617,Alimentos del Sur SA
-618,Central Premier SAC
-619,Central Trujillo S.A.
-620,Seguridad Sur SAC
-621,Seguridad Cusco SRL
-622,Seguridad Central SRL
-623,Plásticos Trujillo LTDA.
-624,Perú Ica LTDA.
-625,Electrónica Ica S.A.S.
-626,Textiles Digital S.A.S.
-627,Comercial Directa EIRL
-628,Tecnología Directa LTDA.
-629,Global Nacional SA
-630,Seguridad Norte S.R.L.
-631,Seguridad Cusco SA
-632,Nacional Callao S.A.C.
-633,Suministros Lima S.A.C.
-634,Nacional Cusco S.A.S.
-635,Tecnología Arequipa SAC
-636,Papelería Ica E.I.R.L.
-637,Sur Ica SRL
-638,Nacional Nacional SA
-639,Lima Cusco S.A.
-640,Papelería Tacna S.R.L.
-641,Andina Central SAC
-642,Construcciones Lima LTDA.
-643,Textiles Puno LTDA.
-644,Ferretería Ica SAC
-645,Comercial Norte LTDA.
-646,Distribuidora Trujillo S.A.S.
-647,Suministros Andina S.A.
-648,Consultora Sur LTDA.
-649,Ferretería Industrial E.I.R.L.
-650,Papelería Global LTDA.
-651,Inversiones Global S.R.L.
-652,Electrónica Industrial EIRL
-653,Lima Rápida S.R.L.
-654,Ferretería Global EIRL
-655,Inversiones Digital EIRL
-656,Tecnología Junín SAC
-657,Comercial Rápida EIRL
-658,Logística Nacional LTDA.
-659,Papelería Directa S.R.L.
-660,Inversiones Ica S.A.S.
-661,Industrial Principal SAC
-662,Textiles Andina EIRL
-663,Andina Nacional S.R.L.
-664,Comercial Central S.A.C.
-665,Sur Ica E.I.R.L.
-666,Tecnología Piura S.A.C.
-667,Consultora Sur S.A.C.
-668,Nacional Junín E.I.R.L.
-669,Suministros Industrial LTDA.
-670,Nacional Industrial S.A.S.
-671,Construcciones Tacna E.I.R.L.
-672,Textiles Sur LTDA.
-673,Central Principal SA
-674,Construcciones Andina EIRL
-675,Sur Rápida LTDA.
-676,Lima Puno SRL
-677,Suministros Premier E.I.R.L.
-678,Logística Rápida E.I.R.L.
-679,Global Sur S.A.
-680,Electrónica Puno LTDA.
-681,Norte Industrial SA
-682,Consultora Global E.I.R.L.
-683,Construcciones Directa SAC
-684,Papelería Lima EIRL
-685,Importaciones Industrial SA
-686,Seguridad Digital S.A.C.
-687,Sur Premier SAC
-688,Pacífico Lima S.A.S.
-689,Importaciones Piura S.A.
-690,Global Sur SAC
-691,Consultora Trujillo LTDA.
-692,Importaciones Central S.A.
-693,Comercial Lima S.A.C.
-694,Seguridad Arequipa E.I.R.L.
-695,Consultora Ica EIRL
-696,Sur Norte S.R.L.
-697,Importaciones Sur SAC
-698,Tecnología Cusco S.R.L.
-699,Comercial Andina EIRL
-700,Inversiones Directa SAC
-701,Construcciones Callao SAC
-702,Nacional Piura S.A.S.
-703,Global Nacional S.A.S.
-704,Construcciones Premier EIRL
-705,Electrónica Digital SAC
-706,CONSTRUCCIONES LIMA S.A.C.
-707,Industrial Lima S.A.C.
-708,Perú Lima LTDA.
-709,Construcciones Digital S.A.S.
-710,Perú Industrial S.A.
-711,Suministros Industrial S.R.L.
-712,Andina Arequipa LTDA.
-713,Global Tacna SA
-714,Tecnología Nacional LTDA.
-715,Papelería Central SA
-716,Consultora Lima E.I.R.L.
-717,Consultora Trujillo S.A.S.
-718,Plásticos Cusco SAC
-719,Seguridad Callao E.I.R.L.
-720,Importaciones Cusco LTDA.
-721,Transporte Puno S.R.L.
-722,Sur Cusco S.A.S.
-723,Norte Piura SAC
-724,Plásticos Nacional SA
-725,Distribuidora Directa EIRL
-726,Nacional Ica S.A.C.
-727,Alimentos Callao LTDA.
-728,Comercial Tacna SA
-729,Nacional Lima SA
-730,Electrónica Andina S.A.C.
-731,Seguridad Lima S.A.C.
-732,Tecnología Arequipa S.A.S.
-733,Industrial Callao S.A.C.
-734,Construcciones Principal S.R.L.
-735,Nacional Digital S.R.L.
-736,Seguridad Norte S.A.S.
-737,Nacional Piura SRL
-738,Andina Premier SAC
-739,Construcciones Andina S.A.S.
-740,Distribuidora Arequipa LTDA.
-741,Suministros Ica EIRL
-742,Construcciones Cusco EIRL
-743,Importaciones Piura EIRL
-744,Lima Global LTDA.
-745,Distribuidora Global EIRL
-746,Logística Tacna LTDA.
-747,Suministros Digital SAC
-748,Papelería Lima S.R.L.
-749,Sur Piura S.R.L.
-750,Comercial Junín S.A.C.
-751,Consultora Directa EIRL
-752,Pacífico Junín S.A.
-753,Tecnología Callao E.I.R.L.
-754,Distribuidora Cusco SAC
-755,Andina Puno EIRL
-756,Pacífico Principal SAC
-757,Pacífico Callao S.A.
-758,Ferretería Central S.R.L.
-759,Seguridad Global SAC
-760,Transporte Directa SRL
-761,Textiles Industrial EIRL
-762,Electrónica Andina SRL
-763,Comercial Callao EIRL
-764,Alimentos Digital SA
-765,Sur Ica SAC
-766,Seguridad Arequipa SA
-767,Transporte Junín LTDA.
-768,Central Tacna S.A.C.
-769,Nacional Junín SA
-770,Norte Norte SAC
-771,Logística Industrial SRL
-772,Plásticos Premier SA
-773,Electrónica Junín S.A.
-774,Transporte Arequipa LTDA.
-775,Comercial Premier SRL
-776,Importaciones Principal SRL
-777,Consultora Andina S.R.L.
-778,Servicios Norte LTDA.
-779,Perú Tacna S.R.L.
-780,Suministros Lima SAC
-781,Papelería Digital S.R.L.
-782,Comercial Digital EIRL
-783,Electrónica Norte EIRL
-784,Servicios Ica SAC
-785,Lima Global S.A.S.
-786,Pacífico Arequipa SAC
-787,Lima Piura S.A.C.
-788,Construcciones Ica S.A.C.
-789,Transporte Norte SA
-790,Central Premier EIRL
-791,Textiles Principal S.A.
-792,Lima Cusco E.I.R.L.
-793,Textiles Puno S.A.
-794,Logística Directa S.R.L.
-795,Distribuidora Central SA
-796,Seguridad Cusco S.A.S.
-797,Seguridad Puno LTDA.
-798,Logística Central EIRL
-799,Consultora Global SA
-800,Sur Central S.A.
-801,Logística Trujillo S.A.S.
-802,Textiles Andina SRL
-803,Distribuidora Principal S.A.S.
-804,Construcciones Central SRL
-805,Logística Cusco S.A.C.
-806,Nacional Arequipa S.A.C.
-807,Logística Global S.R.L.
-808,Ferretería Principal SAC
-809,Central Industrial E.I.R.L.
-810,Comercial Nacional SAC
-811,Sur Principal SRL
-812,Perú Norte S.A.S.
-813,Consultora Directa SRL
-814,Central Ica S.A.C.
-815,Consultora Digital LTDA.
-816,Tecnología Premier LTDA.
-817,Servicios Industrial LTDA.
-818,Perú Digital S.A.C.
-819,Tecnología Nacional SRL
-820,Nacional Directa S.A.S.
-821,Consultora Trujillo SA
-822,Seguridad Piura SRL
-823,Transporte Norte SRL
-824,Logística Industrial SAC
-825,Perú Global SAC
-826,Perú Lima S.A.S.
-827,Plásticos Principal SAC
-828,Comercial Digital SAC
-829,Plásticos Puno S.A.C.
-830,Central Nacional E.I.R.L.
-831,Industrial Central S.R.L.
-832,Central Nacional LTDA.
-833,Servicios Trujillo EIRL
-834,Seguridad Sur LTDA.
-835,Central Andina LTDA.
-836,Textiles Nacional LTDA.
-837,Textiles Directa S.R.L.
-838,Lima Andina S.A.S.
-839,Andina Junín SRL
-840,Suministros Norte E.I.R.L.
-841,Norte Junín S.A.
-842,Transporte Industrial SRL
-843,Construcciones Lima S.A.C.
-844,Importaciones Andina SAC
-845,Electrónica Nacional S.A.C.
-846,Pacífico Premier LTDA.
-847,Tecnología Cusco SAC
-848,Ferretería Trujillo LTDA.
-849,Nacional Lima SRL
-850,Ferretería Norte S.A.
-851,Transporte Rápida SAC
-852,Logística Premier S.A.C.
-853,Servicios Andina S.A.
-854,Servicios Tacna EIRL
-855,Inversiones Andina E.I.R.L.
-856,Comercial Tacna S.A.
-857,Textiles Ica E.I.R.L.
-858,Ferretería Industrial SA
-859,Sur Trujillo S.R.L.
-860,Textiles Tacna SAC
-861,Papelería Principal EIRL
-862,Sur Callao LTDA.
-863,Papelería Rápida S.R.L.
-864,Inversiones Industrial E.I.R.L.
-865,Electrónica Trujillo SAC
-866,Inversiones Cusco S.A.S.
-867,Pacífico Junín S.A.S.
-868,Andina Rápida LTDA.
-869,Global Global E.I.R.L.
-870,Distribuidora Arequipa S.A.
-871,Tecnología Ica SA
-872,Transporte Premier S.A.
-873,Importaciones Trujillo SRL
-874,Global Industrial S.A.S.
-875,Inversiones Global SRL
-876,Construcciones Industrial EIRL
-877,Nacional Puno SRL
-878,Papelería Central S.A.C.
-879,Logística Directa EIRL
-880,Norte Principal EIRL
-881,Pacífico Lima EIRL
-882,Andina Global S.R.L.
-883,Alimentos Central LTDA.
-884,Textiles Ica EIRL
-885,Central Cusco SA
-886,Logística Andina LTDA.
-887,Perú Piura S.A.S.
-888,Logística Rápida S.A.
-889,Inversiones Piura EIRL
-890,Norte Trujillo SAC
-891,Textiles Lima S.A.S.
-892,Distribuidora Junín S.A.S.
-893,Textiles Puno S.A.C.
-894,Seguridad Andina EIRL
-895,Logística Norte S.A.
-896,Consultora Ica SA
-897,Transporte Nacional SA
-898,Tecnología Industrial S.A.C.
-899,Papelería Cusco EIRL
-900,Alimentos Junín S.A.S.
-901,Inversiones Callao S.A.C.
-902,Consultora Rápida EIRL
-903,Lima Trujillo S.A.
-904,Global Central E.I.R.L.
-905,Lima Cusco S.R.L.
-906,Comercial Ica S.R.L.
-907,Alimentos Cusco S.R.L.
-908,Distribuidora Global S.A.S.
-909,Industrial Central LTDA.
-910,Alimentos Global S.A.C.
-911,Andina Callao EIRL
-912,Transporte Trujillo EIRL
-913,Alimentos Junín SA
-914,Distribuidora Digital S.A.C.
-915,Industrial Cusco S.R.L.
-916,Suministros Digital E.I.R.L.
-917,Andina Puno S.A.
-918,Pacífico Trujillo S.A.
-919,Sur Cusco SRL
-920,Comercial Premier S.A.C.
-921,Lima Digital SA
-922,Logística Premier SAC
-923,Andina Nacional E.I.R.L.
-924,Plásticos Digital SA
-925,Nacional Premier S.A.C.
-926,Alimentos Junín E.I.R.L.
-927,Papelería Junín S.R.L.
-928,Construcciones Cusco SA
-929,Pacífico Tacna LTDA.
-930,Perú Digital SA
-931,Construcciones Premier SAC
-932,Distribuidora Nacional SAC
-933,Transporte Tacna S.A.S.
-934,Logística Tacna SAC
-935,Pacífico Norte S.A.
-936,Perú Principal SRL
-937,Lima Ica E.I.R.L.
-938,Inversiones Rápida LTDA.
-939,Suministros Tacna SRL
-940,Textiles del Norte SA
-941,Sur Sur S.R.L.
-942,Papelería Rápida EIRL
-943,Ferretería Arequipa EIRL
-944,Central Junín SA
-945,Inversiones Cusco S.A.C.
-946,Ferretería Principal SA
-947,Global Piura E.I.R.L.
-948,Electrónica Directa SRL
-949,Electrónica Tacna SA
-950,Norte Puno EIRL
-951,Ferreteria Central SRL
-952,Andina Nacional EIRL
-953,Pacífico Piura S.R.L.
-954,Global Global S.A.S.
-955,Servicios Global S.A.S.
-956,Global Sur S.A.C.
-957,Pacífico Directa S.A.C.
-958,Transporte Rápida E.I.R.L.
-959,Pacífico Trujillo E.I.R.L.
-960,Suministros Tacna SAC
-961,Comercial Premier EIRL
-962,Sur Cusco E.I.R.L.
-963,Textiles Andina E.I.R.L.
-964,Ferretería Ica SA
-965,Perú Cusco S.A.
-966,Construcciones Rápida S.A.S.
-967,Servicios Piura LTDA.
-968,Papelería Global SA
-969,Comercial Andina E.I.R.L
-970,Suministros Premier S.A.S.
-971,Central Tacna SAC
-972,Comercial Trujillo S.A.S.
-973,Electrónica Ica SAC
-974,Electrónica Digital S.A.C.
-975,Importaciones Cusco S.A.S.
-976,Logística Central SAC
-977,Perú Piura SRL
-978,Comercial Sur E.I.R.L.
-979,Sur Puno SA
-980,Electrónica Trujillo SRL
-981,Seguridad Puno SAC
-982,Industrial Directa S.A.C.
-983,Alimentos Principal SA
-984,Textiles Puno E.I.R.L.
-985,Central Nacional S.R.L.
-986,Nacional Ica S.A.S.
-987,Comercial Rápida S.A.
-988,Logística Global LTDA.
-989,Papelería Junín SA
-990,Global Premier SA
-991,Andina Digital S.A.S.
-992,Sur Central EIRL
-993,Transporte Trujillo S.A.
-994,Textiles Andina S.A.
-995,Importaciones Sur S.R.L.
-996,Global Cusco S.R.L.
-997,Plásticos Trujillo S.A.
-998,Andina Arequipa E.I.R.L.
-999,Textiles Premier S.R.L.
-1000,Sur Global S.A.
+proveedor_id,razon_social,ruc
+1,Soluciones Carrión Lima S.A.C.,20000001000
+2,Soluciones Carrion Lima SAC,20000001000
+3,SOLUCIONES CARRIÓN LIMA S.A.C.,20000001000
+4,Representaciones Mendoza Arequipa E.I.R.L.,20000001001
+5,Representaciones Mendoza Arequipa EIRL,20000001001
+6,Repres. Mendoza Arequipa E.I.R.L.,20000001001
+7,Exportaciones Quispe Cusco S.A.,20000001002
+8,Exportaciones Quispe Cusco SA,20000001002
+9,EXPORTACIONES QUISPE CUSCO S.A.,20000001002
+10,Exportac. Quispe Cusco S.A.,20000001002
+11,Inversiones Herrera Trujillo S.R.L.,20000001003
+12,Inversiones Herrera Trujillo SRL,20000001003
+13,INVERSIONES HERRERA TRUJILLO S.R.L.,20000001003
+14,Industrias Torres Piura S.A.C.,20000001004
+15,Industrias Torres Piura SAC,20000001004
+16,Tecnologías Vargas Chiclayo S.A.,20000001005
+17,Tecnologias Vargas Chiclayo SA,20000001005
+18,TECNOLOGIAS VARGAS CHICLAYO S.A.,20000001005
+19,Sistemas Mamani Puno E.I.R.L.,20000001006
+20,Sistemas Mamani Puno EIRL,20000001006
+21,Gestión Condori Tacna S.A.C.,20000001007
+22,Gestion Condori Tacna SAC,20000001007
+23,GESTION CONDORI TACNA S.A.C.,20000001007
+24,Distribución Sánchez Ica S.A.,20000001008
+25,Distribucion Sanchez Ica SA,20000001008
+26,DISTRIBUCION SANCHEZ ICA S.A.,20000001008
+27,Manufactura Huanca Huancayo S.R.L.,20000001009
+28,Manufactura Huanca Huancayo SRL,20000001009
+29,Proyectos Flores Callao S.A.C.,20000001010
+30,Proyectos Flores Callao SAC,20000001010
+31,PROYECTOS FLORES CALLAO S.A.C.,20000001010
+32,Operaciones Medina Ancash E.I.R.L.,20000001011
+33,Operaciones Medina Ancash EIRL,20000001011
+34,Comercialización Salcedo Loreto S.A.,20000001012
+35,Comercializacion Salcedo Loreto SA,20000001012
+36,COMERCIALIZACION SALCEDO LORETO S.A.,20000001012
+37,Fabricaciones Ochoa Cajamarca S.A.C.,20000001013
+38,Fabricaciones Ochoa Cajamarca SAC,20000001013
+39,Consultores Benítez Ayacucho S.R.L.,20000001014
+40,Consultores Benitez Ayacucho SRL,20000001014
+41,CONSULTORES BENITEZ AYACUCHO S.R.L.,20000001014
+42,Proyectos Alvarado Junín S.A.S.,20000001015
+43,Industrias Salcedo Amazonas S.R.L.,20000001016
+44,Consultores Chávez Chiclayo S.A.,20000001017
+45,Desarrollos Delgado Lima S.A.,20000001018
+46,Importaciones Flores Moquegua LTDA.,20000001019
+47,Soluciones Reyes Ucayali S.A.C.,20000001020
+48,Manufactura Cevallos Ucayali LTDA.,20000001021
+49,Producción García Ayacucho S.A.S.,20000001022
+50,Industrias Quispe Ucayali S.A.,20000001023
+51,Comercialización Alvarado Moquegua LTDA.,20000001024
+52,Industrias Martínez Piura LTDA.,20000001025
+53,Comercialización Jiménez Ancash S.A.,20000001026
+54,Producción Vásquez Junín LTDA.,20000001027
+55,Proyectos Vásquez Callao S.R.L.,20000001028
+56,Desarrollos Urbina Ayacucho LTDA.,20000001029
+57,Representaciones Cabrera Loreto LTDA.,20000001030
+58,Distribución Mendoza Ayacucho E.I.R.L.,20000001031
+59,Desarrollos García Loreto S.A.S.,20000001032
+60,Fabricaciones Ramos Cusco LTDA.,20000001033
+61,Manufactura Sánchez Tacna LTDA.,20000001034
+62,Exportaciones Palomino Lima LTDA.,20000001035
+63,Consultores Núñez Puno S.R.L.,20000001036
+64,Producción Aguilar Callao S.R.L.,20000001037
+65,Inversiones Gutiérrez Huancayo S.R.L.,20000001038
+66,Sistemas Condori Cajamarca S.A.,20000001039
+67,Elaboraciones Benítez Junín S.A.C.,20000001040
+68,Industrias Torres Cusco LTDA.,20000001041
+69,Tecnologías Rojas Pasco LTDA.,20000001042
+70,Exportaciones Espinoza Chiclayo E.I.R.L.,20000001043
+71,Inversiones Arroyo Ayacucho S.A.,20000001044
+72,Exportaciones Condori Ayacucho S.A.S.,20000001045
+73,Industrias Quispe Loreto S.A.C.,20000001046
+74,Gestión Mendoza Callao LTDA.,20000001047
+75,Sistemas Aguilar Callao S.A.C.,20000001048
+76,Soluciones Rodríguez Puno S.R.L.,20000001049
+77,Representaciones Barrantes Junín S.A.S.,20000001050
+78,Exportaciones Aguilar Lima E.I.R.L.,20000001051
+79,Inversiones Ochoa Puno S.A.,20000001052
+80,Fabricaciones Chávez Pasco S.R.L.,20000001053
+81,Gestión Urbina Lima S.A.C.,20000001054
+82,Desarrollos Medina Ucayali E.I.R.L.,20000001055
+83,Sistemas Urbina Cusco E.I.R.L.,20000001056
+84,Proyectos Molina Piura S.A.S.,20000001057
+85,Distribución Paredes Chiclayo S.A.,20000001058
+86,Operaciones Chávez Trujillo S.A.,20000001059
+87,Elaboraciones Ramos Lima S.R.L.,20000001060
+88,Exportaciones López Puno S.A.C.,20000001061
+89,Gestión Palomino Callao LTDA.,20000001062
+90,Fabricaciones Benítez Huancayo S.A.,20000001063
+91,Manufactura Cruz Cajamarca S.R.L.,20000001064
+92,Representaciones Condori Ayacucho LTDA.,20000001065
+93,Desarrollos Chávez Cusco LTDA.,20000001066
+94,Elaboraciones Quiñones Piura S.A.,20000001067
+95,Producción Huanca Ancash S.A.C.,20000001068
+96,Sistemas Figueroa Arequipa E.I.R.L.,20000001069
+97,Importaciones Ochoa Amazonas E.I.R.L.,20000001070
+98,Producción Ochoa Cusco LTDA.,20000001071
+99,Soluciones Delgado Puno S.A.C.,20000001072
+100,Comercialización Gutiérrez Lima E.I.R.L.,20000001073
+101,Servicios Espinoza Chiclayo S.A.C.,20000001074
+102,Exportaciones Palomino Ayacucho LTDA.,20000001075
+103,Producción Romero Amazonas S.A.,20000001076
+104,Operaciones Morales Cusco S.R.L.,20000001077
+105,Inversiones Alvarado Lima E.I.R.L.,20000001078
+106,Elaboraciones Rojas Trujillo E.I.R.L.,20000001079
+107,Soluciones Rodríguez Ucayali E.I.R.L.,20000001080
+108,Operaciones Quispe Cusco S.A.S.,20000001081
+109,Manufactura Urbina Ucayali S.A.C.,20000001082
+110,Manufactura Jiménez Arequipa LTDA.,20000001083
+111,Proyectos Ríos Ucayali LTDA.,20000001084
+112,Soluciones García Ica S.A.C.,20000001085
+113,Soluciones Fernández Callao S.A.,20000001086
+114,Inversiones Medina Pasco S.A.C.,20000001087
+115,Soluciones Rodríguez Ayacucho S.R.L.,20000001088
+116,Comercialización Delgado Huancayo S.A.S.,20000001089
+117,Proyectos Espinoza Trujillo S.R.L.,20000001090
+118,Gestión Herrera Ucayali E.I.R.L.,20000001091
+119,Elaboraciones Ortega Piura S.R.L.,20000001092
+120,Importaciones Fernández Pasco S.A.S.,20000001093
+121,Industrias López Ancash LTDA.,20000001094
+122,Industrias Cabrera Chiclayo S.A.C.,20000001095
+123,Servicios Ochoa Loreto S.A.C.,20000001096
+124,Servicios Huanca Arequipa E.I.R.L.,20000001097
+125,Distribución Urbina Huancayo S.A.S.,20000001098
+126,Distribución Molina Ucayali S.A.,20000001099
+127,Distribución Urbina Lima S.R.L.,20000001100
+128,Distribución Ramos Loreto S.R.L.,20000001101
+129,Comercialización Figueroa Trujillo S.R.L.,20000001102
+130,Sistemas López Chiclayo LTDA.,20000001103
+131,Consultores Pacheco Tacna E.I.R.L.,20000001104
+132,Producción Espinoza Lima S.A.,20000001105
+133,Producción Huanca Tacna E.I.R.L.,20000001106
+134,Exportaciones Herrera Junín S.A.S.,20000001107
+135,Servicios Paredes Arequipa E.I.R.L.,20000001108
+136,Inversiones Ramos Cajamarca S.R.L.,20000001109
+137,Proyectos Ortega Ucayali LTDA.,20000001110
+138,Manufactura Quiñones Arequipa S.A.C.,20000001111
+139,Tecnologías Vargas Huancayo S.A.,20000001112
+140,Operaciones Rodríguez Lima S.R.L.,20000001113
+141,Gestión Huanca Cusco S.R.L.,20000001114
+142,Proyectos Chávez Tacna E.I.R.L.,20000001115
+143,Comercialización Benítez Cusco S.A.,20000001116
+144,Exportaciones Núñez Pasco S.R.L.,20000001117
+145,Producción Aguilar Arequipa LTDA.,20000001118
+146,Fabricaciones Fernández Junín S.A.,20000001119
+147,Manufactura Figueroa Pasco LTDA.,20000001120
+148,Desarrollos Cevallos Chiclayo S.R.L.,20000001121
+149,Soluciones Morales Piura S.R.L.,20000001122
+150,Proyectos Valdés Moquegua S.A.C.,20000001123
+151,Consultores Mendoza Junín S.A.C.,20000001124
+152,Inversiones Ramos Ucayali S.A.S.,20000001125
+153,Servicios Molina Pasco S.R.L.,20000001126
+154,Producción López Moquegua S.A.C.,20000001127
+155,Consultores Medina Ica S.A.S.,20000001128
+156,Elaboraciones Medina Puno S.A.C.,20000001129
+157,Exportaciones Alvarado Trujillo S.A.,20000001130
+158,Importaciones Cruz Amazonas S.A.C.,20000001131
+159,Distribución Quiñones Cusco S.A.,20000001132
+160,Proyectos López Loreto S.A.S.,20000001133
+161,Proyectos Morales Tacna S.A.C.,20000001134
+162,Representaciones Martínez Loreto S.R.L.,20000001135
+163,Exportaciones Cruz Junín S.R.L.,20000001136
+164,Distribución Molina Callao S.R.L.,20000001137
+165,Representaciones Paredes Callao S.R.L.,20000001138
+166,Fabricaciones Cevallos Moquegua S.R.L.,20000001139
+167,Comercialización Herrera Callao S.R.L.,20000001140
+168,Elaboraciones Mendoza Puno S.A.C.,20000001141
+169,Inversiones Fernández Cajamarca E.I.R.L.,20000001142
+170,Inversiones Aguilar Ayacucho E.I.R.L.,20000001143
+171,Elaboraciones Núñez Chiclayo E.I.R.L.,20000001144
+172,Sistemas Chávez Loreto S.A.C.,20000001145
+173,Distribución Cruz Lima E.I.R.L.,20000001146
+174,Distribución Valdés Piura S.A.S.,20000001147
+175,Industrias Molina Chiclayo S.A.,20000001148
+176,Manufactura García Ica LTDA.,20000001149
+177,Soluciones Mamani Moquegua LTDA.,20000001150
+178,Elaboraciones Valdés Lima S.R.L.,20000001151
+179,Producción Ochoa Loreto LTDA.,20000001152
+180,Comercialización Morales Ucayali S.R.L.,20000001153
+181,Gestión Mendoza Amazonas S.R.L.,20000001154
+182,Soluciones Jiménez Puno S.A.C.,20000001155
+183,Importaciones Palomino Callao S.A.S.,20000001156
+184,Representaciones Aguilar Chiclayo S.A.S.,20000001157
+185,Elaboraciones Jiménez Chiclayo S.A.,20000001158
+186,Distribución Mamani Huancayo S.A.,20000001159
+187,Proyectos Ramos Arequipa S.A.C.,20000001160
+188,Proyectos Sánchez Arequipa S.A.,20000001161
+189,Soluciones Paredes Loreto S.R.L.,20000001162
+190,Representaciones Quispe Chiclayo S.A.,20000001163
+191,Gestión Vargas Moquegua E.I.R.L.,20000001164
+192,Gestión García Pasco E.I.R.L.,20000001165
+193,Soluciones Rojas Ancash S.R.L.,20000001166
+194,Inversiones Romero Tacna E.I.R.L.,20000001167
+195,Tecnologías Flores Lima S.A.C.,20000001168
+196,Comercialización Sánchez Piura S.A.C.,20000001169
+197,Producción Gutiérrez Pasco S.A.,20000001170
+198,Inversiones Condori Ica S.A.,20000001171
+199,Soluciones Cruz Ica S.A.C.,20000001172
+200,Distribución Quispe Piura S.A.,20000001173
+201,Comercialización Medina Huancayo S.A.,20000001174
+202,Manufactura Cabrera Callao LTDA.,20000001175
+203,Gestión Reyes Huancayo S.A.,20000001176
+204,Producción Molina Chiclayo S.A.S.,20000001177
+205,Distribución Núñez Lima LTDA.,20000001178
+206,Manufactura Núñez Tacna LTDA.,20000001179
+207,Desarrollos Gutiérrez Ica LTDA.,20000001180
+208,Soluciones Martínez Ancash S.R.L.,20000001181
+209,Producción Gutiérrez Ica S.A.C.,20000001182
+210,Elaboraciones Molina Lima S.A.C.,20000001183
+211,Operaciones Barrantes Ancash S.R.L.,20000001184
+212,Exportaciones Barrantes Chiclayo LTDA.,20000001185
+213,Sistemas Valdés Cajamarca S.A.C.,20000001186
+214,Exportaciones Alvarado Callao S.A.S.,20000001187
+215,Elaboraciones Sánchez Tacna S.A.,20000001188
+216,Desarrollos Mendoza Arequipa S.R.L.,20000001189
+217,Servicios Ramos Ancash S.R.L.,20000001190
+218,Soluciones Rojas Loreto S.A.C.,20000001191
+219,Importaciones Aguilar Arequipa LTDA.,20000001192
+220,Desarrollos Ríos Puno S.A.C.,20000001193
+221,Operaciones Valdés Cajamarca S.A.S.,20000001194
+222,Gestión Martínez Puno S.A.,20000001195
+223,Soluciones Pacheco Cajamarca S.R.L.,20000001196
+224,Comercialización Mendoza Amazonas S.A.C.,20000001197
+225,Soluciones Castillo Pasco S.R.L.,20000001198
+226,Gestión Romero Ayacucho S.A.C.,20000001199
+227,Comercialización Cruz Ayacucho S.A.C.,20000001200
+228,Tecnologías Mamani Loreto S.A.S.,20000001201
+229,Importaciones Flores Piura E.I.R.L.,20000001202
+230,Soluciones Benítez Cajamarca S.R.L.,20000001203
+231,Fabricaciones Ríos Loreto E.I.R.L.,20000001204
+232,Desarrollos Cruz Amazonas S.R.L.,20000001205
+233,Sistemas Chávez Moquegua S.A.S.,20000001206
+234,Proyectos Morales Callao S.R.L.,20000001207
+235,Desarrollos Martínez Callao S.R.L.,20000001208
+236,Industrias Carrión Ayacucho S.A.S.,20000001209
+237,Gestión Figueroa Ica S.A.S.,20000001210
+238,Comercialización García Callao S.A.C.,20000001211
+239,Operaciones Espinoza Ica S.A.C.,20000001212
+240,Importaciones Delgado Ucayali S.A.C.,20000001213
+241,Elaboraciones Mamani Junín LTDA.,20000001214
+242,Operaciones Delgado Pasco S.A.S.,20000001215
+243,Elaboraciones Huanca Ucayali E.I.R.L.,20000001216
+244,Tecnologías Cevallos Tacna E.I.R.L.,20000001217
+245,Distribución Quispe Ancash LTDA.,20000001218
+246,Tecnologías Alvarado Arequipa LTDA.,20000001219
+247,Fabricaciones Castillo Ica S.A.S.,20000001220
+248,Producción Fernández Ancash S.A.S.,20000001221
+249,Comercialización Quiñones Pasco S.A.,20000001222
+250,Fabricaciones Rojas Moquegua S.A.,20000001223
+251,Elaboraciones Mamani Puno S.R.L.,20000001224
+252,Desarrollos García Moquegua S.A.S.,20000001225
+253,Industrias Morales Moquegua S.A.,20000001226
+254,Elaboraciones Chávez Trujillo S.A.S.,20000001227
+255,Industrias Alvarado Pasco LTDA.,20000001228
+256,Servicios Sánchez Cajamarca S.A.C.,20000001229
+257,Operaciones Pacheco Callao S.A.C.,20000001230
+258,Sistemas Herrera Cusco S.A.,20000001231
+259,Importaciones Condori Arequipa S.A.C.,20000001232
+260,Importaciones García Cusco S.A.C.,20000001233
+261,Desarrollos Vásquez Ica S.R.L.,20000001234
+262,Manufactura Condori Puno S.A.,20000001235
+263,Manufactura Delgado Chiclayo S.A.C.,20000001236
+264,Manufactura Ortega Lima LTDA.,20000001237
+265,Industrias Ramos Loreto S.A.,20000001238
+266,Desarrollos Quiñones Amazonas E.I.R.L.,20000001239
+267,Elaboraciones Herrera Huancayo S.R.L.,20000001240
+268,Desarrollos Huanca Loreto S.A.C.,20000001241
+269,Manufactura Jiménez Callao S.A.S.,20000001242
+270,Representaciones Condori Moquegua S.A.S.,20000001243
+271,Servicios Sánchez Ayacucho S.A.S.,20000001244
+272,Elaboraciones Ochoa Junín S.A.,20000001245
+273,Representaciones Molina Chiclayo S.A.S.,20000001246
+274,Importaciones Ramos Ancash S.A.S.,20000001247
+275,Operaciones Rodríguez Amazonas S.A.C.,20000001248
+276,Tecnologías Cabrera Cusco E.I.R.L.,20000001249
+277,Elaboraciones Quiñones Trujillo LTDA.,20000001250
+278,Inversiones Pacheco Pasco S.A.,20000001251
+279,Fabricaciones Flores Ucayali S.A.S.,20000001252
+280,Fabricaciones Valdés Ucayali LTDA.,20000001253
+281,Producción Romero Chiclayo S.A.C.,20000001254
+282,Comercialización Reyes Amazonas S.A.,20000001255
+283,Representaciones Palomino Ayacucho E.I.R.L.,20000001256
+284,Importaciones Ríos Piura E.I.R.L.,20000001257
+285,Importaciones Arroyo Ica S.A.S.,20000001258
+286,Distribución Medina Chiclayo LTDA.,20000001259
+287,Gestión Cruz Ucayali S.R.L.,20000001260
+288,Distribución Romero Ancash S.R.L.,20000001261
+289,Gestión Condori Loreto LTDA.,20000001262
+290,Proyectos Aguilar Chiclayo S.A.,20000001263
+291,Fabricaciones Paredes Loreto E.I.R.L.,20000001264
+292,Servicios Medina Ica S.A.,20000001265
+293,Consultores Carrión Callao S.R.L.,20000001266
+294,Comercialización Quiñones Lima S.A.C.,20000001267
+295,Industrias Ortega Ancash S.A.S.,20000001268
+296,Industrias Ochoa Moquegua S.A.C.,20000001269
+297,Proyectos Aguilar Tacna S.R.L.,20000001270
+298,Importaciones Quiñones Moquegua S.A.C.,20000001271
+299,Representaciones Paredes Trujillo S.A.S.,20000001272
+300,Gestión Vásquez Loreto S.A.C.,20000001273
+301,Elaboraciones Castillo Chiclayo LTDA.,20000001274
+302,Desarrollos Cabrera Cajamarca S.A.,20000001275
+303,Servicios Chávez Cajamarca S.A.,20000001276
+304,Proyectos Gutiérrez Ancash S.R.L.,20000001277
+305,Elaboraciones López Moquegua S.A.S.,20000001278
+306,Gestión Reyes Trujillo S.A.,20000001279
+307,Proyectos Espinoza Ucayali E.I.R.L.,20000001280
+308,Consultores Herrera Lima E.I.R.L.,20000001281
+309,Inversiones Carrión Lima S.A.,20000001282
+310,Tecnologías Carrión Puno E.I.R.L.,20000001283
+311,Gestión Salcedo Junín LTDA.,20000001284
+312,Desarrollos Morales Ica S.A.,20000001285
+313,Producción Flores Ucayali S.R.L.,20000001286
+314,Representaciones Valdés Tacna S.A.,20000001287
+315,Importaciones Cabrera Lima S.A.C.,20000001288
+316,Manufactura Morales Junín S.R.L.,20000001289
+317,Consultores Ochoa Puno S.A.C.,20000001290
+318,Comercialización Vargas Trujillo S.A.S.,20000001291
+319,Industrias Condori Callao S.A.,20000001292
+320,Sistemas Carrión Ica S.A.S.,20000001293
+321,Distribución Gutiérrez Arequipa E.I.R.L.,20000001294
+322,Inversiones Reyes Junín S.A.C.,20000001295
+323,Servicios García Huancayo E.I.R.L.,20000001296
+324,Distribución Mendoza Loreto S.R.L.,20000001297
+325,Consultores Jiménez Ayacucho S.A.C.,20000001298
+326,Operaciones Castillo Moquegua S.A.,20000001299
+327,Exportaciones Ortega Ayacucho LTDA.,20000001300
+328,Comercialización Morales Ayacucho S.R.L.,20000001301
+329,Proyectos Valdés Cusco LTDA.,20000001302
+330,Comercialización Alvarado Puno S.R.L.,20000001303
+331,Industrias Martínez Chiclayo LTDA.,20000001304
+332,Producción Ramos Ayacucho S.A.C.,20000001305
+333,Manufactura Herrera Arequipa LTDA.,20000001306
+334,Importaciones Pacheco Ucayali S.A.C.,20000001307
+335,Industrias Herrera Cajamarca S.A.S.,20000001308
+336,Producción Mendoza Chiclayo S.A.,20000001309
+337,Gestión Condori Callao S.A.,20000001310
+338,Soluciones Ramos Puno S.A.,20000001311
+339,Operaciones Espinoza Ayacucho S.R.L.,20000001312
+340,Manufactura Vásquez Pasco S.A.S.,20000001313
+341,Sistemas Romero Ica E.I.R.L.,20000001314
+342,Soluciones Ochoa Ayacucho S.A.,20000001315
+343,Tecnologías Benítez Cusco LTDA.,20000001316
+344,Inversiones Carrión Ica LTDA.,20000001317
+345,Consultores Paredes Ancash E.I.R.L.,20000001318
+346,Gestión Quiñones Loreto S.R.L.,20000001319
+347,Fabricaciones Carrión Ica E.I.R.L.,20000001320
+348,Producción Fernández Loreto S.A.S.,20000001321
+349,Elaboraciones Sánchez Puno S.A.S.,20000001322
+350,Inversiones Cruz Pasco LTDA.,20000001323
+351,Producción Rojas Puno S.A.C.,20000001324
+352,Operaciones Romero Cusco LTDA.,20000001325
+353,Exportaciones Romero Cusco S.A.C.,20000001326
+354,Importaciones Mendoza Ucayali S.A.,20000001327
+355,Consultores Molina Cusco LTDA.,20000001328
+356,Operaciones Sánchez Ica E.I.R.L.,20000001329
+357,Industrias Jiménez Ancash E.I.R.L.,20000001330
+358,Sistemas Morales Arequipa LTDA.,20000001331
+359,Inversiones Barrantes Callao S.A.S.,20000001332
+360,Operaciones Molina Junín S.A.,20000001333
+361,Inversiones Quiñones Ancash S.R.L.,20000001334
+362,Importaciones Huanca Piura S.A.,20000001335
+363,Importaciones Figueroa Ayacucho S.A.C.,20000001336
+364,Fabricaciones Barrantes Ancash S.A.C.,20000001337
+365,Sistemas Morales Lima S.A.S.,20000001338
+366,Importaciones Cevallos Loreto S.A.S.,20000001339
+367,Tecnologías Palomino Ancash S.A.S.,20000001340
+368,Distribución Condori Puno E.I.R.L.,20000001341
+369,Sistemas Cevallos Chiclayo S.R.L.,20000001342
+370,Comercialización García Pasco S.A.S.,20000001343
+371,Consultores Quiñones Cajamarca S.R.L.,20000001344
+372,Consultores Vásquez Callao S.R.L.,20000001345
+373,Tecnologías Urbina Ucayali S.A.C.,20000001346
+374,Comercialización Urbina Ancash E.I.R.L.,20000001347
+375,Fabricaciones Cevallos Huancayo S.A.,20000001348
+376,Proyectos Alvarado Chiclayo S.A.,20000001349
+377,Producción Flores Ayacucho LTDA.,20000001350
+378,Fabricaciones Rojas Ancash LTDA.,20000001351
+379,Fabricaciones Rojas Lima S.A.C.,20000001352
+380,Inversiones Espinoza Chiclayo LTDA.,20000001353
+381,Representaciones Ortega Lima S.A.S.,20000001354
+382,Inversiones Paredes Puno S.A.C.,20000001355
+383,Comercialización Vásquez Callao S.A.C.,20000001356
+384,Tecnologías Ochoa Cusco S.R.L.,20000001357
+385,Inversiones Delgado Puno S.A.S.,20000001358
+386,Elaboraciones Fernández Loreto S.A.,20000001359
+387,Distribución Cevallos Pasco S.A.S.,20000001360
+388,Operaciones Ortega Junín S.R.L.,20000001361
+389,Servicios Barrantes Junín LTDA.,20000001362
+390,Sistemas Ortega Chiclayo S.A.S.,20000001363
+391,Sistemas Espinoza Trujillo S.A.,20000001364
+392,Tecnologías Paredes Loreto E.I.R.L.,20000001365
+393,Elaboraciones Quispe Amazonas S.A.C.,20000001366
+394,Industrias Paredes Arequipa LTDA.,20000001367
+395,Consultores Sánchez Pasco S.R.L.,20000001368
+396,Importaciones Delgado Ica S.A.S.,20000001369
+397,Importaciones Condori Amazonas S.R.L.,20000001370
+398,Soluciones Castillo Tacna S.A.C.,20000001371
+399,Soluciones Mamani Pasco S.A.C.,20000001372
+400,Importaciones Salcedo Arequipa E.I.R.L.,20000001373
+401,Operaciones Ramos Huancayo S.A.,20000001374
+402,Proyectos Ramos Lima S.A.C.,20000001375
+403,Tecnologías Salcedo Trujillo E.I.R.L.,20000001376
+404,Operaciones Rojas Cusco E.I.R.L.,20000001377
+405,Consultores Castillo Chiclayo S.A.,20000001378
+406,Producción Cruz Junín S.R.L.,20000001379
+407,Servicios Molina Amazonas S.R.L.,20000001380
+408,Elaboraciones Condori Chiclayo LTDA.,20000001381
+409,Operaciones Herrera Ayacucho S.A.,20000001382
+410,Proyectos Romero Loreto E.I.R.L.,20000001383
+411,Sistemas Chávez Puno S.A.C.,20000001384
+412,Elaboraciones Salcedo Amazonas LTDA.,20000001385
+413,Sistemas Paredes Ucayali S.A.S.,20000001386
+414,Sistemas Carrión Cusco S.A.C.,20000001387
+415,Sistemas Benítez Pasco LTDA.,20000001388
+416,Manufactura Vargas Cusco LTDA.,20000001389
+417,Representaciones Quiñones Cajamarca E.I.R.L.,20000001390
+418,Inversiones Quispe Arequipa E.I.R.L.,20000001391
+419,Representaciones Cruz Junín LTDA.,20000001392
+420,Fabricaciones Valdés Ica S.A.,20000001393
+421,Servicios Chávez Callao S.A.S.,20000001394
+422,Elaboraciones Martínez Arequipa S.R.L.,20000001395
+423,Operaciones García Moquegua S.A.C.,20000001396
+424,Elaboraciones Núñez Ica S.A.S.,20000001397
+425,Distribución Ríos Pasco S.A.S.,20000001398
+426,Fabricaciones Mendoza Cusco S.A.S.,20000001399
+427,Desarrollos Medina Junín S.A.S.,20000001400
+428,Sistemas Paredes Huancayo S.A.,20000001401
+429,Elaboraciones Ochoa Callao S.A.C.,20000001402
+430,Proyectos Salcedo Ancash S.R.L.,20000001403
+431,Manufactura Castillo Tacna E.I.R.L.,20000001404
+432,Inversiones Quiñones Puno S.A.S.,20000001405
+433,Inversiones García Cajamarca S.A.C.,20000001406
+434,Distribución Martínez Ica S.A.S.,20000001407
+435,Elaboraciones Cruz Ancash E.I.R.L.,20000001408
+436,Servicios Flores Piura S.A.S.,20000001409
+437,Importaciones Arroyo Tacna E.I.R.L.,20000001410
+438,Manufactura Mamani Ucayali LTDA.,20000001411
+439,Importaciones Cabrera Tacna S.R.L.,20000001412
+440,Distribución Jiménez Ica S.A.S.,20000001413
+441,Gestión Ramos Lima LTDA.,20000001414
+442,Distribución Espinoza Pasco S.A.S.,20000001415
+443,Consultores Mendoza Amazonas S.R.L.,20000001416
+444,Tecnologías Palomino Piura E.I.R.L.,20000001417
+445,Servicios Romero Trujillo E.I.R.L.,20000001418
+446,Operaciones Quispe Tacna S.A.C.,20000001419
+447,Comercialización Figueroa Puno LTDA.,20000001420
+448,Desarrollos Núñez Puno S.R.L.,20000001421
+449,Sistemas Rodríguez Cajamarca LTDA.,20000001422
+450,Distribución Espinoza Ancash S.A.S.,20000001423
+451,Proyectos López Huancayo S.A.,20000001424
+452,Fabricaciones Chávez Callao E.I.R.L.,20000001425
+453,Manufactura Vargas Lima E.I.R.L.,20000001426
+454,Representaciones Cabrera Ica E.I.R.L.,20000001427
+455,Inversiones Molina Chiclayo S.A.S.,20000001428
+456,Servicios Espinoza Moquegua S.A.S.,20000001429
+457,Sistemas Valdés Amazonas E.I.R.L.,20000001430
+458,Exportaciones Medina Ancash LTDA.,20000001431
+459,Importaciones Salcedo Piura S.R.L.,20000001432
+460,Gestión Cruz Puno LTDA.,20000001433
+461,Sistemas Cevallos Ancash LTDA.,20000001434
+462,Manufactura Aguilar Ucayali S.A.C.,20000001435
+463,Exportaciones Huanca Pasco S.A.,20000001436
+464,Comercialización Medina Junín S.R.L.,20000001437
+465,Producción Molina Huancayo S.A.C.,20000001438
+466,Representaciones Romero Tacna S.R.L.,20000001439
+467,Distribución Chávez Ica S.R.L.,20000001440
+468,Importaciones Alvarado Moquegua S.R.L.,20000001441
+469,Servicios Cruz Junín S.A.C.,20000001442
+470,Inversiones Cabrera Lima S.A.,20000001443
+471,Desarrollos Sánchez Tacna S.A.C.,20000001444
+472,Proyectos Fernández Cusco S.A.,20000001445
+473,Sistemas Quispe Callao E.I.R.L.,20000001446
+474,Gestión Gutiérrez Pasco S.A.,20000001447
+475,Comercialización Sánchez Ucayali S.A.C.,20000001448
+476,Desarrollos Flores Ayacucho E.I.R.L.,20000001449
+477,Soluciones Gutiérrez Loreto S.R.L.,20000001450
+478,Exportaciones Ramos Amazonas S.A.C.,20000001451
+479,Sistemas Morales Puno S.A.,20000001452
+480,Tecnologías Ramos Amazonas E.I.R.L.,20000001453
+481,Importaciones Reyes Callao E.I.R.L.,20000001454
+482,Proyectos Vásquez Huancayo S.A.S.,20000001455
+483,Servicios Jiménez Loreto S.A.,20000001456
+484,Proyectos Paredes Callao E.I.R.L.,20000001457
+485,Exportaciones Molina Ancash LTDA.,20000001458
+486,Fabricaciones Salcedo Ucayali S.A.,20000001459
+487,Servicios Sánchez Junín LTDA.,20000001460
+488,Consultores Ortega Pasco LTDA.,20000001461
+489,Soluciones Núñez Piura S.A.S.,20000001462
+490,Operaciones Cevallos Moquegua S.R.L.,20000001463
+491,Elaboraciones Jiménez Moquegua S.A.,20000001464
+492,Comercialización Morales Trujillo E.I.R.L.,20000001465
+493,Fabricaciones Rojas Loreto S.R.L.,20000001466
+494,Consultores García Tacna S.R.L.,20000001467
+495,Tecnologías Condori Chiclayo E.I.R.L.,20000001468
+496,Exportaciones Paredes Arequipa E.I.R.L.,20000001469
+497,Proyectos Jiménez Loreto S.A.C.,20000001470
+498,Inversiones Martínez Chiclayo S.R.L.,20000001471
+499,Inversiones Fernández Pasco S.A.,20000001472
+500,Representaciones Delgado Ayacucho S.A.C.,20000001473
+501,Fabricaciones Molina Piura S.A.C.,20000001474
+502,Representaciones Reyes Callao S.A.S.,20000001475
+503,Comercialización Condori Ayacucho S.A.,20000001476
+504,Representaciones Salcedo Pasco S.R.L.,20000001477
+505,Gestión Vargas Arequipa E.I.R.L.,20000001478
+506,Manufactura Delgado Ucayali E.I.R.L.,20000001479
+507,Industrias Ochoa Tacna S.R.L.,20000001480
+508,Producción Paredes Lima S.A.S.,20000001481
+509,Servicios Salcedo Tacna S.R.L.,20000001482
+510,Proyectos Vargas Cajamarca LTDA.,20000001483
+511,Importaciones Sánchez Arequipa E.I.R.L.,20000001484
+512,Producción Quiñones Ica S.A.,20000001485
+513,Desarrollos Reyes Trujillo LTDA.,20000001486
+514,Manufactura Benítez Piura S.A.,20000001487
+515,Fabricaciones Paredes Arequipa S.A.C.,20000001488
+516,Distribución Rojas Cusco S.A.C.,20000001489
+517,Elaboraciones Reyes Ancash LTDA.,20000001490
+518,Exportaciones Sánchez Amazonas S.A.S.,20000001491
+519,Importaciones Morales Ica S.A.,20000001492
+520,Industrias Martínez Ancash E.I.R.L.,20000001493
+521,Tecnologías Torres Pasco S.A.C.,20000001494
+522,Comercialización Quispe Pasco S.A.,20000001495
+523,Inversiones Rojas Lima S.A.S.,20000001496
+524,Tecnologías Reyes Ayacucho E.I.R.L.,20000001497
+525,Elaboraciones Cabrera Chiclayo S.A.S.,20000001498
+526,Consultores Quispe Huancayo S.A.S.,20000001499
+527,Operaciones Mendoza Loreto S.A.C.,20000001500
+528,Tecnologías Mendoza Huancayo S.A.S.,20000001501
+529,Operaciones Paredes Lima S.A.S.,20000001502
+530,Consultores Herrera Puno E.I.R.L.,20000001503
+531,Representaciones Aguilar Ucayali S.A.S.,20000001504
+532,Inversiones Rojas Trujillo S.A.C.,20000001505
+533,Fabricaciones Castillo Pasco S.A.C.,20000001506
+534,Manufactura Sánchez Lima S.A.C.,20000001507
+535,Industrias Herrera Chiclayo E.I.R.L.,20000001508
+536,Soluciones Vásquez Ica E.I.R.L.,20000001509
+537,Industrias Benítez Loreto S.R.L.,20000001510
+538,Desarrollos Flores Cusco LTDA.,20000001511
+539,Comercialización Figueroa Cusco E.I.R.L.,20000001512
+540,Soluciones Alvarado Ica S.A.S.,20000001513
+541,Industrias Castillo Ayacucho LTDA.,20000001514
+542,Servicios Espinoza Callao E.I.R.L.,20000001515
+543,Proyectos Castillo Huancayo S.R.L.,20000001516
+544,Importaciones López Moquegua S.A.,20000001517
+545,Soluciones Benítez Ayacucho E.I.R.L.,20000001518
+546,Elaboraciones Ochoa Ica E.I.R.L.,20000001519
+547,Comercialización Salcedo Cusco S.R.L.,20000001520
+548,Consultores Herrera Amazonas S.R.L.,20000001521
+549,Exportaciones Pacheco Puno S.A.C.,20000001522
+550,Desarrollos Mendoza Pasco S.R.L.,20000001523
+551,Inversiones Quispe Chiclayo S.A.S.,20000001524
+552,Desarrollos Núñez Moquegua S.A.,20000001525
+553,Elaboraciones Ortega Cusco LTDA.,20000001526
+554,Comercialización Palomino Lima S.A.,20000001527
+555,Desarrollos Núñez Chiclayo S.R.L.,20000001528
+556,Comercialización Paredes Chiclayo S.A.S.,20000001529
+557,Elaboraciones Martínez Huancayo LTDA.,20000001530
+558,Operaciones Salcedo Callao S.A.,20000001531
+559,Servicios Carrión Puno LTDA.,20000001532
+560,Operaciones Valdés Huancayo LTDA.,20000001533
+561,Inversiones Sánchez Huancayo LTDA.,20000001534
+562,Representaciones Castillo Ucayali E.I.R.L.,20000001535
+563,Desarrollos Fernández Arequipa LTDA.,20000001536
+564,Servicios Espinoza Trujillo S.A.,20000001537
+565,Manufactura Núñez Arequipa S.A.,20000001538
+566,Representaciones Huanca Lima S.R.L.,20000001539
+567,Importaciones Valdés Piura S.R.L.,20000001540
+568,Exportaciones Cruz Puno S.A.,20000001541
+569,Elaboraciones Flores Ica LTDA.,20000001542
+570,Soluciones Vargas Cusco S.A.S.,20000001543
+571,Comercialización Jiménez Chiclayo S.A.C.,20000001544
+572,Comercialización Quiñones Ica S.A.S.,20000001545
+573,Representaciones Aguilar Junín S.R.L.,20000001546
+574,Servicios Torres Amazonas S.R.L.,20000001547
+575,Producción Cabrera Lima S.A.,20000001548
+576,Servicios Paredes Ancash E.I.R.L.,20000001549
+577,Consultores Benítez Trujillo S.A.,20000001550
+578,Proyectos Sánchez Trujillo S.A.,20000001551
+579,Exportaciones Rodríguez Ayacucho E.I.R.L.,20000001552
+580,Elaboraciones Castillo Ancash S.A.S.,20000001553
+581,Gestión Ramos Huancayo E.I.R.L.,20000001554
+582,Importaciones Pacheco Ayacucho S.A.C.,20000001555
+583,Servicios Benítez Huancayo E.I.R.L.,20000001556
+584,Proyectos Romero Ancash S.A.,20000001557
+585,Tecnologías Condori Lima S.A.,20000001558
+586,Comercialización Mendoza Moquegua E.I.R.L.,20000001559
+587,Elaboraciones Romero Callao E.I.R.L.,20000001560
+588,Fabricaciones Castillo Trujillo S.A.C.,20000001561
+589,Sistemas Ramos Arequipa LTDA.,20000001562
+590,Operaciones Arroyo Cusco LTDA.,20000001563
+591,Inversiones Sánchez Ica E.I.R.L.,20000001564
+592,Tecnologías Huanca Callao S.A.C.,20000001565
+593,Distribución Molina Ica S.R.L.,20000001566
+594,Servicios Condori Moquegua S.A.,20000001567
+595,Comercialización Quiñones Trujillo E.I.R.L.,20000001568
+596,Sistemas Cevallos Pasco S.A.C.,20000001569
+597,Sistemas Rojas Cusco S.A.C.,20000001570
+598,Tecnologías Delgado Ancash S.A.,20000001571
+599,Comercialización Vargas Ucayali LTDA.,20000001572
+600,Elaboraciones Huanca Moquegua S.A.S.,20000001573
+601,Distribución García Arequipa S.A.S.,20000001574
+602,Desarrollos Martínez Pasco E.I.R.L.,20000001575
+603,Manufactura Carrión Ancash S.A.,20000001576
+604,Consultores Ramos Piura S.A.S.,20000001577
+605,Comercialización Cruz Ica LTDA.,20000001578
+606,Inversiones Mendoza Puno S.R.L.,20000001579
+607,Fabricaciones Urbina Moquegua S.A.C.,20000001580
+608,Sistemas Cabrera Junín S.R.L.,20000001581
+609,Comercialización Martínez Junín S.A.C.,20000001582
+610,Inversiones Arroyo Pasco S.A.,20000001583
+611,Consultores Sánchez Huancayo E.I.R.L.,20000001584
+612,Producción Pacheco Moquegua S.A.S.,20000001585
+613,Comercialización Torres Junín E.I.R.L.,20000001586
+614,Tecnologías Quispe Chiclayo S.R.L.,20000001587
+615,Exportaciones Pacheco Piura S.A.,20000001588
+616,Proyectos Núñez Huancayo S.A.,20000001589
+617,Exportaciones Sánchez Tacna LTDA.,20000001590
+618,Inversiones Huanca Cusco S.A.S.,20000001591
+619,Gestión Ríos Ucayali S.A.S.,20000001592
+620,Producción Chávez Arequipa S.A.S.,20000001593
+621,Elaboraciones Castillo Huancayo LTDA.,20000001594
+622,Importaciones Jiménez Callao S.A.S.,20000001595
+623,Industrias Espinoza Trujillo S.R.L.,20000001596
+624,Manufactura Vargas Loreto S.R.L.,20000001597
+625,Representaciones Huanca Arequipa LTDA.,20000001598
+626,Desarrollos Ramos Loreto S.A.C.,20000001599
+627,Consultores García Moquegua LTDA.,20000001600
+628,Comercialización Alvarado Chiclayo S.A.C.,20000001601
+629,Fabricaciones Alvarado Ayacucho S.A.C.,20000001602
+630,Inversiones Gutiérrez Ucayali S.R.L.,20000001603
+631,Elaboraciones Sánchez Huancayo S.A.,20000001604
+632,Operaciones Barrantes Callao LTDA.,20000001605
+633,Proyectos Mamani Lima S.A.C.,20000001606
+634,Inversiones Vásquez Puno S.A.C.,20000001607
+635,Representaciones Morales Chiclayo S.A.C.,20000001608
+636,Importaciones Molina Puno S.A.S.,20000001609
+637,Exportaciones Mendoza Lima S.R.L.,20000001610
+638,Servicios Pacheco Piura S.A.,20000001611
+639,Tecnologías Palomino Puno E.I.R.L.,20000001612
+640,Exportaciones Quispe Lima S.A.S.,20000001613
+641,Gestión Quispe Tacna S.A.S.,20000001614
+642,Comercialización Valdés Moquegua S.A.C.,20000001615
+643,Tecnologías Herrera Ayacucho S.A.C.,20000001616
+644,Gestión Delgado Junín E.I.R.L.,20000001617
+645,Fabricaciones Cevallos Trujillo S.A.S.,20000001618
+646,Tecnologías Vargas Ica LTDA.,20000001619
+647,Manufactura Flores Puno S.R.L.,20000001620
+648,Manufactura Alvarado Junín S.R.L.,20000001621
+649,Tecnologías Valdés Ucayali S.A.,20000001622
+650,Representaciones Ortega Loreto S.A.S.,20000001623
+651,Fabricaciones Huanca Moquegua LTDA.,20000001624
+652,Sistemas Martínez Ancash S.A.,20000001625
+653,Importaciones Mamani Amazonas S.R.L.,20000001626
+654,Proyectos Espinoza Moquegua S.R.L.,20000001627
+655,Manufactura Molina Amazonas S.A.,20000001628
+656,Distribución Rodríguez Ayacucho S.R.L.,20000001629
+657,Servicios Fernández Cajamarca S.A.C.,20000001630
+658,Proyectos Pacheco Cajamarca LTDA.,20000001631
+659,Distribución Salcedo Ica E.I.R.L.,20000001632
+660,Fabricaciones Torres Callao S.A.S.,20000001633
+661,Inversiones Rojas Cusco S.R.L.,20000001634
+662,Exportaciones Ramos Ica S.R.L.,20000001635
+663,Elaboraciones Flores Puno S.R.L.,20000001636
+664,Distribución Mendoza Amazonas S.A.S.,20000001637
+665,Consultores Ortega Ica E.I.R.L.,20000001638
+666,Desarrollos Fernández Cusco S.A.C.,20000001639
+667,Exportaciones Jiménez Pasco S.R.L.,20000001640
+668,Inversiones Valdés Pasco S.A.C.,20000001641
+669,Desarrollos Figueroa Callao S.R.L.,20000001642
+670,Sistemas Rojas Pasco LTDA.,20000001643
+671,Gestión Chávez Callao S.R.L.,20000001644
+672,Distribución Ríos Amazonas E.I.R.L.,20000001645
+673,Distribución Chávez Cajamarca LTDA.,20000001646
+674,Gestión Arroyo Ica S.R.L.,20000001647
+675,Producción Ortega Piura S.A.S.,20000001648
+676,Representaciones Cabrera Amazonas S.A.S.,20000001649
+677,Producción Castillo Ancash S.A.S.,20000001650
+678,Operaciones Reyes Junín S.A.C.,20000001651
+679,Proyectos Medina Arequipa S.A.,20000001652
+680,Fabricaciones Mamani Tacna E.I.R.L.,20000001653
+681,Operaciones García Piura LTDA.,20000001654
+682,Gestión Rojas Moquegua S.A.C.,20000001655
+683,Producción Aguilar Amazonas S.R.L.,20000001656
+684,Servicios Ochoa Puno S.A.,20000001657
+685,Consultores Figueroa Cusco S.A.S.,20000001658
+686,Distribución Cevallos Ucayali S.A.C.,20000001659
+687,Soluciones Aguilar Puno S.A.C.,20000001660
+688,Comercialización Herrera Pasco E.I.R.L.,20000001661
+689,Operaciones Palomino Loreto S.A.S.,20000001662
+690,Servicios Urbina Arequipa S.A.S.,20000001663
+691,Consultores Vargas Amazonas LTDA.,20000001664
+692,Fabricaciones Benítez Tacna E.I.R.L.,20000001665
+693,Representaciones Arroyo Piura S.A.,20000001666
+694,Manufactura Romero Cusco S.A.S.,20000001667
+695,Industrias Figueroa Huancayo E.I.R.L.,20000001668
+696,Desarrollos Alvarado Piura E.I.R.L.,20000001669
+697,Sistemas Morales Cusco E.I.R.L.,20000001670
+698,Tecnologías Rojas Amazonas S.A.S.,20000001671
+699,Operaciones Molina Ucayali E.I.R.L.,20000001672
+700,Distribución Herrera Piura S.A.C.,20000001673
+701,Elaboraciones Condori Lima S.R.L.,20000001674
+702,Representaciones Mamani Moquegua LTDA.,20000001675
+703,Sistemas Huanca Ica S.A.S.,20000001676
+704,Representaciones Cabrera Lima S.A.S.,20000001677
+705,Consultores Ríos Pasco S.R.L.,20000001678
+706,Soluciones Núñez Junín S.A.C.,20000001679
+707,Desarrollos Morales Puno S.A.S.,20000001680
+708,Manufactura Quispe Ucayali S.A.,20000001681
+709,Producción Salcedo Tacna S.A.C.,20000001682
+710,Desarrollos Barrantes Pasco S.A.C.,20000001683
+711,Servicios Ríos Lima S.A.S.,20000001684
+712,Sistemas Cruz Cajamarca S.A.,20000001685
+713,Manufactura García Huancayo S.A.C.,20000001686
+714,Producción Cevallos Cusco E.I.R.L.,20000001687
+715,Soluciones Huanca Trujillo S.R.L.,20000001688
+716,Distribución Martínez Junín LTDA.,20000001689
+717,Importaciones Martínez Ancash S.A.C.,20000001690
+718,Importaciones Vargas Puno S.A.S.,20000001691
+719,Distribución Condori Lima LTDA.,20000001692
+720,Sistemas Reyes Ayacucho S.A.S.,20000001693
+721,Operaciones Gutiérrez Cusco S.A.C.,20000001694
+722,Operaciones Arroyo Puno S.A.S.,20000001695
+723,Inversiones Aguilar Tacna E.I.R.L.,20000001696
+724,Manufactura Rodríguez Callao E.I.R.L.,20000001697
+725,Gestión Mamani Pasco S.A.C.,20000001698
+726,Distribución Ramos Huancayo S.A.C.,20000001699
+727,Operaciones Cruz Cajamarca E.I.R.L.,20000001700
+728,Gestión Quispe Puno LTDA.,20000001701
+729,Industrias Urbina Cajamarca E.I.R.L.,20000001702
+730,Desarrollos Urbina Junín S.A.C.,20000001703
+731,Proyectos Torres Chiclayo S.A.,20000001704
+732,Servicios Mamani Amazonas S.A.C.,20000001705
+733,Representaciones Alvarado Ayacucho S.A.,20000001706
+734,Importaciones Paredes Moquegua S.A.,20000001707
+735,Proyectos Castillo Pasco S.A.,20000001708
+736,Consultores Herrera Pasco S.A.S.,20000001709
+737,Gestión Benítez Tacna S.A.C.,20000001710
+738,Importaciones Mamani Huancayo S.A.C.,20000001711
+739,Fabricaciones Ríos Piura S.A.S.,20000001712
+740,Elaboraciones Benítez Moquegua S.A.,20000001713
+741,Exportaciones Ríos Cajamarca E.I.R.L.,20000001714
+742,Elaboraciones Cabrera Loreto LTDA.,20000001715
+743,Producción Aguilar Ucayali S.A.C.,20000001716
+744,Consultores Figueroa Chiclayo S.A.,20000001717
+745,Inversiones Valdés Tacna LTDA.,20000001718
+746,Servicios Aguilar Moquegua S.A.S.,20000001719
+747,Desarrollos Vásquez Ancash S.A.C.,20000001720
+748,Tecnologías López Amazonas E.I.R.L.,20000001721
+749,Consultores Quiñones Piura E.I.R.L.,20000001722
+750,Sistemas Cruz Callao S.A.C.,20000001723
+751,Industrias Ortega Tacna S.R.L.,20000001724
+752,Gestión Huanca Loreto E.I.R.L.,20000001725
+753,Tecnologías Ortega Lima LTDA.,20000001726
+754,Inversiones Barrantes Lima LTDA.,20000001727
+755,Comercialización Martínez Moquegua S.R.L.,20000001728
+756,Inversiones Paredes Loreto LTDA.,20000001729
+757,Fabricaciones Condori Huancayo S.A.C.,20000001730
+758,Inversiones Gutiérrez Ayacucho E.I.R.L.,20000001731
+759,Distribución Flores Callao LTDA.,20000001732
+760,Inversiones Mamani Chiclayo S.A.C.,20000001733
+761,Fabricaciones Medina Trujillo LTDA.,20000001734
+762,Operaciones Alvarado Ayacucho LTDA.,20000001735
+763,Distribución Martínez Piura S.A.C.,20000001736
+764,Elaboraciones Cruz Ica S.A.C.,20000001737
+765,Exportaciones Gutiérrez Ica S.R.L.,20000001738
+766,Comercialización Espinoza Amazonas S.A.S.,20000001739
+767,Consultores Vásquez Pasco S.A.C.,20000001740
+768,Elaboraciones Jiménez Cusco LTDA.,20000001741
+769,Proyectos Gutiérrez Ucayali S.A.C.,20000001742
+770,Proyectos Núñez Trujillo S.A.S.,20000001743
+771,Importaciones Medina Huancayo LTDA.,20000001744
+772,Proyectos Aguilar Cajamarca E.I.R.L.,20000001745
+773,Representaciones Valdés Moquegua S.A.C.,20000001746
+774,Servicios Carrión Ica LTDA.,20000001747
+775,Producción Medina Cajamarca S.A.S.,20000001748
+776,Consultores Salcedo Ica S.A.C.,20000001749
+777,Tecnologías Palomino Moquegua S.A.S.,20000001750
+778,Soluciones Ramos Lima S.A.C.,20000001751
+779,Elaboraciones Ríos Cajamarca S.A.C.,20000001752
+780,Producción Valdés Arequipa S.A.S.,20000001753
+781,Representaciones Vargas Arequipa LTDA.,20000001754
+782,Distribución Jiménez Moquegua S.A.C.,20000001755
+783,Comercialización Salcedo Ica S.R.L.,20000001756
+784,Proyectos Torres Lima S.A.,20000001757
+785,Producción Benítez Ica S.R.L.,20000001758
+786,Desarrollos Sánchez Cajamarca E.I.R.L.,20000001759
+787,Importaciones Flores Ancash S.A.,20000001760
+788,Elaboraciones Figueroa Cusco S.A.C.,20000001761
+789,Operaciones Núñez Chiclayo S.A.S.,20000001762
+790,Servicios Molina Ayacucho S.A.,20000001763
+791,Consultores Núñez Moquegua S.A.C.,20000001764
+792,Importaciones Benítez Arequipa S.A.S.,20000001765
+793,Servicios Valdés Callao S.R.L.,20000001766
+794,Sistemas Gutiérrez Trujillo S.R.L.,20000001767
+795,Soluciones Huanca Arequipa E.I.R.L.,20000001768
+796,Fabricaciones Pacheco Ayacucho LTDA.,20000001769
+797,Distribución Palomino Cajamarca LTDA.,20000001770
+798,Exportaciones López Cusco S.R.L.,20000001771
+799,Comercialización Rojas Ucayali E.I.R.L.,20000001772
+800,Industrias Núñez Ucayali S.A.S.,20000001773
+801,Comercialización Barrantes Trujillo S.A.C.,20000001774
+802,Exportaciones Delgado Lima S.A.S.,20000001775
+803,Comercialización López Cusco S.A.C.,20000001776
+804,Representaciones García Callao S.R.L.,20000001777
+805,Comercialización Ochoa Ica S.A.S.,20000001778
+806,Servicios Arroyo Puno LTDA.,20000001779
+807,Importaciones Medina Cajamarca S.A.C.,20000001780
+808,Exportaciones Castillo Chiclayo LTDA.,20000001781
+809,Elaboraciones Sánchez Ayacucho S.A.S.,20000001782
+810,Elaboraciones Salcedo Piura LTDA.,20000001783
+811,Consultores Ramos Puno S.A.C.,20000001784
+812,Fabricaciones Herrera Piura E.I.R.L.,20000001785
+813,Representaciones Espinoza Ucayali S.A.C.,20000001786
+814,Inversiones Ríos Cajamarca S.R.L.,20000001787
+815,Fabricaciones Rojas Ayacucho LTDA.,20000001788
+816,Desarrollos Pacheco Loreto E.I.R.L.,20000001789
+817,Consultores Ochoa Callao E.I.R.L.,20000001790
+818,Importaciones Gutiérrez Tacna S.A.C.,20000001791
+819,Inversiones Martínez Cusco S.A.S.,20000001792
+820,Operaciones Arroyo Trujillo S.A.S.,20000001793
+821,Representaciones Cruz Piura LTDA.,20000001794
+822,Consultores Huanca Piura S.A.S.,20000001795
+823,Exportaciones Reyes Junín S.A.C.,20000001796
+824,Desarrollos Palomino Puno S.A.S.,20000001797
+825,Inversiones Gutiérrez Tacna S.A.S.,20000001798
+826,Representaciones Rojas Ica S.A.,20000001799
+827,Sistemas Herrera Amazonas S.A.S.,20000001800
+828,Distribución Flores Ancash E.I.R.L.,20000001801
+829,Proyectos Castillo Puno S.A.S.,20000001802
+830,Gestión Sánchez Pasco E.I.R.L.,20000001803
+831,Elaboraciones Ochoa Cajamarca E.I.R.L.,20000001804
+832,Servicios Ríos Trujillo S.A.,20000001805
+833,Gestión Flores Cajamarca S.A.S.,20000001806
+834,Desarrollos Valdés Cajamarca S.A.C.,20000001807
+835,Distribución Herrera Cusco LTDA.,20000001808
+836,Fabricaciones Valdés Arequipa E.I.R.L.,20000001809
+837,Exportaciones Romero Loreto S.R.L.,20000001810
+838,Fabricaciones Espinoza Ancash S.A.C.,20000001811
+839,Desarrollos Sánchez Cusco S.A.C.,20000001812
+840,Comercialización Flores Junín E.I.R.L.,20000001813
+841,Gestión Ríos Tacna E.I.R.L.,20000001814
+842,Sistemas Mendoza Puno S.A.,20000001815
+843,Manufactura Molina Pasco S.R.L.,20000001816
+844,Importaciones Pacheco Cajamarca S.A.,20000001817
+845,Gestión Salcedo Amazonas S.A.S.,20000001818
+846,Importaciones Fernández Trujillo S.A.,20000001819
+847,Consultores Chávez Junín S.A.C.,20000001820
+848,Operaciones Molina Cusco S.A.,20000001821
+849,Gestión Romero Amazonas S.A.,20000001822
+850,Exportaciones Martínez Piura S.A.S.,20000001823
+851,Comercialización Condori Puno E.I.R.L.,20000001824
+852,Soluciones Núñez Trujillo S.A.C.,20000001825
+853,Operaciones Flores Huancayo S.A.,20000001826
+854,Desarrollos Benítez Cusco E.I.R.L.,20000001827
+855,Distribución Molina Loreto S.R.L.,20000001828
+856,Comercialización Palomino Trujillo S.A.S.,20000001829
+857,Fabricaciones Salcedo Junín S.R.L.,20000001830
+858,Operaciones Benítez Ucayali E.I.R.L.,20000001831
+859,Soluciones Valdés Cusco E.I.R.L.,20000001832
+860,Comercialización Chávez Arequipa S.A.,20000001833
+861,Tecnologías Gutiérrez Cusco S.A.C.,20000001834
+862,Servicios Mamani Lima S.R.L.,20000001835
+863,Soluciones Ramos Cusco S.A.,20000001836
+864,Sistemas Alvarado Amazonas S.A.S.,20000001837
+865,Exportaciones Martínez Pasco S.A.S.,20000001838
+866,Servicios Barrantes Ayacucho S.A.S.,20000001839
+867,Producción Espinoza Chiclayo S.A.C.,20000001840
+868,Elaboraciones Jiménez Cajamarca S.A.S.,20000001841
+869,Distribución Ríos Cajamarca S.A.,20000001842
+870,Exportaciones Morales Ica LTDA.,20000001843
+871,Inversiones Reyes Cajamarca LTDA.,20000001844
+872,Manufactura Aguilar Arequipa LTDA.,20000001845
+873,Fabricaciones Rojas Ucayali S.A.S.,20000001846
+874,Sistemas Martínez Trujillo S.R.L.,20000001847
+875,Gestión López Ayacucho S.A.S.,20000001848
+876,Gestión Rodríguez Trujillo S.A.C.,20000001849
+877,Servicios Jiménez Amazonas S.A.S.,20000001850
+878,Fabricaciones Urbina Ayacucho S.A.,20000001851
+879,Tecnologías Ortega Amazonas S.R.L.,20000001852
+880,Desarrollos Ortega Loreto E.I.R.L.,20000001853
+881,Elaboraciones Vásquez Ica S.A.S.,20000001854
+882,Servicios Ortega Cajamarca S.A.,20000001855
+883,Soluciones Benítez Tacna LTDA.,20000001856
+884,Inversiones Alvarado Ica S.A.S.,20000001857
+885,Producción García Huancayo LTDA.,20000001858
+886,Operaciones Barrantes Amazonas S.A.,20000001859
+887,Manufactura Romero Huancayo S.R.L.,20000001860
+888,Operaciones Alvarado Chiclayo S.A.,20000001861
+889,Consultores Quispe Cajamarca LTDA.,20000001862
+890,Soluciones Romero Ucayali LTDA.,20000001863
+891,Elaboraciones Delgado Moquegua S.R.L.,20000001864
+892,Importaciones Torres Piura LTDA.,20000001865
+893,Proyectos Vargas Chiclayo S.R.L.,20000001866
+894,Tecnologías Fernández Junín S.A.C.,20000001867
+895,Gestión Figueroa Ancash S.A.,20000001868
+896,Servicios Salcedo Puno S.A.S.,20000001869
+897,Elaboraciones Ochoa Ancash E.I.R.L.,20000001870
+898,Proyectos Urbina Arequipa E.I.R.L.,20000001871
+899,Elaboraciones Carrión Ancash S.A.C.,20000001872
+900,Producción Carrión Huancayo E.I.R.L.,20000001873
+901,Comercialización Condori Cajamarca E.I.R.L.,20000001874
+902,Importaciones Gutiérrez Trujillo E.I.R.L.,20000001875
+903,Distribución Cevallos Tacna LTDA.,20000001876
+904,Industrias Alvarado Tacna S.A.S.,20000001877
+905,Producción Carrión Cajamarca S.R.L.,20000001878
+906,Gestión Molina Loreto S.A.S.,20000001879
+907,Fabricaciones Flores Callao S.A.,20000001880
+908,Servicios Chávez Chiclayo S.A.C.,20000001881
+909,Elaboraciones Sánchez Amazonas LTDA.,20000001882
+910,Representaciones García Tacna S.A.S.,20000001883
+911,Industrias Delgado Ayacucho S.A.,20000001884
+912,Proyectos Sánchez Cajamarca S.A.S.,20000001885
+913,Representaciones Martínez Cajamarca S.A.,20000001886
+914,Producción Cevallos Huancayo S.R.L.,20000001887
+915,Inversiones Chávez Junín E.I.R.L.,20000001888
+916,Elaboraciones Ortega Junín S.A.C.,20000001889
+917,Soluciones Molina Moquegua S.A.S.,20000001890
+918,Consultores Núñez Callao S.A.S.,20000001891
+919,Consultores Rodríguez Cajamarca S.A.C.,20000001892
+920,Desarrollos Castillo Puno LTDA.,20000001893
+921,Operaciones Condori Ucayali S.A.C.,20000001894
+922,Producción Mamani Callao S.A.S.,20000001895
+923,Soluciones Rodríguez Pasco S.A.,20000001896
+924,Gestión Torres Huancayo S.A.C.,20000001897
+925,Consultores Mamani Cajamarca E.I.R.L.,20000001898
+926,Proyectos Benítez Chiclayo S.R.L.,20000001899
+927,Representaciones Herrera Ayacucho S.R.L.,20000001900
+928,Proyectos Espinoza Junín S.A.C.,20000001901
+929,Fabricaciones Romero Moquegua S.R.L.,20000001902
+930,Soluciones Flores Cajamarca LTDA.,20000001903
+931,Elaboraciones Torres Ica LTDA.,20000001904
+932,Producción Chávez Cusco S.A.,20000001905
+933,Inversiones Fernández Trujillo E.I.R.L.,20000001906
+934,Inversiones Ochoa Ayacucho E.I.R.L.,20000001907
+935,Importaciones Cabrera Junín E.I.R.L.,20000001908
+936,Operaciones Valdés Ancash S.A.S.,20000001909
+937,Representaciones Ríos Cajamarca S.A.S.,20000001910
+938,Desarrollos Vargas Ayacucho S.R.L.,20000001911
+939,Importaciones Pacheco Arequipa LTDA.,20000001912
+940,Servicios Vargas Tacna S.A.S.,20000001913
+941,Operaciones Flores Puno E.I.R.L.,20000001914
+942,Producción Espinoza Trujillo S.A.C.,20000001915
+943,Industrias Espinoza Junín S.R.L.,20000001916
+944,Tecnologías Alvarado Pasco S.R.L.,20000001917
+945,Representaciones Molina Moquegua S.A.S.,20000001918
+946,Soluciones Figueroa Piura LTDA.,20000001919
+947,Distribución Rojas Moquegua S.R.L.,20000001920
+948,Inversiones Valdés Cajamarca S.R.L.,20000001921
+949,Servicios Palomino Ayacucho S.A.,20000001922
+950,Importaciones Quispe Huancayo S.A.C.,20000001923
+951,Soluciones Molina Arequipa S.R.L.,20000001924
+952,Representaciones Ramos Chiclayo S.A.S.,20000001925
+953,Elaboraciones Castillo Loreto S.A.C.,20000001926
+954,Representaciones Espinoza Amazonas S.R.L.,20000001927
+955,Inversiones Palomino Piura S.R.L.,20000001928
+956,Industrias Huanca Piura S.R.L.,20000001929
+957,Manufactura Chávez Callao E.I.R.L.,20000001930
+958,Elaboraciones Romero Ayacucho S.A.C.,20000001931
+959,Soluciones Carrión Loreto E.I.R.L.,20000001932
+960,Fabricaciones Cabrera Junín LTDA.,20000001933
+961,Exportaciones Delgado Ayacucho LTDA.,20000001934
+962,Sistemas Vásquez Puno LTDA.,20000001935
+963,Desarrollos Ochoa Junín LTDA.,20000001936
+964,Operaciones Molina Amazonas S.A.C.,20000001937
+965,Importaciones Ochoa Pasco S.A.C.,20000001938
+966,Desarrollos Ramos Puno S.A.C.,20000001939
+967,Representaciones Gutiérrez Moquegua E.I.R.L.,20000001940
+968,Representaciones Ochoa Tacna S.A.C.,20000001941
+969,Soluciones Quispe Ancash S.A.S.,20000001942
+970,Distribución Barrantes Ica S.A.C.,20000001943
+971,Operaciones Castillo Loreto S.R.L.,20000001944
+972,Soluciones Mendoza Lima E.I.R.L.,20000001945
+973,Tecnologías Vásquez Amazonas S.A.,20000001946
+974,Sistemas Castillo Ayacucho S.A.C.,20000001947
+975,Representaciones Cabrera Ayacucho S.A.C.,20000001948
+976,Proyectos Valdés Junín S.R.L.,20000001949
+977,Tecnologías Flores Trujillo S.A.C.,20000001950
+978,Sistemas Mamani Lima S.A.C.,20000001951
+979,Tecnologías Arroyo Huancayo LTDA.,20000001952
+980,Servicios Alvarado Cusco S.A.C.,20000001953
+981,Desarrollos Medina Cusco LTDA.,20000001954
+982,Producción Figueroa Callao LTDA.,20000001955
+983,Proyectos García Trujillo S.R.L.,20000001956
+984,Importaciones Cevallos Ayacucho S.A.S.,20000001957
+985,Soluciones Medina Ancash LTDA.,20000001958
+986,Exportaciones Condori Ica LTDA.,20000001959
+987,Sistemas Mendoza Arequipa LTDA.,20000001960
+988,Manufactura Rodríguez Ancash E.I.R.L.,20000001961
+989,Fabricaciones Martínez Moquegua S.A.S.,20000001962
+990,Fabricaciones Quispe Ancash E.I.R.L.,20000001963
+991,Manufactura Ríos Arequipa S.A.C.,20000001964
+992,Soluciones Chávez Ayacucho S.A.C.,20000001965
+993,Proyectos Medina Junín LTDA.,20000001966
+994,Importaciones Aguilar Piura LTDA.,20000001967
+995,Soluciones Quiñones Amazonas S.A.S.,20000001968
+996,Gestión Barrantes Piura LTDA.,20000001969
+997,Exportaciones Carrión Pasco S.A.C.,20000001970
+998,Importaciones Carrión Huancayo S.A.S.,20000001971
+999,Producción Quispe Pasco S.R.L.,20000001972
+1000,Producción López Trujillo S.R.L.,20000001973

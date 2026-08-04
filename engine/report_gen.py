@@ -215,6 +215,13 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
             _sim_kv(r2 + 7, "Grupos dispersos excluidos:",   int(sim_m.get('grupos_dispersos_excluidos', 0)))
             _sim_kv(r2 + 8, "Preprocesamiento de tokens:",
                     "Sí (sufijos y stopwords)" if sim_m.get('preprocesamiento_tokens') else "No")
+            _sim_kv(r2 + 9, "Estado de confiabilidad:",      str(sim_m.get('estado_confiabilidad', 'confiable')))
+            estado = str(sim_m.get('estado_confiabilidad', 'confiable'))
+            if estado != 'confiable':
+                regs_d = int(sim_m.get('registros_en_grupos_dispersos', 0))
+                _sim_kv(r2 + 10, "⚠ Resultado parcial:",
+                        f"{regs_d} registros en grupos dispersos no interpretados. "
+                        "Ajusta el umbral o cambia de algoritmo.")
 
     _autofit(ws, [30, 25, 12, 15])
 

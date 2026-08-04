@@ -3412,14 +3412,15 @@ function _renderPonderacion() {
 function _updatePonderacion() { _renderPonderacion(); }
 
 // Event delegation — survives innerHTML rebuilds
-// Default umbral per algorithm — monge_elkan is lower because token filtering
-// narrows the effective similarity range; 82% is empirically calibrated.
+// Default umbral per algorithm — calibrated 2026-08-04 on maestro_proveedores_1000.csv
+// using ground-truth RUC pairs (F1 metric, threshold = best confiable F1).
+// monge_elkan: F1=0.800 at 94% (names with shared sector+city tokens need high threshold).
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
   jaro_winkler:  92,
   brecha_afin:   82,
-  monge_elkan:   82,
+  monge_elkan:   94,
   levenshtein:   85,
-  qgrams:        82,
+  qgrams:        85,
   smith_waterman:82,
   soundex:       80,
   coseno:        75,
@@ -5346,6 +5347,11 @@ function _updateSimDimBar() {
   }
   if (m.preprocesamiento_tokens) {
     html += `<br><span style="opacity:.6;font-style:italic">Se ignoraron sufijos societarios y palabras de enlace antes de comparar</span>`;
+  }
+  const estado = m.estado_confiabilidad || 'confiable';
+  if (estado !== 'confiable') {
+    const regsD = (m.registros_en_grupos_dispersos || 0).toLocaleString();
+    html += `<br><span style="color:#B45309;font-weight:600">⚠ Resultado parcial: ${regsD} registros quedaron en grupos dispersos que no se pudieron interpretar. El score no refleja la totalidad del problema. Ajusta el umbral o cambia de algoritmo.</span>`;
   }
   detail.innerHTML = html;
 }

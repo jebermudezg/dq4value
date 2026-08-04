@@ -189,6 +189,15 @@ def _dim_bars(dims_sorted: list, sim_meta: dict = None) -> str:
                     'Se ignoraron sufijos societarios y palabras de enlace antes de comparar'
                     '</span>'
                 )
+            if sim_meta.get('estado_confiabilidad', 'confiable') != 'confiable':
+                detail_html += (
+                    '<br><span style="color:#B45309;font-weight:600">'
+                    '&#9888; Resultado parcial: %d registros quedaron en grupos dispersos '
+                    'que no se pudieron interpretar. El score no refleja la totalidad del '
+                    'problema. Ajusta el umbral o cambia de algoritmo.'
+                    '</span>'
+                    % sim_meta['regs_dispersos']
+                )
             detail_html += '</div>'
 
         html += (
@@ -505,6 +514,7 @@ def generate_dashboard_html(
                 'grupos_dispersos':         int(m.get('grupos_dispersos_excluidos', 0)),
                 'regs_dispersos':           int(m.get('registros_en_grupos_dispersos', 0)),
                 'preprocesamiento_tokens':  bool(m.get('preprocesamiento_tokens', False)),
+                'estado_confiabilidad':     str(m.get('estado_confiabilidad', 'confiable')),
             }
             break
 

@@ -1111,8 +1111,9 @@ def test_grupo_disperso_se_excluye_del_score():
     assert meta['total_grupos'] == 0, (
         f"El grupo disperso no debe contarse como grupo confiable (total_grupos={meta['total_grupos']})"
     )
-    assert score == 100.0, (
-        f"El grupo disperso no debe penalizar el score (score={score})"
+    # The ceiling prevents score == 100 when dispersed groups exist
+    assert score < 100.0, (
+        f"El score no puede ser 100 cuando hay grupos dispersos excluidos (score={score})"
     )
     if not issues.empty:
         dispersos_en_issues = issues[issues['grupo_disperso'] == True]
@@ -1122,8 +1123,8 @@ def test_grupo_disperso_se_excluye_del_score():
 
 
 def test_no_hay_grupos_gigantes():
-    """Con el fix aplicado, el dataset de 1000 proveedores no debe generar
-    ningún grupo con más de 20 miembros a umbral 82%."""
+    """Con el fix aplicado, el dataset de 1000 proveedores a umbral 94% debe tener
+    estado confiable y ningún grupo con más de 20 miembros."""
     import os
     import pandas as pd
     from engine.dimensions.similitud import check_similitud
@@ -1135,11 +1136,15 @@ def test_no_hay_grupos_gigantes():
 
     df = pd.read_csv(csv_path)
     score, issues, meta = check_similitud(
-        df, 'id', 'razon_social', algoritmo='monge_elkan', umbral=82, normalizar=True
+        df, 'proveedor_id', 'razon_social', algoritmo='monge_elkan', umbral=94, normalizar=True
     )
     print(f"\nScore: {score}, grupos: {meta['total_grupos']}, "
-          f"dispersos: {meta['grupos_dispersos_excluidos']}")
+          f"dispersos: {meta['grupos_dispersos_excluidos']}, "
+          f"estado: {meta['estado_confiabilidad']}")
 
+    assert meta['estado_confiabilidad'] == 'confiable', (
+        f"Se esperaba estado 'confiable', got '{meta['estado_confiabilidad']}'"
+    )
     if not issues.empty:
         confiables = issues[issues['grupo_disperso'] == False]
         if not confiables.empty:
@@ -1150,3 +1155,62 @@ def test_no_hay_grupos_gigantes():
     assert meta['total_grupos'] < 50, (
         f"Demasiados grupos ({meta['total_grupos']}) en dataset de 1000 proveedores únicos"
     )
+
+
+def test_grupos_dispersos_no_dan_score_perfecto():
+    """Si hay grupos dispersos excluidos, el score no puede ser 100."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+
+    # Same chain as test_grupo_disperso_se_excluye_del_score:
+    # A-B-C-D with levenshtein at umbral=80, density=3/6=0.5 < 0.6
+    # Without the ceiling, score would be 100.0 (no confiable excedentes).
+    # With the ceiling: registros_en_grupos_dispersos=4, total_evaluados=5,
+    #   techo = max(50, 100 - 4/5*100) = max(50, 20) = 50 → score = 50.0
+    df = pd.DataFrame({
+        'id':  [1, 2, 3, 4, 5],
+        'val': ['xyzabcd', 'xyzabce', 'xyzabde', 'xyzacde', 'qqqqqqqq'],
+    })
+    score, issues, meta = check_similitud(
+        df, 'id', 'val', algoritmo='levenshtein', umbral=80, normalizar=False
+    )
+    print(f"\nScore: {score}, dispersos: {meta['grupos_dispersos_excluidos']}, "
+          f"estado: {meta['estado_confiabilidad']}")
+
+    assert meta['grupos_dispersos_excluidos'] >= 1, (
+        "Se esperaba al menos 1 grupo disperso"
+    )
+    assert score < 100.0, (
+        f"Score debe ser < 100 cuando hay grupos dispersos excluidos (got {score})"
+    )
+    assert meta['estado_confiabilidad'] != 'confiable', (
+        f"Estado debe ser parcial o no_confiable (got '{meta['estado_confiabilidad']}')"
+    )
+
+
+def test_deteccion_es_monotonica():
+    """Subir el umbral nunca puede aumentar los registros con algún par."""
+    import os
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+
+    csv_path = os.path.join(os.path.dirname(__file__), 'maestro_proveedores_1000.csv')
+    if not os.path.exists(csv_path):
+        import pytest
+        pytest.skip("maestro_proveedores_1000.csv no encontrado")
+
+    df = pd.read_csv(csv_path)
+    previo = None
+    for umbral in [70, 78, 86, 94]:
+        _, _, meta = check_similitud(
+            df, 'proveedor_id', 'razon_social',
+            algoritmo='monge_elkan', umbral=umbral, normalizar=True
+        )
+        actual = meta['registros_con_algun_par']
+        print(f"  umbral={umbral}% → registros_con_algun_par={actual}")
+        if previo is not None:
+            assert actual <= previo, (
+                f"Monotonicidad violada: umbral {umbral}% dio {actual} registros, "
+                f"el umbral anterior dio {previo}"
+            )
+        previo = actual

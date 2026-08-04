@@ -319,6 +319,8 @@ def check_similitud(
     def _base_meta(
         total_grupos=0, total_involucrados=0, total_excedentes=0,
         grupos_grandes=0, grupos_dispersos_excluidos=0, registros_en_grupos_dispersos=0,
+        pares_sobre_umbral=0, registros_con_algun_par=0, grupos_formados=0,
+        estado_confiabilidad='confiable',
     ):
         return {
             'total_grupos':                    total_grupos,
@@ -334,6 +336,11 @@ def check_similitud(
             'grupos_dispersos_excluidos':      grupos_dispersos_excluidos,
             'registros_en_grupos_dispersos':   registros_en_grupos_dispersos,
             'preprocesamiento_tokens':         uses_token_filter,
+            # Raw detection counts (before density exclusion, monotonic with threshold)
+            'pares_sobre_umbral':              pares_sobre_umbral,
+            'registros_con_algun_par':         registros_con_algun_par,
+            'grupos_formados':                 grupos_formados,
+            'estado_confiabilidad':            estado_confiabilidad,
         }
 
     # ── Step 2: blocking on unique-value indices ──────────────────────────
@@ -398,8 +405,13 @@ def check_similitud(
                 record_max_sim[ri] = max(record_max_sim.get(ri, 0.0), sim_score)
                 record_max_sim[rj] = max(record_max_sim.get(rj, 0.0), sim_score)
 
+    # Raw detection metrics — before any density exclusion (must be monotonic)
+    pares_sobre_umbral     = len(record_pairs)
+    registros_con_algun_par = len(record_max_sim)
+
     # ── Step 5: transitive closure → groups ──────────────────────────────
     groups = _union_find_groups(record_pairs, len(df))
+    grupos_formados = len(groups)
 
     # ── Step 5b: density check — split reliable vs dispersed groups ──────
     grupos_confiables: dict = {}
@@ -503,9 +515,27 @@ def check_similitud(
         if total_evaluados > 0 else 100.0
     )
 
+    # Correction 1: prevent silent false-perfect score when dispersed groups
+    # were excluded.  The ceiling degrades linearly with how many records
+    # are affected (floor at 50 so the signal is never completely lost).
+    if grupos_dispersos_excluidos > 0 and total_evaluados > 0:
+        registros_afectados_pct = registros_en_grupos_dispersos / total_evaluados * 100
+        techo = max(50.0, 100.0 - registros_afectados_pct)
+        score = round(min(score, techo), 1)
+
+    # Estado de confiabilidad based on fraction of records in dispersed groups
+    if grupos_dispersos_excluidos == 0:
+        estado_confiabilidad = 'confiable'
+    elif total_evaluados > 0 and registros_en_grupos_dispersos / total_evaluados >= 0.20:
+        estado_confiabilidad = 'no_confiable'
+    else:
+        estado_confiabilidad = 'parcial'
+
     metadata = _base_meta(
         total_grupos, total_involucrados, total_excedentes,
         grupos_grandes, grupos_dispersos_excluidos, registros_en_grupos_dispersos,
+        pares_sobre_umbral, registros_con_algun_par, grupos_formados,
+        estado_confiabilidad,
     )
 
     return score, pd.DataFrame(rows), metadata
