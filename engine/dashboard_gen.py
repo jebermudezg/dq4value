@@ -411,6 +411,17 @@ def generate_dashboard_html(
 
     pct_clean  = round((total_reg - total_prob) / total_reg * 100, 1) if total_reg else 100.0
 
+    # ── New fields from paso 6 ──
+    veredicto           = analysis_results.get("veredicto", "listo")
+    peor_crit           = analysis_results.get("peor_dimension_critica")
+    peor_crit_sc        = analysis_results.get("peor_dimension_critica_score")
+    reg_apr             = int(analysis_results.get("registros_aprovechables", total_reg))
+    pct_apr             = float(analysis_results.get("pct_aprovechables", 100.0))
+    pesos_origen        = analysis_results.get("pesos_origen", "proposito")
+    proposito_key       = analysis_results.get("proposito_analisis", "diagnostico_general") or "diagnostico_general"
+    tipo_ia_key         = analysis_results.get("tipo_ia") or ""
+    score_simple        = float(analysis_results.get("score_promedio_simple", score))
+
     # ── Per-dimension averages ──
     dim_lists: dict = {}
     for col_scores in spc.values():
@@ -482,6 +493,56 @@ def generate_dashboard_html(
             }
             break
 
+    # ── Veredicto block ──
+    PROPOSITO_LABELS = {
+        'diagnostico_general': 'Diagnóstico general', 'iniciativa_ia': 'Iniciativa de IA',
+        'reporteria_bi': 'Reportería y BI', 'migracion': 'Migración de sistema',
+        'integracion': 'Integración entre sistemas', 'auditoria': 'Auditoría y cumplimiento',
+        'depuracion_duplicados': 'Depuración de duplicados', 'campanas': 'Campañas comerciales',
+    }
+    TIPO_IA_LABELS = {
+        'ml_supervisado': 'ML supervisado', 'deteccion_anomalias': 'Detección de anomalías',
+        'series_tiempo': 'Series de tiempo', 'segmentacion': 'Segmentación',
+        'agente_generativo': 'Agente generativo', 'recomendacion': 'Recomendación',
+    }
+    if pesos_origen == 'iguales':
+        pond_text = 'Ponderación: todas las dimensiones con igual peso'
+    elif pesos_origen == 'manual':
+        pond_text = 'Ponderación: ajustada manualmente'
+    else:
+        prop_label = PROPOSITO_LABELS.get(proposito_key, proposito_key)
+        pond_text = 'Ponderación: perfil %s' % prop_label
+        if proposito_key == 'iniciativa_ia' and tipo_ia_key:
+            pond_text += ' · %s' % TIPO_IA_LABELS.get(tipo_ia_key, tipo_ia_key)
+
+    if veredicto == 'no_listo':
+        v_bg, v_color = '#FEE2E2', '#991B1B'
+        v_titulo = 'No está listo'
+        v_detalle = ('%s tiene score %.1f. Afecta %s registros. Resuélvelo antes de usar estos datos.'
+                     % (nombre_negocio(peor_crit) if peor_crit else '—',
+                        peor_crit_sc if peor_crit_sc is not None else 0,
+                        '{:,}'.format(total_prob)))
+    elif veredicto == 'con_riesgos':
+        v_bg, v_color = '#FEF3C7', '#92400E'
+        v_titulo = 'Utilizable con reservas'
+        v_detalle = ('%s tiene score %.1f. Los datos son usables pero %s registros requieren revisión.'
+                     % (nombre_negocio(peor_crit) if peor_crit else '—',
+                        peor_crit_sc if peor_crit_sc is not None else 0,
+                        '{:,}'.format(total_prob)))
+    else:
+        v_bg, v_color = '#DCFCE7', '#166534'
+        v_titulo = 'Listo para usar'
+        v_detalle = 'Todas las dimensiones del nivel umbral superan 80. %.1f%% de los registros son aprovechables.' % pct_apr
+
+    veredicto_pond_html = (
+        '<div style="margin:.7rem .2rem 0;padding:.6rem .75rem;border-radius:10px;'
+        'background:%(bg)s;text-align:left">'
+        '<div style="font-size:.82rem;font-weight:800;color:%(c)s;line-height:1.3">%(titulo)s</div>'
+        '<div style="font-size:.72rem;color:%(c)s;margin-top:.25rem;line-height:1.4">%(detalle)s</div>'
+        '</div>'
+        '<div style="margin:.5rem .2rem 0;font-size:.67rem;color:#94A3B8;text-align:left">%(pond)s</div>'
+    ) % {'bg': v_bg, 'c': v_color, 'titulo': v_titulo, 'detalle': v_detalle, 'pond': pond_text}
+
     # ── Build HTML sections ──
     gauge_html     = _gauge_svg(score)
     dim_bars_html  = _dim_bars(dims_sorted, sim_meta)
@@ -489,20 +550,31 @@ def generate_dashboard_html(
     issues_html    = _issues_section(issues_per_dim, scores_per_dim)
     remed_html     = _remediation_cards(dims_sorted[:3], scores_per_dim, issues_per_dim, sim_meta)
 
+    # KPI grid: Score de calidad · Registros aprovechables · Peor dimensión crítica · Total registros
+    sin_problema = total_reg - total_prob
     kpi_html = (
         '<div style="display:grid;grid-template-columns:repeat(4,1fr);'
-        'gap:1rem;margin-bottom:1.75rem">'
-        + _kpi_card("Total registros",   "{:,}".format(total_reg),  "filas analizadas")
-        + _kpi_card("Con problemas",      "{:,}".format(total_prob),
-                    "registros únicos afectados", _C_RED)
-        + _kpi_card("Registros limpios",  "%.1f%%" % pct_clean,
-                    "{:,} sin problemas".format(total_reg - total_prob),
-                    _score_color(pct_clean))
-        + _kpi_card("Peor dimensión",
-                    '<span style="font-size:1.1rem">%s</span>'
+        'gap:1rem;margin-bottom:.5rem">'
+        + _kpi_card("Score de calidad",
+                    "%.1f" % score,
+                    pond_text[:40] + ('…' if len(pond_text) > 40 else ''),
+                    _score_color(score))
+        + _kpi_card("Registros aprovechables",
+                    "%.1f%%" % pct_apr,
+                    "{:,} de {:,} registros".format(reg_apr, total_reg),
+                    _score_color(pct_apr))
+        + _kpi_card("Peor dimensión crítica",
+                    '<span style="font-size:1.05rem">%s</span>'
                     '<span style="font-size:0.7em;opacity:0.6;display:block">(%s)</span>'
-                    % (nombre_negocio(peor_dim), peor_dim.replace('_', ' ')),
-                    "%.1f promedio" % peor_score, _C_RED)
+                    % (nombre_negocio(peor_crit) if peor_crit else nombre_negocio(peor_dim),
+                       (peor_crit or peor_dim).replace('_', ' ')),
+                    ("%.1f" % peor_crit_sc if peor_crit_sc is not None else "%.1f" % peor_score),
+                    _C_RED)
+        + _kpi_card("Total registros", "{:,}".format(total_reg), "filas analizadas")
+        + '</div>'
+        + '<div style="font-size:.74rem;color:#94A3B8;margin-bottom:1.75rem;padding-left:.25rem">'
+        + '{:,} registros con algún problema · {:,} sin ningún problema · promedio simple {:.1f}'.format(
+            total_prob, sin_problema, score_simple)
         + '</div>'
     )
 
@@ -585,6 +657,7 @@ def generate_dashboard_html(
     <div class="card" style="text-align:center">
       <div class="section-lbl" style="text-align:left">Score general</div>
       %%GAUGE%%
+      %%VEREDICTO_POND%%
     </div>
     <div class="card">
       <div class="section-lbl">Score por dimensi&#243;n &mdash; peor a mejor</div>
@@ -628,7 +701,8 @@ def generate_dashboard_html(
         .replace("%%SC_TXT%%",    sc_txt)
         .replace("%%SCORE%%",     str(score))
         .replace("%%SC_LABEL%%",  sc_label)
-        .replace("%%GAUGE%%",     gauge_html)
+        .replace("%%GAUGE%%",         gauge_html)
+        .replace("%%VEREDICTO_POND%%", veredicto_pond_html)
         .replace("%%DIM_BARS%%",  dim_bars_html)
         .replace("%%KPIS%%",      kpi_html)
         .replace("%%ISSUES%%",    issues_html)

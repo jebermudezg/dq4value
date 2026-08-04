@@ -169,12 +169,14 @@ class DQScorer:
         )
 
         # registros_aprovechables: records without issues in nivel_umbral dimensions
+        # principals suggested by similitud are NOT counted as problematic
         if not issues_df_final.empty and dimensiones_umbral:
-            ids_con_problema_umbral = set(
-                issues_df_final[
-                    issues_df_final['dimension'].isin(dimensiones_umbral)
-                ][self.id_col]
-            )
+            issues_umbral = issues_df_final[issues_df_final['dimension'].isin(dimensiones_umbral)]
+            if 'es_principal_sugerido' in issues_umbral.columns:
+                issues_umbral = issues_umbral[
+                    issues_umbral['es_principal_sugerido'].fillna(False) != True
+                ]
+            ids_con_problema_umbral = set(issues_umbral[self.id_col])
         else:
             ids_con_problema_umbral = set()
         registros_aprovechables = total_registros - len(ids_con_problema_umbral)
@@ -188,6 +190,15 @@ class DQScorer:
         else:
             peor_dimension_critica = None
             peor_dimension_critica_score = None
+
+        # veredicto: based on lowest score among nivel_umbral dimensions
+        peor_umbral_score = peor_dimension_critica_score if peor_dimension_critica_score is not None else 100.0
+        if peor_umbral_score < 60:
+            veredicto = 'no_listo'
+        elif peor_umbral_score < 80:
+            veredicto = 'con_riesgos'
+        else:
+            veredicto = 'listo'
 
         return {
             "scores_por_columna":           scores_por_columna,
@@ -205,6 +216,7 @@ class DQScorer:
             "pct_aprovechables":            pct_aprovechables,
             "peor_dimension_critica":       peor_dimension_critica,
             "peor_dimension_critica_score": peor_dimension_critica_score,
+            "veredicto":                    veredicto,
         }
 
     # ------------------------------------------------------------------

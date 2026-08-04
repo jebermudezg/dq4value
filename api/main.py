@@ -398,6 +398,11 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 
         _progress_store[fid] = {"pct": 90, "message": "Generando reporte...", "done": False, "error": None}
 
+        # Inject API-level context into results so report/dashboard generators can read them
+        results["pesos_origen"]      = pesos_origen
+        results["proposito_analisis"] = request.proposito_analisis or "diagnostico_general"
+        results["tipo_ia"]            = request.tipo_ia
+
         # Compute summary
         summary = DQScorer.compute_summary(results)
         _analysis_store[request.file_id] = results
@@ -499,7 +504,10 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             "pct_aprovechables":            results["pct_aprovechables"],
             "peor_dimension_critica":       results["peor_dimension_critica"],
             "peor_dimension_critica_score": results["peor_dimension_critica_score"],
+            "veredicto":                    results.get("veredicto", "listo"),
             "pesos_origen":                 pesos_origen,
+            "proposito_analisis":           request.proposito_analisis or "diagnostico_general",
+            "tipo_ia":                      request.tipo_ia,
             "metadata_dimensiones":         {
                 f"{col}|{dim}": meta
                 for (col, dim), meta in results.get("metadata_dimensiones", {}).items()

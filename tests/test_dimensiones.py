@@ -906,3 +906,104 @@ def test_similitud_principal_sugerido():
             assert n_principal == 1, (
                 f"Grupo {grupo_id} tiene {n_principal} principales sugeridos (esperado 1)"
             )
+
+
+# ─────────────────────────────────────────────────────────────────────
+# PASO 6 — Veredicto, aprovechables y peor dimensión crítica
+# ─────────────────────────────────────────────────────────────────────
+
+def test_aprovechables_excluye_principal_sugerido():
+    """El principal de un grupo de similitud no cuenta como no-aprovechable."""
+    import pandas as pd
+    from engine.scorer import DQScorer
+    from engine.pesos import pesos_iguales
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5],
+        'razon': [
+            'Distribuidora del Sur S.A.C.',
+            'Distribuidora del Sur SAC',
+            'DISTRIBUIDORA DEL SUR S.A.C.',
+            'Comercial Andina E.I.R.L.',
+            'Importaciones Pacific S.A.',
+        ]
+    })
+    niveles = {**pesos_iguales(), 'similitud': 'critica'}
+    scorer = DQScorer(df, id_col='id')
+    scorer.configure('razon', {'similitud': {'algoritmo': 'monge_elkan', 'umbral': 80}})
+    results = scorer.run_analysis(niveles=niveles)
+    print(f"\nAprovechables: {results['registros_aprovechables']} / {results['total_registros']}")
+    print(f"Issues:\n{results['issues_df'][['id','dimension','es_principal_sugerido']].to_string()}")
+    # Grupo of 3: 1 principal (aprovechable) + 2 excedentes → aprovechables = 5 - 2 = 3
+    assert results['registros_aprovechables'] == 3, (
+        f"Esperado 3 aprovechables, got {results['registros_aprovechables']}"
+    )
+
+
+def test_veredicto_no_listo():
+    """Dimensión crítica con score bajo produce veredicto no_listo."""
+    import pandas as pd
+    from engine.scorer import DQScorer
+    from engine.pesos import pesos_iguales
+    # 4 of 5 records have the same bad value → unicidad score very low
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5],
+        'cod': ['ABC', 'ABC', 'ABC', 'ABC', 'XYZ'],
+    })
+    niveles = {**pesos_iguales(), 'unicidad': 'critica'}
+    scorer = DQScorer(df, id_col='id')
+    scorer.configure('cod', {'unicidad': {}})
+    results = scorer.run_analysis(niveles=niveles)
+    print(f"\nScore: {results['score_general']}, veredicto: {results['veredicto']}")
+    assert results['veredicto'] in ('no_listo', 'con_riesgos'), (
+        f"Esperado no_listo o con_riesgos, got {results['veredicto']}"
+    )
+    assert results['peor_dimension_critica'] == 'unicidad'
+
+
+def test_veredicto_listo_con_informativa_baja():
+    """Una dimensión informativa con score bajo no produce no_listo si las críticas pasan 80."""
+    import pandas as pd
+    from engine.scorer import DQScorer
+    from engine.pesos import pesos_iguales
+    # razon: 4/5 duplicates (bad unicidad at informativa level)
+    # completitud: all filled (critica)
+    df = pd.DataFrame({
+        'id':   [1, 2, 3, 4, 5],
+        'nombre': ['Ana', 'Ana', 'Ana', 'Ana', 'Bob'],
+        'codigo': ['A1', 'A2', 'A3', 'A4', 'A5'],
+    })
+    niveles = {**pesos_iguales(), 'completitud': 'critica', 'unicidad': 'informativa'}
+    scorer = DQScorer(df, id_col='id')
+    scorer.configure('codigo', {'completitud': {}})
+    scorer.configure('nombre', {'unicidad': {}})
+    results = scorer.run_analysis(niveles=niveles)
+    print(f"\nVeredicto: {results['veredicto']}, peor_critica: {results['peor_dimension_critica']}")
+    # completitud should be 100 (critica), unicidad low (informativa) — veredicto must NOT be no_listo
+    assert results['veredicto'] == 'listo', (
+        f"Con completitud=critica al 100%, veredicto debe ser listo, got {results['veredicto']}"
+    )
+
+
+def test_peor_dimension_es_del_nivel_umbral():
+    """Si una informativa tiene score 0 y una crítica tiene 85,
+       peor_dimension_critica debe ser la crítica, no la informativa."""
+    import pandas as pd
+    from engine.scorer import DQScorer
+    from engine.pesos import pesos_iguales
+    df = pd.DataFrame({
+        'id':   [1, 2, 3, 4, 5],
+        'nombre': ['Ana', 'Ana', 'Ana', 'Ana', 'Bob'],  # bad unicidad (informativa)
+        'codigo': ['A1', 'A2', 'A3', 'A4', 'A5'],       # perfect completitud (critica)
+    })
+    niveles = {**pesos_iguales(), 'completitud': 'critica', 'unicidad': 'informativa'}
+    scorer = DQScorer(df, id_col='id')
+    scorer.configure('codigo', {'completitud': {}})
+    scorer.configure('nombre', {'unicidad': {}})
+    results = scorer.run_analysis(niveles=niveles)
+    print(f"\npeor_critica: {results['peor_dimension_critica']} ({results['peor_dimension_critica_score']})")
+    print(f"nivel_umbral: {results['nivel_umbral']}")
+    # nivel_umbral = 'critica'; peor_dimension_critica must be completitud (not unicidad)
+    assert results['nivel_umbral'] == 'critica'
+    assert results['peor_dimension_critica'] == 'completitud', (
+        f"Esperado completitud, got {results['peor_dimension_critica']}"
+    )

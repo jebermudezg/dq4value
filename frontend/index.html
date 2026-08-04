@@ -1633,6 +1633,11 @@
               font-size="13" fill="#94A3B8">/ 100 puntos</text>
       </svg>
       <span id="gaugeLabel" style="padding:.3rem 1rem;border-radius:999px;font-size:.78rem;font-weight:700;display:inline-block;background:#DCFCE7;color:#166534">—</span>
+      <div id="veredictoBox" style="margin:.7rem .2rem 0;padding:.6rem .75rem;border-radius:10px;text-align:left;display:none">
+        <div id="veredictoTitulo" style="font-size:.82rem;font-weight:800;line-height:1.3"></div>
+        <div id="veredictoDetalle" style="font-size:.72rem;margin-top:.25rem;line-height:1.4"></div>
+      </div>
+      <div id="ponderacionLine" style="margin:.6rem .2rem 0;font-size:.68rem;color:#94A3B8;text-align:left;line-height:1.4"></div>
     </div>
     <div class="card" style="padding:1.25rem 1.4rem">
       <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.85rem">Score por dimensión — peor a mejor</div>
@@ -1641,28 +1646,30 @@
   </div>
 
   <!-- ── KPIs ── -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:.5rem">
+    <div class="card" style="padding:1.25rem 1.4rem">
+      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Score de calidad</div>
+      <div id="kpiScore" style="font-size:1.65rem;font-weight:800;color:#1E293B">—</div>
+      <div id="kpiScoreSub" style="font-size:.76rem;color:#64748B;margin-top:.25rem">—</div>
+    </div>
+    <div class="card" style="padding:1.25rem 1.4rem">
+      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Registros aprovechables</div>
+      <div id="kpiAprovechables" style="font-size:1.65rem;font-weight:800;color:#16A34A">—</div>
+      <div id="kpiAprovechablesSub" style="font-size:.76rem;color:#64748B;margin-top:.25rem">—</div>
+    </div>
+    <div class="card" style="padding:1.25rem 1.4rem">
+      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Peor dimensión crítica</div>
+      <div id="kpiPeor" style="font-size:1.05rem;font-weight:800;color:#DC2626;text-transform:capitalize">—</div>
+      <div id="kpiPeorScore" style="font-size:.76rem;color:#64748B;margin-top:.25rem">—</div>
+    </div>
     <div class="card" style="padding:1.25rem 1.4rem">
       <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Total registros</div>
       <div id="kpiTotal" style="font-size:1.65rem;font-weight:800;color:#1E293B">—</div>
       <div style="font-size:.76rem;color:#64748B;margin-top:.25rem">filas analizadas</div>
     </div>
-    <div class="card" style="padding:1.25rem 1.4rem">
-      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Con problemas</div>
-      <div id="kpiProblemas" style="font-size:1.65rem;font-weight:800;color:#DC2626">—</div>
-      <div style="font-size:.76rem;color:#64748B;margin-top:.25rem">registros únicos afectados</div>
-    </div>
-    <div class="card" style="padding:1.25rem 1.4rem">
-      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Registros limpios</div>
-      <div id="kpiLimpios" style="font-size:1.65rem;font-weight:800;color:#16A34A">—</div>
-      <div id="kpiLimpiasCount" style="font-size:.76rem;color:#64748B;margin-top:.25rem">sin problemas</div>
-    </div>
-    <div class="card" style="padding:1.25rem 1.4rem">
-      <div style="font-size:.68rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem">Peor dimensión</div>
-      <div id="kpiPeor" style="font-size:1.05rem;font-weight:800;color:#DC2626;text-transform:capitalize">—</div>
-      <div id="kpiPeorScore" style="font-size:.76rem;color:#64748B;margin-top:.25rem">—</div>
-    </div>
   </div>
+  <!-- Línea de detalle secundario -->
+  <div id="kpiDetailLine" style="font-size:.75rem;color:#94A3B8;margin-bottom:1.25rem;padding-left:.25rem"></div>
 
   <!-- ── Issues bars + Issues list ── -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
@@ -5085,6 +5092,73 @@ function buildResultsScreen(data) {
   gaugeLabelEl.style.background = sc_bg(score);
   gaugeLabelEl.style.color = sc_txt(score);
 
+  // ── Veredicto ────────────────────────────────────────────────────
+  const veredicto = data.veredicto || 'listo';
+  const peorCritica = data.peor_dimension_critica;
+  const peorCriticaSc = data.peor_dimension_critica_score;
+  const peorCriticaNombre = peorCritica ? nombreNegocio(peorCritica) : '—';
+  const nAfectados = data.total_problemas || 0;
+  const veredictoBox = document.getElementById('veredictoBox');
+  const veredictoTituloEl = document.getElementById('veredictoTitulo');
+  const veredictoDetalleEl = document.getElementById('veredictoDetalle');
+  if (veredictoBox) {
+    let vBg, vColor, vTitulo, vDetalle;
+    if (veredicto === 'no_listo') {
+      vBg = '#FEE2E2'; vColor = '#991B1B';
+      vTitulo = 'No está listo';
+      vDetalle = peorCritica
+        ? `${escHtml(peorCriticaNombre)} tiene score ${peorCriticaSc}. Afecta ${nAfectados.toLocaleString()} registros. Resuélvelo antes de usar estos datos.`
+        : `Hay dimensiones críticas con score bajo. Resuélvelas antes de usar estos datos.`;
+    } else if (veredicto === 'con_riesgos') {
+      vBg = '#FEF3C7'; vColor = '#92400E';
+      vTitulo = 'Utilizable con reservas';
+      vDetalle = peorCritica
+        ? `${escHtml(peorCriticaNombre)} tiene score ${peorCriticaSc}. Los datos son usables pero ${nAfectados.toLocaleString()} registros requieren revisión.`
+        : `Los datos son usables pero hay registros que requieren revisión.`;
+    } else {
+      vBg = '#DCFCE7'; vColor = '#166534';
+      vTitulo = 'Listo para usar';
+      const pctApr = data.pct_aprovechables || 0;
+      vDetalle = `Todas las dimensiones del nivel umbral superan 80. ${pctApr}% de los registros son aprovechables.`;
+    }
+    veredictoBox.style.display = 'block';
+    veredictoBox.style.background = vBg;
+    veredictoTituloEl.style.color = vColor;
+    veredictoTituloEl.textContent = vTitulo;
+    veredictoDetalleEl.style.color = vColor;
+    veredictoDetalleEl.innerHTML = vDetalle;
+  }
+
+  // ── Línea de ponderación ─────────────────────────────────────────
+  const PROPOSITO_LABELS = {
+    diagnostico_general: 'Diagnóstico general', iniciativa_ia: 'Iniciativa de IA',
+    reporteria_bi: 'Reportería y BI', migracion: 'Migración de sistema',
+    integracion: 'Integración entre sistemas', auditoria: 'Auditoría y cumplimiento',
+    depuracion_duplicados: 'Depuración de duplicados', campanas: 'Campañas comerciales',
+  };
+  const TIPO_IA_LABELS = {
+    ml_supervisado: 'ML supervisado', deteccion_anomalias: 'Detección de anomalías',
+    series_tiempo: 'Series de tiempo', segmentacion: 'Segmentación',
+    agente_generativo: 'Agente generativo', recomendacion: 'Recomendación',
+  };
+  const pesosOrigen = data.pesos_origen || 'proposito';
+  const propKey = data.proposito_analisis || 'diagnostico_general';
+  const tipoIa = data.tipo_ia || '';
+  let pondText = '';
+  if (pesosOrigen === 'iguales') {
+    pondText = 'Ponderación: todas las dimensiones con igual peso';
+  } else if (pesosOrigen === 'manual') {
+    pondText = 'Ponderación: ajustada manualmente';
+  } else {
+    const propLabel = PROPOSITO_LABELS[propKey] || propKey;
+    pondText = `Ponderación: perfil ${propLabel}`;
+    if (propKey === 'iniciativa_ia' && tipoIa) {
+      pondText += ` · ${TIPO_IA_LABELS[tipoIa] || tipoIa}`;
+    }
+  }
+  const pondLineEl = document.getElementById('ponderacionLine');
+  if (pondLineEl) pondLineEl.textContent = pondText;
+
   // ── Per-dimension averages ────────────────────────────────────────
   const dimSum = {}, dimCnt = {};
   Object.values(data.scores_por_columna || {}).forEach(dims => {
@@ -5122,20 +5196,55 @@ function buildResultsScreen(data) {
   });
 
   // ── KPIs ──────────────────────────────────────────────────────────
-  document.getElementById('kpiTotal').textContent    = (data.total_registros || 0).toLocaleString();
-  document.getElementById('kpiProblemas').textContent = (data.total_problemas || 0).toLocaleString();
-  const pctLimpios = data.pct_limpios !== undefined ? data.pct_limpios : 0;
-  document.getElementById('kpiLimpios').textContent  = pctLimpios + '%';
-  const numCols = Object.keys(data.scores_por_columna || {}).length;
-  const colsOk  = Object.values(data.scores_por_columna || {}).filter(dims =>
-    Object.values(dims).every(s => s >= 80)
-  ).length;
-  document.getElementById('kpiLimpiasCount').textContent = `${colsOk} de ${numCols} columnas sin problemas`;
+  const totalReg = data.total_registros || 0;
+  const totalProb = data.total_problemas || 0;
+  const pctAprKpi = data.pct_aprovechables !== undefined ? data.pct_aprovechables : 100;
+  const regApr = data.registros_aprovechables !== undefined ? data.registros_aprovechables : totalReg;
 
-  const peorDim = dimsSorted.length > 0 ? dimsSorted[0][0] : (data.peor_dimension || '—');
-  const peorSc  = dimsSorted.length > 0 ? dimsSorted[0][1] : null;
-  document.getElementById('kpiPeor').textContent     = nombreNegocio(peorDim);
-  document.getElementById('kpiPeorScore').textContent = (peorSc !== null ? `Score: ${peorSc.toFixed(1)} · ` : '') + peorDim;
+  // KPI 1 — Score de calidad
+  const kpiScoreEl = document.getElementById('kpiScore');
+  if (kpiScoreEl) {
+    kpiScoreEl.textContent = score.toFixed(1);
+    kpiScoreEl.style.color = sc_color(score);
+  }
+  const kpiScoreSubEl = document.getElementById('kpiScoreSub');
+  if (kpiScoreSubEl) {
+    const modeLabels = {iguales: 'Ponderación igual', proposito: 'Perfil de propósito', manual: 'Ponderación manual'};
+    kpiScoreSubEl.textContent = modeLabels[pesosOrigen] || 'Ponderación: perfil';
+  }
+
+  // KPI 2 — Registros aprovechables
+  const kpiAprEl = document.getElementById('kpiAprovechables');
+  if (kpiAprEl) {
+    kpiAprEl.textContent = pctAprKpi + '%';
+    kpiAprEl.style.color = sc_color(pctAprKpi);
+  }
+  const kpiAprSubEl = document.getElementById('kpiAprovechablesSub');
+  if (kpiAprSubEl) kpiAprSubEl.textContent = `${regApr.toLocaleString()} de ${totalReg.toLocaleString()} registros`;
+
+  // KPI 3 — Peor dimensión crítica
+  const critica = data.peor_dimension_critica;
+  const criticaSc = data.peor_dimension_critica_score;
+  const kpiPeorEl = document.getElementById('kpiPeor');
+  const kpiPeorScEl = document.getElementById('kpiPeorScore');
+  if (kpiPeorEl) {
+    kpiPeorEl.textContent = critica ? nombreNegocio(critica) : '—';
+    kpiPeorEl.style.color = criticaSc != null ? sc_color(criticaSc) : '#DC2626';
+  }
+  if (kpiPeorScEl) {
+    kpiPeorScEl.textContent = criticaSc != null ? `Score: ${criticaSc.toFixed(1)} · ${critica}` : (data.nivel_umbral ? `nivel ${data.nivel_umbral}` : '—');
+  }
+
+  // KPI 4 — Total registros
+  document.getElementById('kpiTotal').textContent = totalReg.toLocaleString();
+
+  // Línea de detalle secundario
+  const detailLineEl = document.getElementById('kpiDetailLine');
+  if (detailLineEl) {
+    const sinProblemas = totalReg - totalProb;
+    const simple = data.score_promedio_simple !== undefined ? data.score_promedio_simple : score;
+    detailLineEl.textContent = `${totalProb.toLocaleString()} registros con algún problema · ${sinProblemas.toLocaleString()} sin ningún problema · promedio simple ${simple.toFixed(1)}`;
+  }
 
   // ── Column cards (worst→best) ─────────────────────────────────────
   const colScores = {};

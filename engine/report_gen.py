@@ -86,24 +86,70 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
     cell.alignment = Alignment(horizontal="center", vertical="center")
     ws.row_dimensions[1].height = 32
 
-    # --- Score general destacado ---
+    # --- Bloque de encabezado: veredicto + KPIs interpretados ---
+    from engine.nombres import nombre_dual
+    PROPOSITO_LABELS = {
+        'diagnostico_general': 'Diagnóstico general', 'iniciativa_ia': 'Iniciativa de IA',
+        'reporteria_bi': 'Reportería y BI', 'migracion': 'Migración de sistema',
+        'integracion': 'Integración entre sistemas', 'auditoria': 'Auditoría y cumplimiento',
+        'depuracion_duplicados': 'Depuración de duplicados', 'campanas': 'Campañas comerciales',
+    }
+    TIPO_IA_LABELS = {
+        'ml_supervisado': 'ML supervisado', 'deteccion_anomalias': 'Detección de anomalías',
+        'series_tiempo': 'Series de tiempo', 'segmentacion': 'Segmentación',
+        'agente_generativo': 'Agente generativo', 'recomendacion': 'Recomendación',
+    }
+    veredicto        = results.get("veredicto", "listo")
+    peor_crit        = results.get("peor_dimension_critica")
+    peor_crit_sc     = results.get("peor_dimension_critica_score")
+    reg_apr          = results.get("registros_aprovechables", total_registros)
+    pct_apr          = results.get("pct_aprovechables", 100.0)
+    pesos_origen     = results.get("pesos_origen", "proposito")
+    proposito_key    = results.get("proposito_analisis", "diagnostico_general") or "diagnostico_general"
+    tipo_ia_key      = results.get("tipo_ia") or ""
+
+    if pesos_origen == 'iguales':
+        pond_text = 'Ponderación: todas las dimensiones con igual peso'
+    elif pesos_origen == 'manual':
+        pond_text = 'Ponderación: ajustada manualmente'
+    else:
+        prop_label = PROPOSITO_LABELS.get(proposito_key, proposito_key)
+        pond_text = f'Ponderación: perfil {prop_label}'
+        if proposito_key == 'iniciativa_ia' and tipo_ia_key:
+            pond_text += f' · {TIPO_IA_LABELS.get(tipo_ia_key, tipo_ia_key)}'
+
+    VEREDICTO_LABELS = {'no_listo': 'No está listo', 'con_riesgos': 'Utilizable con reservas', 'listo': 'Listo para usar'}
+    VEREDICTO_FILLS = {
+        'no_listo':    PatternFill("solid", fgColor="FEE2E2"),
+        'con_riesgos': PatternFill("solid", fgColor="FEF3C7"),
+        'listo':       PatternFill("solid", fgColor="DCFCE7"),
+    }
+    VEREDICTO_FONTS = {
+        'no_listo':    Font(bold=True, color="991B1B"),
+        'con_riesgos': Font(bold=True, color="92400E"),
+        'listo':       Font(bold=True, color="166534"),
+    }
+
     ws.merge_cells("A3:B3")
-    ws["A3"].value = "Score General del Dataset"
-    ws["A3"].font = Font(bold=True, size=12)
+    ws["A3"].value = "Veredicto:"
+    ws["A3"].font = Font(bold=True, size=11)
+    ws.merge_cells("C3:F3")
+    verd_cell = ws["C3"]
+    verd_cell.value = VEREDICTO_LABELS.get(veredicto, veredicto)
+    verd_cell.font = VEREDICTO_FONTS.get(veredicto, Font(bold=True))
+    verd_cell.fill = VEREDICTO_FILLS.get(veredicto, PatternFill())
+    verd_cell.alignment = Alignment(horizontal="left")
+    ws.row_dimensions[3].height = 20
 
-    ws.merge_cells("C3:D3")
-    score_cell = ws["C3"]
-    score_cell.value = f"{score_general:.1f} / 100"
-    score_cell.font = Font(bold=True, size=18)
-    score_cell.fill = _score_fill(score_general)
-    score_cell.alignment = Alignment(horizontal="center")
-    ws.row_dimensions[3].height = 28
+    _kv(ws, 4, "Score de calidad:", f"{score_general:.1f} / 100")
+    ws["B4"].font = Font(bold=True, size=14)
+    ws["B4"].fill = _score_fill(score_general)
 
-    # --- Métricas rápidas ---
-    _kv(ws, 5, "Total de registros", total_registros)
-    _kv(ws, 6, "Registros con problemas", total_problemas)
-    pct = round(((total_registros - total_problemas) / total_registros * 100), 1) if total_registros else 100
-    _kv(ws, 7, "% Registros limpios", f"{pct}%")
+    _kv(ws, 5, "Registros aprovechables:",
+        f"{reg_apr:,} de {total_registros:,}  ({pct_apr:.1f}%)")
+    _kv(ws, 6, "Peor dimensión crítica:",
+        f"{nombre_dual(peor_crit) if peor_crit else '—'}  (score {peor_crit_sc:.1f})" if peor_crit_sc is not None else (nombre_dual(peor_crit) if peor_crit else '—'))
+    _kv(ws, 7, "Ponderación:", pond_text)
 
     # --- Tabla de scores por columna y dimensión ---
     ws["A9"].value = "Score por Columna y Dimensión"
