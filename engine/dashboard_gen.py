@@ -177,6 +177,18 @@ def _dim_bars(dims_sorted: list, sim_meta: dict = None) -> str:
                 detail_html += (
                     '<br><span style="opacity:.6">%s</span>' % ' &middot; '.join(excl_parts)
                 )
+            if sim_meta.get('grupos_dispersos', 0) > 0:
+                detail_html += (
+                    '<br><span style="opacity:.6">%d grupo(s) disperso(s) excluidos del score '
+                    '(%d registros)</span>'
+                    % (sim_meta['grupos_dispersos'], sim_meta['regs_dispersos'])
+                )
+            if sim_meta.get('preprocesamiento_tokens'):
+                detail_html += (
+                    '<br><span style="opacity:.6;font-style:italic">'
+                    'Se ignoraron sufijos societarios y palabras de enlace antes de comparar'
+                    '</span>'
+                )
             detail_html += '</div>'
 
         html += (
@@ -483,13 +495,16 @@ def generate_dashboard_html(
         # key is a tuple (col, dim) from scorer; dim == 'similitud' is what we want
         if isinstance(key, tuple) and key[1] == 'similitud' and m:
             sim_meta = {
-                'grupos':       int(m.get('total_grupos', 0)),
-                'involucrados': int(m.get('total_involucrados', 0)),
-                'excedentes':   int(m.get('total_excedentes', 0)),
-                'dup_exactos':  int(m.get('duplicados_exactos_excluidos', 0)),
-                'placeholders': int(m.get('placeholders_excluidos', 0)),
-                'algoritmo':    str(m.get('algoritmo', '')),
-                'umbral':       m.get('umbral', ''),
+                'grupos':                   int(m.get('total_grupos', 0)),
+                'involucrados':             int(m.get('total_involucrados', 0)),
+                'excedentes':               int(m.get('total_excedentes', 0)),
+                'dup_exactos':              int(m.get('duplicados_exactos_excluidos', 0)),
+                'placeholders':             int(m.get('placeholders_excluidos', 0)),
+                'algoritmo':                str(m.get('algoritmo', '')),
+                'umbral':                   m.get('umbral', ''),
+                'grupos_dispersos':         int(m.get('grupos_dispersos_excluidos', 0)),
+                'regs_dispersos':           int(m.get('registros_en_grupos_dispersos', 0)),
+                'preprocesamiento_tokens':  bool(m.get('preprocesamiento_tokens', False)),
             }
             break
 

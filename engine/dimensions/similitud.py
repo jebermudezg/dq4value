@@ -12,6 +12,25 @@ PLACEHOLDERS = {
     'sin nombre', 's/n', 's/d', 'null', 'none', 'ninguno', '.', '0',
 }
 
+# ── Token filtering applied in Monge-Elkan and Q-grams ───────────────────────
+# Empirically calibrated on maestro_proveedores_1000.csv to prevent
+# suffix-driven chaining (e.g. "Dist. del Sur SAC" ≈ "Comercial Andina SAC").
+SUFIJOS_SOCIETARIOS = {
+    'sac', 's.a.c.', 's.a.c', 'sa', 's.a.', 's.a',
+    'eirl', 'e.i.r.l.', 'e.i.r.l', 'srl', 's.r.l.', 's.r.l',
+    'sas', 's.a.s.', 's.a.s', 'ltda', 'ltda.', 'sc', 's.c.',
+    'scrl', 'sociedad', 'anonima', 'cerrada',
+    'limitada', 'individual', 'responsabilidad',
+}
+STOPWORDS_RS = {
+    'del', 'de', 'la', 'las', 'los', 'el', 'y', 'e',
+    'en', 'al', 'a', 'con', 'para', 'por',
+}
+
+# Groups whose internal pair density falls below this threshold are flagged
+# as likely chaining artefacts and excluded from the score.
+UMBRAL_DENSIDAD = 0.6
+
 
 def _es_placeholder(valor) -> bool:
     if valor is None or (isinstance(valor, float) and np.isnan(valor)):
@@ -32,6 +51,22 @@ def _normalizar(texto: str) -> str:
     texto = re.sub(r'[^a-z0-9\s]', ' ', texto)
     texto = re.sub(r'\s+', ' ', texto).strip()
     return texto
+
+
+def _tokenizar_para_comparacion(texto: str, min_len: int = 3) -> list:
+    """
+    Splits texto into tokens and drops legal-suffix and stop-words.
+    Fallback: returns original tokens when the filtered list would be empty
+    (e.g. the value is just "S.A.C.").
+    """
+    tokens = str(texto).lower().split()
+    limpios = [
+        t for t in tokens
+        if t not in SUFIJOS_SOCIETARIOS
+        and t not in STOPWORDS_RS
+        and len(t) >= min_len
+    ]
+    return limpios if limpios else tokens
 
 
 def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
@@ -71,6 +106,17 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
     return min(max(0.0, score_raw / score_max) * 100, 100.0)
 
 
+def _me_asimetrico(tokens_a: list, tokens_b: list) -> float:
+    """Asymmetric Monge-Elkan: mean of max(JW(ta, tb)) for each ta in tokens_a."""
+    if not tokens_a or not tokens_b:
+        return 0.0
+    scores = [
+        max(jellyfish.jaro_winkler_similarity(ta, tb) for tb in tokens_b)
+        for ta in tokens_a
+    ]
+    return sum(scores) / len(scores)
+
+
 def _calcular_similitud(a: str, b: str, algoritmo: str) -> float:
     if not a or not b:
         return 0.0
@@ -97,20 +143,26 @@ def _calcular_similitud(a: str, b: str, algoritmo: str) -> float:
         return (comunes / total) * 100 if total > 0 else 0.0
 
     elif algoritmo == 'monge_elkan':
-        tokens_a = a.split()
-        tokens_b = b.split()
+        # Token-filtered + symmetric to avoid suffix-driven false positives
+        tokens_a = _tokenizar_para_comparacion(a)
+        tokens_b = _tokenizar_para_comparacion(b)
         if not tokens_a or not tokens_b:
             return 0.0
-        scores = [
-            max(jellyfish.jaro_winkler_similarity(ta, tb) for tb in tokens_b)
-            for ta in tokens_a
-        ]
-        return (sum(scores) / len(scores)) * 100
+        me_ab = _me_asimetrico(tokens_a, tokens_b)
+        me_ba = _me_asimetrico(tokens_b, tokens_a)
+        return (me_ab + me_ba) / 2 * 100
 
     elif algoritmo == 'qgrams':
+        # Token-filtered before computing character q-grams
+        tokens_a_filt = _tokenizar_para_comparacion(a)
+        tokens_b_filt = _tokenizar_para_comparacion(b)
+        a_filt = ' '.join(tokens_a_filt)
+        b_filt = ' '.join(tokens_b_filt)
+
         def get_qgrams(s, q=3):
             return set(s[i:i + q] for i in range(len(s) - q + 1))
-        qa, qb = get_qgrams(a), get_qgrams(b)
+
+        qa, qb = get_qgrams(a_filt), get_qgrams(b_filt)
         if not qa or not qb:
             return 0.0
         interseccion = len(qa & qb)
@@ -195,6 +247,23 @@ def _union_find_groups(record_pairs: list, n: int) -> dict:
     return groups
 
 
+def _densidad_grupo(members: list, pairs_set: set) -> float:
+    """
+    Fraction of member-pairs that have a direct similarity link above the
+    threshold.  A real cluster is dense (≈1.0).  A transitive chain is sparse.
+    """
+    n = len(members)
+    if n < 3:
+        return 1.0
+    posibles = n * (n - 1) / 2
+    reales = sum(
+        1 for i, a in enumerate(members)
+        for b in members[i + 1:]
+        if (a, b) in pairs_set or (b, a) in pairs_set
+    )
+    return reales / posibles
+
+
 def check_similitud(
     df: pd.DataFrame, id_col: str, target_col: str, **params
 ) -> tuple:
@@ -202,19 +271,18 @@ def check_similitud(
     Detects near-duplicate records in target_col.
 
     Returns (score, issues_df, metadata) where:
-      - issues_df has one row per involved record (principal + excedentes)
-      - metadata contains: total_grupos, total_involucrados, total_excedentes,
-        duplicados_exactos_excluidos, placeholders_excluidos, total_evaluados,
-        algoritmo, umbral, normalizar, grupos_grandes
+      - issues_df has one row per involved record (principal + excedentes
+        for reliable groups; all members for dispersed groups)
+      - metadata contains counting model fields plus diagnostic counters
 
     Counting model:
       score = (1 - total_excedentes / total_evaluados) * 100
-      total_excedentes = total_involucrados - total_grupos
+      total_excedentes = total_involucrados - total_grupos  (reliable groups only)
 
-    Exclusions:
-      - Placeholder / null values      (→ completitud, not counted here)
-      - Byte-identical raw value pairs (→ unicidad, counted in dup_exactos_excluidos)
-      - Different raw but same normalized (100%) → COUNTED (formatting variation)
+    Exclusions from score:
+      - Placeholder / null values      (→ completitud)
+      - Byte-identical raw value pairs (→ unicidad)
+      - Groups with density < UMBRAL_DENSIDAD (→ likely chaining artefacts)
     """
     umbral         = float(params.get('umbral', 92))
     algoritmo      = str(params.get('algoritmo', 'jaro_winkler'))
@@ -234,7 +302,6 @@ def check_similitud(
         else:
             unique_vals.setdefault(str(v), []).append(i)
 
-    # Records sharing an identical raw value with at least one other record
     dup_exactos_excluidos = sum(
         len(idxs) for idxs in unique_vals.values() if len(idxs) > 1
     )
@@ -247,18 +314,26 @@ def check_similitud(
 
     total_evaluados = len(df) - placeholders_excluidos
 
-    def _base_meta(total_grupos=0, total_involucrados=0, total_excedentes=0, grupos_grandes=0):
+    uses_token_filter = algoritmo in ('monge_elkan', 'qgrams')
+
+    def _base_meta(
+        total_grupos=0, total_involucrados=0, total_excedentes=0,
+        grupos_grandes=0, grupos_dispersos_excluidos=0, registros_en_grupos_dispersos=0,
+    ):
         return {
-            'total_grupos':                 total_grupos,
-            'total_involucrados':           total_involucrados,
-            'total_excedentes':             total_excedentes,
-            'duplicados_exactos_excluidos': dup_exactos_excluidos,
-            'placeholders_excluidos':       placeholders_excluidos,
-            'total_evaluados':              total_evaluados,
-            'algoritmo':                    algoritmo,
-            'umbral':                       umbral,
-            'normalizar':                   bool(normalizar_txt),
-            'grupos_grandes':               grupos_grandes,
+            'total_grupos':                    total_grupos,
+            'total_involucrados':              total_involucrados,
+            'total_excedentes':                total_excedentes,
+            'duplicados_exactos_excluidos':    dup_exactos_excluidos,
+            'placeholders_excluidos':          placeholders_excluidos,
+            'total_evaluados':                 total_evaluados,
+            'algoritmo':                       algoritmo,
+            'umbral':                          umbral,
+            'normalizar':                      bool(normalizar_txt),
+            'grupos_grandes':                  grupos_grandes,
+            'grupos_dispersos_excluidos':      grupos_dispersos_excluidos,
+            'registros_en_grupos_dispersos':   registros_en_grupos_dispersos,
+            'preprocesamiento_tokens':         uses_token_filter,
         }
 
     # ── Step 2: blocking on unique-value indices ──────────────────────────
@@ -296,14 +371,12 @@ def check_similitud(
         )
 
     # ── Step 3: compare unique-value pairs ───────────────────────────────
-    # All pairs here have different raw values (deduplication guarantees
-    # uniq_raw[i] != uniq_raw[j] for i != j), so byte-identical exclusion is implicit.
     similar_pares: list[tuple] = []   # (ui, uj, score)
 
     for ui, uj in pares_cand:
         nv_i, nv_j = uniq_norm[ui], uniq_norm[uj]
         if nv_i == nv_j:
-            sim_score = 100.0          # different raw, same normalized → formatting variation
+            sim_score = 100.0   # different raw, same normalized → formatting variation
         else:
             sim_score = _calcular_similitud(nv_i, nv_j, algoritmo)
         if sim_score >= umbral:
@@ -314,21 +387,37 @@ def check_similitud(
 
     # ── Step 4: expand unique-value pairs to record pairs ────────────────
     record_pairs: list[tuple] = []
+    record_pairs_set: set[tuple] = set()
     record_max_sim: dict[int, float] = {}
 
     for ui, uj, sim_score in similar_pares:
         for ri in unique_vals[uniq_raw[ui]]:
             for rj in unique_vals[uniq_raw[uj]]:
                 record_pairs.append((ri, rj))
+                record_pairs_set.add((ri, rj))
                 record_max_sim[ri] = max(record_max_sim.get(ri, 0.0), sim_score)
                 record_max_sim[rj] = max(record_max_sim.get(rj, 0.0), sim_score)
 
     # ── Step 5: transitive closure → groups ──────────────────────────────
     groups = _union_find_groups(record_pairs, len(df))
 
-    total_grupos       = len(groups)
-    total_involucrados = sum(len(m) for m in groups.values())
-    total_excedentes   = total_involucrados - total_grupos  # per group: len(members) - 1
+    # ── Step 5b: density check — split reliable vs dispersed groups ──────
+    grupos_confiables: dict = {}
+    grupos_dispersos: dict  = {}   # root -> (members, densidad)
+
+    for root, members in groups.items():
+        densidad = _densidad_grupo(members, record_pairs_set)
+        if len(members) >= 3 and densidad < UMBRAL_DENSIDAD:
+            grupos_dispersos[root] = (members, densidad)
+        else:
+            grupos_confiables[root] = members
+
+    total_grupos       = len(grupos_confiables)
+    total_involucrados = sum(len(m) for m in grupos_confiables.values())
+    total_excedentes   = total_involucrados - total_grupos
+
+    grupos_dispersos_excluidos    = len(grupos_dispersos)
+    registros_en_grupos_dispersos = sum(len(m) for m, _ in grupos_dispersos.values())
 
     # ── Step 6: suggest principal per group ──────────────────────────────
     def _principal(members: list) -> int:
@@ -339,11 +428,13 @@ def check_similitud(
         def rec_id(idx):      return str(ids[idx])
         return sorted(members, key=lambda i: (null_count(i), -val_len(i), rec_id(i)))[0]
 
-    # ── Step 7: build issues_df — ALL involucrados ────────────────────────
+    # ── Step 7: build issues_df — confiables + dispersos ─────────────────
     grupos_grandes = 0
     rows = []
-    sorted_groups = sorted(groups.items(), key=lambda kv: min(kv[1]))
-    for group_num, (_, members) in enumerate(sorted_groups, start=1):
+
+    # Reliable groups — counted in score
+    sorted_confiables = sorted(grupos_confiables.items(), key=lambda kv: min(kv[1]))
+    for group_num, (_, members) in enumerate(sorted_confiables, start=1):
         grupo_id     = f"G{group_num:03d}"
         grupo_grande = len(members) > 10
         if grupo_grande:
@@ -374,6 +465,36 @@ def check_similitud(
                 'similitud_pct':         round(record_max_sim.get(ri, 0.0), 1),
                 'es_principal_sugerido': es_principal,
                 'grupo_grande':          bool(grupo_grande),
+                'grupo_disperso':        False,
+            })
+
+    # Dispersed groups — NOT counted in score, reported for visibility
+    sorted_dispersos = sorted(grupos_dispersos.items(), key=lambda kv: min(kv[1][0]))
+    d_num_offset = len(sorted_confiables)
+    for d_num, (_, (members, densidad)) in enumerate(sorted_dispersos, start=d_num_offset + 1):
+        grupo_id     = f"G{d_num:03d}"
+        grupo_grande = len(members) > 10
+
+        desc_disperso = (
+            f"Grupo disperso (densidad {densidad:.0%}) — posible encadenamiento, "
+            f"no se contó en el score. Revisa manualmente o sube el umbral."
+        )
+        if grupo_grande:
+            desc_disperso += f" Grupo grande ({len(members)} registros)."
+
+        for ri in members:
+            rows.append({
+                id_col:                  ids[ri],
+                'columna':               target_col,
+                'dimension':             'similitud',
+                'descripcion':           desc_disperso,
+                'valor_encontrado':      str(valores[ri]),
+                'valor_correcto':        None,
+                'grupo_id':              grupo_id,
+                'similitud_pct':         round(record_max_sim.get(ri, 0.0), 1),
+                'es_principal_sugerido': False,
+                'grupo_grande':          bool(grupo_grande),
+                'grupo_disperso':        True,
             })
 
     score = (
@@ -382,7 +503,10 @@ def check_similitud(
         if total_evaluados > 0 else 100.0
     )
 
-    metadata = _base_meta(total_grupos, total_involucrados, total_excedentes, grupos_grandes)
+    metadata = _base_meta(
+        total_grupos, total_involucrados, total_excedentes,
+        grupos_grandes, grupos_dispersos_excluidos, registros_en_grupos_dispersos,
+    )
 
     return score, pd.DataFrame(rows), metadata
 
@@ -390,6 +514,7 @@ def check_similitud(
 def _empty_df(id_col: str) -> pd.DataFrame:
     cols = [
         id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado',
-        'valor_correcto', 'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
+        'valor_correcto', 'grupo_id', 'similitud_pct', 'es_principal_sugerido',
+        'grupo_grande', 'grupo_disperso',
     ]
     return pd.DataFrame(columns=cols)

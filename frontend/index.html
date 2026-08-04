@@ -3412,12 +3412,33 @@ function _renderPonderacion() {
 function _updatePonderacion() { _renderPonderacion(); }
 
 // Event delegation — survives innerHTML rebuilds
+// Default umbral per algorithm — monge_elkan is lower because token filtering
+// narrows the effective similarity range; 82% is empirically calibrated.
+const UMBRAL_DEFAULT_POR_ALGORITMO = {
+  jaro_winkler:  92,
+  brecha_afin:   82,
+  monge_elkan:   82,
+  levenshtein:   85,
+  qgrams:        82,
+  smith_waterman:82,
+  soundex:       80,
+  coseno:        75,
+};
+
 document.addEventListener('change', function(e) {
   if (e.target.classList.contains('pond-select')) {
     const dim = e.target.dataset.dim;
     if (dim) {
       nivelesManuales[dim] = e.target.value;
       _renderPonderacion();
+    }
+  }
+  // Auto-update umbral default when user switches algorithm
+  if (e.target.id && e.target.id.endsWith('-algoritmo')) {
+    const sid = e.target.id.replace(/^p-/, '').replace(/-algoritmo$/, '');
+    const umbralEl = document.getElementById(`p-${sid}-umbral`);
+    if (umbralEl) {
+      umbralEl.value = UMBRAL_DEFAULT_POR_ALGORITMO[e.target.value] ?? 85;
     }
   }
 });
@@ -5317,6 +5338,14 @@ function _updateSimDimBar() {
     if (dupEx > 0) parts.push(`${dupEx.toLocaleString()} dup. exactos excluidos`);
     if (phEx > 0) parts.push(`${phEx.toLocaleString()} vacíos excluidos`);
     html += `<br><span style="opacity:.6">${parts.join(' · ')}</span>`;
+  }
+  const dispersos = m.grupos_dispersos_excluidos || 0;
+  if (dispersos > 0) {
+    const regsDisp = (m.registros_en_grupos_dispersos || 0).toLocaleString();
+    html += `<br><span style="opacity:.6">${dispersos} grupo(s) disperso(s) excluidos del score (${regsDisp} registros)</span>`;
+  }
+  if (m.preprocesamiento_tokens) {
+    html += `<br><span style="opacity:.6;font-style:italic">Se ignoraron sufijos societarios y palabras de enlace antes de comparar</span>`;
   }
   detail.innerHTML = html;
 }

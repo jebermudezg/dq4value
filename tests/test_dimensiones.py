@@ -1007,3 +1007,146 @@ def test_peor_dimension_es_del_nivel_umbral():
     assert results['peor_dimension_critica'] == 'completitud', (
         f"Esperado completitud, got {results['peor_dimension_critica']}"
     )
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Corrección encadenamiento Monge-Elkan — 5 tests
+# ─────────────────────────────────────────────────────────────────────
+
+def test_sufijos_no_inflan_similitud():
+    """Dos proveedores distintos que solo comparten el sufijo societario
+    deben quedar muy por debajo del umbral de uso típico (82%)."""
+    import re
+    from unidecode import unidecode
+    from engine.dimensions.similitud import _calcular_similitud
+
+    def norm(t):
+        t = unidecode(str(t).lower().strip())
+        t = re.sub(r'[^a-z0-9\s]', ' ', t)
+        return re.sub(r'\s+', ' ', t).strip()
+
+    pares = [
+        ('Distribuidora del Sur S.A.C.', 'Comercial Andina S.A.C.'),
+        ('Logistica Norte S.A.C.',       'Suministros Lima S.A.C.'),
+        ('Textiles del Norte S.A.',      'Plasticos Industriales S.A.'),
+        ('Papeleria y Oficina E.I.R.L.', 'Seguridad Industrial E.I.R.L.'),
+    ]
+    for a, b in pares:
+        sim = _calcular_similitud(norm(a), norm(b), 'monge_elkan')
+        assert sim < 70.0, (
+            f"Par diferente tiene similitud {sim:.1f}% >= 70%: {a!r} vs {b!r}"
+        )
+
+
+def test_variantes_reales_siguen_detectandose():
+    """El mismo proveedor con variantes de formato debe superar 85%
+    con monge_elkan después del preprocesamiento."""
+    import re
+    from unidecode import unidecode
+    from engine.dimensions.similitud import _calcular_similitud
+
+    def norm(t):
+        t = unidecode(str(t).lower().strip())
+        t = re.sub(r'[^a-z0-9\s]', ' ', t)
+        return re.sub(r'\s+', ' ', t).strip()
+
+    pares = [
+        ('Distribuidora del Sur S.A.C.', 'Distribuidora del Sur SAC'),
+        ('Distribuidora del Sur S.A.C.', 'DISTRIBUIDORA DEL SUR S.A.C.'),
+        ('Distribuidora del Sur S.A.C.', 'Dist. del Sur S.A.C.'),
+    ]
+    for a, b in pares:
+        sim = _calcular_similitud(norm(a), norm(b), 'monge_elkan')
+        assert sim >= 85.0, (
+            f"Par mismo proveedor tiene similitud {sim:.1f}% < 85%: {a!r} vs {b!r}"
+        )
+
+
+def test_monge_elkan_simetrico():
+    """ME(A,B) debe ser igual a ME(B,A) con la simetrización."""
+    import re
+    from unidecode import unidecode
+    from engine.dimensions.similitud import _calcular_similitud
+
+    def norm(t):
+        t = unidecode(str(t).lower().strip())
+        t = re.sub(r'[^a-z0-9\s]', ' ', t)
+        return re.sub(r'\s+', ' ', t).strip()
+
+    pares = [
+        ('Distribuidora del Sur', 'Comercial Norte del Peru'),
+        ('Textiles Lima',         'Textiles Lima Norte S.A.C.'),
+        ('ABC Ingenieria',        'Ingenieria ABC y Asociados'),
+    ]
+    for a, b in pares:
+        sim_ab = _calcular_similitud(norm(a), norm(b), 'monge_elkan')
+        sim_ba = _calcular_similitud(norm(b), norm(a), 'monge_elkan')
+        assert abs(sim_ab - sim_ba) < 0.001, (
+            f"Asimetría detectada: ME({a!r},{b!r})={sim_ab:.3f} != ME({b!r},{a!r})={sim_ba:.3f}"
+        )
+
+
+def test_grupo_disperso_se_excluye_del_score():
+    """Una cadena A-B-C-D donde solo pares consecutivos superan el umbral
+    tiene densidad 3/6 = 0.5 < 0.6 y debe marcarse como dispersa sin
+    penalizar el score."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+
+    # Levenshtein: cada par consecutivo difiere en 1 carácter (sim 85.7%);
+    # cada par no-consecutivo difiere en ≥2 caracteres (sim ≤ 71.4%).
+    # Cadena: A→B→C→D, densidad = 3/6 = 0.50 < UMBRAL_DENSIDAD(0.6).
+    df = pd.DataFrame({
+        'id':  [1, 2, 3, 4, 5],
+        'val': ['xyzabcd', 'xyzabce', 'xyzabde', 'xyzacde', 'qqqqqqqq'],
+    })
+    score, issues, meta = check_similitud(
+        df, 'id', 'val', algoritmo='levenshtein', umbral=80, normalizar=False
+    )
+    print(f"\nScore: {score}, meta: {meta}")
+
+    assert meta['grupos_dispersos_excluidos'] >= 1, (
+        "Se esperaba al menos 1 grupo disperso con la cadena de 4 elementos"
+    )
+    assert meta['total_grupos'] == 0, (
+        f"El grupo disperso no debe contarse como grupo confiable (total_grupos={meta['total_grupos']})"
+    )
+    assert score == 100.0, (
+        f"El grupo disperso no debe penalizar el score (score={score})"
+    )
+    if not issues.empty:
+        dispersos_en_issues = issues[issues['grupo_disperso'] == True]
+        assert len(dispersos_en_issues) > 0, (
+            "Los registros de grupos dispersos deben aparecer en issues_df con grupo_disperso=True"
+        )
+
+
+def test_no_hay_grupos_gigantes():
+    """Con el fix aplicado, el dataset de 1000 proveedores no debe generar
+    ningún grupo con más de 20 miembros a umbral 82%."""
+    import os
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+
+    csv_path = os.path.join(os.path.dirname(__file__), 'maestro_proveedores_1000.csv')
+    if not os.path.exists(csv_path):
+        import pytest
+        pytest.skip("maestro_proveedores_1000.csv no encontrado")
+
+    df = pd.read_csv(csv_path)
+    score, issues, meta = check_similitud(
+        df, 'id', 'razon_social', algoritmo='monge_elkan', umbral=82, normalizar=True
+    )
+    print(f"\nScore: {score}, grupos: {meta['total_grupos']}, "
+          f"dispersos: {meta['grupos_dispersos_excluidos']}")
+
+    if not issues.empty:
+        confiables = issues[issues['grupo_disperso'] == False]
+        if not confiables.empty:
+            max_size = confiables.groupby('grupo_id').size().max()
+            assert max_size <= 20, (
+                f"Grupo demasiado grande ({max_size} miembros) — posible encadenamiento residual"
+            )
+    assert meta['total_grupos'] < 50, (
+        f"Demasiados grupos ({meta['total_grupos']}) en dataset de 1000 proveedores únicos"
+    )
