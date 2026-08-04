@@ -383,20 +383,23 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
 
             if tiene_abreviaturas_explicitas:
                 algoritmo_sug = 'brecha_afin'
+                umbral_sug = 96   # 94% da F1=1.0 sobreajustado al set; 96% es más robusto
                 razon_sug = (
                     "El perfil detectó abreviaturas explícitas (tokens cortos terminados en '.'). "
-                    "Brecha Afín penaliza menos las diferencias de longitud que producen las abreviaturas."
+                    "Brecha Afín penaliza menos las diferencias de longitud que producen las abreviaturas "
+                    "(P=100% R=94.7% a umbral 96%)."
                 )
             else:
                 algoritmo_sug = 'qgrams'
+                umbral_sug = 86   # mejor F1=0.930 calibrado en maestro_proveedores_1000.csv
                 razon_sug = (
                     f"Q-grams obtuvo la mejor precisión en razones sociales durante la calibración "
-                    f"(F1=0.93). Grupos detectados: {grupos_str}."
+                    f"(F1=0.93, P=100%, R=86.8%). Grupos detectados: {grupos_str}."
                 )
             sugs.append(_sug(
                 "similitud", "alta",
                 razon_sug,
-                algoritmo=algoritmo_sug, umbral=88,
+                algoritmo=algoritmo_sug, umbral=umbral_sug,
             ))
         elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
                        "cliente", "descripcion", "direccion", "address"):

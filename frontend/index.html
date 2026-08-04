@@ -3414,15 +3414,16 @@ function _updatePonderacion() { _renderPonderacion(); }
 // Event delegation — survives innerHTML rebuilds
 // Defaults calibrated 2026-08-04 on maestro_proveedores_1000.csv (1 000 razones sociales,
 // 15 grupos verdaderos / 38 pares RUC).  Best-F1 umbral among 'confiable' thresholds.
-//   jaro_winkler   96% F1=0.805   levenshtein    92% F1=0.861
-//   monge_elkan    96% F1=0.867   qgrams         86% F1=0.930 ★
-//   smith_waterman 94% F1=0.930 (436s/1000 rows — lento)
-//   brecha_afin    94% F1=1.000 post-fix (200s/1000 rows — abreviaturas, ★ perfecto)
-//   soundex        86% F1=0.471 (recall 31.6% — no recomendado para razones sociales)
-//   coseno         78% F1=0.383 (recall 23.7%, 337s/1000 rows — no recomendado para RS)
+// Precision=100% enforced; Rule-4 (>20× slower, Δrecall<15pts) → qgrams wins.
+//   jaro_winkler   96% F1=0.805  2.7s/1k    levenshtein    92% F1=0.861   5.2s/1k
+//   monge_elkan    96% F1=0.889  6.7s/1k    qgrams         86% F1=0.930 ★ 0.9s/1k
+//   smith_waterman 94% F1=0.930  436s/1k  ⚠ lento
+//   brecha_afin    96% P=100% R=94.7%  28.6s/1k  ⚠ lento — sobreajuste a 94% (F1=1.0)
+//   soundex        86% F1=0.471  2.8s/1k    (recall 31.6% — no recomendado para RS)
+//   coseno         78% F1=0.383  337s/1k  ⚠ lento — no recomendado para RS
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
   jaro_winkler:   96,
-  brecha_afin:    94,
+  brecha_afin:    96,   // 94 da F1=1.0 sobreajustado; 96 da P=100% R=94.7% más robusto
   monge_elkan:    96,
   levenshtein:    92,
   qgrams:         86,
@@ -4775,7 +4776,7 @@ function buildParamInputs(colName, dtype) {
             <option value="monge_elkan">Monge-Elkan — RS con abreviaturas de sufijos (F1 0.87)</option>
             <option value="levenshtein">Levenshtein — códigos y documentos (F1 0.86, muy rápido)</option>
             <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes (F1 0.93) ⚠ lento</option>
-            <option value="brecha_afin">Brecha Afín — abreviaturas explícitas ★ F1=1.00 (94%) ⚠ lento</option>
+            <option value="brecha_afin">Brecha Afín — abreviaturas explícitas (P=100% R=95% a 96%) ⚠ lento</option>
             <option value="soundex">Soundex — fonética; recall bajo en RS (F1 0.47)</option>
             <option value="coseno">Coseno TF-IDF — textos largos; no apto para RS (F1 0.38) ⚠ lento</option>
           </select>

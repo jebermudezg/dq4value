@@ -6,92 +6,140 @@
 **Grupos verdaderos:** 15  
 **Fecha:** 2026-08-04
 
-**Alcance:** Solo variaciones de formato del mismo nombre (sufijos societarios como "S.A.C." vs "SAC", tildes, mayúsculas, abreviaturas como "Repres.", "Exportac.").  
-Errores tipográficos, reordenamientos de palabras o palabras faltantes no están representados en este dataset — para esos casos pueden favorecer otros algoritmos.
+**Alcance:** Solo variaciones de formato del mismo nombre (sufijos societarios como "S.A.C." vs "SAC",
+tildes, mayúsculas, abreviaturas como "Repres.", "Exportac."). Errores tipográficos, reordenamientos
+de palabras o palabras faltantes no están representados — para esos casos pueden favorecer otros
+algoritmos. Un F1 perfecto aquí es señal de ajuste óptimo al tipo de dato, pero puede no generalizar
+a otros tipos de variación.
 
 ---
 
 ## Tabla resumen — mejor umbral confiable por algoritmo
 
-| Algoritmo       | Umbral | Precisión | Recall | F1    | Estado    | Tiempo (1k) | Notas |
-|----------------|--------|-----------|--------|-------|-----------|-------------|-------|
-| qgrams          |   86%  |  100.0%   |  86.8% | 0.930 | confiable |   6 s       | ★ Mejor para razones sociales |
-| smith_waterman  |   94%  |  100.0%   |  86.8% | 0.930 | confiable | 436 s       | Mismo F1 que Q-grams; muy lento |
-| monge_elkan     |   96%  |   80.0%   |  94.7% | 0.867 | confiable |   9 s       | Mejor recall, algo de FP |
-| levenshtein     |   92%  |   91.2%   |  81.6% | 0.861 | confiable |   5 s       | Rápido y preciso |
-| jaro_winkler    |   96%  |   75.0%   |  86.8% | 0.805 | confiable |   3 s       | Para nombres cortos/personas |
-| brecha_afin     |   94%  |  100.0%   | 100.0% | 1.000 | confiable | 200 s       | ★ Perfecto para abreviaturas; ver nota |
-| soundex         |   86%  |   92.3%   |  31.6% | 0.471 | confiable |   3 s       | No recomendado para RS |
-| coseno TF-IDF   |   78%  |  100.0%   |  23.7% | 0.383 | confiable | 337 s       | No recomendado para RS |
+| Algoritmo       | Umbral | Precisión | Recall | F1    | Estado    | Tiempo/1k | Notas |
+|----------------|--------|-----------|--------|-------|-----------|-----------|-------|
+| qgrams          |   86%  |  100.0%   |  86.8% | 0.930 | confiable |   0.9 s   | ★ **Default recomendado** |
+| smith_waterman  |   94%  |  100.0%   |  86.8% | 0.930 | confiable | 436 s   ⚠ | Mismo F1; muy lento |
+| monge_elkan     |   96%  |   83.7%   |  94.7% | 0.889 | confiable |   6.7 s   | Precisión < 100% → no default |
+| levenshtein     |   92%  |   91.2%   |  81.6% | 0.861 | confiable |   5.2 s   | Precisión < 100% → no default |
+| jaro_winkler    |   96%  |   75.0%   |  86.8% | 0.805 | confiable |   2.7 s   | Precisión < 100% → no default |
+| brecha_afin     |   96%  |  100.0%   |  94.7% | 0.973 | confiable |  28.6 s ⚠ | Ver sección abreviaturas |
+| soundex         |   86%  |   92.3%   |  31.6% | 0.471 | confiable |   2.8 s   | No recomendado para RS |
+| coseno TF-IDF   |   78%  |  100.0%   |  23.7% | 0.383 | confiable | 337 s   ⚠ | No recomendado para RS |
 
 ---
 
-## Brecha Afín — calibración pre y post corrección de blocking
+## Decisión de default — criterio explícito
 
-El blocking original usaba una cota de 15 000 pares ordenados por diferencia de longitud (ascendente), lo que descartaba pares con diferencias de longitud grandes — exactamente las abreviaturas.
+**Requisito 1 — Precisión = 100%** (un FP lleva al analista a fusionar dos empresas distintas).  
+Algoritmos que pasan: qgrams@86, smith_waterman@94, brecha_afin@96, coseno@78, levenshtein@96, jaro_winkler@96.  
+Monge-Elkan, levenshtein@92, jaro_winkler@96 no alcanzan P=100% en sus mejores umbrales → descartados.
 
-### Antes de la corrección (blocking con cota por longitud)
+**Requisito 2 — Mayor recall entre los que cumplen P=100%.**  
+brecha_afin@96: R=94.7% > qgrams@86: R=86.8% → brecha_afin ganaría... pero:
 
-| Umbral | Precisión | Recall | F1    | Grupos | Disp. | Score | Estado    |
-|--------|-----------|--------|-------|--------|-------|-------|-----------|
-|   78%  |   12.6%   |  44.7% | 0.197 |     94 |     6 |  88.7 | parcial   |
-|   82%  |   23.9%   |  44.7% | 0.312 |     54 |     1 |  93.8 | parcial   |
-|   86%  |   56.7%   |  44.7% | 0.500 |     22 |     0 |  97.4 | confiable |
-|   90%  |   81.0%   |  44.7% | 0.576 |     13 |     0 |  98.3 | confiable |
-|   92%  |   94.4%   |  44.7% | 0.607 |     10 |     0 |  98.6 | confiable |
-|   94%  |  100.0%   |  44.7% | 0.618 |      9 |     0 |  98.7 | confiable |
+**Regla 4 — Si la alternativa es > 20× más lenta Y la diferencia de recall es < 15 pts: elegir el rápido.**
+- Δrecall = 94.7% − 86.8% = **7.9 pts** < 15 pts ✓
+- Velocidad: 28.6s / 0.9s = **31.8×** > 20× ✓
+- **→ qgrams@86 es el default.**
 
-Recall estancado en 44.7%: los pares con abreviaturas ("Repres." vs "Representaciones") eran descartados antes de la comparación.
-
-### Después de la corrección (ratio_minimo = 0.25, sin cota por longitud)
-
-| Umbral | Precisión | Recall | F1    | Grupos | Disp. | Score | Estado    |
-|--------|-----------|--------|-------|--------|-------|-------|-----------|
-|   78%  |   14.8%   |  92.1% | 0.255 |    123 |    26 |  82.5 | parcial   |
-|   82%  |   23.8%   | 100.0% | 0.384 |     93 |     7 |  87.5 | parcial   |
-|   86%  |   47.5%   | 100.0% | 0.644 |     53 |     0 |  93.4 | confiable |
-|   90%  |   79.2%   | 100.0% | 0.884 |     23 |     0 |  96.5 | confiable |
-|   92%  |   90.5%   | 100.0% | 0.950 |     19 |     0 |  97.0 | confiable |
-|   94%  |  **100.0%** | **100.0%** | **1.000** | 15 | 0 | 97.4 | **confiable** |
-|   96%  |  100.0%   |  94.7% | 0.973 |     13 |     0 |  97.6 | confiable |
-
-**Recall saltó de 44.7% → 100.0%. F1 de 0.618 → 1.000.** Todos los pares verdaderos detectados.  
-Tiempo: ~200s/1000 registros (~3.3 min). Para >5000 registros puede tardar 30+ min.
-
-Verificación directa de pares con abreviatura:
-
-| Par | Score Brecha Afín | ¿Supera umbral 94%? |
-|-----|-------------------|---------------------|
-| "Representaciones del Pacifico S.A.C." vs "Repres. del Pacifico S.A.C." | 96.2 | ✅ |
-| "Distribuidora del Sur S.A.C." vs "Dist. del Sur S.A.C." | 95.0 | ✅ |
-| "Inversiones San Marcos E.I.R.L." vs "Inv. San Marcos E.I.R.L." | 96.1 | ✅ |
+**Nota de sobreajuste en brecha_afin@94:** a umbral 94% obtiene F1=1.000 (P=100%, R=100%). Un F1
+perfecto en calibración indica que el umbral está ajustado exactamente al dataset. Se prefiere 96%
+como default de brecha_afin: P=100%, R=94.7%, F1=0.973 — menos ajustado y con el mismo cero de
+falsos positivos.
 
 ---
 
-## Defaults calibrados (frontend)
+## Brecha Afín — pre y post corrección de blocking
+
+El blocking original tenía dos bugs que descartaban pares con diferencias de longitud grandes:
+1. Cota de 15 000 pares ordenados por diferencia de longitud ascendente (descartaba pares con abreviaturas)
+2. Early-return en `_brecha_afin` si ratio < 0.4 (bloqueaba casos extremos como "Repres." solo)
+
+**Pares candidatos en dataset 1k:**
+- Raw total generado por blocking: 60 333 pares
+- Antes del fix: truncado a 15 000 por cota de longitud → se descartaban 45 333 pares con abreviaturas
+- Post-fix: ratio_minimo=0.25, sin truncación por longitud → se comparan los 60 333 pares
+
+### Antes de la corrección
+
+| Umbral | Precisión | Recall | F1    | Tiempo |
+|--------|-----------|--------|-------|--------|
+|   86%  |   56.7%   |  44.7% | 0.500 |  ~8.6s |
+|   90%  |   81.0%   |  44.7% | 0.576 |  ~8.6s |
+|   92%  |   94.4%   |  44.7% | 0.607 |  ~8.6s |
+|   94%  |  100.0%   |  44.7% | 0.618 |  ~8.6s |
+
+Recall estancado en 44.7%: los pares con abreviaturas eran descartados antes de la comparación.
+
+### Después de la corrección
+
+| Umbral | Precisión | Recall | F1    | Tiempo |
+|--------|-----------|--------|-------|--------|
+|   86%  |   47.5%   | 100.0% | 0.644 | 28.6s  |
+|   90%  |   79.2%   | 100.0% | 0.884 | 28.6s  |
+|   92%  |   90.5%   | 100.0% | 0.950 | 28.6s  |
+|   94%  |  100.0%   | 100.0% | 1.000 | 28.6s  | ← sobreajuste sospechoso |
+| **96%**|**100.0%** | **94.7%**|**0.973**|**28.6s**| ← default elegido |
+
+**Recall saltó de 44.7% → 94.7–100.0%.** Los 3 pares de abreviatura verificados:
+- "Repres. del Pacifico S.A.C." vs "Representaciones…" → **96.2%** ✅
+- "Dist. del Sur S.A.C." vs "Distribuidora…" → **95.0%** ✅
+- "Inv. San Marcos E.I.R.L." vs "Inversiones…" → **96.1%** ✅
+
+### Escalamiento
+
+| Dataset       | Valores únicos | Pares candidatos | qgrams@86 | brecha_afin@96 |
+|---------------|---------------|-----------------|-----------|----------------|
+| 1 000 filas   | ~1 000        | 60 333          | 0.9 s     | 28.6 s         |
+| 5 000 filas*  | ~1 000        | 60 333          | 0.3 s     | 29.6 s         |
+
+*Dataset duplicado 5× — mismos valores únicos, solo más registros por valor. El tiempo de brecha_afin
+escala sobre valores únicos (pair comparison), no sobre registros totales. Con 5 000 registros
+verdaderamente diversos el cap de 50 000 pares limitaría el tiempo a ~23s adicionales de comparación.
+brecha_afin se mantiene bajo el umbral de 120s para este tipo de dato.
+
+---
+
+## Monge-Elkan — post-fix (blocking con ratio_minimo = 0.25)
+
+| Umbral | Precisión | Recall | F1    | Grupos | Disp. | Estado    |
+|--------|-----------|--------|-------|--------|-------|-----------|
+|   86%  |    7.1%   |  28.9% | 0.113 |     78 |    27 | no_conf.  |
+|   90%  |   29.7%   | 100.0% | 0.458 |     67 |     1 | parcial   |
+|   92%  |   47.5%   | 100.0% | 0.644 |     38 |     0 | confiable |
+|   94%  |   74.5%   | 100.0% | 0.854 |     22 |     0 | confiable |
+| **96%**|  **83.7%**|**94.7%**|**0.889**|16  |     0 | **confiable** |
+
+Pre-fix: F1=0.867 (P=80%, R=94.7%). Post-fix: F1=0.889 (P=83.7%, R=94.7%).  
+Mejora marginal. Monge-Elkan no alcanza P=100% en ningún umbral de este dataset → no cumple
+el requisito de default. Útil cuando se toleran algunos falsos positivos a cambio de recall alto.
+
+---
+
+## Coherencia motor de sugerencias ↔ frontend
+
+| Caso | `claude_analyzer.py` | Frontend ★ | Umbral sugerido |
+|------|---------------------|-----------|-----------------|
+| RS sin abreviaturas | `qgrams` | `qgrams ★` | 86% |
+| RS con abreviaturas explícitas | `brecha_afin` | `brecha_afin ⚠` | 96% |
+
+✓ Coherentes: el motor sugiere qgrams como default, la UI lo marca con ★. Brecha Afín lleva
+⚠ (algoritmo lento) porque qgrams es el default — no hay contradicción.
+
+---
+
+## Defaults finales en `UMBRAL_DEFAULT_POR_ALGORITMO`
 
 ```javascript
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
+  qgrams:         86,   // F1=0.930, P=100%, R=86.8%  ★ default RS
   jaro_winkler:   96,   // F1=0.805
-  brecha_afin:    94,   // F1=1.000 post-fix (200s/1000 rows)
-  monge_elkan:    96,   // F1=0.867
-  levenshtein:    92,   // F1=0.861
-  qgrams:         86,   // F1=0.930 ★
-  smith_waterman: 94,   // F1=0.930 (lento ~436s/1000 rows)
-  soundex:        86,   // F1=0.471 (no recomendado para RS)
-  coseno:         78,   // F1=0.383 (no recomendado para RS, lento ~337s/1000 rows)
+  monge_elkan:    96,   // F1=0.889  (P<100%)
+  levenshtein:    92,   // F1=0.861  (P<100%)
+  brecha_afin:    96,   // P=100% R=94.7%  (94% sobreajustado)
+  smith_waterman: 94,   // F1=0.930  ⚠ lento
+  soundex:        86,   // F1=0.471  no recomendado RS
+  coseno:         78,   // F1=0.383  ⚠ lento, no recomendado RS
 };
 ```
-
----
-
-## Notas metodológicas
-
-- **Verdad terreno:** pares de registros que comparten el mismo RUC (campo `ruc` del dataset).
-- **Precisión:** fracción de pares detectados que son verdaderos positivos.
-- **Recall (Exhaustividad):** fracción de pares verdaderos que fueron detectados.
-- **F1:** media armónica de precisión y recall.
-- **Estado "confiable":** ningún grupo disperso excluido del score (densidad interna ≥ 0.6).
-- **Grupos dispersos:** grupos con densidad < UMBRAL_DENSIDAD=0.6 — probablemente encadenamiento transitivo, excluidos del score de calidad.
-- Los tiempos son aproximados para 1 000 registros en hardware de desarrollo (Apple Silicon M-series).
-- Para datasets > 5 000 registros, smith_waterman y coseno pueden tardar proporciones cuadráticas.
