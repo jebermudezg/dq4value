@@ -669,6 +669,17 @@
       border-top-width: 1px;
     }
     .acc-content { padding: .9rem 1rem 1rem; }
+    /* ── Similitud sub-blocks (details/summary, avoids scrollHeight bug) ── */
+    .sim-sub { border: 1px solid var(--border); border-radius: 8px; margin: .5rem 0; overflow: hidden; }
+    .sim-sub > summary { cursor: pointer; display: flex; align-items: center; gap: .5rem; padding: .55rem .85rem; background: var(--surface2); font-size: .81rem; font-weight: 600; color: var(--text); list-style: none; user-select: none; }
+    .sim-sub > summary::-webkit-details-marker { display: none; }
+    .sim-sub > summary::before { content: '▸'; font-size: .73rem; color: var(--muted); min-width: .85rem; }
+    .sim-sub[open] > summary::before { content: '▾'; }
+    .sim-sub > div { padding: .75rem .9rem .9rem; }
+    /* ── Dimension priority pills (naturaleza/propósito section) ── */
+    .help-pill { display: inline-block; padding: .1rem .45rem; border-radius: 4px; font-size: .7rem; font-weight: 600; margin: .1rem .05rem; white-space: nowrap; }
+    .help-pill.critica { background: #fee2e2; color: #991b1b; }
+    .help-pill.alta { background: #fef3c7; color: #92400e; }
     .acc-def { font-size: .84rem; color: var(--text); margin-bottom: .7rem; line-height: 1.55; }
     .acc-meta { display: flex; flex-direction: column; gap: .5rem; }
     .acc-row { display: flex; gap: .5rem; align-items: flex-start; }
@@ -2055,6 +2066,336 @@
       </div>
     </div>
 
+    <!-- SECCIÓN 1.6 — Naturaleza y propósito -->
+    <div class="help-section">
+      <div class="help-section-title">Naturaleza y propósito</div>
+      <p style="font-size:.84rem;color:var(--sub);margin-bottom:1rem;line-height:1.55">Al subir un archivo puedes declarar dos cosas: <strong>qué forma tienen tus datos</strong> (maestro o transaccional) y <strong>para qué los vas a usar</strong> (el propósito del análisis). La naturaleza ayuda a preseleccionar el propósito; el propósito ajusta la importancia relativa de cada dimensión en el score general.</p>
+      <div class="accordion">
+
+        <div class="acc-item" data-acc="np-naturaleza">
+          <div class="acc-trigger" onclick="toggleAcc('np-naturaleza')">
+            <div class="acc-icon" style="background:#eff6ff;color:#1d4ed8">🏗️</div>
+            <span class="acc-title">Naturaleza del dato</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">Declara qué tipo de filas contiene el archivo. El sistema usa esto para preseleccionar el propósito más habitual de ese tipo de dato.</p>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Opción</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Qué contiene el archivo</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600;white-space:nowrap">Propósito pre-seleccionado</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Maestro de datos</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Entidades únicas del negocio: clientes, proveedores, productos, empleados. Cada fila representa una entidad distinta.</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Depuración de duplicados</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Dataset transaccional</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Movimientos u operaciones: órdenes, facturas, pagos, despachos. Una misma entidad puede aparecer en muchas filas.</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Diagnóstico general</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Sin especificar</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Si no aplica ninguna de las anteriores o prefieres no clasificar el dataset.</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Diagnóstico general</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item acc-xl" data-acc="np-proposito">
+          <div class="acc-trigger" onclick="toggleAcc('np-proposito')">
+            <div class="acc-icon" style="background:#f0fdf4;color:#15803d">🎯</div>
+            <span class="acc-title">Propósito del análisis</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El propósito define qué dimensiones son más importantes para tu caso de uso. Las de nivel <span class="help-pill critica">crítica</span> tienen peso 4×; las de nivel <span class="help-pill alta">alta</span> tienen peso 2×; las demás peso 1×.</p>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Propósito</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Cuándo usarlo</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Dimensiones priorizadas</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Diagnóstico general</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Revisión de calidad sin objetivo específico</td>
+                    <td style="padding:.4rem .75rem;font-style:italic;color:var(--sub)">Todas con igual peso</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Iniciativa de IA</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Los datos alimentan un modelo o agente de IA</td>
+                    <td style="padding:.4rem .75rem;font-style:italic;color:var(--sub)">Según el tipo de iniciativa (ver sección siguiente)</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Reportería y BI</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Tableros e informes de gestión</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Duplicados exactos</span><span class="help-pill alta">Registros parecidos</span><span class="help-pill alta">Consistencia</span><span class="help-pill alta">Validez</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Migración</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Carga de datos en otro sistema</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Integridad ref.</span><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Validez</span><span class="help-pill alta">Duplicados exactos</span><span class="help-pill alta">Consistencia</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Integración</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Flujo automático entre aplicaciones</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Consistencia</span><span class="help-pill critica">Validez</span><span class="help-pill critica">Precisión</span><span class="help-pill alta">Integridad ref.</span><span class="help-pill alta">Datos faltantes</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Auditoría</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Revisión por auditoría interna o regulador</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Exactitud</span><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Datos sin actualizar</span><span class="help-pill alta">Integridad ref.</span><span class="help-pill alta">Validez</span><span class="help-pill alta">Duplicados exactos</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Depuración dup.</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Encontrar y consolidar registros repetidos</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Registros parecidos</span><span class="help-pill critica">Duplicados exactos</span><span class="help-pill alta">Datos faltantes</span><span class="help-pill alta">Consistencia</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Campañas</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Contactar clientes — correos, llamadas, campañas</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Validez</span><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Registros parecidos</span><span class="help-pill alta">Duplicados exactos</span><span class="help-pill alta">Datos sin actualizar</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item acc-xl" data-acc="np-tipos-ia">
+          <div class="acc-trigger" onclick="toggleAcc('np-tipos-ia')">
+            <div class="acc-icon" style="background:#fdf4ff;color:#7e22ce">🤖</div>
+            <span class="acc-title">Tipos de iniciativa de IA</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">Cuando el propósito es <em>Iniciativa de IA</em>, elige el tipo específico. Cada tipo impone distintos requisitos de calidad sobre los datos de entrenamiento o consulta.</p>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Tipo de iniciativa</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Para qué se usa</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Dimensiones críticas</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">ML supervisado</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Clasificación, regresión o scoring con datos históricos etiquetados</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Registros parecidos</span><span class="help-pill critica">Exactitud</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Detección de anomalías</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Fraude, comportamiento inusual o valores fuera de patrón</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Oportunidad</span><span class="help-pill critica">Precisión</span><span class="help-pill critica">Exactitud</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Series de tiempo</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Pronóstico de demanda o predicciones con componente temporal</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Oportunidad</span><span class="help-pill critica">Datos sin actualizar</span><span class="help-pill critica">Datos faltantes</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Segmentación</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Clustering o perfilamiento de clientes sin etiquetas previas</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Datos faltantes</span><span class="help-pill critica">Consistencia</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Agente generativo</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">RAG, asistentes conversacionales o automatización con LLMs</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Datos sin actualizar</span><span class="help-pill critica">Consistencia</span><span class="help-pill critica">Registros parecidos</span></td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Sistema de recomendación</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Cross-sell, personalización o sugerencia de productos o contenidos</td>
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Registros parecidos</span><span class="help-pill critica">Duplicados exactos</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+      </div><!-- /accordion -->
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;color:#1e40af;line-height:1.5;margin-top:.9rem">
+        ℹ️ <strong>Ambos campos son opcionales.</strong> Si no declaras nada, el análisis usa <em>Diagnóstico general</em> con todas las dimensiones en igual peso.
+      </div>
+    </div>
+
+    <!-- SECCIÓN 1.7 — Ponderación de dimensiones -->
+    <div class="help-section">
+      <div class="help-section-title">Ponderación de dimensiones</div>
+      <p style="font-size:.84rem;color:var(--sub);margin-bottom:1rem;line-height:1.55">No todas las dimensiones importan lo mismo para tu caso de uso. La ponderación permite que el score general refleje esas prioridades reales — subiendo el peso de las dimensiones que bloquean el negocio y bajando el de las que solo son informativas.</p>
+      <div class="accordion">
+
+        <div class="acc-item" data-acc="pond-niveles">
+          <div class="acc-trigger" onclick="toggleAcc('pond-niveles')">
+            <div class="acc-icon" style="background:#fffbeb;color:#92400e">⚖️</div>
+            <span class="acc-title">Los cuatro niveles</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Nivel</th>
+                  <th style="padding:.45rem .75rem;text-align:center;font-weight:600">Peso</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Qué significa</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Cuándo asignarlo</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem"><span class="help-pill critica">Crítica</span></td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">4×</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Un fallo en esta dimensión bloquea el uso de los datos para este propósito</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Validez en datos de pago, completitud en campos requeridos por ley</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem"><span class="help-pill alta">Alta</span></td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">2×</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Un fallo degrada significativamente el resultado, pero no lo impide</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Similitud en campañas de marketing, unicidad en maestros de clientes</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem"><span style="display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--text)">Media</span></td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">1×</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Conviene corregir pero no es bloqueante para el proceso actual</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">La mayoría de las dimensiones en un diagnóstico general</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem"><span style="display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--muted)">Informativa</span></td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">0.5×</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Solo para monitoreo; no condiciona ningún proceso ni decisión</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Métricas de contexto que se reportan pero no bloquean</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="pond-modos">
+          <div class="acc-trigger" onclick="toggleAcc('pond-modos')">
+            <div class="acc-icon" style="background:#f0fdf4;color:#15803d">⚙️</div>
+            <span class="acc-title">Los tres modos de ponderación</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Modo</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Cómo funciona</th>
+                  <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Cuándo usarlo</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Pesos iguales</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Todas las dimensiones analizadas contribuyen con el mismo peso (1×) al score general</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Diagnóstico general, primer análisis de un dataset nuevo</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Según propósito</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">El sistema aplica automáticamente los pesos del propósito declarado (crítica 4×, alta 2×, media 1×)</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Cuando el propósito está bien definido; da el score más relevante para ese caso de uso</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Ponderación manual</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Asignas tú el nivel de cada dimensión en la columna "Peso" antes de lanzar el análisis</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">Cuando el catálogo no refleja exactamente tu caso, o para comparar escenarios distintos</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item acc-xl" data-acc="pond-formula">
+          <div class="acc-trigger" onclick="toggleAcc('pond-formula')">
+            <div class="acc-icon" style="background:#f5f3ff;color:#6d28d9">∑</div>
+            <span class="acc-title">Cómo se calcula el score ponderado</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El score general es la media ponderada de todos los scores individuales — una dimensión en una columna es un score:</p>
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-size:.83rem;font-family:monospace;margin-bottom:.9rem;line-height:2.2">
+              Score general = Σ(score<sub>i</sub> × peso<sub>i</sub>) / Σ(peso<sub>i</sub>)
+            </div>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.9rem">
+              <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Dimensión / Columna</th>
+                  <th style="padding:.4rem .75rem;text-align:center;font-weight:600">Score</th>
+                  <th style="padding:.4rem .75rem;text-align:center;font-weight:600">Nivel</th>
+                  <th style="padding:.4rem .75rem;text-align:center;font-weight:600">Peso</th>
+                  <th style="padding:.4rem .75rem;text-align:center;font-weight:600">Score × Peso</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem">Completitud / nombre</td>
+                    <td style="padding:.35rem .75rem;text-align:center">95</td>
+                    <td style="padding:.35rem .75rem;text-align:center"><span class="help-pill critica">Crítica</span></td>
+                    <td style="padding:.35rem .75rem;text-align:center">4</td>
+                    <td style="padding:.35rem .75rem;text-align:center">380</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem">Registros parecidos / nombre</td>
+                    <td style="padding:.35rem .75rem;text-align:center">72</td>
+                    <td style="padding:.35rem .75rem;text-align:center"><span class="help-pill alta">Alta</span></td>
+                    <td style="padding:.35rem .75rem;text-align:center">2</td>
+                    <td style="padding:.35rem .75rem;text-align:center">144</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem">Consistencia / nombre</td>
+                    <td style="padding:.35rem .75rem;text-align:center">88</td>
+                    <td style="padding:.35rem .75rem;text-align:center"><span style="display:inline-block;padding:.1rem .4rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--text)">Media</span></td>
+                    <td style="padding:.35rem .75rem;text-align:center">1</td>
+                    <td style="padding:.35rem .75rem;text-align:center">88</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border);background:var(--surface2)">
+                    <td style="padding:.35rem .75rem;font-weight:600">Total</td>
+                    <td colspan="2" style="padding:.35rem .75rem"></td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">7</td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">612</td>
+                  </tr>
+                  <tr style="border-top:2px solid var(--border);background:#f0fdf4">
+                    <td colspan="4" style="padding:.35rem .75rem;font-weight:600;color:#15803d">Score general ponderado</td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700;color:#15803d">612 / 7 = <strong>87.4</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;color:#1e40af;line-height:1.5">
+              ℹ️ Con pesos iguales la fórmula se simplifica a un promedio aritmético ordinario — es el mismo cálculo con todos los pesos = 1.
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="pond-pct">
+          <div class="acc-trigger" onclick="toggleAcc('pond-pct')">
+            <div class="acc-icon" style="background:#fdf4ff;color:#7e22ce">%</div>
+            <span class="acc-title">Por qué los porcentajes se calculan solos</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.7rem;line-height:1.5">En la pantalla de configuración cada dimensión muestra un porcentaje de contribución al score — pero no se puede editar directamente. El motivo es que los pesos son <em>relativos</em>, no absolutos: lo que importa es la proporción entre dimensiones, no el número en sí.</p>
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.7rem;line-height:1.5">Si cambias una dimensión a <em>Crítica</em>, su porcentaje sube automáticamente y el de las demás baja proporcionalmente — porque ahora pesa 4× en lugar de 1×. El sistema normaliza los pesos para que siempre sumen 100%.</p>
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.65rem .9rem;font-size:.81rem;color:var(--sub);line-height:1.55">
+              📐 <strong>Referencia metodológica:</strong> La estructura de niveles con pesos 4-2-1-0.5 sigue el modelo de importancia relativa de Pipino, Lee y Wang (2002) — el framework de medición de calidad de datos más citado en la literatura académica — adaptado a los casos de uso del catálogo.
+            </div>
+          </div></div>
+        </div>
+
+      </div><!-- /accordion -->
+    </div>
+
     <!-- SECCIÓN 1.5 — Preparación del archivo de datos -->
     <div class="help-section">
       <div class="help-section-title">Preparación del archivo de datos</div>
@@ -2798,89 +3139,280 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
           </div></div>
         </div>
 
-        <div class="acc-item" data-acc="similitud">
+        <div class="acc-item acc-xl" data-acc="similitud">
           <div class="acc-trigger" onclick="toggleAcc('similitud')">
             <div class="acc-icon" style="background:#fdf4ff;color:#9333ea">≈</div>
             <span class="acc-title">Registros parecidos <span class="dim-tech">similitud</span></span>
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
-            <p class="acc-def">Detecta registros que representan la misma entidad pero escritos diferente. Va más allá de la unicidad exacta — compara el parecido fonético y textual entre valores.</p>
-            <div class="acc-meta">
-              <div class="acc-row"><span class="acc-label">Cuándo</span><span class="acc-val">Nombres de personas, razones sociales, direcciones, descripciones de productos. Ideal para detectar duplicados disfrazados antes de integraciones de datos.</span></div>
-              <div class="acc-row"><span class="acc-label">¿Cómo encuentra los similares?</span><span class="acc-val">
-                <p style="margin:0 0 .5rem;line-height:1.5">El sistema no compara todos los registros contra todos los demás — eso sería inviable. Con 1,000 registros serían 500,000 comparaciones; con 10,000 registros, 50 millones. En cambio usa <strong>blocking inteligente</strong>: primero agrupa los registros que probablemente son similares usando 4 estrategias simultáneas, y solo compara dentro de cada grupo.</p>
-                <ul style="margin:.3rem 0 .6rem 1.1rem;display:flex;flex-direction:column;gap:.25rem">
-                  <li><strong>Primeras letras</strong> — agrupa registros que empiezan igual</li>
-                  <li><strong>Longitud similar</strong> — descarta pares con diferencia de longitud mayor al 30%</li>
-                  <li><strong>Tokens compartidos</strong> — agrupa registros que comparten al menos una palabra</li>
-                  <li><strong>Soundex fonético</strong> — agrupa registros con sonido similar ("Jiménez" y "Gimenez")</li>
-                </ul>
-                <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.5rem .75rem;color:#1e40af;line-height:1.5"><strong>Resultado:</strong> en lugar de 500,000 comparaciones, el sistema hace entre 5,000 y 20,000 — solo las que tienen sentido. Por eso el análisis termina en segundos.</div>
-              </span></div>
-              <div class="acc-row"><span class="acc-label">Algoritmos</span><span class="acc-val">
-                <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.3rem">
-                  <thead><tr style="background:var(--bg-card)">
-                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Algoritmo</th>
-                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Cómo funciona</th>
-                    <th style="padding:.3rem .5rem;border:1px solid var(--border);text-align:left">Mejor para</th>
-                  </tr></thead>
-                  <tbody>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Jaro-Winkler</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Mide transposiciones y premia prefijos comunes</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres de personas — "Juan Pérez" vs "Juan Peres"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Brecha Afín</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación global con penalización diferenciada por apertura y extensión de brecha</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Nombres con abreviaturas — "Juan A. García" vs "Juan Alberto García"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Monge-Elkan</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Compara cada token de A contra el mejor match en B</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Múltiples tokens abreviados — "J.C. Pérez G." vs "Juan Carlos Pérez Gómez"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Levenshtein</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Cuenta ediciones mínimas (inserción, borrado, sustitución)</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Códigos y documentos — "12345678" vs "12345679"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Q-grams</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Jaccard sobre trigramas de caracteres</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Razones sociales — "Telefónica del Perú" vs "Telefonica Peru"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Smith-Waterman</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Alineación local óptima de subsecuencias</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Tokens faltantes — "Juan Pérez Gómez" vs "Juan Pérez"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Soundex</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Codifica tokens por sonido fonético</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Similitud fonética — "Jiménez" vs "Gimenez"</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)"><strong>Coseno TF-IDF</strong></td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Vectoriza términos y mide ángulo entre vectores</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Descripciones largas — textos de productos</td></tr>
-                  </tbody>
-                </table>
-              </span></div>
-              <div class="acc-row"><span class="acc-label">Brecha Afín</span><span class="acc-val">Brecha Afín es ideal cuando los datos tienen abreviaturas de nombres o palabras. A diferencia de Levenshtein que penaliza cada carácter faltante por separado, Brecha Afín penaliza menos cuando falta una secuencia completa de caracteres — lo que la hace más tolerante con "Juan A. García" vs "Juan Alberto García" o "Cía." vs "Compañía". Usa umbral 75–85% para este algoritmo.</span></div>
-              <div class="acc-row"><span class="acc-label">Umbral</span><span class="acc-val">92%+ para datos muy limpios · 85% estándar · 75–80% para datos con muchos errores de captura</span></div>
-              <div class="acc-row"><span class="acc-label">Ejemplo</span><span class="acc-val">
-                <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.3rem">
-                  <thead><tr style="background:var(--bg-card)">
-                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:left">Valor A</th>
-                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:left">Valor B</th>
-                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">¿Dup. exacto?</th>
-                    <th style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">¿Similar?</th>
-                  </tr></thead>
-                  <tbody>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Juan Carlos Pérez Gómez</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Juan C. Perez</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 86%</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Av. Javier Prado Este 123</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Avenida Javier Prado 123</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 91%</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">Telefónica del Perú S.A.A.</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Telefonica Peru</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#16a34a">Sí — 83%</td></tr>
-                    <tr><td style="padding:.25rem .5rem;border:1px solid var(--border)">María García López</td><td style="padding:.25rem .5rem;border:1px solid var(--border)">Pedro Rodríguez</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center">No</td><td style="padding:.25rem .5rem;border:1px solid var(--border);text-align:center;color:#dc2626">No — 21%</td></tr>
-                  </tbody>
-                </table>
-              </span></div>
-              <div class="acc-row"><span class="acc-label" style="min-width:110px">Cómo se cuenta y califica</span><span class="acc-val"></span></div>
-              <p style="font-size:.8rem;color:var(--sub);margin:.5rem 0 .75rem">Registros parecidos es estructuralmente distinta a las otras diez dimensiones. Las demás evalúan un registro contra una regla — esta evalúa pares de registros entre sí. Por eso su conteo funciona diferente.</p>
-              <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:.75rem">
-                <tr style="background:var(--blue-lt)"><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Número</th><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Qué mide</th><th style="padding:.35rem .5rem;border:1px solid var(--border);text-align:left">Para qué sirve</th></tr>
-                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Grupos detectados</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Conjuntos de registros que representan la misma entidad</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Es tu cola de trabajo: cada grupo requiere una decisión de consolidación</td></tr>
-                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Registros involucrados</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Todos los registros que pertenecen a algún grupo</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Mide la exposición total del problema</td></tr>
-                <tr><td style="padding:.3rem .5rem;border:1px solid var(--border);font-weight:600">Registros excedentes</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Involucrados menos grupos</td><td style="padding:.3rem .5rem;border:1px solid var(--border)">Mide el impacto real: cuántos registros desaparecerían al consolidar</td></tr>
+
+            <!-- Bloque A — Esencial (siempre visible) -->
+            <p class="acc-def">Detecta registros que representan la misma entidad pero escritos diferente. Va más allá de los duplicados exactos — compara el parecido textual entre valores para encontrar variantes como "Telefónica del Perú S.A.A." vs "Telefonica Peru".</p>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:.75rem 0">
+              <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+                <thead><tr style="background:var(--surface2)">
+                  <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Número</th>
+                  <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Qué mide</th>
+                  <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Para qué sirve</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Grupos detectados</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">Conjuntos de registros que probablemente representan la misma entidad</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">Tu cola de trabajo: cada grupo requiere una decisión de consolidación</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Registros involucrados</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">Todos los registros que pertenecen a algún grupo detectado</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">Mide la exposición total del problema de duplicados semánticos</td>
+                  </tr>
+                  <tr style="border-top:1px solid var(--border)">
+                    <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Registros excedentes</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">Involucrados menos grupos (cuántos registros desaparecerían al consolidar)</td>
+                    <td style="padding:.35rem .75rem;color:var(--sub)">El impacto real: base del score de esta dimensión</td>
+                  </tr>
+                </tbody>
               </table>
-              <div style="background:#F8FAFC;border-radius:8px;padding:.6rem .75rem;margin-bottom:.75rem;font-size:.79rem">
-                <div style="font-family:monospace;color:var(--text);margin-bottom:.25rem">Excedentes = Involucrados − Grupos</div>
-                <div style="font-family:monospace;color:var(--text)">Score = (1 − Excedentes / Registros evaluados) × 100</div>
-              </div>
-              <p style="font-size:.8rem;color:var(--sub);margin-bottom:.75rem">Se usa excedentes porque si dos registros son el mismo proveedor, uno de los dos es correcto. Contar ambos como problema castigaría al dataset por un solo error de captura.</p>
-              <div class="acc-row"><span class="acc-label" style="min-width:110px">Qué se excluye</span><span class="acc-val"></span></div>
-              <ul style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem;padding-left:1.1rem">
-                <li style="margin-bottom:.35rem">Valores nulos, vacíos y placeholder (N/A, —, Sin dato…) — ya se reportan en <strong>Datos faltantes</strong> (completitud).</li>
-                <li>Duplicados exactos con valores byte-idénticos — pertenecen a <strong>Duplicados exactos</strong> (unicidad). Si el valor es idéntico solo después de normalizar tildes y mayúsculas, sí cuenta en similitud porque unicidad no lo detectaría.</li>
-              </ul>
-              <div class="acc-row"><span class="acc-label" style="min-width:110px">Cierre transitivo</span><span class="acc-val"></span></div>
-              <p style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem">Si A se parece a B y B se parece a C, los tres forman un grupo aunque A y C no superen el umbral entre sí. Esto refleja la realidad: son variantes de la misma entidad. Si un grupo supera 10 registros, el sistema advierte de posible encadenamiento — considera subir el umbral.</p>
-              <div class="acc-row"><span class="acc-label" style="min-width:110px">Registro principal</span><span class="acc-val"></span></div>
-              <p style="font-size:.8rem;color:var(--sub);margin:.4rem 0 .75rem">El sistema sugiere cuál registro conservar de cada grupo: el que tenga menos campos nulos, y en caso de empate el que tenga el valor más completo. La decisión final es del analista que conoce el negocio.</p>
-              <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:.6rem .75rem;font-size:.79rem;color:#92400E">
-                ⚠️ El score de esta dimensión depende del algoritmo y umbral usados. Dos análisis del mismo dataset con configuración distinta no son comparables. El dashboard siempre muestra el algoritmo y umbral junto al score.
-              </div>
             </div>
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.65rem .9rem;font-size:.81rem;font-family:monospace;margin-bottom:.65rem;line-height:2.1">
+              Excedentes = Involucrados − Grupos<br>
+              Score = (1 − Excedentes / Total evaluados) × 100
+            </div>
+            <p style="font-size:.8rem;color:var(--sub);margin-bottom:1rem;line-height:1.5">Se usa <em>excedentes</em> porque si dos registros son el mismo proveedor, uno es correcto y el otro es el excedente. Contar ambos como problema castigaría al dataset por un solo error de captura.</p>
+
+            <!-- Bloque B — Elección del algoritmo -->
+            <details class="sim-sub">
+              <summary>🔬 B — Elección del algoritmo y umbrales de referencia</summary>
+              <div>
+                <p style="font-size:.82rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">Los ocho algoritmos disponibles fueron calibrados sobre <strong>1 000 razones sociales</strong> con 15 grupos reales (38 pares verdaderos). La tabla muestra el umbral que maximizó F1 con Precisión ≥ 100% — el requisito para razones sociales, donde un falso positivo significaría fusionar dos empresas distintas.</p>
+                <div style="overflow-x:auto;margin-bottom:.8rem">
+                  <table style="width:100%;min-width:500px;border-collapse:collapse;font-size:.76rem">
+                    <thead><tr style="background:var(--surface2)">
+                      <th style="padding:.4rem .6rem;text-align:left;font-weight:600">Algoritmo</th>
+                      <th style="padding:.4rem .6rem;text-align:center;font-weight:600">Umbral</th>
+                      <th style="padding:.4rem .6rem;text-align:center;font-weight:600">Precisión</th>
+                      <th style="padding:.4rem .6rem;text-align:center;font-weight:600">Recall</th>
+                      <th style="padding:.4rem .6rem;text-align:center;font-weight:600">F1</th>
+                      <th style="padding:.4rem .6rem;text-align:center;font-weight:600">Tiempo/1k</th>
+                      <th style="padding:.4rem .6rem;text-align:left;font-weight:600">Notas</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr style="border-top:1px solid var(--border);background:#f0fdf4">
+                        <td style="padding:.3rem .6rem;font-weight:700">Q-grams ★</td>
+                        <td style="padding:.3rem .6rem;text-align:center">86%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#15803d;font-weight:600">100%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">86.8%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.930</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.9 s</td>
+                        <td style="padding:.3rem .6rem;color:#15803d;font-weight:600">Default recomendado RS</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem;font-weight:600">Brecha Afín</td>
+                        <td style="padding:.3rem .6rem;text-align:center">96%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#15803d;font-weight:600">100%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">94.7%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.973</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#92400e">28.6 s ⚠</td>
+                        <td style="padding:.3rem .6rem;color:#92400e">Abreviaturas explícitas</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem;font-weight:600">Smith-Waterman</td>
+                        <td style="padding:.3rem .6rem;text-align:center">94%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#15803d;font-weight:600">100%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">86.8%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.930</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#92400e">436 s ⚠</td>
+                        <td style="padding:.3rem .6rem;color:#92400e">Muy lento</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem">Monge-Elkan</td>
+                        <td style="padding:.3rem .6rem;text-align:center">96%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:var(--sub)">83.7%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">94.7%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.889</td>
+                        <td style="padding:.3rem .6rem;text-align:center">6.7 s</td>
+                        <td style="padding:.3rem .6rem;color:var(--sub)">P &lt; 100%</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem">Levenshtein</td>
+                        <td style="padding:.3rem .6rem;text-align:center">92%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:var(--sub)">91.2%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">81.6%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.861</td>
+                        <td style="padding:.3rem .6rem;text-align:center">5.2 s</td>
+                        <td style="padding:.3rem .6rem;color:var(--sub)">P &lt; 100%</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem">Jaro-Winkler</td>
+                        <td style="padding:.3rem .6rem;text-align:center">96%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:var(--sub)">75.0%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">86.8%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.805</td>
+                        <td style="padding:.3rem .6rem;text-align:center">2.7 s</td>
+                        <td style="padding:.3rem .6rem;color:var(--sub)">P &lt; 100%</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem">Soundex</td>
+                        <td style="padding:.3rem .6rem;text-align:center">86%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:var(--sub)">92.3%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">31.6%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.471</td>
+                        <td style="padding:.3rem .6rem;text-align:center">2.8 s</td>
+                        <td style="padding:.3rem .6rem;color:var(--sub)">No recomendado RS</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.3rem .6rem">Coseno TF-IDF</td>
+                        <td style="padding:.3rem .6rem;text-align:center">78%</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#15803d;font-weight:600">100%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">23.7%</td>
+                        <td style="padding:.3rem .6rem;text-align:center">0.383</td>
+                        <td style="padding:.3rem .6rem;text-align:center;color:#92400e">337 s ⚠</td>
+                        <td style="padding:.3rem .6rem;color:#92400e">Lento, no RS</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.6rem .85rem;font-size:.8rem;color:#92400e;line-height:1.5;margin-bottom:.65rem">
+                  ⚠️ <strong>Precisión vs. recall:</strong> En razones sociales un falso positivo (fusionar dos empresas distintas) es más costoso que un falso negativo (dejar pasar un duplicado). Por eso el default requiere P = 100%. Si toleras algunos falsos positivos a cambio de detectar más duplicados, usa Brecha Afín (umbral 96%) o Monge-Elkan.
+                </div>
+                <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.79rem;color:var(--sub);line-height:1.5">
+                  📌 <strong>Alcance de la calibración:</strong> Variaciones de sufijos societarios (S.A.C. vs SAC), tildes, mayúsculas y abreviaturas explícitas ("Repres."). Errores tipográficos, reordenamientos de palabras o palabras faltantes no están representados — para esos casos considera Smith-Waterman o Jaro-Winkler.
+                </div>
+              </div>
+            </details>
+
+            <!-- Bloque C — Blocking y preprocesamiento -->
+            <details class="sim-sub">
+              <summary>⚙️ C — Blocking y preprocesamiento de tokens</summary>
+              <div>
+                <p style="font-size:.82rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El sistema no compara todos los registros contra todos los demás — eso sería inviable. Con 1 000 registros serían 500 000 comparaciones; con 10 000, 50 millones. En cambio usa <strong>blocking inteligente</strong>: forma grupos de candidatos similares y solo compara dentro de cada grupo.</p>
+                <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.75rem">
+                  <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+                    <thead><tr style="background:var(--surface2)">
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Estrategia</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Cómo funciona</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Ejemplo</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Prefijo (3 letras)</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Agrupa registros que empiezan con el mismo trigrama de caracteres</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">"TEL" agrupa Telefónica y Telefonica</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Soundex fonético</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Agrupa registros con sonido similar (primer token del valor normalizado)</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">"Jiménez" y "Gimenez" → mismo código</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Longitud similar</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Agrupa registros con longitud parecida (para algoritmos sensibles a la longitud)</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Diferencia máx. 30% de caracteres</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;white-space:nowrap">Token compartido</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Agrupa registros que comparten al menos una palabra significativa</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">"Lima" conecta "Dist. Lima S.A." y "Distribuidora Lima"</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p style="font-size:.82rem;color:var(--sub);margin-bottom:.65rem;line-height:1.5"><strong>Preprocesamiento de tokens:</strong> Antes de comparar, el sistema elimina los sufijos societarios (S.A.C., E.I.R.L., S.A., EIRL, SAC, SRL…) y las palabras vacías (de, del, la, los, y…) de los valores. Esto evita que dos empresas distintas queden en el mismo grupo solo por compartir un sufijo.</p>
+                <p style="font-size:.82rem;color:var(--sub);line-height:1.5"><strong>Cierre transitivo:</strong> Si A se parece a B y B se parece a C, los tres forman un grupo aunque A y C no superen el umbral entre sí. Si un grupo supera 10 registros, considera subir el umbral — puede indicar encadenamiento excesivo.</p>
+              </div>
+            </details>
+
+            <!-- Bloque D — Qué se excluye -->
+            <details class="sim-sub">
+              <summary>🚫 D — Qué se excluye y por qué</summary>
+              <div>
+                <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.7rem">
+                  <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+                    <thead><tr style="background:var(--surface2)">
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Excluido</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Motivo</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Dimensión que lo cubre</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600">Nulos, vacíos, placeholders</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">No hay texto que comparar</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Completitud (datos faltantes)</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600">Duplicados byte-idénticos</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Coincidencia exacta sin normalizar</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Unicidad (duplicados exactos)</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600">Grupos dispersos (densidad &lt; 60%)</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">El grupo tiene pares fuertes y débiles — la comparación cruzada no es confiable</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Marcados como no_confiable; excluidos del score</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p style="font-size:.8rem;color:var(--sub);line-height:1.5">Los duplicados que son idénticos <em>después de normalizar</em> (tildes y mayúsculas) sí cuentan en similitud — unicidad no los detectaría porque compara los valores originales sin normalizar.</p>
+              </div>
+            </details>
+
+            <!-- Bloque E — Confiabilidad del grupo -->
+            <details class="sim-sub">
+              <summary>🔒 E — Confiabilidad del grupo (densidad de pares)</summary>
+              <div>
+                <p style="font-size:.82rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El sistema mide la <strong>densidad</strong> de cada grupo: qué fracción de los pares posibles dentro del grupo supera el umbral de similitud. Un grupo de 3 registros tiene 3 pares posibles; si solo 1 los supera, la densidad es 1/3 = 33% — poco confiable.</p>
+                <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.7rem">
+                  <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+                    <thead><tr style="background:var(--surface2)">
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Estado</th>
+                      <th style="padding:.4rem .75rem;text-align:center;font-weight:600">Densidad</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">Qué significa</th>
+                      <th style="padding:.4rem .75rem;text-align:left;font-weight:600">En el score</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;color:#15803d">Confiable</td>
+                        <td style="padding:.35rem .75rem;text-align:center">≥ 60% o tamaño 2</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">La mayoría de los pares del grupo superan el umbral — evidencia sólida</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Incluido completamente</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;color:#92400e">Parcial</td>
+                        <td style="padding:.35rem .75rem;text-align:center">30–59%</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">El grupo se formó por cadena transitiva; algunos miembros son dudosos</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Incluido con advertencia visible</td>
+                      </tr>
+                      <tr style="border-top:1px solid var(--border)">
+                        <td style="padding:.35rem .75rem;font-weight:600;color:#991b1b">No confiable</td>
+                        <td style="padding:.35rem .75rem;text-align:center">&lt; 30%</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">El grupo es muy disperso — probable falso positivo por encadenamiento</td>
+                        <td style="padding:.35rem .75rem;color:var(--sub)">Excluido del score; visible en el reporte para revisión</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:.6rem .85rem;font-size:.8rem;color:#991b1b;line-height:1.5">
+                  🔴 Si el reporte muestra muchos grupos <em>parciales</em> o <em>no confiables</em>, prueba subir el umbral 2–3 puntos. Si persiste, el dataset puede tener valores demasiado cortos o genéricos para que el blocking forme grupos coherentes.
+                </div>
+              </div>
+            </details>
+
+            <!-- Bloque F — Registro principal -->
+            <details class="sim-sub">
+              <summary>🏷️ F — Registro principal sugerido</summary>
+              <div>
+                <p style="font-size:.82rem;color:var(--sub);margin-bottom:.65rem;line-height:1.5">Por cada grupo el sistema sugiere qué registro conservar como el <strong>registro maestro</strong>. El criterio es:</p>
+                <ol style="font-size:.82rem;color:var(--sub);padding-left:1.2rem;margin-bottom:.7rem;display:flex;flex-direction:column;gap:.3rem">
+                  <li><strong>Menos campos nulos:</strong> el registro más completo en todas sus columnas.</li>
+                  <li><strong>En caso de empate:</strong> el que tenga el valor más largo en la columna analizada (suele ser la versión más explícita, no la abreviada).</li>
+                </ol>
+                <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.6rem .85rem;font-size:.8rem;color:#92400e;line-height:1.5">
+                  ⚠️ La sugerencia es un punto de partida, no una decisión automatizada. El analista que conoce el negocio debe confirmar cuál es el registro canónico antes de eliminar los demás.
+                </div>
+              </div>
+            </details>
+
           </div></div>
         </div>
 
@@ -2899,7 +3431,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
           <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
         </div>
         <div class="acc-body"><div class="acc-content">
-          <p class="acc-def">El score general es el promedio simple de todos los scores individuales (una dimensión en una columna = un score). Resume en un único número del 0 al 100 qué tan buena es la calidad global del dataset.</p>
+          <p class="acc-def">El score general resume en un número del 0 al 100 la calidad global del dataset. Por defecto es el promedio simple de todos los scores individuales (una dimensión en una columna = un score). Si activaste ponderación por propósito o manual, es la media ponderada: las dimensiones de nivel Crítica (4×) y Alta (2×) pesan más que las de Media (1×). El modo de ponderación activo aparece bajo el gauge.</p>
           <div class="score-scale" style="margin-bottom:.9rem">
             <div class="scale-row green"><span class="scale-range">80–100</span><div class="scale-desc"><strong>🟢 Buena calidad</strong> — Los datos cumplen los criterios evaluados. Monitoreo rutinario suficiente.</div></div>
             <div class="scale-row yellow"><span class="scale-range">60–79</span><div class="scale-desc"><strong>🟡 Requiere atención</strong> — Hay problemas que pueden afectar análisis. Revisar y limpiar antes de usar en producción.</div></div>
@@ -2907,6 +3439,83 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
           </div>
           <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:#1e40af;line-height:1.6">
             ℹ️ <strong>Referencia estándar:</strong> Según DAMA-DMBOK e ISO 8000, un score ≥ 80 se considera apto para uso en producción. Un score entre 60 y 79 requiere documentación de los problemas conocidos. Por debajo de 60, los datos no deberían usarse en decisiones críticas sin limpieza previa.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.1b Registros aprovechables -->
+      <div class="acc-item" data-acc="ir-aprovechables">
+        <div class="acc-trigger" onclick="toggleAcc('ir-aprovechables')">
+          <div class="acc-icon" style="background:#f0fdf4;color:#166534">✅</div>
+          <span class="acc-title">Registros aprovechables</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">Son los registros que no tienen ningún problema en las dimensiones que analizaste. "Aprovechable" significa apto para el propósito declarado — no necesariamente impecable en absoluto.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:.85rem 0">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)">
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Concepto</th>
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Qué incluye</th>
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Cuándo usarlo</th>
+              </tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)">
+                  <td style="padding:.4rem .75rem;font-weight:600">Aprovechables</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Sin problemas en todas las dimensiones y columnas analizadas en este análisis</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Medir qué fracción del dataset es apta para el proceso actual</td>
+                </tr>
+                <tr style="border-top:1px solid var(--border)">
+                  <td style="padding:.4rem .75rem;font-weight:600">Sin ningún problema</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Sin problemas en absolutamente ninguna dimensión posible, incluyendo las no analizadas</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">No calculable — depende de qué columnas y dimensiones hayas incluido</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;color:#92400e;line-height:1.5">
+            ⚠️ <strong>Nota sobre similitud:</strong> Los registros excedentes (probables duplicados) se marcan como "con problema" aunque sus propios campos estén completos. Después de consolidar los grupos de duplicados, esos registros se vuelven aprovechables.
+          </div>
+        </div></div>
+      </div>
+
+      <!-- 3.1c El veredicto -->
+      <div class="acc-item acc-xl" data-acc="ir-veredicto">
+        <div class="acc-trigger" onclick="toggleAcc('ir-veredicto')">
+          <div class="acc-icon" style="background:#fffbeb;color:#92400e">⚖️</div>
+          <span class="acc-title">El veredicto</span>
+          <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="acc-body"><div class="acc-content">
+          <p class="acc-def">Al final del análisis el sistema emite un veredicto sobre si el dataset está listo para el propósito declarado. Combina el score general y el comportamiento de las dimensiones de nivel Crítica.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:.85rem 0">
+            <table style="width:100%;border-collapse:collapse;font-size:.79rem">
+              <thead><tr style="background:var(--surface2)">
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Veredicto</th>
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Condiciones</th>
+                <th style="padding:.45rem .75rem;text-align:left;font-weight:600">Acción sugerida</th>
+              </tr></thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)">
+                  <td style="padding:.4rem .75rem;font-weight:600;color:#166534;white-space:nowrap">🟢 Listo</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Score general ≥ 80 <em>y</em> ninguna dimensión crítica por debajo de 70</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Usar en producción con monitoreo rutinario</td>
+                </tr>
+                <tr style="border-top:1px solid var(--border)">
+                  <td style="padding:.4rem .75rem;font-weight:600;color:#92400e;white-space:nowrap">🟡 Utilizable con reservas</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Score 60–79, o alguna dimensión crítica entre 50 y 69</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Documentar los problemas conocidos; limpiar antes de reportes críticos o de negocio</td>
+                </tr>
+                <tr style="border-top:1px solid var(--border)">
+                  <td style="padding:.4rem .75rem;font-weight:600;color:#991b1b;white-space:nowrap">🔴 No está listo</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Score &lt; 60, o alguna dimensión crítica por debajo de 50</td>
+                  <td style="padding:.4rem .75rem;color:var(--sub)">Acción inmediata requerida; no usar en decisiones críticas sin limpieza previa</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;color:#1e40af;line-height:1.5">
+            ℹ️ El veredicto usa el score general ponderado cuando hay ponderación configurada. Sin ponderación, usa el promedio simple. En ambos casos, las dimensiones críticas con score &lt; 50 son determinantes independientemente del score general.
           </div>
         </div></div>
       </div>
@@ -3005,7 +3614,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
           <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
         </div>
         <div class="acc-body"><div class="acc-content">
-          <p class="acc-def">La dimensión con el score promedio más bajo entre todas las columnas analizadas. Es el punto de partida recomendado para la remediación — el lugar donde una acción tendrá el mayor impacto en el score general.</p>
+          <p class="acc-def">La dimensión con el score promedio más bajo entre las analizadas. Cuando hay ponderación configurada, se calcula priorizando las dimensiones de nivel Crítica y Alta — una dimensión Informativa en rojo no debería superar en prioridad a una Crítica en ámbar. Es el punto de partida recomendado para la remediación: el lugar donde una acción tiene el mayor impacto en el propósito declarado.</p>
           <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.85rem">
             <table style="width:100%;border-collapse:collapse;font-size:.79rem">
               <thead><tr style="background:var(--surface2)"><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Dimensión</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Causa típica</th><th style="padding:.45rem .7rem;text-align:left;font-weight:600">Acción recomendada</th></tr></thead>
