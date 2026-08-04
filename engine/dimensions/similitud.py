@@ -12,14 +12,6 @@ PLACEHOLDERS = {
     'sin nombre', 's/n', 's/d', 'null', 'none', 'ninguno', '.', '0',
 }
 
-_EMPTY_COLS = [
-    'id_col_placeholder', 'columna', 'dimension', 'descripcion', 'valor_encontrado',
-    'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
-    'sim_total_grupos', 'sim_total_involucrados', 'sim_total_excedentes',
-    'sim_dup_exactos_excluidos', 'sim_placeholders_excluidos',
-    'sim_algoritmo', 'sim_umbral',
-]
-
 
 def _es_placeholder(valor) -> bool:
     if valor is None or (isinstance(valor, float) and np.isnan(valor)):
@@ -209,16 +201,20 @@ def check_similitud(
     """
     Detects near-duplicate records in target_col.
 
-    New counting model (groups / involved / excesses):
-      - total_grupos       = distinct groups of similar records
-      - total_involucrados = all records belonging to any group
-      - total_excedentes   = involucrados - grupos  (records to remove)
-      - score = (1 - excedentes / evaluados) * 100
+    Returns (score, issues_df, metadata) where:
+      - issues_df has one row per involved record (principal + excedentes)
+      - metadata contains: total_grupos, total_involucrados, total_excedentes,
+        duplicados_exactos_excluidos, placeholders_excluidos, total_evaluados,
+        algoritmo, umbral, normalizar, grupos_grandes
+
+    Counting model:
+      score = (1 - total_excedentes / total_evaluados) * 100
+      total_excedentes = total_involucrados - total_grupos
 
     Exclusions:
-      - Placeholder / null values  (→ completitud)
-      - Byte-identical raw pairs   (→ unicidad)
-      - Different raw but same normalized → COUNTED (formatting variation)
+      - Placeholder / null values      (→ completitud, not counted here)
+      - Byte-identical raw value pairs (→ unicidad, counted in dup_exactos_excluidos)
+      - Different raw but same normalized (100%) → COUNTED (formatting variation)
     """
     umbral         = float(params.get('umbral', 92))
     algoritmo      = str(params.get('algoritmo', 'jaro_winkler'))
@@ -249,10 +245,26 @@ def check_similitud(
     else:
         uniq_norm = [str(v).lower().strip() for v in uniq_raw]
 
+    total_evaluados = len(df) - placeholders_excluidos
+
+    def _base_meta(total_grupos=0, total_involucrados=0, total_excedentes=0, grupos_grandes=0):
+        return {
+            'total_grupos':                 total_grupos,
+            'total_involucrados':           total_involucrados,
+            'total_excedentes':             total_excedentes,
+            'duplicados_exactos_excluidos': dup_exactos_excluidos,
+            'placeholders_excluidos':       placeholders_excluidos,
+            'total_evaluados':              total_evaluados,
+            'algoritmo':                    algoritmo,
+            'umbral':                       umbral,
+            'normalizar':                   bool(normalizar_txt),
+            'grupos_grandes':               grupos_grandes,
+        }
+
     # ── Step 2: blocking on unique-value indices ──────────────────────────
     valid_idx = [i for i, nv in enumerate(uniq_norm) if nv]
     if len(valid_idx) < 2:
-        return 100.0, _empty_df(id_col), {}
+        return 100.0, _empty_df(id_col), _base_meta()
 
     bloques = _construir_bloques(valid_idx, uniq_norm)
 
@@ -284,21 +296,21 @@ def check_similitud(
         )
 
     # ── Step 3: compare unique-value pairs ───────────────────────────────
-    # By design every pair here has different raw values (deduplication guarantees
-    # uniq_raw[i] != uniq_raw[j] for i != j), so exact-raw exclusion is implicit.
+    # All pairs here have different raw values (deduplication guarantees
+    # uniq_raw[i] != uniq_raw[j] for i != j), so byte-identical exclusion is implicit.
     similar_pares: list[tuple] = []   # (ui, uj, score)
 
     for ui, uj in pares_cand:
         nv_i, nv_j = uniq_norm[ui], uniq_norm[uj]
         if nv_i == nv_j:
-            sim_score = 100.0          # different raw, same normalized
+            sim_score = 100.0          # different raw, same normalized → formatting variation
         else:
             sim_score = _calcular_similitud(nv_i, nv_j, algoritmo)
         if sim_score >= umbral:
             similar_pares.append((ui, uj, sim_score))
 
     if not similar_pares:
-        return 100.0, _empty_df(id_col), {}
+        return 100.0, _empty_df(id_col), _base_meta()
 
     # ── Step 4: expand unique-value pairs to record pairs ────────────────
     record_pairs: list[tuple] = []
@@ -316,7 +328,7 @@ def check_similitud(
 
     total_grupos       = len(groups)
     total_involucrados = sum(len(m) for m in groups.values())
-    total_evaluados    = len(df) - placeholders_excluidos
+    total_excedentes   = total_involucrados - total_grupos  # per group: len(members) - 1
 
     # ── Step 6: suggest principal per group ──────────────────────────────
     def _principal(members: list) -> int:
@@ -327,53 +339,42 @@ def check_similitud(
         def rec_id(idx):      return str(ids[idx])
         return sorted(members, key=lambda i: (null_count(i), -val_len(i), rec_id(i)))[0]
 
-    # ── Step 7: build issues_df (only excedente records) ─────────────────
-    # Only records whose raw value ≠ principal raw value are actual problems.
-    # Records already matching the principal are correct data — including them
-    # as issues would mislead the analyst.
-    # sim_total_involucrados still shows the full group size for context.
-    total_excedentes = 0
+    # ── Step 7: build issues_df — ALL involucrados ────────────────────────
+    grupos_grandes = 0
     rows = []
     sorted_groups = sorted(groups.items(), key=lambda kv: min(kv[1]))
     for group_num, (_, members) in enumerate(sorted_groups, start=1):
-        grupo_id      = f"G{group_num:03d}"
-        grupo_grande  = len(members) > 10
-        principal     = _principal(members)
-        principal_raw = str(valores[principal])
-        group_excedentes = sum(
-            1 for ri in members if str(valores[ri]) != principal_raw
-        )
-        total_excedentes += group_excedentes
+        grupo_id     = f"G{group_num:03d}"
+        grupo_grande = len(members) > 10
+        if grupo_grande:
+            grupos_grandes += 1
+        principal_ri  = _principal(members)
+        principal_raw = str(valores[principal_ri])
+        group_exc     = len(members) - 1
+
         desc_base = (
-            f"Grupo {grupo_id} · corregir a '{principal_raw}' "
-            f"({group_excedentes} de {len(members)} registros a corregir)"
+            f"Grupo {grupo_id} · conservar '{principal_raw}' "
+            f"({group_exc} de {len(members)} registros a corregir)"
         )
         if grupo_grande:
-            desc_base += " — grupo grande, considera subir el umbral"
-        for ri in members:
-            if str(valores[ri]) == principal_raw:
-                continue  # correct value — not an issue
-            rows.append({
-                id_col:                    ids[ri],
-                'columna':                 target_col,
-                'dimension':               'similitud',
-                'descripcion':             desc_base,
-                'valor_encontrado':        str(valores[ri]),
-                'valor_correcto':          principal_raw,
-                'grupo_id':               grupo_id,
-                'similitud_pct':           round(record_max_sim.get(ri, 0.0), 1),
-                'grupo_grande':            bool(grupo_grande),
-                'sim_total_grupos':        total_grupos,
-                'sim_total_involucrados':  total_involucrados,
-                'sim_total_excedentes':    0,  # back-filled below
-                'sim_dup_exactos_excluidos':   dup_exactos_excluidos,
-                'sim_placeholders_excluidos':  placeholders_excluidos,
-                'sim_algoritmo':           algoritmo,
-                'sim_umbral':              umbral,
-            })
+            desc_base += (
+                f" — grupo grande ({len(members)} registros), considera subir el umbral"
+            )
 
-    for row in rows:
-        row['sim_total_excedentes'] = total_excedentes
+        for ri in members:
+            es_principal = (ri == principal_ri)
+            rows.append({
+                id_col:                  ids[ri],
+                'columna':               target_col,
+                'dimension':             'similitud',
+                'descripcion':           desc_base,
+                'valor_encontrado':      str(valores[ri]),
+                'valor_correcto':        None if es_principal else principal_raw,
+                'grupo_id':              grupo_id,
+                'similitud_pct':         round(record_max_sim.get(ri, 0.0), 1),
+                'es_principal_sugerido': es_principal,
+                'grupo_grande':          bool(grupo_grande),
+            })
 
     score = (
         round(max(0.0, min(100.0,
@@ -381,15 +382,14 @@ def check_similitud(
         if total_evaluados > 0 else 100.0
     )
 
-    return score, pd.DataFrame(rows), {}
+    metadata = _base_meta(total_grupos, total_involucrados, total_excedentes, grupos_grandes)
+
+    return score, pd.DataFrame(rows), metadata
 
 
 def _empty_df(id_col: str) -> pd.DataFrame:
     cols = [
         id_col, 'columna', 'dimension', 'descripcion', 'valor_encontrado',
-        'valor_correcto', 'grupo_id', 'similitud_pct', 'grupo_grande',
-        'sim_total_grupos', 'sim_total_involucrados', 'sim_total_excedentes',
-        'sim_dup_exactos_excluidos', 'sim_placeholders_excluidos',
-        'sim_algoritmo', 'sim_umbral',
+        'valor_correcto', 'grupo_id', 'similitud_pct', 'es_principal_sugerido', 'grupo_grande',
     ]
     return pd.DataFrame(columns=cols)

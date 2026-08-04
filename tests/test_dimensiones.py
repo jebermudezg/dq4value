@@ -790,14 +790,14 @@ def test_similitud_conteo_excedentes():
             'Importaciones Pacific S.A.',
         ]
     })
-    score, issues, _ = check_similitud(
+    score, issues, meta = check_similitud(
         df, 'id', 'razon', algoritmo='monge_elkan', umbral=80, normalizar=True
     )
     print(f"\nScore: {score}")
     print(f"Issues:\n{issues[['id', 'grupo_id', 'similitud_pct', 'valor_correcto']].to_string()}")
-    assert issues['sim_total_grupos'].iloc[0] == 1
-    assert issues['sim_total_involucrados'].iloc[0] == 3
-    assert issues['sim_total_excedentes'].iloc[0] == 2
+    assert meta['total_grupos'] == 1
+    assert meta['total_involucrados'] == 3
+    assert meta['total_excedentes'] == 2
     assert score == 60.0
 
 
@@ -813,13 +813,12 @@ def test_similitud_excluye_duplicados_exactos():
             'Importaciones Pacific S.A.',
         ]
     })
-    score, issues, _ = check_similitud(
+    score, issues, meta = check_similitud(
         df, 'id', 'razon', algoritmo='jaro_winkler', umbral=90
     )
     print(f"\nScore: {score}, issues rows: {len(issues)}")
     assert score == 100.0
-    if len(issues) > 0:
-        assert issues['sim_dup_exactos_excluidos'].iloc[0] == 2
+    assert meta.get('duplicados_exactos_excluidos', 0) == 2
 
 
 def test_similitud_excluye_placeholders():
@@ -838,7 +837,7 @@ def test_similitud_excluye_placeholders():
 
 
 def test_similitud_grupo_id_presente():
-    """Cada issue debe tener grupo_id y valor_correcto (solo excedentes en issues)."""
+    """issues contiene principal + excedentes; excedentes tienen valor_correcto."""
     import pandas as pd
     from engine.dimensions.similitud import check_similitud
     df = pd.DataFrame({
@@ -850,7 +849,60 @@ def test_similitud_grupo_id_presente():
     )
     print(f"\nScore: {score}")
     if len(issues) > 0:
-        print(issues[['id', 'grupo_id', 'similitud_pct', 'valor_correcto']].to_string())
+        print(issues[['id', 'grupo_id', 'similitud_pct', 'valor_correcto', 'es_principal_sugerido']].to_string())
         assert 'grupo_id' in issues.columns
         assert 'valor_correcto' in issues.columns
-        assert issues['valor_correcto'].notna().any()
+        assert 'es_principal_sugerido' in issues.columns
+        # excedentes (non-principal) have valor_correcto set
+        excedentes = issues[issues['es_principal_sugerido'] == False]
+        assert excedentes['valor_correcto'].notna().all()
+
+
+def test_similitud_cierre_transitivo():
+    """A≈B y B≈C con umbral bajo → cierre transitivo forma un único grupo de 3."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3],
+        'nombre': [
+            'Empresa del Norte S.A.',
+            'Empresa del Norte SA',
+            'Empresa del Norte S A',
+        ],
+    })
+    score, issues, meta = check_similitud(
+        df, 'id', 'nombre', algoritmo='jaro_winkler', umbral=85, normalizar=True
+    )
+    print(f"\nScore: {score}, grupos: {meta.get('total_grupos')}, involucrados: {meta.get('total_involucrados')}")
+    assert meta['total_grupos'] == 1
+    assert meta['total_involucrados'] == 3
+    assert meta['total_excedentes'] == 2
+    grupo_ids = issues['grupo_id'].unique()
+    assert len(grupo_ids) == 1, f"Esperado 1 grupo, encontrado {len(grupo_ids)}"
+
+
+def test_similitud_principal_sugerido():
+    """Exactamente un es_principal_sugerido=True por grupo."""
+    import pandas as pd
+    from engine.dimensions.similitud import check_similitud
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4, 5, 6],
+        'empresa': [
+            'Distribuidora del Sur S.A.C.',
+            'Distribuidora del Sur SAC',
+            'DISTRIBUIDORA DEL SUR S.A.C.',
+            'Comercial Andina E.I.R.L.',
+            'Comercial Andina EIRL',
+            'Importaciones Pacific S.A.',
+        ],
+    })
+    score, issues, meta = check_similitud(
+        df, 'id', 'empresa', algoritmo='monge_elkan', umbral=80, normalizar=True
+    )
+    print(f"\nScore: {score}, grupos: {meta.get('total_grupos')}")
+    if len(issues) > 0:
+        for grupo_id, grp in issues.groupby('grupo_id'):
+            n_principal = grp['es_principal_sugerido'].sum()
+            assert n_principal == 1, (
+                f"Grupo {grupo_id} tiene {n_principal} principales sugeridos (esperado 1)"
+            )

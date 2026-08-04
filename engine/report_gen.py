@@ -137,8 +137,13 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
     issues_df: pd.DataFrame = results.get("issues_df")
     if issues_df is not None and not issues_df.empty and 'dimension' in issues_df.columns:
         sim_rows = issues_df[issues_df['dimension'] == 'similitud']
-        if not sim_rows.empty and 'sim_total_grupos' in sim_rows.columns:
-            m = sim_rows.iloc[0]
+        # Read sim metadata from metadata_dimensiones (tuple-keyed dict)
+        sim_m = {}
+        for key, meta in (results.get('metadata_dimensiones') or {}).items():
+            if isinstance(key, tuple) and key[1] == 'similitud' and meta:
+                sim_m = meta
+                break
+        if not sim_rows.empty and sim_m:
             detail_start = row + 2
 
             ws.merge_cells(f"A{detail_start}:D{detail_start}")
@@ -154,13 +159,13 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
                 ws.cell(row=r, column=2, value=value)
 
             r2 = detail_start + 1
-            _sim_kv(r2,     "Grupos detectados:",         int(m.get('sim_total_grupos', 0)))
-            _sim_kv(r2 + 1, "Registros involucrados:",    int(m.get('sim_total_involucrados', 0)))
-            _sim_kv(r2 + 2, "Registros excedentes:",      int(m.get('sim_total_excedentes', 0)))
-            _sim_kv(r2 + 3, "Duplicados exactos excluidos:", int(m.get('sim_dup_exactos_excluidos', 0)))
-            _sim_kv(r2 + 4, "Valores vacíos excluidos:",  int(m.get('sim_placeholders_excluidos', 0)))
-            _sim_kv(r2 + 5, "Algoritmo:",                 str(m.get('sim_algoritmo', '')))
-            _sim_kv(r2 + 6, "Umbral:",                    f"{m.get('sim_umbral', '')}%")
+            _sim_kv(r2,     "Grupos detectados:",            int(sim_m.get('total_grupos', 0)))
+            _sim_kv(r2 + 1, "Registros involucrados:",       int(sim_m.get('total_involucrados', 0)))
+            _sim_kv(r2 + 2, "Registros excedentes:",         int(sim_m.get('total_excedentes', 0)))
+            _sim_kv(r2 + 3, "Duplicados exactos excluidos:", int(sim_m.get('duplicados_exactos_excluidos', 0)))
+            _sim_kv(r2 + 4, "Valores vacíos excluidos:",     int(sim_m.get('placeholders_excluidos', 0)))
+            _sim_kv(r2 + 5, "Algoritmo:",                    str(sim_m.get('algoritmo', '')))
+            _sim_kv(r2 + 6, "Umbral:",                       f"{sim_m.get('umbral', '')}%")
 
     _autofit(ws, [30, 25, 12, 15])
 
@@ -197,9 +202,10 @@ def _build_issues(wb: Workbook, results: dict) -> None:
 
     if has_sim:
         df_w = issues_df[BASE].copy()
-        df_w['Valor correcto'] = issues_df.get('valor_correcto', pd.Series(dtype=object))
         df_w['Grupo']          = issues_df.get('grupo_id', pd.Series(dtype=object))
         df_w['% Similitud']    = issues_df.get('similitud_pct', pd.Series(dtype=object))
+        conservar = issues_df.get('es_principal_sugerido', pd.Series(dtype=object))
+        df_w['Conservar']      = conservar.map(lambda v: 'Sí' if v is True or v == True else '')
         df_w['_sg'] = df_w['Grupo'].fillna('ZZZZ')
         sorted_df = (
             df_w.sort_values(['columna', 'dimension', '_sg'])
@@ -229,14 +235,15 @@ def _build_issues(wb: Workbook, results: dict) -> None:
             cell = ws.cell(row=r_idx + 3, column=c_idx, value=value)
             cell.border = THIN_BORDER
             cell.alignment = Alignment(wrap_text=True)
-            if col_name == 'Valor correcto' and value:
+            if col_name == 'Conservar' and value == 'Sí':
                 cell.fill = PatternFill("solid", fgColor="DCFCE7")
                 cell.font = Font(bold=True, color="166534")
+                cell.alignment = Alignment(horizontal="center")
             if col_name == 'Grupo' and value and str(value).startswith('G'):
                 cell.fill = PatternFill("solid", fgColor="EFF6FF")
                 cell.font = Font(bold=True, color="1D4ED8")
 
-    widths = [18, 20, 20, 50, 25] + ([15, 12, 13] if has_sim else [])
+    widths = [18, 20, 20, 50, 25] + ([12, 14, 10] if has_sim else [])
     _autofit(ws, widths)
 
 

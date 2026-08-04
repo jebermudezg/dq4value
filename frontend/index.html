@@ -5178,30 +5178,35 @@ async function fetchAndRenderIssues() {
     populateIssueFilters(allIssues);
     renderIssueRows(allIssues);
     renderDonutAndRemed(allIssues, state._dimAvg || {}, state._dimsSorted || []);
-    _updateSimDimBar(allIssues);
+    _updateSimDimBar();
   } catch(e) {
     toast('No se pudieron cargar los problemas detallados: ' + e.message, 'error');
   }
 }
 
-function _updateSimDimBar(issues) {
+function _getSimMeta() {
+  const md = (state.analysisResult || {}).metadata_dimensiones || {};
+  const key = Object.keys(md).find(k => k.endsWith('|similitud'));
+  return key ? md[key] : null;
+}
+
+function _updateSimDimBar() {
   const detail = document.getElementById('simBarDetail');
   if (!detail) return;
-  const simRows = issues.filter(r => r.dimension === 'similitud');
-  if (!simRows.length) return;
-  const m = simRows[0];
-  const grupos = m.sim_total_grupos || 0;
-  const involucrados = m.sim_total_involucrados || 0;
-  const excedentes = m.sim_total_excedentes || 0;
-  const algo = m.sim_algoritmo || '';
-  const umbral = m.sim_umbral || '';
+  const m = _getSimMeta();
+  if (!m) return;
+  const grupos = (m.total_grupos || 0).toLocaleString();
+  const involucrados = (m.total_involucrados || 0).toLocaleString();
+  const excedentes = (m.total_excedentes || 0).toLocaleString();
+  const algo = m.algoritmo || '';
+  const umbral = m.umbral || '';
   let html = `${grupos} grupos · ${involucrados} involucrados · ${excedentes} excedentes<br><span style="opacity:.75">${algo} · umbral ${umbral}%</span>`;
-  const dupEx = m.sim_dup_exactos_excluidos || 0;
-  const phEx = m.sim_placeholders_excluidos || 0;
+  const dupEx = m.duplicados_exactos_excluidos || 0;
+  const phEx = m.placeholders_excluidos || 0;
   if (dupEx > 0 || phEx > 0) {
     const parts = [];
-    if (dupEx > 0) parts.push(`${dupEx} dup. exactos excluidos`);
-    if (phEx > 0) parts.push(`${phEx} vacíos excluidos`);
+    if (dupEx > 0) parts.push(`${dupEx.toLocaleString()} dup. exactos excluidos`);
+    if (phEx > 0) parts.push(`${phEx.toLocaleString()} vacíos excluidos`);
     html += `<br><span style="opacity:.6">${parts.join(' · ')}</span>`;
   }
   detail.innerHTML = html;
@@ -5291,7 +5296,7 @@ function renderIssueRows(rows) {
         <td><strong>${escHtml(r.columna)}</strong></td>
         <td><span class="pill ${dimPill(r.dimension)}">${escHtml(nombreNegocio(r.dimension))}</span><br><span class="dim-tech" style="margin-left:0">${escHtml(r.dimension)}</span>${r.grupo_id ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .4rem;background:#EFF6FF;color:#1D4ED8;border-radius:4px;display:inline-block;margin-top:.2rem">${escHtml(r.grupo_id)}</span>` : ''}${r.grupo_grande ? ' <span title="Grupo grande — posible encadenamiento, considera subir el umbral" style="cursor:help">⚠️</span>' : ''}</td>
         <td style="max-width:320px">${escHtml(r.descripcion)}</td>
-        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}${r.valor_correcto ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#DCFCE7;color:#166534;border-radius:4px;display:inline-block;margin-top:.3rem">→ ${escHtml(r.valor_correcto)}</span>` : ''}</td>
+        <td>${_renderValorEncontrado(r.valor_encontrado, r.dimension)}${r.es_principal_sugerido ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#DCFCE7;color:#166534;border-radius:4px;display:inline-block;margin-top:.3rem">✓ conservar</span>` : r.valor_correcto ? `<br><span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;background:#EFF6FF;color:#1D4ED8;border-radius:4px;display:inline-block;margin-top:.3rem">→ ${escHtml(r.valor_correcto)}</span>` : ''}${r.similitud_pct && r.dimension === 'similitud' ? `<br><span style="font-size:.65rem;color:#94A3B8;margin-top:.15rem;display:inline-block">${r.similitud_pct}% similitud</span>` : ''}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -5463,9 +5468,8 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
       const col = sColor(sc), bg = sBg(sc), txt = sTxt(sc);
       const cnt = dimIssueCnt[dim] || 0;
       const isSimDim = dim === 'similitud';
-      const displayCnt = isSimDim && allIssues.some(r => r.dimension === 'similitud' && r.sim_total_grupos)
-        ? (allIssues.find(r => r.dimension === 'similitud').sim_total_grupos || cnt)
-        : cnt;
+      const simMeta = isSimDim ? _getSimMeta() : null;
+      const displayCnt = isSimDim && simMeta ? (simMeta.total_grupos || cnt) : cnt;
       const cntLabel = isSimDim ? 'grupos por consolidar' : 'problemas';
       const desc = _remDesc[dim] || 'Revisa los datos de esta dimensión y aplica correcciones según las reglas de negocio.';
       const icon = _remIcon[dim] || '⚠️';

@@ -500,6 +500,11 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             "peor_dimension_critica":       results["peor_dimension_critica"],
             "peor_dimension_critica_score": results["peor_dimension_critica_score"],
             "pesos_origen":                 pesos_origen,
+            "metadata_dimensiones":         {
+                f"{col}|{dim}": meta
+                for (col, dim), meta in results.get("metadata_dimensiones", {}).items()
+                if meta  # skip empty dicts from non-similitud dimensions
+            },
         }
     finally:
         # Always delete the temp file from disk and free RAM,

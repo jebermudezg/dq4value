@@ -465,21 +465,22 @@ def generate_dashboard_html(
             % descripcion
         )
 
-    # ── Similitud metadata (for dim bar detail) ──
+    # ── Similitud metadata — from scorer's metadata_dimensiones (tuple-keyed dict) ──
     sim_meta: dict = {}
-    if issues_df is not None and not issues_df.empty and 'dimension' in issues_df.columns:
-        sim_rows = issues_df[issues_df['dimension'] == 'similitud']
-        if not sim_rows.empty and 'sim_total_grupos' in sim_rows.columns:
-            r = sim_rows.iloc[0]
+    meta_dims = analysis_results.get('metadata_dimensiones', {})
+    for key, m in meta_dims.items():
+        # key is a tuple (col, dim) from scorer; dim == 'similitud' is what we want
+        if isinstance(key, tuple) and key[1] == 'similitud' and m:
             sim_meta = {
-                'grupos':       int(r.get('sim_total_grupos', 0)),
-                'involucrados': int(r.get('sim_total_involucrados', 0)),
-                'excedentes':   int(r.get('sim_total_excedentes', 0)),
-                'dup_exactos':  int(r.get('sim_dup_exactos_excluidos', 0)),
-                'placeholders': int(r.get('sim_placeholders_excluidos', 0)),
-                'algoritmo':    str(r.get('sim_algoritmo', '')),
-                'umbral':       r.get('sim_umbral', ''),
+                'grupos':       int(m.get('total_grupos', 0)),
+                'involucrados': int(m.get('total_involucrados', 0)),
+                'excedentes':   int(m.get('total_excedentes', 0)),
+                'dup_exactos':  int(m.get('duplicados_exactos_excluidos', 0)),
+                'placeholders': int(m.get('placeholders_excluidos', 0)),
+                'algoritmo':    str(m.get('algoritmo', '')),
+                'umbral':       m.get('umbral', ''),
             }
+            break
 
     # ── Build HTML sections ──
     gauge_html     = _gauge_svg(score)
