@@ -3184,7 +3184,7 @@ const REGEX_PRESETS = {
 // State
 // ─────────────────────────────────────────────────────────────────────
 const API = 'http://127.0.0.1:8000';
-let state = { fileId: null, columns: [], analysisResult: null, uploadedFilename: '', _naturaleza: 'sin_especificar', _proposito: 'diagnostico_general', _tipoIa: null, _dimAvg: {}, _dimsSorted: [] };
+let state = { fileId: null, columns: [], analysisResult: null, uploadedFilename: '', totalRegistros: 0, _naturaleza: 'sin_especificar', _proposito: 'diagnostico_general', _tipoIa: null, _dimAvg: {}, _dimsSorted: [] };
 let _propositoTocadoPorUsuario = false;
 
 const CAT_NATURALEZA = {
@@ -3414,12 +3414,12 @@ function _updatePonderacion() { _renderPonderacion(); }
 // Event delegation — survives innerHTML rebuilds
 // Defaults calibrated 2026-08-04 on maestro_proveedores_1000.csv (1 000 razones sociales,
 // 15 grupos verdaderos / 38 pares RUC).  Best-F1 umbral among 'confiable' thresholds.
-//   jaro_winkler  96% F1=0.805   levenshtein   92% F1=0.861
-//   monge_elkan   96% F1=0.867   qgrams        86% F1=0.930
-//   smith_waterman 94% F1=0.930 (pero 436s/1000 rows — lento)
-//   brecha_afin   94% F1=0.618 (recall 44.7% — abreviaturas pierden en el blocking)
-//   soundex       86% F1=0.471 (recall 31.6% — no recomendado para razones sociales)
-//   coseno        78% F1=0.383 (recall 23.7%, 337s/1000 rows — no recomendado para RS)
+//   jaro_winkler   96% F1=0.805   levenshtein    92% F1=0.861
+//   monge_elkan    96% F1=0.867   qgrams         86% F1=0.930 ★
+//   smith_waterman 94% F1=0.930 (436s/1000 rows — lento)
+//   brecha_afin    94% F1=1.000 post-fix (200s/1000 rows — abreviaturas, ★ perfecto)
+//   soundex        86% F1=0.471 (recall 31.6% — no recomendado para razones sociales)
+//   coseno         78% F1=0.383 (recall 23.7%, 337s/1000 rows — no recomendado para RS)
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
   jaro_winkler:   96,
   brecha_afin:    94,
@@ -3431,6 +3431,10 @@ const UMBRAL_DEFAULT_POR_ALGORITMO = {
   coseno:         78,
 };
 
+// Algorithms slow on large datasets: smith_waterman ~436s, coseno ~337s, brecha_afin ~200s per 1000 rows
+const ALGORITMOS_LENTOS = new Set(['smith_waterman', 'coseno', 'brecha_afin']);
+const UMBRAL_AVISO_REGISTROS = 5000;
+
 document.addEventListener('change', function(e) {
   if (e.target.classList.contains('pond-select')) {
     const dim = e.target.dataset.dim;
@@ -3439,12 +3443,17 @@ document.addEventListener('change', function(e) {
       _renderPonderacion();
     }
   }
-  // Auto-update umbral default when user switches algorithm
+  // Auto-update umbral default and show performance warning when algorithm changes
   if (e.target.id && e.target.id.endsWith('-algoritmo')) {
     const sid = e.target.id.replace(/^p-/, '').replace(/-algoritmo$/, '');
     const umbralEl = document.getElementById(`p-${sid}-umbral`);
     if (umbralEl) {
       umbralEl.value = UMBRAL_DEFAULT_POR_ALGORITMO[e.target.value] ?? 85;
+    }
+    const warnEl = document.getElementById(`p-${sid}-alg-warn`);
+    if (warnEl) {
+      const esLento = ALGORITMOS_LENTOS.has(e.target.value) && (state.totalRegistros || 0) > UMBRAL_AVISO_REGISTROS;
+      warnEl.style.display = esLento ? '' : 'none';
     }
   }
 });
@@ -3643,6 +3652,7 @@ async function uploadFile() {
     state.fileId           = data.file_id;
     state.columns          = data.columnas;
     state.uploadedFilename = selectedFile ? selectedFile.name : '';
+    state.totalRegistros   = data.total_registros || 0;
     buildConfigScreen(data);
     goTo('profile');
     loadProfile();
@@ -4764,11 +4774,14 @@ function buildParamInputs(colName, dtype) {
             <option value="qgrams">Q-grams — razones sociales ★ mejor F1 (0.93, 6s)</option>
             <option value="monge_elkan">Monge-Elkan — RS con abreviaturas de sufijos (F1 0.87)</option>
             <option value="levenshtein">Levenshtein — códigos y documentos (F1 0.86, muy rápido)</option>
-            <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes (F1 0.93, lento ~7 min/1000)</option>
-            <option value="brecha_afin">Brecha Afín — abreviaturas largas; recall bajo en RS (F1 0.62)</option>
+            <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes (F1 0.93) ⚠ lento</option>
+            <option value="brecha_afin">Brecha Afín — abreviaturas explícitas ★ F1=1.00 (94%) ⚠ lento</option>
             <option value="soundex">Soundex — fonética; recall bajo en RS (F1 0.47)</option>
-            <option value="coseno">Coseno TF-IDF — textos largos; no apto para RS (F1 0.38, lento)</option>
+            <option value="coseno">Coseno TF-IDF — textos largos; no apto para RS (F1 0.38) ⚠ lento</option>
           </select>
+          <div id="p-${sid}-alg-warn" style="display:none;font-size:.78rem;color:#B45309;font-weight:600;margin-top:.25rem">
+            ⚠ Este algoritmo es lento en datasets grandes — con más de 5 000 registros puede tardar varios minutos por columna.
+          </div>
         </div>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
           <label>Qué tan parecidos deben ser:</label>
@@ -5022,6 +5035,20 @@ async function runAnalysis() {
   if (hasError) return;
   if (Object.keys(colsConfig).length === 0) {
     toast('Selecciona al menos una dimensión en alguna columna.', 'error'); return;
+  }
+
+  // Warn before running if a slow algorithm is selected on a large dataset
+  if ((state.totalRegistros || 0) > UMBRAL_AVISO_REGISTROS) {
+    const algEls = document.querySelectorAll('[id$="-algoritmo"]');
+    const hayLento = [...algEls].some(el => ALGORITMOS_LENTOS.has(el.value));
+    if (hayLento) {
+      const ok = confirm(
+        `⚠ Algoritmo lento seleccionado\n\n` +
+        `Con ${(state.totalRegistros).toLocaleString()} registros, smith_waterman o coseno pueden tardar varios minutos por columna.\n\n` +
+        `¿Continuar de todas formas?`
+      );
+      if (!ok) return;
+    }
   }
 
   setAnalyzeLoading(true);

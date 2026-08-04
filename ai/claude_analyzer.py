@@ -367,22 +367,32 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
     if not is_id_col:
         if variantes and any(len(g) >= 2 for g in variantes):
             grupos_str = str([g for g in variantes[:2]])
-            # Detectar si hay variantes con abreviaturas en el perfil
-            # Una abreviatura se detecta cuando en variantes_similares hay valores
-            # donde uno es notablemente más corto que el otro (diferencia > 30% de longitud)
-            tiene_abreviaturas = False
+            # Detect explicit abbreviations: tokens 2-6 chars ending in "."
+            # (e.g. "Repres.", "Dist.", "Inv.") — stronger signal than length ratio.
+            tiene_abreviaturas_explicitas = False
             for grupo in variantes:
-                if len(grupo) >= 2:
-                    lens = [len(str(v)) for v in grupo]
-                    if max(lens) > 0 and min(lens) / max(lens) < 0.7:
-                        tiene_abreviaturas = True
+                for valor in grupo:
+                    for tok in str(valor).split():
+                        if 2 <= len(tok) <= 6 and tok.endswith('.'):
+                            tiene_abreviaturas_explicitas = True
+                            break
+                    if tiene_abreviaturas_explicitas:
                         break
-            if tiene_abreviaturas:
+                if tiene_abreviaturas_explicitas:
+                    break
+
+            if tiene_abreviaturas_explicitas:
                 algoritmo_sug = 'brecha_afin'
-                razon_sug = f"El perfil detectó variantes con posibles abreviaturas. Brecha Afín es más precisa para este caso."
+                razon_sug = (
+                    "El perfil detectó abreviaturas explícitas (tokens cortos terminados en '.'). "
+                    "Brecha Afín penaliza menos las diferencias de longitud que producen las abreviaturas."
+                )
             else:
-                algoritmo_sug = 'jaro_winkler'
-                razon_sug = f"El perfil detectó grupos de valores similares: {grupos_str}."
+                algoritmo_sug = 'qgrams'
+                razon_sug = (
+                    f"Q-grams obtuvo la mejor precisión en razones sociales durante la calibración "
+                    f"(F1=0.93). Grupos detectados: {grupos_str}."
+                )
             sugs.append(_sug(
                 "similitud", "alta",
                 razon_sug,
@@ -392,8 +402,8 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
                        "cliente", "descripcion", "direccion", "address"):
             sugs.append(_sug(
                 "similitud", "media",
-                "Columna de texto libre — se recomienda verificar duplicados difusos.",
-                algoritmo="jaro_winkler", umbral=92,
+                "Columna de texto libre con nombres de empresas o personas — Q-grams obtuvo la mejor precisión en razones sociales durante la calibración (F1=0.93, umbral 86%).",
+                algoritmo="qgrams", umbral=86,
             ))
 
     # ── OPORTUNIDAD — solo columnas de fecha ─────────────────────────────

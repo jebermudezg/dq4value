@@ -31,6 +31,10 @@ STOPWORDS_RS = {
 # as likely chaining artefacts and excluded from the score.
 UMBRAL_DENSIDAD = 0.6
 
+# Algorithms designed to handle abbreviated forms must not discard candidate
+# pairs purely because one string is shorter (e.g. "Repres." vs "Representaciones").
+ALGORITMOS_TOLERANTES_LONGITUD = {'brecha_afin', 'monge_elkan'}
+
 
 def _es_placeholder(valor) -> bool:
     if valor is None or (isinstance(valor, float) and np.isnan(valor)):
@@ -77,7 +81,7 @@ def _brecha_afin(a, b, match=2, mismatch=-1, gap_open=-1, gap_extend=-0.1):
     if not a or not b:
         return 0.0
     len_a, len_b = len(a), len(b)
-    if min(len_a, len_b) / max(len_a, len_b) < 0.4:
+    if min(len_a, len_b) / max(len_a, len_b) < 0.25:
         return 0.0
     a, b = a[:50], b[:50]
     n, m = len(a), len(b)
@@ -351,6 +355,10 @@ def check_similitud(
     bloques = _construir_bloques(valid_idx, uniq_norm)
 
     max_bloque = 100 if algoritmo == 'brecha_afin' else 200
+    # Only tolerant algorithms (brecha_afin, monge_elkan) need a ratio filter: they
+    # accept abbreviation pairs so ratio_minimo is permissive (0.25).  Other algorithms
+    # keep the original behavior (no ratio filter — 0.0 means the check never triggers).
+    ratio_minimo = 0.25 if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD else 0.0
     pares_cand: set[tuple] = set()
 
     for grupo in bloques.values():
@@ -363,13 +371,23 @@ def check_similitud(
             for sub_lista in subgrupos.values():
                 for a in range(len(sub_lista)):
                     for b in range(a + 1, len(sub_lista)):
+                        na, nb = uniq_norm[sub_lista[a]], uniq_norm[sub_lista[b]]
+                        if na and nb and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
+                            continue
                         pares_cand.add((sub_lista[a], sub_lista[b]))
         else:
             for a in range(len(lista)):
                 for b in range(a + 1, len(lista)):
+                    na, nb = uniq_norm[lista[a]], uniq_norm[lista[b]]
+                    if na and nb and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
+                        continue
                     pares_cand.add((lista[a], lista[b]))
 
-    if algoritmo == 'brecha_afin' and len(pares_cand) > 15_000:
+    # For tolerant algorithms: never truncate by length difference — that would
+    # drop abbreviation pairs.  Apply a generous hard cap instead.
+    if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 50_000:
+        pares_cand = set(sorted(pares_cand)[:50_000])
+    elif algoritmo not in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 15_000:
         pares_cand = set(
             sorted(
                 pares_cand,
