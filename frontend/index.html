@@ -3412,18 +3412,23 @@ function _renderPonderacion() {
 function _updatePonderacion() { _renderPonderacion(); }
 
 // Event delegation — survives innerHTML rebuilds
-// Default umbral per algorithm — calibrated 2026-08-04 on maestro_proveedores_1000.csv
-// using ground-truth RUC pairs (F1 metric, threshold = best confiable F1).
-// monge_elkan: F1=0.800 at 94% (names with shared sector+city tokens need high threshold).
+// Defaults calibrated 2026-08-04 on maestro_proveedores_1000.csv (1 000 razones sociales,
+// 15 grupos verdaderos / 38 pares RUC).  Best-F1 umbral among 'confiable' thresholds.
+//   jaro_winkler  96% F1=0.805   levenshtein   92% F1=0.861
+//   monge_elkan   96% F1=0.867   qgrams        86% F1=0.930
+//   smith_waterman 94% F1=0.930 (pero 436s/1000 rows — lento)
+//   brecha_afin   94% F1=0.618 (recall 44.7% — abreviaturas pierden en el blocking)
+//   soundex       86% F1=0.471 (recall 31.6% — no recomendado para razones sociales)
+//   coseno        78% F1=0.383 (recall 23.7%, 337s/1000 rows — no recomendado para RS)
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
-  jaro_winkler:  92,
-  brecha_afin:   82,
-  monge_elkan:   94,
-  levenshtein:   85,
-  qgrams:        85,
-  smith_waterman:82,
-  soundex:       80,
-  coseno:        75,
+  jaro_winkler:   96,
+  brecha_afin:    94,
+  monge_elkan:    96,
+  levenshtein:    92,
+  qgrams:         86,
+  smith_waterman: 94,
+  soundex:        86,
+  coseno:         78,
 };
 
 document.addEventListener('change', function(e) {
@@ -4755,14 +4760,14 @@ function buildParamInputs(colName, dtype) {
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
           <label>Tipo de comparación:</label>
           <select id="p-${sid}-algoritmo" style="width:340px">
-            <option value="jaro_winkler">Jaro-Winkler — nombres de personas (recomendado)</option>
-            <option value="brecha_afin">Brecha Afín — nombres con abreviaturas (Juan A. García)</option>
-            <option value="monge_elkan">Monge-Elkan — nombres con múltiples tokens abreviados</option>
-            <option value="levenshtein">Levenshtein — códigos y documentos</option>
-            <option value="qgrams">Q-grams — razones sociales y direcciones</option>
-            <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes</option>
-            <option value="soundex">Soundex — similitud fonética</option>
-            <option value="coseno">Coseno TF-IDF — descripciones largas</option>
+            <option value="jaro_winkler">Jaro-Winkler — nombres cortos, personas (F1 0.81)</option>
+            <option value="qgrams">Q-grams — razones sociales ★ mejor F1 (0.93, 6s)</option>
+            <option value="monge_elkan">Monge-Elkan — RS con abreviaturas de sufijos (F1 0.87)</option>
+            <option value="levenshtein">Levenshtein — códigos y documentos (F1 0.86, muy rápido)</option>
+            <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes (F1 0.93, lento ~7 min/1000)</option>
+            <option value="brecha_afin">Brecha Afín — abreviaturas largas; recall bajo en RS (F1 0.62)</option>
+            <option value="soundex">Soundex — fonética; recall bajo en RS (F1 0.47)</option>
+            <option value="coseno">Coseno TF-IDF — textos largos; no apto para RS (F1 0.38, lento)</option>
           </select>
         </div>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
