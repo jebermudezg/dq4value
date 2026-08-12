@@ -84,7 +84,7 @@ def check_razonabilidad(df: pd.DataFrame, id_col: str, target_col: str, **params
             return json.dumps(campos, ensure_ascii=False)
 
         issues_df = pd.DataFrame({
-            id_col: issues[id_col].astype(str),
+            id_col: issues[id_col],
             'columna': target_col,
             'dimension': 'razonabilidad',
             'descripcion': 'Anomalía multivariable — combinación inusual de valores detectada por Isolation Forest',

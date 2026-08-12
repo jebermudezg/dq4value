@@ -174,7 +174,7 @@ class DQScorer:
             issues_umbral = issues_df_final[issues_df_final['dimension'].isin(dimensiones_umbral)]
             if 'es_principal_sugerido' in issues_umbral.columns:
                 issues_umbral = issues_umbral[
-                    issues_umbral['es_principal_sugerido'].fillna(False) != True
+                    ~issues_umbral['es_principal_sugerido'].fillna(False).astype(bool)
                 ]
             ids_con_problema_umbral = set(issues_umbral[self.id_col])
         else:
