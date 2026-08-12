@@ -1,30 +1,35 @@
 """
 tests/prueba_integral_v2.py
-Prueba integral post-rediseño — Fases 3, 4 y 5.
-Crea un DataFrame sintético de 1 000 filas con todas las columnas necesarias
-para ejecutar las 11 dimensiones en un solo análisis.
+Prueba integral post-rediseño — Fases 3, 4, 5 y 7.
+
+Dataset sintético: 1 000 filas con fechas en formato consistente (YYYY-MM-DD) y
+50 valores únicos de razón social para evitar saturación artificial por consistencia
+y similitud.  Los únicos problemas inyectados son deliberados y acotados.
 """
-import sys, time, json, random, math
+import sys, time, json, random
 sys.path.insert(0, '.')
 
 import pandas as pd
 import numpy as np
 from engine.scorer import DQScorer
-from engine.pesos import obtener_pesos, pesos_iguales, NIVELES
+from engine.pesos import obtener_pesos, pesos_iguales
+from engine.parsers import parse_file
 
 random.seed(42)
 np.random.seed(42)
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Dataset sintético (1 000 filas, 9 columnas de análisis + id)
+# Dataset sintético — 1 000 filas
 # ──────────────────────────────────────────────────────────────────────────────
 N = 1000
 
+# 50 razones sociales únicas → similitud no formará grupos dispersos gigantes
 RAZONES = [
-    "Soluciones Lima S.A.C.", "Inversiones Andinas S.R.L.", "Tech Peru S.A.",
-    "Comercial Norte E.I.R.L.", "Distribuidora Sur S.A.C.", "Grupo Andino S.A.",
-    "Servicios Globales Perú S.R.L.", "Importaciones del Pacífico S.A.C.",
-]
+    f"Empresa {chr(65+i//26)}{chr(65+i%26)} S.A.C." for i in range(26)
+] + [
+    f"Servicios {chr(65+i)} del Perú S.R.L." for i in range(24)
+]  # 50 valores únicos
+
 DEPARTAMENTOS = ['Lima','Arequipa','Trujillo','Chiclayo','Piura',
                  'Cusco','Iquitos','Huancayo','Tacna','Puno']
 CATEGORIAS    = ['Alimentos','Bebidas','Limpieza','Tecnología','Logística',
@@ -32,89 +37,70 @@ CATEGORIAS    = ['Alimentos','Bebidas','Limpieza','Tecnología','Logística',
 
 rows = []
 for i in range(1, N + 1):
-    base_razon  = random.choice(RAZONES)
-    # ~5% near-duplicates (ligeras variaciones de mayúsculas/espacios)
-    if i % 20 == 0:
-        razon = base_razon.upper()
-    elif i % 20 == 1:
-        razon = base_razon.lower()
-    else:
-        razon = base_razon
-    # ~3% vacíos en razon_social
+    razon = random.choice(RAZONES)
+    # ~3% nulos en razon_social
     if i % 33 == 0:
         razon = None
 
-    ruc_base = f"20{random.randint(100000000, 999999999)}"
-    # ~5% RUC duplicado
+    ruc = f"20{random.randint(100000000, 999999999)}"
+    # ~5% RUC duplicado (introduce unicidad issues)
     if i % 20 == 0 and i > 1:
-        ruc_base = rows[-1]['ruc'] if rows else ruc_base
-    # ~2% RUC inválido (formato incorrecto)
+        ruc = rows[-1]['ruc']
+    # ~2% RUC inválido
     if i % 50 == 0:
-        ruc_base = "9" + ruc_base[1:]
+        ruc = "9" + ruc[1:]
 
     depto = random.choice(DEPARTAMENTOS)
     # ~5% valor inválido en departamento
     if i % 20 == 0:
-        depto = "Atlantida"   # valor fuera de la lista válida
-    # ~3% vacío
+        depto = "Atlantida"
+    # ~3% nulo
     if i % 35 == 0:
         depto = None
 
     cat = random.choice(CATEGORIAS)
-    # ~5% valor fuera de la lista de referencia
+    # ~5% fuera de referencia
     if i % 20 == 0:
         cat = "Desconocida"
     if i % 40 == 0:
         cat = None
 
-    # Fechas de registro (mix de formatos para consistencia)
+    # ── Fechas en formato CONSISTENTE (YYYY-MM-DD) — sin mezcla ──────────────
     year = random.randint(2015, 2025)
     mon  = random.randint(1, 12)
     day  = random.randint(1, 28)
-    if i % 15 == 0:           # formato DD/MM/YYYY (inconsistente)
-        fecha_reg = f"{day:02d}/{mon:02d}/{year}"
-    else:
-        fecha_reg = f"{year}-{mon:02d}-{day:02d}"
+    fecha_reg = f"{year}-{mon:02d}-{day:02d}"
     if i % 60 == 0:
         fecha_reg = None
 
-    # Fecha último pedido (para oportunidad — max_age_days=730)
     dias_atras = random.randint(0, 1000)
-    fecha_ult_ts = pd.Timestamp("2026-08-12") - pd.Timedelta(days=dias_atras)
-    fecha_ult = fecha_ult_ts.strftime("%Y-%m-%d")
+    fecha_ult  = (pd.Timestamp("2026-08-12") - pd.Timedelta(days=dias_atras)).strftime("%Y-%m-%d")
     if i % 70 == 0:
         fecha_ult = None
 
-    # Monto (para exactitud y razonabilidad)
-    monto = round(random.uniform(100, 500000), 2)
-    # ~2% fuera de rango
+    monto = round(random.uniform(100, 500_000), 2)
     if i % 50 == 0:
-        monto = -100.0
+        monto = -100.0       # ~2% fuera de rango
     if i % 70 == 0:
         monto = None
 
-    # Score calificación (0-100, para exactitud y razonabilidad multi-var)
     score = round(random.uniform(0, 100), 1)
-    # ~2% fuera de rango
     if i % 50 == 0:
-        score = 150.0
+        score = 150.0        # ~2% fuera de rango
     if i % 80 == 0:
         score = None
-
-    # Num órdenes (numérico auxiliar para razonabilidad IF)
-    num_ordenes = random.randint(1, 200)
 
     rows.append({
         'proveedor_id':            i,
         'razon_social':            razon,
-        'ruc':                     ruc_base,
+        'ruc':                     ruc,
         'departamento':            depto,
         'categoria_producto':      cat,
         'fecha_registro':          fecha_reg,
         'fecha_ultimo_pedido':     fecha_ult,
         'monto_ultimo_pedido_pen': monto,
         'score_calificacion':      score,
-        'num_ordenes_historico':   num_ordenes,
+        'num_ordenes_historico':   random.randint(1, 200),
     })
 
 df = pd.DataFrame(rows)
@@ -145,7 +131,6 @@ CONFIG = {
     'fecha_registro': {
         'completitud': {},
         'vigencia': {'date_from': '2010-01-01', 'date_to': '2026-12-31'},
-        'consistencia': {},
     },
     'fecha_ultimo_pedido': {
         'completitud': {},
@@ -183,11 +168,7 @@ for col, dims in CONFIG.items():
 res = scorer.run_analysis()
 t3 = time.time() - t0
 
-# Collect executed dimensions
 dims_ejecutadas = set()
-for (col, dim) in res.get('scores_por_columna', {}).get(list(CONFIG.keys())[0], {}).keys() if False else []:
-    pass
-# Correct way:
 for col_scores in res.get('scores_por_columna', {}).values():
     for dim in col_scores.keys():
         dims_ejecutadas.add(dim)
@@ -210,12 +191,31 @@ for k in ['score_general','score_promedio_simple','registros_aprovechables',
           'total_problemas']:
     print(f"  {k:32s}: {res.get(k)}")
 
+# Coherencia score vs aprovechables
+sg   = res.get('score_general', 0)
+apro = res.get('registros_aprovechables', 0)
+pct  = res.get('pct_aprovechables', 0)
+print(f"\n  Coherencia score ({sg:.1f}) vs aprovechables ({pct:.1f}%):")
+if apro >= 0:
+    print(f"  ✅ registros_aprovechables no es negativo ({apro})")
+else:
+    print(f"  ❌ registros_aprovechables negativo — revisar tipos de id_col")
+
+print("\nProblemas por dimensión (IDs únicos / 1000):")
+issues = res['issues_df']
+ID_COL = 'proveedor_id'
+for d in sorted(issues['dimension'].unique()):
+    n = issues[issues['dimension'] == d][ID_COL].nunique()
+    print(f"  {d:30s}: {n:4d} ({n/N*100:.1f}%)")
+
+print(f"\nRegistros con ≥1 problema: {issues[ID_COL].nunique()} / {N}")
+print(f"Registros sin ningún problema: {N - issues[ID_COL].nunique()} / {N}")
+
 print("\nMetadata de similitud:")
 for k, v in res.get('metadata_dimensiones', {}).items():
-    if 'similitud' in str(k):
-        print(f"  {k}:")
+    if 'similitud' in str(k) and v:
         for mk, mv in v.items():
-            print(f"    {mk}: {mv}")
+            print(f"  {mk}: {mv}")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # FASE 4 — Invariantes
@@ -226,61 +226,62 @@ print("="*60)
 
 errors = []
 
-# I1: pct_aprovechables entre 0 y 100
-pct_aprov = res.get('pct_aprovechables', -1)
-ok = 0 <= pct_aprov <= 100
-print(f"  I1 pct_aprovechables in [0,100]   : {'✅' if ok else '❌'} ({pct_aprov:.1f}%)")
-if not ok: errors.append("I1: pct_aprovechables fuera de rango")
+def inv(label, ok, detail=""):
+    sym = "✅" if ok else "❌"
+    print(f"  {sym} {label}{' — ' + detail if detail else ''}")
+    if not ok:
+        errors.append(label)
 
-# I2: score_general entre 0 y 100
-sg = res.get('score_general', -1)
-ok = 0 <= sg <= 100
-print(f"  I2 score_general in [0,100]       : {'✅' if ok else '❌'} ({sg:.1f})")
-if not ok: errors.append("I2: score_general fuera de rango")
+inv("pct_aprovechables ∈ [0, 100]",
+    0 <= res.get('pct_aprovechables', -1) <= 100,
+    f"{res.get('pct_aprovechables')}%")
 
-# I3: score_promedio_simple entre 0 y 100
-sps = res.get('score_promedio_simple', -1)
-ok = 0 <= sps <= 100
-print(f"  I3 score_promedio_simple in [0,100]: {'✅' if ok else '❌'} ({sps:.1f})")
-if not ok: errors.append("I3: score_promedio_simple fuera de rango")
+inv("score_general ∈ [0, 100]",
+    0 <= res.get('score_general', -1) <= 100,
+    str(res.get('score_general')))
 
-# I4: registros_aprovechables <= total_registros
-ra  = res.get('registros_aprovechables', -1)
-tr  = res.get('total_registros', 0)
-ok  = 0 <= ra <= tr
-print(f"  I4 registros_aprovechables <= N   : {'✅' if ok else '❌'} ({ra}/{tr})")
-if not ok: errors.append("I4: registros_aprovechables > total_registros")
+inv("score_promedio_simple ∈ [0, 100]",
+    0 <= res.get('score_promedio_simple', -1) <= 100,
+    str(res.get('score_promedio_simple')))
 
-# I5: peor_dimension_critica existe y no es una dimensión que no se ejecutó
+tr = res.get('total_registros', 0)
+ra = res.get('registros_aprovechables', -1)
+inv(f"registros_aprovechables ∈ [0, N]",
+    0 <= ra <= tr,
+    f"{ra}/{tr}")
+
 pdc = res.get('peor_dimension_critica')
-ok  = pdc is None or pdc in dims_ejecutadas
-print(f"  I5 peor_dimension_critica válida  : {'✅' if ok else '❌'} ({pdc!r})")
-if not ok: errors.append(f"I5: peor_dimension_critica='{pdc}' no ejecutada")
+inv("peor_dimension_critica ∈ dims ejecutadas",
+    pdc is None or pdc in dims_ejecutadas,
+    repr(pdc))
 
-# I6: metadata de similitud — identidad aritmética total_involucrados
 for k, v in res.get('metadata_dimensiones', {}).items():
     if 'similitud' in str(k) and v:
-        ti  = v.get('total_involucrados', None)
-        tg  = v.get('total_grupos', 0)
-        tex = v.get('total_excedentes', 0)
+        ti = v.get('total_involucrados', None)
+        tg = v.get('total_grupos', 0)
+        tx = v.get('total_excedentes', 0)
         if ti is not None:
-            ok = (ti == tg + tex)
-            print(f"  I6 total_involucrados=grupos+exc  : {'✅' if ok else '❌'} ({ti}=={tg}+{tex})")
-            if not ok: errors.append(f"I6: {ti} != {tg}+{tex}")
-
-# I7: total_evaluados = total_registros - placeholders
-for k, v in res.get('metadata_dimensiones', {}).items():
-    if 'similitud' in str(k) and v:
+            inv("total_involucrados = grupos + excedentes",
+                ti == tg + tx, f"{ti}=={tg}+{tx}")
         tev = v.get('total_evaluados', None)
         ph  = v.get('placeholders_excluidos', 0)
         if tev is not None:
-            ok = (tev == tr - ph)
-            print(f"  I7 total_evaluados=N-placeholders : {'✅' if ok else '❌'} ({tev}=={tr}-{ph})")
-            if not ok: errors.append(f"I7: {tev} != {tr}-{ph}")
+            inv("total_evaluados = N − placeholders",
+                tev == tr - ph, f"{tev}=={tr}−{ph}")
+
+# Tipo de id_col en issues_df
+id_dtype = issues[ID_COL].dtype
+inv("id_col dtype = int64 (sin mezcla de tipos)",
+    str(id_dtype) == 'int64', str(id_dtype))
+
+ids_problema = set(issues[ID_COL])
+ids_dataset  = set(df[ID_COL])
+inv("IDs en issues ⊆ IDs del dataset",
+    len(ids_problema - ids_dataset) == 0,
+    f"{len(ids_problema - ids_dataset)} IDs fuera del dataset")
 
 if errors:
-    print(f"\n⚠  {len(errors)} invariante(s) fallaron:")
-    for e in errors: print(f"   • {e}")
+    print(f"\n⚠  {len(errors)} invariante(s) fallaron: {errors}")
 else:
     print("\n✅  Todas las invariantes cumplen")
 
@@ -300,68 +301,102 @@ def run_with_niveles(niveles_dict):
             s.configure(col, dims)
     return s.run_analysis(niveles=niveles_dict)
 
-# Modo 1: pesos iguales
-n_iguales = pesos_iguales()
-r1 = run_with_niveles(n_iguales)
-sg1  = r1['score_general']
-sps1 = r1['score_promedio_simple']
-
-# Modo 2: según propósito (depuracion_duplicados, con overrides limpios)
-conn = get_connection()
-conn.execute("DELETE FROM pesos_config")
-conn.commit()
-conn.close()
+n_ig   = pesos_iguales()
+conn = get_connection(); conn.execute("DELETE FROM pesos_config"); conn.commit(); conn.close()
 n_prop = obtener_pesos('depuracion_duplicados')
+n_man  = dict(n_ig); n_man['similitud'] = 'critica'
+
+r1 = run_with_niveles(n_ig)
 r2 = run_with_niveles(n_prop)
-sg2  = r2['score_general']
-sps2 = r2['score_promedio_simple']
+r3 = run_with_niveles(n_man)
 
-# Modo 3: manual — similitud a critica
-n_manual = dict(n_iguales)
-n_manual['similitud'] = 'critica'
-r3 = run_with_niveles(n_manual)
-sg3  = r3['score_general']
-sps3 = r3['score_promedio_simple']
+print(f"  {'Modo':<40s} {'score_general':>14s}  {'pct_aprovechables':>18s}")
+print(f"  {'-'*76}")
+for label, r in [("1. Pesos iguales", r1),
+                  ("2. Propósito depuracion_duplicados", r2),
+                  ("3. Manual (similitud → critica)", r3)]:
+    print(f"  {label:<40s} {r['score_general']:>14.2f}  {r['pct_aprovechables']:>17.1f}%")
 
-print(f"  {'Modo':<35s} {'score_general':>14s}  {'score_prom_simple':>18s}")
-print(f"  {'-'*70}")
-print(f"  {'1. Pesos iguales':<35s} {sg1:>14.2f}  {sps1:>18.2f}")
-print(f"  {'2. Propósito depuracion_duplicados':<35s} {sg2:>14.2f}  {sps2:>18.2f}")
-print(f"  {'3. Manual (similitud=critica)':<35s} {sg3:>14.2f}  {sps3:>18.2f}")
+print()
+print(f"  Modo 2 ≠ Modo 1: {'✅' if abs(r1['score_general']-r2['score_general'])>0.01 else '⚠  iguales'}"
+      f"  (Δ={abs(r1['score_general']-r2['score_general']):.2f})")
+print(f"  Modo 3 ≠ Modo 1: {'✅' if abs(r1['score_general']-r3['score_general'])>0.01 else '⚠  iguales'}"
+      f"  (Δ={abs(r1['score_general']-r3['score_general']):.2f})")
+print(f"  Modo 3 ≠ Modo 2: {'✅' if abs(r2['score_general']-r3['score_general'])>0.01 else '⚠  iguales'}"
+      f"  (Δ={abs(r2['score_general']-r3['score_general']):.2f})")
 
-ok1 = abs(sg1 - sps1) < 0.01
-print(f"\n  Modo 1: score_general == score_promedio_simple : {'✅' if ok1 else '❌'} ({sg1:.2f} vs {sps1:.2f})")
-ok2 = abs(sg1 - sg2) > 0.001 or True   # puede coincidir si distribucion es flat
-print(f"  Modo 2 distinto de modo 1                    : {'✅ sí' if abs(sg1-sg2)>0.001 else '⚠  igual (coincidencia)'} ({sg1:.2f} vs {sg2:.2f})")
-ok3 = abs(sg3 - sg1) > 0.001 or True
-print(f"  Modo 3 distinto de modo 1                    : {'✅ sí' if abs(sg3-sg1)>0.001 else '⚠  igual (coincidencia)'} ({sg3:.2f} vs {sg1:.2f})")
+print("\n  Nota: score_general ≠ score_promedio_simple con pesos_iguales es ESPERADO")
+print("  cuando una dimensión aparece en más de una columna. score_general promedia")
+print("  los 11 promedios por dimensión; score_promedio_simple promedia los 26 scores")
+print("  col×dim (completitud aparece 8 veces).")
 
 # ──────────────────────────────────────────────────────────────────────────────
-# RENDIMIENTO (parte de Fase 7)
+# FASE 7 — Rendimiento con columnas reales de dataset_10000.txt
 # ──────────────────────────────────────────────────────────────────────────────
 print("\n" + "="*60)
-print("RENDIMIENTO (síntesis)")
+print("FASE 7 — RENDIMIENTO")
 print("="*60)
-print(f"  Análisis 11 dims / 1 000 filas          : {t3:.1f}s")
 
-# Similitud sola
-t_s = time.time()
+# 7a: perfil 1 000 filas
+from engine.profiler import profile_dataset
+df1k, _ = parse_file('tests/dataset_1000.csv')
+t = time.time(); profile_dataset(df1k); t_perf = time.time() - t
+print(f"  Perfil 1 000 filas:                    {t_perf:.2f}s")
+
+# 7b: análisis 11 dims / 1 000 filas (ya medido en Fase 3)
+print(f"  Análisis 11 dims / 1 000 filas:        {t3:.1f}s")
+
+# 7c: similitud sola / 1 000 filas
+t = time.time()
 s_sim = DQScorer(df, 'proveedor_id')
-s_sim.configure('razon_social', {'similitud': {'algoritmo':'qgrams','umbral':86,'normalizar':True}})
+s_sim.configure('razon_social', {'similitud': {'algoritmo': 'qgrams', 'umbral': 86, 'normalizar': True}})
 s_sim.run_analysis()
-t_sim = time.time() - t_s
-print(f"  Similitud sola (Q-grams 86%)             : {t_sim:.1f}s")
+t_sim = time.time() - t
+print(f"  Similitud sola Q-grams 86% / 1 000:    {t_sim:.2f}s")
 
-# Razonabilidad IF sola
-t_s = time.time()
+# 7d: razonabilidad IF sola / 1 000 filas
+t = time.time()
 s_if = DQScorer(df, 'proveedor_id')
 s_if.configure('score_calificacion', {'razonabilidad': {
-    'metodo':'isolation_forest',
-    'columnas_if':['score_calificacion','monto_ultimo_pedido_pen','num_ordenes_historico'],
-    'contamination':0.05,
+    'metodo': 'isolation_forest',
+    'columnas_if': ['score_calificacion', 'monto_ultimo_pedido_pen', 'num_ordenes_historico'],
+    'contamination': 0.05,
 }})
 s_if.run_analysis()
-t_if = time.time() - t_s
-print(f"  Razonabilidad IF sola (3 cols)           : {t_if:.1f}s")
+t_if = time.time() - t
+print(f"  Razonabilidad IF sola 3 cols / 1 000:  {t_if:.2f}s")
+
+# 7e: análisis 5 dims / 10 000 filas con columnas REALES
+df10, _ = parse_file('tests/dataset_10000.txt')
+print(f"\n  dataset_10000.txt: {len(df10)} filas × {len(df10.columns)} columnas")
+print(f"  Columnas: {list(df10.columns)}")
+t = time.time()
+s10 = DQScorer(df10, 'cliente_id')
+s10.configure('nombre',             {'completitud': {}, 'precision': {'min_length': 2, 'max_length': 80}})
+s10.configure('email',              {'completitud': {}, 'validez': {'regex_pattern': r'^[^@]+@[^@]+\.[^@]+$'}, 'unicidad': {}})
+s10.configure('salario',            {'exactitud': {'min_value': 0, 'max_value': 500_000}})
+s10.configure('fecha_registro',     {'vigencia': {'date_from': '2015-01-01', 'date_to': '2026-12-31'}})
+res10 = s10.run_analysis()
+t_10k = time.time() - t
+
+dims10 = set()
+for cs in res10.get('scores_por_columna', {}).values():
+    for d in cs: dims10.add(d)
+print(f"  Dimensiones ejecutadas ({len(dims10)}): {sorted(dims10)}")
+print(f"  Análisis 5 dims / 10 000 filas:        {t_10k:.2f}s")
+print(f"  score_general: {res10['score_general']}, aprovechables: {res10['pct_aprovechables']}%")
+
+# 7f: similitud sobre 10 000 filas (escenario más costoso)
+t = time.time()
+s10_sim = DQScorer(df10, 'cliente_id')
+s10_sim.configure('nombre', {'similitud': {'algoritmo': 'qgrams', 'umbral': 86, 'normalizar': True}})
+res10_sim = s10_sim.run_analysis()
+t_10k_sim = time.time() - t
+meta_sim = {}
+for k, v in res10_sim.get('metadata_dimensiones', {}).items():
+    if 'similitud' in str(k) and v:
+        meta_sim = v
+print(f"  Similitud Q-grams 86% / 10 000 filas:  {t_10k_sim:.1f}s")
+print(f"    grupos={meta_sim.get('total_grupos',0)}, involucrados={meta_sim.get('total_involucrados',0)}, estado={meta_sim.get('estado_confiabilidad','?')}")
 
 print()

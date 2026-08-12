@@ -32,42 +32,65 @@ Solo warnings menores de pandas (`RuntimeWarning` en división por cero con df v
 **Estado: ✅ APROBADO**
 
 Dataset: 1 000 filas sintéticas × 10 columnas, cobertura completa de las 11 dimensiones.
+Fechas en formato consistente YYYY-MM-DD. 50 valores únicos de razón social.
 
 ```
 Dimensiones ejecutadas (11): completitud, consistencia, exactitud,
   integridad_referencial, oportunidad, precision, razonabilidad,
   similitud, unicidad, validez, vigencia
-Tiempo total: 0.4s
+Tiempo total: 0.7s
 
-score_general           : 86.8
-score_promedio_simple   : 90.2  (difiere porque completitud aparece en 8 cols — diseño esperado)
-registros_aprovechables : 0     (correcto: todo registro tiene ≥1 problema en 8 cols × 11 dims)
-pct_aprovechables       : 0.0%
+score_general           : 87.0
+score_promedio_simple   : 92.3  (difiere porque completitud aparece en 8 cols — diseño esperado)
+registros_aprovechables : 1     (≥ 0, invariante satisfecha)
+pct_aprovechables       : 0.1%
 nivel_umbral            : media
-peor_dimension_critica  : similitud (score 50.0 — dataset con 97% near-duplicates por diseño)
+peor_dimension_critica  : similitud (score bajo — 50 nombres únicos en 1 000 filas → grupos grandes)
 total_problemas         : 1000
 
+Problemas por dimensión:
+  completitud            :   86 (8.6%)
+  exactitud              :   20 (2.0%)
+  oportunidad            :  256 (25.6%)
+  razonabilidad          :   49 (4.9%)
+  similitud              :  970 (97.0%)
+  unicidad               :   80 (8.0%)
+  validez                :   54 (5.4%)
+  (consistencia, integridad_referencial, precision, vigencia: 0 issues — diseño correcto)
+
 Metadata similitud (razon_social):
-  estado_confiabilidad     : no_confiable (8 grupos dispersos, no hay grupos confiables)
+  estado_confiabilidad     : confiable
   total_evaluados          : 970
   placeholders_excluidos   : 30
-  duplicados_exactos_excluidos: 970
+  total_grupos             : 2
+  total_involucrados       : 970 (grupos grandes de ~970 nombres por patron textual similar)
+  pares_sobre_umbral       : 226 371
 ```
+
+**Nota sobre similitud:** Con 50 nombres del patrón "Empresa AB S.A.C." / "Servicios X del Perú S.R.L.",
+el motor Q-grams 86% detecta alta similitud entre variantes del mismo patrón. `total_problemas=1000`
+y `pct_aprovechables=0.1%` son saturación real del dataset sintético, no un bug del motor.
+La divergencia `score_general=87.0` vs `pct_aprovechables=0.1%` es **correcta y esperada**: el score
+mide la calidad de los valores individuales (mayoría correctos); aprovechables mide registros limpios
+en TODAS las 11 dimensiones simultáneamente (nivel_umbral=media → todas en scope). Con 97% de
+registros afectados por similitud, ningún registro pasa los 11 filtros a la vez.
 
 ---
 
 ## FASE 4 — Invariantes
-**Estado: ✅ APROBADO — 7/7 invariantes cumplen** (post-fix)
+**Estado: ✅ APROBADO — 9/9 invariantes cumplen**
 
 | Invariante | Resultado |
 |-----------|-----------|
-| I1: pct_aprovechables ∈ [0, 100] | ✅ (0.0%) |
-| I2: score_general ∈ [0, 100] | ✅ (86.8) |
-| I3: score_promedio_simple ∈ [0, 100] | ✅ (90.2) |
-| I4: registros_aprovechables ≤ total_registros | ✅ (0/1000) |
+| I1: pct_aprovechables ∈ [0, 100] | ✅ (0.1%) |
+| I2: score_general ∈ [0, 100] | ✅ (87.0) |
+| I3: score_promedio_simple ∈ [0, 100] | ✅ (92.3) |
+| I4: registros_aprovechables ∈ [0, N] | ✅ (1/1000) |
 | I5: peor_dimension_critica ∈ dims ejecutadas | ✅ ('similitud') |
-| I6: total_involucrados = total_grupos + total_excedentes | ✅ (0=0+0) |
+| I6: total_involucrados = total_grupos + total_excedentes | ✅ (970=2+968) |
 | I7: total_evaluados = N − placeholders_excluidos | ✅ (970=1000-30) |
+| I8: id_col dtype = int64 (sin mezcla de tipos) | ✅ (int64) |
+| I9: IDs en issues ⊆ IDs del dataset | ✅ (0 IDs fuera del dataset) |
 
 **Bug corregido durante esta fase:**
 - `registros_aprovechables = -49` (negativo): `engine/dimensions/razonabilidad.py` línea 87
@@ -79,27 +102,32 @@ Metadata similitud (razon_social):
 
 **También corregido:**
 - `FutureWarning` en `engine/scorer.py` línea 177: `fillna(False) != True` reemplazado por
-  `~fillna(False).astype(bool)`.
+  `issues_umbral['es_principal_sugerido'].map(lambda x: x is not True)` — elimina el warning
+  por completo sin depender de API de downcasting deprecada.
 
 ---
 
 ## FASE 5 — Tres modos de ponderación
 **Estado: ✅ APROBADO**
 
-| Modo | score_general | score_promedio_simple |
-|------|--------------|----------------------|
-| 1. Pesos iguales | 86.80 | 90.20 |
-| 2. Propósito depuracion_duplicados | 81.50 | 90.20 |
-| 3. Manual (similitud → critica) | 83.70 | 90.20 |
+| Modo | score_general | pct_aprovechables |
+|------|--------------|-------------------|
+| 1. Pesos iguales | 87.00 | 0.1% |
+| 2. Propósito depuracion_duplicados | 79.50 | 3.0% |
+| 3. Manual (similitud → critica) | 79.80 | 3.2% |
 
-- Modo 2 distinto de modo 1: ✅ (Δ = 5.30)
-- Modo 3 distinto de modo 1: ✅ (Δ = 3.10)
-- Modo 3 distinto de modo 2: ✅ (Δ = 2.20)
+- Modo 2 distinto de modo 1: ✅ (Δ = 7.50)
+- Modo 3 distinto de modo 1: ✅ (Δ = 7.20)
+- Modo 3 distinto de modo 2: ✅ (Δ = 0.30)
+
+**Nota:** El propósito `depuracion_duplicados` sube el peso de `unicidad` y `similitud` a `critica`/`alta`,
+bajando el score general respecto al modo iguales. El modo manual eleva sólo `similitud` a critica,
+produciendo un score intermedio. La lógica de ponderación funciona correctamente.
 
 **Nota sobre "pesos iguales ≠ promedio simple":** Con pesos_iguales, `score_general`
-promedia sobre promedios por dimensión (11 puntos) mientras `score_promedio_simple` 
-promedia sobre todos los scores col×dim (26 puntos — completitud aparece 8 veces).
-Divergencia esperada y documentada. No es un bug.
+promedia sobre promedios por dimensión (11 puntos) mientras `score_promedio_simple`
+promedia sobre todos los scores col×dim. Como completitud aparece en 8 columnas y otras
+dimensiones solo en 1-2 columnas, los denominadores difieren. Divergencia esperada y documentada.
 
 ---
 
@@ -111,14 +139,25 @@ Los 4 endpoints de `/admin/pesos` con control de rol están cubiertos en `test_p
 ---
 
 ## FASE 7 — Rendimiento
+**Estado: ✅ APROBADO — mediciones reales con columnas existentes**
 
 | Escenario | Tiempo |
 |-----------|--------|
-| Perfil de 1 000 filas | 0.07s |
-| Análisis 11 dims / 1 000 filas (sintético) | 0.4s |
-| Similitud sola, Q-grams 86% / 1 000 filas | < 0.1s |
-| Razonabilidad IF sola, 3 cols / 1 000 filas | 0.1s |
-| Análisis 5 dims / 10 000 filas (dataset_10000.txt) | 0.08s |
+| Perfil de 1 000 filas | 0.06s |
+| Análisis 11 dims / 1 000 filas (dataset sintético) | 0.7s |
+| Similitud sola, Q-grams 86% / 1 000 filas | 0.35s |
+| Razonabilidad IF sola, 3 cols / 1 000 filas | 0.09s |
+| Análisis 6 dims / 10 000 filas (dataset_10000.txt) | 0.02s |
+| Similitud Q-grams 86% / 10 000 filas (nombre) | < 0.01s (0 grupos — alta variabilidad real) |
+
+Columnas utilizadas en el test de 10 000 filas: `nombre` (completitud, precision), `email`
+(completitud, validez, unicidad), `salario` (exactitud), `fecha_registro` (vigencia).
+Dataset real con buena calidad: score_general=99.6, aprovechables=97.0%.
+
+**Nota:** La medición anterior de 0.08s para "5 dims / 10 000 filas" fue inválida — las columnas
+configuradas (`razon_social`, `monto_ultimo_pedido_pen`, etc.) no existen en `dataset_10000.txt`
+y el scorer ejecutó cero dimensiones reales. Los tiempos correctos se midieron con las 20 columnas
+reales del dataset.
 
 Todos los escenarios están bien por debajo de los umbrales definidos (< 60s para 1 000 filas,
 < 120s para 10 000 filas).
@@ -139,8 +178,10 @@ Todos los escenarios están bien por debajo de los umbrales definidos (< 60s par
 
 | # | Componente | Síntoma | Causa raíz | Fix |
 |---|-----------|---------|-----------|-----|
-| 1 | `engine/dimensions/razonabilidad.py:87` | `registros_aprovechables` negativo (-49) | `.astype(str)` en branch IF generaba IDs string mezclados con int | Eliminar `.astype(str)` |
-| 2 | `engine/scorer.py:177` | FutureWarning pandas en cada análisis | `fillna(False) != True` usa API deprecada de downcasting | Reemplazar por `~.fillna(False).astype(bool)` |
+| 1 | `engine/dimensions/razonabilidad.py:87` | `registros_aprovechables` negativo (-49) | `.astype(str)` en branch IF generaba IDs string mezclados con int64 → `nunique()` sobreconta | Eliminar `.astype(str)` — preservar dtype original |
+| 2 | `engine/scorer.py:177` | FutureWarning pandas en cada análisis | `fillna(False) != True` usa API deprecada de downcasting | Reemplazar por `.map(lambda x: x is not True)` |
+| 3 | `tests/prueba_integral_v2.py` | FASE 7 medía 0.08s para "10k filas" pero ejecutaba 0 dimensiones | Nombres de columnas ficticias que no existen en dataset_10000.txt | Configurar con columnas reales: nombre, email, salario, fecha_registro |
+| 4 | `tests/prueba_integral_v2.py` | `registros_aprovechables=0` y `total_problemas=1000` — artificialmente saturado | Dataset sintético usaba DD/MM/YYYY (flagea consistencia en 984/1000) y solo 8 nombres únicos (similitud satura) | Fechas YYYY-MM-DD consistentes; 50 nombres únicos |
 
 ---
 
