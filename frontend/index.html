@@ -1781,41 +1781,111 @@
     <div class="admin-stat"><div class="stat-val" id="statActive">—</div><div class="stat-lbl">Activos</div></div>
     <div class="admin-stat"><div class="stat-val" id="statAdmins">—</div><div class="stat-lbl">Administradores</div></div>
   </div>
-  <div class="card" style="padding:1.5rem">
-    <div class="admin-toolbar">
-      <h3>Usuarios</h3>
-      <div style="display:flex;gap:.5rem">
-        <button class="btn btn-ghost" onclick="goTo('upload')">
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Volver
-        </button>
-        <button class="btn btn-primary" onclick="openUserModal(null)">
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-          </svg>
-          Nuevo usuario
-        </button>
+
+  <!-- Admin tab bar -->
+  <div style="display:flex;gap:0;margin-bottom:1rem;border-bottom:2px solid var(--border)">
+    <button id="adminTab-usuarios" onclick="switchAdminTab('usuarios')"
+      style="padding:.55rem 1.1rem;font-size:.83rem;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--text);transition:color .15s,border-color .15s"
+      class="admin-tab-btn admin-tab-active">Usuarios</button>
+    <button id="adminTab-pesos" onclick="switchAdminTab('pesos')"
+      style="padding:.55rem 1.1rem;font-size:.83rem;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--muted);transition:color .15s,border-color .15s"
+      class="admin-tab-btn">Ponderación <span id="pesosBadge" style="display:none;color:#B45309;font-size:.9rem">●</span></button>
+  </div>
+
+  <!-- Panel: Usuarios -->
+  <div id="adminPanel-usuarios">
+    <div class="card" style="padding:1.5rem">
+      <div class="admin-toolbar">
+        <h3>Usuarios</h3>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-ghost" onclick="goTo('upload')">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Volver
+          </button>
+          <button class="btn btn-primary" onclick="openUserModal(null)">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Nuevo usuario
+          </button>
+        </div>
+      </div>
+      <div class="users-table-wrap">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Máx. registros</th>
+              <th>Vencimiento</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Cargando...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="users-table-wrap">
-      <table class="users-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Máx. registros</th>
-            <th>Vencimiento</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="usersTableBody">
-          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Cargando...</td></tr>
-        </tbody>
-      </table>
+  </div>
+
+  <!-- Panel: Ponderación -->
+  <div id="adminPanel-pesos" style="display:none">
+    <div class="card" style="padding:1.5rem">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+        <div>
+          <h3 style="font-size:1rem;font-weight:700;margin:0 0 .2rem">Ponderación por propósito</h3>
+          <p style="font-size:.81rem;color:var(--sub);margin:0">Ajusta los niveles de criticidad respecto al marco metodológico</p>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap">
+          <div>
+            <label style="font-size:.75rem;color:var(--sub);display:block;margin-bottom:.25rem">Propósito</label>
+            <select id="pesosProposito" onchange="pesosOnProposito()"
+              style="padding:.35rem .6rem;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.81rem;min-width:180px">
+              <option value="diagnostico_general">Diagnóstico general</option>
+              <option value="reporteria_bi">Reportería y BI</option>
+              <option value="migracion">Migración</option>
+              <option value="integracion">Integración</option>
+              <option value="auditoria">Auditoría</option>
+              <option value="depuracion_duplicados">Depuración de duplicados</option>
+              <option value="campanas">Campañas</option>
+              <option value="iniciativa_ia">Iniciativa de IA</option>
+            </select>
+          </div>
+          <div id="pesosIaDiv" style="display:none">
+            <label style="font-size:.75rem;color:var(--sub);display:block;margin-bottom:.25rem">Tipo de IA</label>
+            <select id="pesosTipoIA" onchange="loadPesosTable()"
+              style="padding:.35rem .6rem;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.81rem;min-width:180px">
+              <option value="ml_supervisado">ML supervisado</option>
+              <option value="deteccion_anomalias">Detección de anomalías</option>
+              <option value="series_tiempo">Series de tiempo</option>
+              <option value="segmentacion">Segmentación</option>
+              <option value="agente_generativo">Agente generativo</option>
+              <option value="recomendacion">Recomendación</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner de modificaciones -->
+      <div id="pesosModBanner" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.6rem .9rem;font-size:.81rem;color:#92400e;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem">
+        ⚠ <span id="pesosModText">0 dimensiones modificadas respecto al artículo</span>
+      </div>
+
+      <!-- Tabla de dimensiones -->
+      <div id="pesosTableWrap" style="margin-bottom:.9rem">
+        <p style="color:var(--muted);text-align:center;padding:2rem;font-size:.83rem">Selecciona un propósito para ver los pesos</p>
+      </div>
+
+      <!-- Botones de acción -->
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="savePesos()" style="font-size:.82rem">Guardar cambios</button>
+        <button class="btn btn-ghost" onclick="restaurarPesos()" style="font-size:.82rem">Restaurar valores del artículo</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2116,7 +2186,7 @@
             <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </div>
           <div class="acc-body"><div class="acc-content">
-            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El propósito define qué dimensiones son más importantes para tu caso de uso. Las de nivel <span class="help-pill critica">crítica</span> tienen peso 4×; las de nivel <span class="help-pill alta">alta</span> tienen peso 2×; las demás peso 1×.</p>
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">El propósito define qué dimensiones son más importantes para tu caso de uso. Las de nivel <span class="help-pill critica">crítica</span> tienen peso 4×; las de nivel <span class="help-pill alta">alta</span> tienen peso 3×; las de nivel Media tienen peso 2×; y las Informativas peso 1×.</p>
             <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
               <table style="width:100%;border-collapse:collapse;font-size:.78rem">
                 <thead><tr style="background:var(--surface2)">
@@ -2259,19 +2329,19 @@
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
                     <td style="padding:.4rem .75rem"><span class="help-pill alta">Alta</span></td>
-                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">2×</td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">3×</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Un fallo degrada significativamente el resultado, pero no lo impide</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Similitud en campañas de marketing, unicidad en maestros de clientes</td>
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
                     <td style="padding:.4rem .75rem"><span style="display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--text)">Media</span></td>
-                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">1×</td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">2×</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Conviene corregir pero no es bloqueante para el proceso actual</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">La mayoría de las dimensiones en un diagnóstico general</td>
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
                     <td style="padding:.4rem .75rem"><span style="display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--muted)">Informativa</span></td>
-                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">0.5×</td>
+                    <td style="padding:.4rem .75rem;text-align:center;font-weight:700">1×</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Solo para monitoreo; no condiciona ningún proceso ni decisión</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Métricas de contexto que se reportan pero no bloquean</td>
                   </tr>
@@ -2303,7 +2373,7 @@
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
                     <td style="padding:.4rem .75rem;font-weight:600;white-space:nowrap">Según propósito</td>
-                    <td style="padding:.4rem .75rem;color:var(--sub)">El sistema aplica automáticamente los pesos del propósito declarado (crítica 4×, alta 2×, media 1×)</td>
+                    <td style="padding:.4rem .75rem;color:var(--sub)">El sistema aplica automáticamente los pesos del propósito declarado (crítica 4×, alta 3×, media 2×, informativa 1×)</td>
                     <td style="padding:.4rem .75rem;color:var(--sub)">Cuando el propósito está bien definido; da el score más relevante para ese caso de uso</td>
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
@@ -2349,25 +2419,25 @@
                     <td style="padding:.35rem .75rem">Registros parecidos / nombre</td>
                     <td style="padding:.35rem .75rem;text-align:center">72</td>
                     <td style="padding:.35rem .75rem;text-align:center"><span class="help-pill alta">Alta</span></td>
-                    <td style="padding:.35rem .75rem;text-align:center">2</td>
-                    <td style="padding:.35rem .75rem;text-align:center">144</td>
+                    <td style="padding:.35rem .75rem;text-align:center">3</td>
+                    <td style="padding:.35rem .75rem;text-align:center">216</td>
                   </tr>
                   <tr style="border-top:1px solid var(--border)">
                     <td style="padding:.35rem .75rem">Consistencia / nombre</td>
                     <td style="padding:.35rem .75rem;text-align:center">88</td>
                     <td style="padding:.35rem .75rem;text-align:center"><span style="display:inline-block;padding:.1rem .4rem;border-radius:4px;font-size:.7rem;font-weight:600;background:var(--surface2);color:var(--text)">Media</span></td>
-                    <td style="padding:.35rem .75rem;text-align:center">1</td>
-                    <td style="padding:.35rem .75rem;text-align:center">88</td>
+                    <td style="padding:.35rem .75rem;text-align:center">2</td>
+                    <td style="padding:.35rem .75rem;text-align:center">176</td>
                   </tr>
                   <tr style="border-top:1px solid var(--border);background:var(--surface2)">
                     <td style="padding:.35rem .75rem;font-weight:600">Total</td>
                     <td colspan="2" style="padding:.35rem .75rem"></td>
-                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">7</td>
-                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">612</td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">9</td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700">772</td>
                   </tr>
                   <tr style="border-top:2px solid var(--border);background:#f0fdf4">
                     <td colspan="4" style="padding:.35rem .75rem;font-weight:600;color:#15803d">Score general ponderado</td>
-                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700;color:#15803d">612 / 7 = <strong>87.4</strong></td>
+                    <td style="padding:.35rem .75rem;text-align:center;font-weight:700;color:#15803d">772 / 9 = <strong>85.8</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -2388,7 +2458,27 @@
             <p style="font-size:.83rem;color:var(--sub);margin-bottom:.7rem;line-height:1.5">En la pantalla de configuración cada dimensión muestra un porcentaje de contribución al score — pero no se puede editar directamente. El motivo es que los pesos son <em>relativos</em>, no absolutos: lo que importa es la proporción entre dimensiones, no el número en sí.</p>
             <p style="font-size:.83rem;color:var(--sub);margin-bottom:.7rem;line-height:1.5">Si cambias una dimensión a <em>Crítica</em>, su porcentaje sube automáticamente y el de las demás baja proporcionalmente — porque ahora pesa 4× en lugar de 1×. El sistema normaliza los pesos para que siempre sumen 100%.</p>
             <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.65rem .9rem;font-size:.81rem;color:var(--sub);line-height:1.55">
-              📐 <strong>Referencia metodológica:</strong> La estructura de niveles con pesos 4-2-1-0.5 sigue el modelo de importancia relativa de Pipino, Lee y Wang (2002) — el framework de medición de calidad de datos más citado en la literatura académica — adaptado a los casos de uso del catálogo.
+              📐 <strong>Referencia metodológica:</strong> La estructura de niveles con pesos 4-3-2-1 sigue el modelo de importancia relativa de Pipino, Lee y Wang (2002) — el framework de medición de calidad de datos más citado en la literatura académica — adaptado a los casos de uso del catálogo.
+            </div>
+          </div></div>
+        </div>
+
+        <div class="acc-item" data-acc="pond-org">
+          <div class="acc-trigger" onclick="toggleAcc('pond-org')">
+            <div class="acc-icon" style="background:#fff7ed;color:#c2410c">⚙</div>
+            <span class="acc-title">Ajustar la ponderación a tu organización</span>
+            <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="acc-body"><div class="acc-content">
+            <p style="font-size:.83rem;color:var(--sub);margin-bottom:.75rem;line-height:1.5">Si los valores del artículo no reflejan con exactitud tu contexto organizacional, un administrador puede ajustar el nivel de criticidad de cualquier dimensión para cada propósito de análisis directamente desde el panel de administración.</p>
+            <ul style="font-size:.83rem;color:var(--sub);line-height:1.65;padding-left:1.2rem;margin-bottom:.8rem">
+              <li><strong>Los ajustes son globales:</strong> una vez guardados, se aplican automáticamente a todos los análisis posteriores que usen ese propósito — no es necesario intervenir en cada análisis.</li>
+              <li><strong>Los análisis históricos no se ven afectados:</strong> los pesos se congelan en el momento del análisis y quedan registrados en el reporte. Un cambio posterior no altera los resultados pasados.</li>
+              <li><strong>El reporte indica los ajustes aplicados:</strong> la línea de ponderación bajo el gauge muestra el número de dimensiones ajustadas respecto al artículo cuando hay overrides activos.</li>
+              <li><strong>Restauración en un clic:</strong> desde la pestaña Ponderación del panel de administración puedes volver en cualquier momento a los valores originales del marco metodológico seleccionando el propósito y pulsando "Restaurar valores del artículo".</li>
+            </ul>
+            <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;color:#c2410c;line-height:1.5">
+              🔑 Solo los usuarios con rol <strong>administrador</strong> tienen acceso a la pestaña Ponderación del panel de administración.
             </div>
           </div></div>
         </div>
@@ -3431,7 +3521,7 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
           <svg class="acc-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
         </div>
         <div class="acc-body"><div class="acc-content">
-          <p class="acc-def">El score general resume en un número del 0 al 100 la calidad global del dataset. Por defecto es el promedio simple de todos los scores individuales (una dimensión en una columna = un score). Si activaste ponderación por propósito o manual, es la media ponderada: las dimensiones de nivel Crítica (4×) y Alta (2×) pesan más que las de Media (1×). El modo de ponderación activo aparece bajo el gauge.</p>
+          <p class="acc-def">El score general resume en un número del 0 al 100 la calidad global del dataset. Por defecto es el promedio simple de todos los scores individuales (una dimensión en una columna = un score). Si activaste ponderación por propósito o manual, es la media ponderada: las dimensiones de nivel Crítica (4×), Alta (3×) y Media (2×) pesan más que las Informativas (1×). El modo de ponderación activo aparece bajo el gauge.</p>
           <div class="score-scale" style="margin-bottom:.9rem">
             <div class="scale-row green"><span class="scale-range">80–100</span><div class="scale-desc"><strong>🟢 Buena calidad</strong> — Los datos cumplen los criterios evaluados. Monitoreo rutinario suficiente.</div></div>
             <div class="scale-row yellow"><span class="scale-range">60–79</span><div class="scale-desc"><strong>🟡 Requiere atención</strong> — Hay problemas que pueden afectar análisis. Revisar y limpiar antes de usar en producción.</div></div>
@@ -4175,7 +4265,7 @@ function goTo(screen) {
     if (screen === 'config')  { setStep(3); }
     if (screen === 'results') { setStep(4); }
   }
-  if (screen === 'admin') loadAdminUsers();
+  if (screen === 'admin') { loadAdminUsers(); loadPesosResumen(); }
   if (screen === 'history') loadHistorial();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -5820,6 +5910,10 @@ function buildResultsScreen(data) {
       pondText += ` · ${TIPO_IA_LABELS[tipoIa] || tipoIa}`;
     }
   }
+  const overridesN = data.overrides_aplicados || 0;
+  if (overridesN > 0 && pesosOrigen !== 'iguales') {
+    pondText += ` · ${overridesN} ajuste${overridesN !== 1 ? 's' : ''} respecto al marco de referencia`;
+  }
   const pondLineEl = document.getElementById('ponderacionLine');
   if (pondLineEl) pondLineEl.textContent = pondText;
 
@@ -6719,6 +6813,172 @@ async function logoutUser() {
   hideNavUser();
   resetApp();
   goTo('login');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Admin — tabs
+// ─────────────────────────────────────────────────────────────────────
+function switchAdminTab(tab) {
+  ['usuarios', 'pesos'].forEach(t => {
+    const panel = document.getElementById(`adminPanel-${t}`);
+    const btn   = document.getElementById(`adminTab-${t}`);
+    if (!panel || !btn) return;
+    const active = t === tab;
+    panel.style.display = active ? '' : 'none';
+    btn.style.color = active ? 'var(--text)' : 'var(--muted)';
+    btn.style.borderBottomColor = active ? 'var(--primary, #2563EB)' : 'transparent';
+  });
+  if (tab === 'pesos') loadPesosTable();
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Admin — ponderación
+// ─────────────────────────────────────────────────────────────────────
+let _pesosResumen  = [];   // [{proposito, tipo_ia, modificados}]
+let _pesosData     = null; // current GET /admin/pesos/{proposito} response
+let _pesosPending  = {};   // {dimension: nivel} — unsaved changes
+
+const NIVEL_LABELS = { critica: 'Crítica', alta: 'Alta', media: 'Media', informativa: 'Informativa' };
+
+async function loadPesosResumen() {
+  try {
+    const r = await apiFetch('/admin/pesos/resumen');
+    _pesosResumen = r.ok ? await r.json() : [];
+  } catch (e) { _pesosResumen = []; }
+  // Update amber badge on tab button
+  const totalMod = _pesosResumen.reduce((s, x) => s + (x.modificados || 0), 0);
+  const badge = document.getElementById('pesosBadge');
+  if (badge) badge.style.display = totalMod > 0 ? '' : 'none';
+}
+
+function pesosOnProposito() {
+  const proposito = document.getElementById('pesosProposito').value;
+  const iaDiv = document.getElementById('pesosIaDiv');
+  if (iaDiv) iaDiv.style.display = proposito === 'iniciativa_ia' ? '' : 'none';
+  _pesosPending = {};
+  _pesosData = null;
+  loadPesosTable();
+}
+
+async function loadPesosTable() {
+  const proposito = document.getElementById('pesosProposito').value;
+  if (!proposito) return;
+  const tipoIA = document.getElementById('pesosTipoIA').value;
+  let url = `/admin/pesos/${proposito}`;
+  if (proposito === 'iniciativa_ia' && tipoIA) url += `?tipo_ia=${encodeURIComponent(tipoIA)}`;
+
+  const wrap = document.getElementById('pesosTableWrap');
+  wrap.innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem;font-size:.83rem">Cargando...</p>';
+
+  try {
+    const r = await apiFetch(url);
+    if (!r.ok) { wrap.innerHTML = '<p style="color:var(--red,#DC2626);text-align:center;padding:2rem;font-size:.83rem">Error al cargar los pesos</p>'; return; }
+    _pesosData = await r.json();
+    _pesosPending = {};
+  } catch (e) {
+    wrap.innerHTML = '<p style="color:var(--red,#DC2626);text-align:center;padding:2rem;font-size:.83rem">Error de conexión</p>';
+    return;
+  }
+  renderPesosTable();
+}
+
+function renderPesosTable() {
+  if (!_pesosData) return;
+  const dims = _pesosData.dimensiones;
+
+  // Count modifications (DB + pending)
+  const modCount = dims.filter(d => {
+    const pend = _pesosPending[d.dimension];
+    return pend !== undefined ? pend !== d.nivel_articulo : d.modificado;
+  }).length;
+
+  // Banner
+  const banner  = document.getElementById('pesosModBanner');
+  const bannerT = document.getElementById('pesosModText');
+  if (banner) {
+    banner.style.display = modCount > 0 ? 'flex' : 'none';
+    if (bannerT) bannerT.textContent = `${modCount} dimensión${modCount !== 1 ? 'es' : ''} modificada${modCount !== 1 ? 's' : ''} respecto al artículo`;
+  }
+  const badge = document.getElementById('pesosBadge');
+  if (badge) badge.style.display = modCount > 0 ? '' : 'none';
+
+  // Table
+  let html = `<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden"><table style="width:100%;border-collapse:collapse;font-size:.82rem">`;
+  dims.forEach((d, i) => {
+    const pend       = _pesosPending[d.dimension];
+    const nivelActual = pend !== undefined ? pend : d.nivel_actual;
+    const isModified = pend !== undefined ? pend !== d.nivel_articulo : d.modificado;
+    const borderSel  = isModified ? 'border:2px solid #F59E0B' : 'border:1px solid var(--border)';
+    const rightHtml  = isModified
+      ? `<span style="font-size:.72rem;color:#B45309;font-weight:600">era ${NIVEL_LABELS[d.nivel_articulo] || d.nivel_articulo}</span>`
+      : `<span style="font-size:.72rem;color:var(--muted)">artículo</span>`;
+
+    html += `<tr style="${i > 0 ? 'border-top:1px solid var(--border)' : ''}">
+      <td style="padding:.6rem .85rem;width:42%">
+        <div style="font-weight:600">${escHtml(d.nombre_negocio)}</div>
+        <div style="font-size:.71rem;color:var(--muted);margin-top:.1rem">${escHtml(d.dimension)}</div>
+      </td>
+      <td style="padding:.5rem .85rem;width:36%">
+        <select data-dim="${escHtml(d.dimension)}"
+          style="width:100%;padding:.32rem .5rem;border-radius:6px;background:var(--surface2);color:var(--text);font-size:.8rem;${borderSel}"
+          onchange="pesosPendChange('${escHtml(d.dimension)}', this.value)">
+          ${['critica','alta','media','informativa'].map(n =>
+            `<option value="${n}"${nivelActual === n ? ' selected' : ''}>${NIVEL_LABELS[n]}</option>`
+          ).join('')}
+        </select>
+      </td>
+      <td style="padding:.5rem .85rem;text-align:right;white-space:nowrap">${rightHtml}</td>
+    </tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('pesosTableWrap').innerHTML = html;
+}
+
+function pesosPendChange(dimension, nivel) {
+  _pesosPending[dimension] = nivel;
+  renderPesosTable();
+}
+
+async function savePesos() {
+  if (Object.keys(_pesosPending).length === 0) { toast('No hay cambios pendientes', 'info'); return; }
+  const proposito = document.getElementById('pesosProposito').value;
+  const tipoIA    = proposito === 'iniciativa_ia' ? document.getElementById('pesosTipoIA').value : null;
+  let ok = 0, err = 0;
+  for (const [dimension, nivel] of Object.entries(_pesosPending)) {
+    let url = `/admin/pesos/${proposito}`;
+    if (tipoIA) url += `?tipo_ia=${encodeURIComponent(tipoIA)}`;
+    try {
+      const r = await apiFetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dimension, nivel }) });
+      r.ok ? ok++ : err++;
+    } catch { err++; }
+  }
+  _pesosPending = {};
+  await loadPesosResumen();
+  await loadPesosTable();
+  if (err === 0) toast(`${ok} cambio${ok !== 1 ? 's' : ''} guardado${ok !== 1 ? 's' : ''}`, 'success');
+  else toast(`${err} error${err !== 1 ? 'es' : ''}; ${ok} guardado${ok !== 1 ? 's' : ''}`, 'warning');
+}
+
+async function restaurarPesos() {
+  if (!_pesosData) return;
+  const dbMod  = _pesosData.dimensiones.filter(d => d.modificado).length;
+  const total  = dbMod + Object.keys(_pesosPending).length;
+  if (total === 0) { toast('No hay ajustes que restaurar', 'info'); return; }
+  const sel = document.getElementById('pesosProposito');
+  const propLabel = sel.options[sel.selectedIndex].text;
+  if (!confirm(`Se eliminarán todos los ajustes de este perfil y volverán los valores del marco metodológico.\n\nPerfil: ${propLabel}\n\n¿Continuar?`)) return;
+  const proposito = document.getElementById('pesosProposito').value;
+  const tipoIA    = proposito === 'iniciativa_ia' ? document.getElementById('pesosTipoIA').value : null;
+  let url = `/admin/pesos/${proposito}`;
+  if (tipoIA) url += `?tipo_ia=${encodeURIComponent(tipoIA)}`;
+  try {
+    const r = await apiFetch(url, { method: 'DELETE' });
+    if (!r.ok) { toast('Error al restaurar', 'error'); return; }
+  } catch { toast('Error de conexión', 'error'); return; }
+  _pesosPending = {};
+  await loadPesosResumen();
+  await loadPesosTable();
+  toast('Valores del artículo restaurados', 'success');
 }
 
 // ─────────────────────────────────────────────────────────────────────

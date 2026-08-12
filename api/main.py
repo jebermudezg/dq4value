@@ -17,7 +17,8 @@ from pydantic import BaseModel
 
 from database.db import get_connection, hash_password, init_db, verify_password
 from engine.catalogos import NATURALEZA_DATO, PROPOSITO_ANALISIS, TIPOS_IA
-from engine.pesos import obtener_pesos, pesos_iguales, NIVELES
+from engine.pesos import (obtener_pesos, pesos_iguales, NIVELES,
+                           MATRIZ_PROPOSITOS, MATRIZ_TIPOS_IA, DIMENSIONES, NOMBRES_NEGOCIO)
 from engine.parsers import get_column_info, parse_file
 from engine.report_gen import generate_excel_report
 from engine.scorer import DQScorer
@@ -361,6 +362,17 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
     finally:
         _conn_pesos.close()
 
+    # Count overrides relative to the article matrix
+    _prop   = request.proposito_analisis or 'diagnostico_general'
+    _tia    = request.tipo_ia
+    if _prop == 'iniciativa_ia' and _tia:
+        _articulo_base = MATRIZ_TIPOS_IA.get(_tia, MATRIZ_PROPOSITOS['diagnostico_general'])
+    else:
+        _articulo_base = MATRIZ_PROPOSITOS.get(_prop, MATRIZ_PROPOSITOS['diagnostico_general'])
+    overrides_aplicados = (
+        0 if pesos_origen == 'iguales'
+        else sum(1 for d, n in niveles.items() if n != _articulo_base.get(d))
+    )
 
     # Initialise progress
     col_names  = list(request.columns_config.keys())
@@ -445,10 +457,12 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
 
         # Freeze weights used in this analysis
         pesos_usados_json = json.dumps({
-            "origen": pesos_origen,
-            "niveles": niveles,
-            "nivel_umbral": results["nivel_umbral"],
+            "origen":             pesos_origen,
+            "niveles":            niveles,
+            "nivel_umbral":       results["nivel_umbral"],
+            "overrides_aplicados": overrides_aplicados,
         }, ensure_ascii=False)
+        results["overrides_aplicados"] = overrides_aplicados
 
         # Persist full analysis record
         try:
@@ -506,6 +520,7 @@ async def analyze(request: AnalyzeRequest, authorization: str = Header(None)):
             "peor_dimension_critica_score": results["peor_dimension_critica_score"],
             "veredicto":                    results.get("veredicto", "listo"),
             "pesos_origen":                 pesos_origen,
+            "overrides_aplicados":          overrides_aplicados,
             "proposito_analisis":           request.proposito_analisis or "diagnostico_general",
             "tipo_ia":                      request.tipo_ia,
             "metadata_dimensiones":         {
@@ -1013,6 +1028,141 @@ def delete_historial_item(analisis_id: int, authorization: str = Header(None)):
     conn.commit()
     conn.close()
     return {"message": "Eliminado correctamente."}
+
+
+# ── Admin: gestión de pesos ──────────────────────────────────────────────
+
+
+class PesoPutRequest(BaseModel):
+    dimension: str
+    nivel: str
+
+
+@app.get("/admin/pesos/resumen")
+def admin_pesos_resumen(authorization: str = Header(None)):
+    """Cuántas dimensiones están modificadas por propósito/tipo_ia."""
+    require_admin(authorization)
+    conn = get_connection()
+    try:
+        rows = conn.execute("""
+            SELECT proposito, tipo_ia, COUNT(*) AS modificados
+            FROM pesos_config
+            GROUP BY proposito, tipo_ia
+        """).fetchall()
+    finally:
+        conn.close()
+    return [dict(r) for r in rows]
+
+
+@app.get("/admin/pesos/{proposito}")
+def admin_get_pesos(
+    proposito: str,
+    tipo_ia:   Optional[str] = None,
+    authorization: str = Header(None),
+):
+    """Devuelve los 11 pesos para un propósito, indicando cuáles tienen override."""
+    require_admin(authorization)
+
+    if proposito == 'iniciativa_ia' and tipo_ia:
+        articulo = dict(MATRIZ_TIPOS_IA.get(tipo_ia, MATRIZ_PROPOSITOS['diagnostico_general']))
+    else:
+        articulo = dict(MATRIZ_PROPOSITOS.get(proposito, MATRIZ_PROPOSITOS['diagnostico_general']))
+
+    conn = get_connection()
+    try:
+        rows = conn.execute("""
+            SELECT dimension, nivel, modificado_por, fecha_modificacion
+            FROM pesos_config
+            WHERE proposito = ? AND (tipo_ia = ? OR (tipo_ia IS NULL AND ? IS NULL))
+        """, (proposito, tipo_ia, tipo_ia)).fetchall()
+    finally:
+        conn.close()
+    overrides = {r["dimension"]: dict(r) for r in rows}
+
+    def _sort_key(d):
+        return (-NIVELES.get(articulo.get(d, 'media'), 2), d)
+
+    result = []
+    for dim in sorted(DIMENSIONES, key=_sort_key):
+        nivel_art = articulo.get(dim, 'media')
+        ov = overrides.get(dim)
+        result.append({
+            "dimension":          dim,
+            "nombre_negocio":     NOMBRES_NEGOCIO.get(dim, dim),
+            "nivel_actual":       ov["nivel"] if ov else nivel_art,
+            "nivel_articulo":     nivel_art,
+            "modificado":         ov is not None,
+            "modificado_por":     ov["modificado_por"] if ov else None,
+            "fecha_modificacion": ov["fecha_modificacion"] if ov else None,
+        })
+
+    return {"proposito": proposito, "tipo_ia": tipo_ia, "dimensiones": result}
+
+
+@app.put("/admin/pesos/{proposito}")
+def admin_put_peso(
+    proposito: str,
+    body:      PesoPutRequest,
+    tipo_ia:   Optional[str] = None,
+    authorization: str = Header(None),
+):
+    """Guarda o elimina un override de peso para una dimensión."""
+    admin = require_admin(authorization)
+
+    if body.nivel not in NIVELES:
+        raise HTTPException(status_code=400, detail=f"Nivel inválido: {body.nivel}.")
+    if body.dimension not in DIMENSIONES:
+        raise HTTPException(status_code=400, detail=f"Dimensión inválida: {body.dimension}.")
+
+    if proposito == 'iniciativa_ia' and tipo_ia:
+        articulo = MATRIZ_TIPOS_IA.get(tipo_ia, MATRIZ_PROPOSITOS['diagnostico_general'])
+    else:
+        articulo = MATRIZ_PROPOSITOS.get(proposito, MATRIZ_PROPOSITOS['diagnostico_general'])
+    nivel_articulo = articulo.get(body.dimension, 'media')
+
+    conn = get_connection()
+    try:
+        # Always delete first (handles NULL uniqueness correctly)
+        conn.execute("""
+            DELETE FROM pesos_config
+            WHERE proposito = ? AND dimension = ?
+              AND (tipo_ia = ? OR (tipo_ia IS NULL AND ? IS NULL))
+        """, (proposito, body.dimension, tipo_ia, tipo_ia))
+        removed = body.nivel == nivel_articulo
+        if not removed:
+            conn.execute("""
+                INSERT INTO pesos_config
+                    (proposito, tipo_ia, dimension, nivel, modificado_por, fecha_modificacion)
+                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            """, (proposito, tipo_ia, body.dimension, body.nivel, admin["id"]))
+        conn.commit()
+    finally:
+        conn.close()
+
+    return {"ok": True, "dimension": body.dimension, "nivel": body.nivel,
+            "removed_override": removed}
+
+
+@app.delete("/admin/pesos/{proposito}")
+def admin_delete_pesos(
+    proposito: str,
+    tipo_ia:   Optional[str] = None,
+    authorization: str = Header(None),
+):
+    """Elimina todos los overrides de un propósito (restaura al artículo)."""
+    require_admin(authorization)
+    conn = get_connection()
+    try:
+        result = conn.execute("""
+            DELETE FROM pesos_config
+            WHERE proposito = ?
+              AND (tipo_ia = ? OR (tipo_ia IS NULL AND ? IS NULL))
+        """, (proposito, tipo_ia, tipo_ia))
+        deleted = result.rowcount
+        conn.commit()
+    finally:
+        conn.close()
+    return {"ok": True, "eliminados": deleted}
 
 
 @app.get("/admin/historial")

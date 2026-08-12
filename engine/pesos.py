@@ -18,6 +18,20 @@ DIMENSIONES = [
     'razonabilidad', 'similitud',
 ]
 
+NOMBRES_NEGOCIO = {
+    'completitud':            'Datos faltantes',
+    'unicidad':               'Duplicados exactos',
+    'validez':                'Validez de formatos',
+    'consistencia':           'Consistencia',
+    'exactitud':              'Exactitud',
+    'vigencia':               'Datos sin actualizar',
+    'precision':              'Precisión',
+    'oportunidad':            'Oportunidad',
+    'integridad_referencial': 'Integridad referencial',
+    'razonabilidad':          'Razonabilidad',
+    'similitud':              'Registros parecidos',
+}
+
 MATRIZ_PROPOSITOS = {
     'diagnostico_general': {d: 'media' for d in [
         'completitud', 'unicidad', 'validez', 'consistencia', 'exactitud',
