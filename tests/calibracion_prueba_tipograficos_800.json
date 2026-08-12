@@ -1,0 +1,116 @@
+{
+  "archivo": "tests/prueba_tipograficos_800.csv",
+  "columna": "nombre_completo",
+  "n_filas": 800,
+  "pares_verdad": 75,
+  "winner": {
+    "algoritmo": "brecha_afin",
+    "umbral": 86,
+    "normalizar": false,
+    "precision": 0.8904109589041096,
+    "recall": 0.8666666666666667,
+    "f1": 0.8783783783783784,
+    "tp": 65,
+    "fp": 8,
+    "fn": 10,
+    "tiempo": 6.332731246948242
+  },
+  "best_per_algo": [
+    {
+      "algoritmo": "qgrams",
+      "umbral": 78,
+      "normalizar": false,
+      "precision": 0.9285714285714286,
+      "recall": 0.17333333333333334,
+      "f1": 0.29213483146067415,
+      "tp": 13,
+      "fp": 1,
+      "fn": 62,
+      "tiempo": 0.1696321964263916
+    },
+    {
+      "algoritmo": "jaro_winkler",
+      "umbral": 96,
+      "normalizar": false,
+      "precision": 0.9791666666666666,
+      "recall": 0.6266666666666667,
+      "f1": 0.7642276422764227,
+      "tp": 47,
+      "fp": 1,
+      "fn": 28,
+      "tiempo": 0.07331299781799316
+    },
+    {
+      "algoritmo": "brecha_afin",
+      "umbral": 86,
+      "normalizar": false,
+      "precision": 0.8904109589041096,
+      "recall": 0.8666666666666667,
+      "f1": 0.8783783783783784,
+      "tp": 65,
+      "fp": 8,
+      "fn": 10,
+      "tiempo": 6.332731246948242
+    },
+    {
+      "algoritmo": "tfidf",
+      "umbral": 78,
+      "normalizar": false,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 75,
+      "tiempo": 0.03978705406188965
+    },
+    {
+      "algoritmo": "jaro_winkler_normalizar",
+      "umbral": 94,
+      "normalizar": true,
+      "precision": 0.6744186046511628,
+      "recall": 0.7733333333333333,
+      "f1": 0.7204968944099379,
+      "tp": 58,
+      "fp": 28,
+      "fn": 17,
+      "tiempo": 0.08845281600952148
+    },
+    {
+      "algoritmo": "brecha_afin_normalizar",
+      "umbral": 86,
+      "normalizar": true,
+      "precision": 0.8441558441558441,
+      "recall": 0.8666666666666667,
+      "f1": 0.8552631578947368,
+      "tp": 65,
+      "fp": 12,
+      "fn": 10,
+      "tiempo": 8.590581893920898
+    },
+    {
+      "algoritmo": "qgrams_normalizar",
+      "umbral": 78,
+      "normalizar": true,
+      "precision": 0.9230769230769231,
+      "recall": 0.16,
+      "f1": 0.27272727272727276,
+      "tp": 12,
+      "fp": 1,
+      "fn": 63,
+      "tiempo": 0.17496705055236816
+    },
+    {
+      "algoritmo": "tfidf_normalizar",
+      "umbral": 78,
+      "normalizar": true,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 75,
+      "tiempo": 0.05294919013977051
+    }
+  ]
+}

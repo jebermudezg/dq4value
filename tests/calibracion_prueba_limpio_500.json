@@ -1,0 +1,116 @@
+{
+  "archivo": "tests/prueba_limpio_500.csv",
+  "columna": "nombre_producto",
+  "n_filas": 500,
+  "pares_verdad": 3,
+  "winner": {
+    "algoritmo": "brecha_afin",
+    "umbral": 94,
+    "normalizar": false,
+    "precision": 0.75,
+    "recall": 1.0,
+    "f1": 0.8571428571428571,
+    "tp": 3,
+    "fp": 1,
+    "fn": 0,
+    "tiempo": 4.471320867538452
+  },
+  "best_per_algo": [
+    {
+      "algoritmo": "qgrams",
+      "umbral": 82,
+      "normalizar": false,
+      "precision": 0.007547169811320755,
+      "recall": 0.6666666666666666,
+      "f1": 0.014925373134328358,
+      "tp": 2,
+      "fp": 263,
+      "fn": 1,
+      "tiempo": 0.1533031463623047
+    },
+    {
+      "algoritmo": "jaro_winkler",
+      "umbral": 96,
+      "normalizar": false,
+      "precision": 0.003663003663003663,
+      "recall": 0.6666666666666666,
+      "f1": 0.007285974499089254,
+      "tp": 2,
+      "fp": 544,
+      "fn": 1,
+      "tiempo": 0.09820103645324707
+    },
+    {
+      "algoritmo": "brecha_afin",
+      "umbral": 94,
+      "normalizar": false,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "tiempo": 4.471320867538452
+    },
+    {
+      "algoritmo": "tfidf",
+      "umbral": 78,
+      "normalizar": false,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "tiempo": 0.0424649715423584
+    },
+    {
+      "algoritmo": "jaro_winkler_normalizar",
+      "umbral": 96,
+      "normalizar": true,
+      "precision": 0.003663003663003663,
+      "recall": 0.6666666666666666,
+      "f1": 0.007285974499089254,
+      "tp": 2,
+      "fp": 544,
+      "fn": 1,
+      "tiempo": 0.08141803741455078
+    },
+    {
+      "algoritmo": "brecha_afin_normalizar",
+      "umbral": 94,
+      "normalizar": true,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "tiempo": 4.487255811691284
+    },
+    {
+      "algoritmo": "qgrams_normalizar",
+      "umbral": 78,
+      "normalizar": true,
+      "precision": 0.00625,
+      "recall": 0.6666666666666666,
+      "f1": 0.01238390092879257,
+      "tp": 2,
+      "fp": 318,
+      "fn": 1,
+      "tiempo": 0.15854215621948242
+    },
+    {
+      "algoritmo": "tfidf_normalizar",
+      "umbral": 78,
+      "normalizar": true,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "tiempo": 0.04297184944152832
+    }
+  ]
+}

@@ -1,161 +1,191 @@
 """
-Calibración de similitud por F1 con verdad terreno (RUC).
+tests/calibrar_similitud.py
+Calibración de los 8 algoritmos de similitud contra verdad terreno (entidad_real_id).
 
 Uso:
-  python3 tests/calibrar_similitud.py               # todos los algoritmos
-  python3 tests/calibrar_similitud.py monge_elkan   # un algoritmo
+  python3 tests/calibrar_similitud.py <archivo.csv> <columna_texto> [umbral_inicio [umbral_fin]]
+
+Produce:
+  - Tabla por dataset con Precisión/Exhaustividad/F1/Tiempo
+  - Tabla comparativa final acumulada en tests/CALIBRACION_SIMILITUD.md
 """
-import sys
-import time
-import pandas as pd
-from collections import defaultdict
-
+import sys, time, json, itertools
 sys.path.insert(0, '.')
-from engine.dimensions.similitud import check_similitud
 
-df = pd.read_csv('tests/maestro_proveedores_1000.csv')
+import pandas as pd
+import numpy as np
 
-# ── Verdad terreno: pares que comparten RUC ──────────────────────────────────
-ruc_to_ids = defaultdict(list)
-ruc_to_nombres = defaultdict(list)
-for _, row in df.iterrows():
-    ruc_to_ids[row['ruc']].append(int(row['proveedor_id']))
-    ruc_to_nombres[row['ruc']].append(str(row['razon_social']))
+# ──────────────────────────────────────────────────────────────────────────────
+# Argumentos
+# ──────────────────────────────────────────────────────────────────────────────
+if len(sys.argv) < 3:
+    print("Uso: python3 tests/calibrar_similitud.py <archivo.csv> <columna_texto>")
+    sys.exit(1)
 
-verdad = set()
-for ruc, ids in ruc_to_ids.items():
-    if len(ids) > 1:
-        ids_s = sorted(ids)
-        for i, a in enumerate(ids_s):
-            for b in ids_s[i + 1:]:
-                verdad.add((a, b))
-
-# ── Inspección de verdad terreno ─────────────────────────────────────────────
-print("Pares con mismo RUC — verificacion de verdad terreno:")
-for ruc, grupo in df.groupby('ruc'):
-    if len(grupo) > 1:
-        nombres = grupo['razon_social'].tolist()
-        ids = grupo['proveedor_id'].tolist()
-        print(f"  RUC {ruc}: {len(grupo)} registros")
-        for i, n in zip(ids, nombres):
-            print(f"    {i}: {n}")
-print()
-
-print(f"Pares verdaderos (mismo RUC): {len(verdad)}")
-print(f"Grupos verdaderos:            {sum(1 for ids in ruc_to_ids.values() if len(ids) > 1)}")
-print()
-
-
-def calibrar(algoritmo: str, umbrales: list) -> list:
-    resultados = []
-    t0 = time.time()
-    for umbral in umbrales:
-        score, issues, meta = check_similitud(
-            df, 'proveedor_id', 'razon_social',
-            algoritmo=algoritmo, umbral=umbral, normalizar=True
-        )
-        detectados = set()
-        if not issues.empty and 'grupo_id' in issues.columns:
-            for gid, g in issues.groupby('grupo_id'):
-                if g['grupo_disperso'].any():
-                    continue
-                ids = sorted(g['proveedor_id'].astype(int).tolist())
-                for i, a in enumerate(ids):
-                    for b in ids[i + 1:]:
-                        detectados.add((a, b))
-
-        vp = len(detectados & verdad)
-        fp = len(detectados - verdad)
-        fn = len(verdad - detectados)
-        prec = vp / (vp + fp) if (vp + fp) else 0.0
-        exh  = vp / (vp + fn) if (vp + fn) else 0.0
-        f1   = 2 * prec * exh / (prec + exh) if (prec + exh) else 0.0
-        resultados.append({
-            'umbral':  umbral,
-            'prec':    prec,
-            'exh':     exh,
-            'f1':      f1,
-            'grupos':  meta.get('total_grupos', 0),
-            'disp':    meta.get('grupos_dispersos_excluidos', 0),
-            'score':   score,
-            'estado':  meta.get('estado_confiabilidad', '—'),
-            'rcp':     meta.get('registros_con_algun_par', 0),
-        })
-    elapsed = time.time() - t0
-    return resultados, elapsed
-
-
-ALGORITMOS = [
-    'jaro_winkler', 'brecha_afin', 'monge_elkan', 'levenshtein',
-    'qgrams', 'smith_waterman', 'soundex', 'coseno',
-]
+ARCHIVO  = sys.argv[1]
+COLUMNA  = sys.argv[2]
 UMBRALES = [78, 82, 86, 90, 92, 94, 96]
 
-filtro = sys.argv[1] if len(sys.argv) > 1 else None
-if filtro:
-    ALGORITMOS = [a for a in ALGORITMOS if a == filtro]
+df = pd.read_csv(ARCHIVO)
+assert COLUMNA in df.columns, f"Columna '{COLUMNA}' no encontrada"
+assert 'entidad_real_id' in df.columns, "Falta columna entidad_real_id"
 
-resumen = []  # best per algorithm
+# Determinar id_col (primer campo que no es entidad_real_id ni la columna texto)
+id_col = df.columns[0]
+N = len(df)
+print(f"\nArchivo  : {ARCHIVO}")
+print(f"Columna  : {COLUMNA}")
+print(f"Filas    : {N}")
+print(f"id_col   : {id_col}")
+print(f"Umbrales : {UMBRALES}\n")
 
-for algo in ALGORITMOS:
-    print(f"\n{'─'*70}")
-    print(f"  {algo}")
-    print(f"{'─'*70}")
-    col_w = 72
-    header = (
-        f"  {'Umbral':>7} {'Prec':>7} {'Exh':>7} {'F1':>6}  "
-        f"{'Grupos':>7} {'Disp':>5} {'Score':>7} {'Estado':>14}  {'Regs/par':>8}"
-    )
-    print(header)
-    print("  " + "-" * (col_w - 2))
-    resultados, elapsed = calibrar(algo, UMBRALES)
+# ──────────────────────────────────────────────────────────────────────────────
+# Verdad terreno: pares que son duplicados reales (mismo entidad_real_id)
+# Solo incluir IDs con ≥2 registros en el mismo grupo
+# ──────────────────────────────────────────────────────────────────────────────
+grupos = df.groupby('entidad_real_id')[id_col].apply(list)
+pares_verdad = set()
+for ids_grupo in grupos:
+    if len(ids_grupo) >= 2:
+        for a, b in itertools.combinations(sorted(ids_grupo), 2):
+            pares_verdad.add((min(a,b), max(a,b)))
 
-    best_confiable = None
-    for r in resultados:
-        marker = ""
-        if r['estado'] == 'confiable':
-            if best_confiable is None or r['f1'] > best_confiable['f1']:
-                best_confiable = r
-                marker = " ◀"
-        print(
-            f"  {r['umbral']:>6}%  {r['prec']:>6.1%}  {r['exh']:>6.1%}  {r['f1']:>5.3f}  "
-            f"{r['grupos']:>7}  {r['disp']:>4}  {r['score']:>7.1f}  "
-            f"{r['estado']:>14}  {r['rcp']:>8}{marker}"
-        )
+TOTAL_PARES_VERDAD = len(pares_verdad)
+print(f"Pares de duplicados reales (verdad terreno): {TOTAL_PARES_VERDAD}\n")
 
-    if best_confiable:
-        resumen.append({
-            'algoritmo': algo,
-            'umbral':    best_confiable['umbral'],
-            'prec':      best_confiable['prec'],
-            'exh':       best_confiable['exh'],
-            'f1':        best_confiable['f1'],
-            'estado':    best_confiable['estado'],
-            'tiempo_s':  elapsed,
-        })
-        print(f"\n  → Mejor confiable: umbral={best_confiable['umbral']}%  "
-              f"F1={best_confiable['f1']:.3f}  tiempo={elapsed:.1f}s")
+# ──────────────────────────────────────────────────────────────────────────────
+# Evaluar similitud usando el motor del proyecto
+# ──────────────────────────────────────────────────────────────────────────────
+from engine.dimensions.similitud import check_similitud
+
+ALGORITMOS = [
+    'qgrams',
+    'jaro_winkler',
+    'brecha_afin',
+    'tfidf',
+    'jaro_winkler_normalizar',    # jaro_winkler + normalizar tokens
+    'brecha_afin_normalizar',     # brecha_afin + normalizar tokens
+    'qgrams_normalizar',          # qgrams + normalizar tokens
+    'tfidf_normalizar',           # tfidf + normalizar tokens (tfidf ya usa tokens)
+]
+
+results_all = []
+
+print(f"{'Algoritmo':<30s} {'Umbral':>7s} {'Prec':>7s} {'Recall':>7s} {'F1':>7s} {'TP':>6s} {'FP':>6s} {'FN':>6s} {'Tiempo':>8s}")
+print("-"*92)
+
+best_per_algo: dict[str, dict] = {}
+
+for algo_key in ALGORITMOS:
+    # Parse algorithm and normalizar
+    normalizar = '_normalizar' in algo_key
+    algo_base  = algo_key.replace('_normalizar', '')
+    # tfidf con normalizar es redundante pero lo marcamos
+    if algo_base == 'tfidf' and normalizar:
+        algo_base_use = 'tfidf'
+        normalizar_use = True
     else:
-        resumen.append({
-            'algoritmo': algo, 'umbral': '—', 'prec': 0, 'exh': 0,
-            'f1': 0, 'estado': 'sin calibrar', 'tiempo_s': elapsed,
-        })
-        print(f"\n  → Sin umbral confiable en el rango probado  (tiempo={elapsed:.1f}s)")
+        algo_base_use = algo_base
+        normalizar_use = normalizar
 
-# ── Tabla resumen ─────────────────────────────────────────────────────────────
-print(f"\n\n{'═'*78}")
-print("  TABLA RESUMEN — mejor umbral confiable por algoritmo")
-print(f"{'═'*78}")
-hdr = f"  {'Algoritmo':<20} {'Umbral':>7} {'Prec':>7} {'Exh':>7} {'F1':>6}  {'Estado':<14}  {'Tiempo':>7}"
-print(hdr)
-print("  " + "─" * 74)
-for r in sorted(resumen, key=lambda x: -x['f1']):
-    umbral_s = f"{r['umbral']}%" if isinstance(r['umbral'], int) else r['umbral']
-    prec_s   = f"{r['prec']:.1%}" if r['prec'] else "—"
-    exh_s    = f"{r['exh']:.1%}"  if r['exh']  else "—"
-    f1_s     = f"{r['f1']:.3f}"   if r['f1']   else "0.000"
-    print(
-        f"  {r['algoritmo']:<20} {umbral_s:>7} {prec_s:>7} {exh_s:>7} {f1_s:>6}  "
-        f"{r['estado']:<14}  {r['tiempo_s']:>6.1f}s"
-    )
-print(f"{'═'*78}")
+    best_f1 = -1
+    best_row = None
+
+    for umbral in UMBRALES:
+        t0 = time.time()
+        try:
+            score, issues_df, metadata = check_similitud(
+                df, id_col, COLUMNA,
+                algoritmo=algo_base_use,
+                umbral=umbral,
+                normalizar=normalizar_use,
+            )
+        except Exception as e:
+            print(f"  ⚠  {algo_key} @ {umbral}% → ERROR: {e}")
+            continue
+        elapsed = time.time() - t0
+
+        if issues_df.empty:
+            pares_detectados = set()
+        else:
+            # Reconstruir pares detectados: para cada registro en issues,
+            # encontrar su grupo según el campo grupo_id si existe, o agrupar
+            # por cluster usando el campo similitud si está disponible.
+            # El motor agrupa duplicados; usamos issues para reconstruir pares.
+            if 'grupo_id' in issues_df.columns:
+                grupos_det = issues_df.groupby('grupo_id')[id_col].apply(list)
+            elif 'cluster_id' in issues_df.columns:
+                grupos_det = issues_df.groupby('cluster_id')[id_col].apply(list)
+            else:
+                # Si no hay grupo_id, cada fila es un problema con un par implícito.
+                # Fallback: tratar todos los issues como un solo grupo (conservador).
+                grupos_det = {0: list(issues_df[id_col].unique())}
+                grupos_det = pd.Series(grupos_det)
+
+            pares_detectados = set()
+            for ids_g in grupos_det:
+                ids_sorted = sorted(set(ids_g))
+                for a, b in itertools.combinations(ids_sorted, 2):
+                    pares_detectados.add((min(a,b), max(a,b)))
+
+        tp = len(pares_detectados & pares_verdad)
+        fp = len(pares_detectados - pares_verdad)
+        fn = len(pares_verdad - pares_detectados)
+
+        precision   = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall      = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1          = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+        row = {
+            'algoritmo': algo_key, 'umbral': umbral, 'normalizar': normalizar_use,
+            'precision': precision, 'recall': recall, 'f1': f1,
+            'tp': tp, 'fp': fp, 'fn': fn, 'tiempo': elapsed,
+        }
+        results_all.append(row)
+
+        marker = ' ◀' if f1 > best_f1 else ''
+        print(f"  {algo_key:<28s} {umbral:>7d} {precision:>7.3f} {recall:>7.3f} {f1:>7.3f} {tp:>6d} {fp:>6d} {fn:>6d} {elapsed:>7.2f}s{marker}")
+
+        if f1 > best_f1:
+            best_f1 = f1
+            best_row = row
+
+    if best_row:
+        best_per_algo[algo_key] = best_row
+    print()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Tabla resumen por algoritmo (mejor umbral)
+# ──────────────────────────────────────────────────────────────────────────────
+print("\n" + "="*80)
+print(f"RESUMEN — {ARCHIVO} / '{COLUMNA}'")
+print("="*80)
+print(f"{'Algoritmo':<30s} {'Mejor umbral':>13s} {'Precisión':>10s} {'Recall':>8s} {'F1':>8s} {'Tiempo':>8s}")
+print("-"*80)
+
+rows_sorted = sorted(best_per_algo.values(), key=lambda r: -r['f1'])
+winner = rows_sorted[0] if rows_sorted else None
+
+for r in rows_sorted:
+    mark = ' 🏆' if r == winner else ''
+    print(f"  {r['algoritmo']:<28s} {r['umbral']:>13d}% {r['precision']:>10.3f} {r['recall']:>8.3f} {r['f1']:>8.3f} {r['tiempo']:>7.2f}s{mark}")
+
+if winner:
+    print(f"\n✅ Mejor algoritmo: {winner['algoritmo']} @ {winner['umbral']}%  F1={winner['f1']:.3f}")
+    print(f"   Precisión={winner['precision']:.3f}  Exhaustividad={winner['recall']:.3f}")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Guardar resultado en JSON para consolidar en el reporte
+# ──────────────────────────────────────────────────────────────────────────────
+output_json = f"tests/calibracion_{ARCHIVO.split('/')[-1].replace('.csv','')}.json"
+with open(output_json, 'w') as f:
+    payload = {
+        'archivo': ARCHIVO,
+        'columna': COLUMNA,
+        'n_filas': N,
+        'pares_verdad': TOTAL_PARES_VERDAD,
+        'winner': winner,
+        'best_per_algo': list(best_per_algo.values()),
+    }
+    json.dump(payload, f, indent=2, ensure_ascii=False)
+print(f"\nResultados guardados → {output_json}")

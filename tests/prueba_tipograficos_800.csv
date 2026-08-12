@@ -1,0 +1,801 @@
+empleado_id,entidad_real_id,nombre_completo,dni,cargo,area,salario_pen,fecha_ingreso,fecha_ultima_evaluacion,nivel_educativo,email_corporativo,telefono,estado_laboral
+1,21,"Nina Apaza, EEduardo",88234302,Asistente,Ventas,3845.48,2023-06-25,2022-01-03,Secundaria,eeduardo@empresa.pe,982138850,Licencia
+2,750,"Yucra López, Ricardo",82375351,Auditor,Operaciones,11607.69,2018-02-17,2024-08-14,Técnico,ricardo@empresa.pe,974417634,Inactivo
+3,698,"Vega Llerena, Juan",87980272,Coordinador,Contabilidad,13764.05,2011-04-19,2024-01-25,Titulado,juan@empresa.pe,972225407,Retirado
+4,619,"Reyes Mamani, Fabiola",18054653,Jefe de área,Logística,11990.36,2016-08-08,2022-08-11,Maestría,fabiola@empresa.pe,931194159,Retirado
+5,677,"Ramos Poma, Fernando",15780302,Gerente,Finanzas,7369.38,2020-07-18,2022-12-02,Maestría,fernando@empresa.pe,951376758,Licencia
+6,61,"Lazo Flores, Luis",55032202,Asistente,Finanzas,13499.58,2015-12-19,2024-06-12,Maestría,luis@empresa.pe,945607459,Licencia
+7,340,"Ccari Vargas, Alejandro",99051905,Técnico,Recursos Humanos,8630.01,2014-10-06,2023-03-23,Bachiller,alejandro@empresa.pe,911829648,Licencia
+8,415,"Huamán Tapia, Diego",28808966,Director,Finanzas,5315.47,2013-04-05,2024-01-20,Titulado,diego@empresa.pe,953838220,Inactivo
+9,12,"Lazi Flores, iSlvia",77906507,Asistente,Ventas,10453.5,2016-07-28,2022-04-03,Titulado,islvia@empresa.pe,934877528,Inactivo
+10,195,"Chura Tapia, Óscar",16784302,Freelance,Legal,14240.08,2021-03-16,2022-11-19,Bachiller,óscar@empresa.pe,990882974,Activo
+11,222,"Nina Mamani, Eduardo",32087556,Supervisor,Finanzas,9845.0,2014-11-24,2022-04-08,Titulado,eduardo@empresa.pe,970118635,Inactivo
+12,234,"Medina Lazo, Lucía",37273749,Técnico,Logística,5699.43,2016-09-10,2024-10-18,Técnico,lucía@empresa.pe,986440118,Inactivo
+13,682,"Nina Ticona, César",18944903,Asistente,Tecnología,13620.79,2019-05-05,2024-09-30,Bachiller,césar@empresa.pe,960453341,Licencia
+14,431,"Díaz Mamani, Claudia",68433970,Asistente,Recursos Humanos,7296.81,2020-01-26,2024-01-25,Secundaria,claudia@empresa.pe,914789674,Retirado
+15,251,"Cusi López, Miguel",63089588,,Recursos Humanos,5208.9,2020-01-29,2024-09-06,Técnico,miguel@empresa.pe,979435892,Inactivo
+16,723,,11894676,Supervisor,Finanzas,3891.49,2017-02-21,2024-11-18,Maestría,patricia@empresa.pe,931130463,Inactivo
+17,93,"Cusi Díaz, Silvia",25894409,Supervisor,Operaciones,4850.02,2020-08-12,2024-10-06,Maestría,silvia@empresa.pe,917845626,Retirado
+18,207,"Quispe Mamani, Ana",71700653,Jefe de área,Legal,5339.03,2011-12-20,2023-02-17,Maestría,ana@empresa.pe,925396245,Licencia
+19,571,"Rodríguez Suca, José",88408667,Gerente,Finanzas,4383.07,2010-03-19,2024-06-29,Titulado,josé@empresa.pe,994885555,Licencia
+20,228,"Mamani Chura, José",40870492,Asistente,Contabilidad,11426.95,2010-09-17,2023-09-26,Maestría,josé@empresa.pe,970822240,Licencia
+21,187,"Quispe Huamán, Fernando",69731052,Gerente,Logística,3036.81,2012-12-28,2022-10-18,Maestría,fernando@empresa.pe,985600621,Inactivo
+22,701,"Nina Lazo, Elena",77049653,Gerente,Logística,4507.27,2013-01-23,2023-09-09,Bachiller,elena@empresa.pe,943285878,Licencia
+23,727,"Condori Reyes, Ricardo",78006417,Técnico,Legal,2377.85,2010-12-20,2022-05-01,Titulado,ricardo@empresa.pe,928456662,Activo
+24,428,"Gonzales Salcedo, Ana",46097607,Supervisor,Finanzas,14910.46,02/04/2010,2023-10-31,Bachiller,ana@empresa.pe,996233283,Licencia
+25,240,"Díaz Díaz, Patricia",28228150,Analista,Operaciones,8450.74,2015-01-09,2022-10-30,Maestría,patricia@empresa.pe,977206680,Activo
+26,616,"Flores López, Fabiola",61253232,Jefe de área,Legal,6028.95,2017-08-14,2023-07-06,Técnico,fabiola@empresa.pe,993934715,Inactivo
+27,537,"Ccopa Mendoza, Paola",69810702,Analista,Operaciones,7852.22,2011-04-20,2022-12-24,Titulado,paola@empresa.pe,920201671,Activo
+28,469,"Huanca Poma, Luis",59561654,Especialista,Finanzas,3919.12,2012-12-10,2023-11-26,Titulado,luis@empresa.pe,968955292,Licencia
+29,91,"Cruz Ramos, Fabiola",23624701,Supervisor,Operaciones,9183.12,2020-02-20,2023-12-11,Técnico,fabiola@empresa.pe,937989887,Retirado
+30,429,"Yucra Mendoza, Rosa",86988703,Especialista,Logística,13035.87,2011-11-11,2024-10-04,Secundaria,rosa@empresa.pe,930009635,Retirado
+31,257,"Cusi Salcedo, Elena",80573703,Analista,Recursos Humanos,6923.03,2023-04-19,2024-08-05,Titulado,elena@empresa.pe,968535078,Retirado
+32,236,"Gonzales Yucra, Fabiola",70807053,Analista,Ventas,4126.53,2018-01-31,2022-04-05,Titulado,fabiola@empresa.pe,934467518,Retirado
+33,5,"Huamán Condori, Jun",36401454,Especialista,Finanzas,5860.78,2020-10-02,2023-12-06,Secundaria,jun@empresa.pe,998662305,Activo
+34,646,"Medina Medina, César",24209519,Supervisor,Recursos Humanos,14733.01,2015-02-24,2022-08-09,Técnico,césar@empresa.pe,939924390,Activo
+35,180,"Rodríguez Huanca, Carmen",25466138,Auditor,Ventas,4938.26,2010-11-28,2024-04-08,Secundaria,carmen@empresa.pe,991675468,Inactivo
+36,402,"López Huanca, Ricardo",49056562,Gerente,Recursos Humanos,12521.68,2014-12-27,2022-04-29,Técnico,ricardo@empresa.pe,959220964,Retirado
+37,595,"Mendoza Lazo, José",40670638,Técnico,Operaciones,2910.82,2010-10-11,2022-07-09,Titulado,josé@empresa.pe,975009411,Inactivo
+38,274,"Ccopa Chávez, Patricia",46396368,Supervisor,Logística,11795.28,2010-09-23,2022-07-26,Secundaria,patricia@empresa.pe,956210969,Inactivo
+39,278,"Paredes Torres, Sofía",22084400,Especialista,Logística,5776.51,2013-05-05,2023-06-20,Secundaria,sofía@empresa.pe,924298945,Inactivo
+40,548,"Mamani Ccari, Miguel",76177025,Coordinador,Operaciones,1923.34,2010-01-08,2024-03-24,Maestría,miguel@empresa.pe,918623753,Licencia
+41,256,"Ticona Chávez, Pilar",93021142,Auditor,Tecnología,3844.22,2011-06-04,2023-02-21,Bachiller,pilar@empresa.pe,919499911,Activo
+42,253,"Suca Ccopa, Carlos",86577921,Auditor,Operaciones,4783.41,2016-11-16,2023-07-17,Bachiller,carlos@empresa.pe,944308904,Inactivo
+43,444,"Medina Díaz, Sofía",48479766,Supervisor,Finanzas,13988.06,2015-12-24,2022-04-11,Titulado,sofía@empresa.pe,921750887,Licencia
+44,670,"Ccopa Chura, Claudia",49910937,Coordinador,Operaciones,2248.88,2019-12-19,2023-12-11,Secundaria,claudia@empresa.pe,936884587,Retirado
+45,160,"Yucra Ticona, José",81154026,Coordinador,Operaciones,11501.25,2018-02-19,2023-10-14,Bachiller,josé@empresa.pe,920078041,Licencia
+46,578,"Gonzales Ccopa, Cecilia",67749013,Gerente,Finanzas,161583.8,2016-12-05,2023-08-01,Secundaria,cecilia@empresa.pe,978837410,Licencia
+47,575,"Cruz Nina, Patricia",90243606,Supervisor,Logística,3736.64,2018-12-06,2023-12-04,Secundaria,patricia@empresa.pe,922875687,Licencia
+48,504,"Huanca Ramos, Carlos",50281774,Supervisor,Tecnología,13867.33,2015-06-11,2024-04-26,Secundaria,carlos@empresa.pe,939992610,Activo
+49,347,"Rodríguez Vargas, Elena",44083241,Auditor,Ventas,10200.74,2011-05-24,2022-05-13,Bachiller,elena@empresa.pe,911988857,Licencia
+50,311,"Yucra Aguilar, Fernando",19034438,Auditor,Logística,11847.04,2023-08-19,2023-03-13,Técnico,fernando@empresa.pe,951507104,Activo
+51,520,"Poma Cruz, Rosa",87098737,Asistente,Contabilidad,7231.9,2023-02-19,2023-10-29,Bachiller,rosa@empresa.pe,983879874,Licencia
+52,171,"Mendoza Nina, Claudia",61754004,Coordinador,Recursos Humanos,5835.15,2019-06-22,2023-12-21,Maestría,claudia@empresa.pe,942874758,Retirado
+53,45,"Chávez Vega, Diego",59034073,Especialista,Finanzas,2465.64,2010-11-30,2022-09-24,Secundaria,diego@empresa.pe,952107570,Activo
+54,322,"Huamán Salcedo, Ana",57488395,Analista,Ventas,4676.78,2016-03-29,2024-11-28,Titulado,ana@empresa.pe,961559957,Inactivo
+55,223,"Mamani Cruz, Claudia",77366046,Supervisor,Ventas,10143.7,2011-04-11,2022-09-22,Maestría,claudia@empresa.pe,916523126,Activo
+56,726,"García Nina, Ana",94619042,Director,Contabilidad,13451.68,2022-05-27,2023-07-22,Maestría,ana@empresa.pe,974231422,Inactivo
+57,318,"Ccari Mamani, Gabriela",36535371,Supervisor,Logística,12105.28,2014-07-07,2023-08-30,Secundaria,gabriela@empresa.pe,992290204,Activo
+58,355,"Chávez García, Cecilia",70802569,Coordinador,Ventas,9907.76,2016-04-17,2024-01-10,Secundaria,cecilia@empresa.pe,926066864,Retirado
+59,711,"Paredes Poma, Pedro",53114495,Jefe de área,Operaciones,10916.39,2021-01-18,2023-10-31,Bachiller,pedro@empresa.pe,998888535,Licencia
+60,76,"Huamán Ccopa, Miguel",50467677,Auditor,Operaciones,11615.34,2013-07-01,2023-05-23,Bachiller,miguel@empresa.pe,990919210,Licencia
+61,99,"Díaz Mendoza, Ana",52559635,Jefe de área,Recursos Humanos,11041.9,2010-11-25,2024-03-27,Maestría,ana@empresa.pe,964496309,Activo
+62,18,"Rodríguez SSuuca, Fernando",64520484,Asistente,Contabilidad,10252.74,2022-07-02,2024-03-18,Secundaria,fernando@empresa.pe,932458983,Inactivo
+63,369,"Mendoza Huanca, Gabriela",53522078,Supervisor,Legal,12042.53,2011-12-30,2023-03-01,Maestría,gabriela@empresa.pe,964910921,Retirado
+64,59,"Ccari Mamani, Alejandro",78041437,Técnico,Operaciones,10136.83,2021-05-29,2023-09-26,Secundaria,alejandro@empresa.pe,950301042,Activo
+65,97,"Paredes Mendoza, Patricia",80536464,Supervisor,Logística,8846.93,2019-10-06,2023-12-02,Titulado,patricia@empresa.pe,943765416,Activo
+66,6,"López Apaza, Diego",13697544,Especialista,Operaciones,3285.88,2023-09-20,2024-08-29,Bachiller,diego@empresa.pe,930926211,Inactivo
+67,21,"Nina Apaza, Eduardo",86421196,Asistente,Operaciones,13894.9,2015-08-25,2024-12-17,Titulado,eduardo@empresa.pe,925050194,Activo
+68,465,"Aguilar Díaz, Eduardo",94339784,Gerente,Contabilidad,10910.79,2015-08-02,2024-11-12,Maestría,eduardo@empresa.pe,960355156,Licencia
+69,371,"Flores Huamán, María",64511112,Coordinador,Contabilidad,9700.56,2023-01-23,2024-07-19,Bachiller,maría@empresa.pe,987438155,Licencia
+70,392,"Huamán Mendoza, Cecilia",43275683,Director,Contabilidad,1581.68,2013-05-01,2023-10-20,Bachiller,cecilia@empresa.pe,933194248,Licencia
+71,396,"Huamán Gonzales, Elena",68652237,Jefe de área,Ventas,12787.89,2022-02-03,2023-11-20,Secundaria,elena@empresa.pe,956342454,Inactivo
+72,634,"Medina Lazo, José",13140460,Asistente,Finanzas,-2012.7,2010-05-05,2024-12-17,Titulado,josé@empresa.pe,950344163,Retirado
+73,500,"Reyes Rodríguez, Rosa",87508098,Jefe de área,Sin área,12802.82,2023-02-25,2023-01-31,Titulado,rosa@empresa.pe,996676580,Retirado
+74,20,"Yucra Condori, Patricia",26894495,Director,Ventas,10677.19,2012-01-29,2023-07-10,Técnico,patricia@empresa.pe,961614871,Retirado
+75,650,"Poma Huanca, Pilar",72227998,Coordinador,Operaciones,5171.96,2017-05-15,2024-02-02,Técnico,pilar@empresa.pe,990004753,Inactivo
+76,713,"Salcedo García, Eduardo",46437984,Analista,Logística,7802.97,2016-11-08,2022-08-06,Secundaria,eduardo@empresa.pe,922745672,Retirado
+77,685,"Llerena Paredes, Miguel",30223083,Jefe de área,Finanzas,13788.0,2013-09-05,2023-02-17,Maestría,miguel@empresa.pe,976752784,Inactivo
+78,374,"Ticona Flores, Ana",12013904,Técnico,Logística,9418.1,26/07/2022,2022-05-24,Secundaria,ana@empresa.pe,933248854,Activo
+79,287,"Ticona Torres, Cecilia",76110258,Especialista,Operaciones,10483.51,2015-10-26,2023-09-13,Secundaria,cecilia@empresa.pe,972566028,Inactivo
+80,210,"Vega Ccopa, Fernando",69964185,Auditor,Contabilidad,1493.71,2012-07-19,2022-02-12,Titulado,fernando@empresa.pe,924819945,Activo
+81,179,"Aguilar Huanca, Carlos",59201780,Gerente,Legal,10578.82,2010-07-26,2024-08-05,Técnico,carlos@empresa.pe,963757765,Licencia
+82,381,"Ccari Nina, José",17661364,Analista,Externa,91209.92,2021-07-02,2023-08-19,Técnico,josé@empresa.pe,995871604,Retirado
+83,522,"Herrera Paredes, Jorge",65330101,Director,Logística,13809.87,2023-05-07,2023-05-09,Titulado,jorge@empresa.pe,972428505,Licencia
+84,667,"Ramos Medina, Claudia",53517931,Asistente,Tecnología,3060.78,14/10/2010,2023-10-26,Técnico,claudia@empresa.pe,912570831,Licencia
+85,150,"Ticona Tapia, Carlos",57332271,Supervisor,Tecnología,3439.66,2022-06-27,2023-10-29,Titulado,carlos@empresa.pe,946229109,Licencia
+86,193,"Tapia Reyes, Carmen",59377062,Director,Operaciones,3763.14,2012-04-17,2023-09-28,Maestría,carmen@empresa.pe,953845369,Retirado
+87,559,"Huamán Apaza, Ana",10822509,Técnico,Tecnología,7840.37,2018-06-09,2022-09-10,Maestría,ana@empresa.pe,995436821,Activo
+88,78,"Herrera Herrera, Diego",46751573,Coordinador,Logística,3907.43,2014-08-19,2024-03-06,Titulado,diego@empresa.pe,914554223,Activo
+89,482,"Paredes Nina, Alejandro",53964988,Coordinador,Tecnología,3098.27,2013-08-15,2024-05-04,Secundaria,alejandro@empresa.pe,958433009,Inactivo
+90,382,"Yucra Ccopa, Óscar",34688624,Asistente,Logística,4024.0,2012-12-11,2022-11-19,Secundaria,óscar@empresa.pe,940374998,Retirado
+91,414,"Vega Apaza, José",57243342,Técnico,Operaciones,10928.47,2020-06-08,2022-01-14,Secundaria,josé@empresa.pe,973995216,Licencia
+92,734,"García López, Elena",88408667,Gerente,Logística,13126.34,2018-05-06,2024-11-16,Bachiller,elena@empresa.pe,912796647,Inactivo
+93,327,"Díaz Poma, Fabiola",61230112,Supervisor,Ventas,2065.84,2010-02-10,2024-03-14,Maestría,fabiola@empresa.pe,940088654,Activo
+94,423,"Rodríguez Huanca, Ana",91773303,Sin cargo,Tecnología,6139.27,2012-09-17,2024-06-08,Bachiller,ana@empresa.pe,962465655,Retirado
+95,316,"Lazo Vargas, Cecilia",59841587,Gerente,Logística,14466.5,2011-08-08,2024-09-05,Maestría,cecilia@empresa.pe,927950714,Retirado
+96,17,"Chura Ccoopa, Lucís",46930712,Asistente,Recursos Humanos,12988.72,2011-02-27,2023-08-08,Técnico,lucís@empresa.pe,943463796,Licencia
+97,603,"Reyes Vargas, Diego",38955440,Especialista,Contabilidad,2146.69,2023-10-31,2022-09-24,Secundaria,diego@empresa.pe,988996890,Activo
+98,267,"Díaz Vargas, María",19654019,Especialista,Operaciones,12437.29,2010-04-27,2022-12-03,Titulado,maría@empresa.pe,939636023,Licencia
+99,748,"Chávez Paredes, Eduardo",65081637,Analista,Tecnología,12097.52,2021-05-20,2022-08-15,Maestría,eduardo@empresa.pe,965957600,Retirado
+100,362,"Medina Quispe, María",91542373,Auditor,Contabilidad,12401.83,2020-08-27,2024-03-02,Técnico,maría@empresa.pe,945040642,Inactivo
+101,354,"Medina Ccari, Rosa",78515969,Supervisor,Recursos Humanos,-2257.89,2011-11-12,2024-09-04,Bachiller,rosa@empresa.pe,972878107,Retirado
+102,22,"Gonzales Inca, César",76882068,Técnico,Recursos Humanos,13410.91,2015-10-09,2023-04-12,Titulado,césar@empresa.pe,959689823,Inactivo
+103,49,"Tapia Torres, Alejandro",47339126,Técnico,Operaciones,10579.58,2015-12-06,2022-08-24,Maestría,alejandro@empresa.pe,916519166,Licencia
+104,710,"Inca Flores, Óscar",98126357,Supervisor,Operaciones,-4436.23,2012-05-13,2022-06-04,Maestría,óscar@empresa.pe,982870418,Retirado
+105,130,"Apaza Ramos, Jorge",41963674,Asistente,Legal,2546.39,2013-08-21,2022-04-28,Bachiller,jorge@empresa.pe,929374485,Activo
+106,139,"Ccari Medina, Fernando",69621171,Coordinador,Operaciones,2619.53,2011-01-06,2023-07-14,Secundaria,fernando@empresa.pe,972390487,Retirado
+107,23,"Inca Paredes, Carmen",99294283,Auditor,Operaciones,1978.56,2018-10-29,2022-04-22,Técnico,carmen@empresa.pe,913171392,Inactivo
+108,521,"Huamán López, Luis",79305048,Supervisor,Tecnología,8041.42,2012-07-30,2023-10-11,Maestría,luis@empresa.pe,977629829,Licencia
+109,343,"García García, Silvia",11951165,Coordinador,Operaciones,2213.6,2022-07-02,2022-08-20,Titulado,silvia@empresa.pe,997026776,Licencia
+110,4,"Ticona Vargas, Pilar",21527244,Gerente,Logística,3188.82,2020-09-25,2022-11-27,Maestría,pilar@empresa.pe,913099855,Inactivo
+111,593,"Poma Huanca, María",78751332,Jefe de área,Legal,6774.69,2016-03-27,2023-06-30,Secundaria,maría@empresa.pe,942105170,Activo
+112,609,"Herrera Tapia, Claudia",73765368,Jefe de área,Tecnología,14734.47,2011-02-01,2024-05-21,Bachiller,claudia@empresa.pe,933663398,Licencia
+113,89,"Vega Medina, Alejandro",50509631,Especialista,Legal,5620.42,2023-12-25,2022-06-24,Bachiller,alejandro@empresa.pe,930502182,Licencia
+114,503,"Vargas Chura, Claudia",16776806,Supervisor,Recursos Humanos,3924.54,2015-09-26,2023-06-02,Secundaria,claudia@empresa.pe,945284588,Retirado
+115,738,"Suca Gonzales, Juan",20739602,Director,Ventas,3352.96,2018-06-12,2023-01-15,Maestría,juan@empresa.pe,951001402,Inactivo
+116,368,"Ccari Ramos, Sofía",19854962,Analista,Contabilidad,10874.35,2014-10-06,2023-11-03,Secundaria,sofía@empresa.pe,969713053,Retirado
+117,458,"Ramos Ccopa, Luis",99902337,Auditor,Contabilidad,13963.89,2016-07-19,2022-05-10,Maestría,luis@empresa.pe,973553873,Inactivo
+118,350,"Llerena Ramos, Claudia",11011913,Técnico,Tecnología,1897.87,2015-04-08,2023-08-01,Secundaria,claudia@empresa.pe,973429738,Retirado
+119,532,"Paredes Chura, Juan",26724491,Auditor,Finanzas,11751.66,2023-02-27,2024-09-20,Maestría,juan@empresa.pe,929658944,Retirado
+120,742,"Salcedo Mamani, Raúl",32034445,Auditor,Recursos Humanos,4272.51,2022-07-29,2024-06-11,Maestría,raúl@empresa.pe,933695805,Activo
+121,22,"Gonzales Inac, Vésar",36585799,Asistente,Recursos Humanos,1293.2,2014-08-09,2024-10-12,Técnico,vésar@empresa.pe,951837778,Inactivo
+122,386,"Cusi Gonzales, Claudia",74008006,Técnico,Tecnología,14145.23,2021-12-31,2024-07-04,Bachiller,claudia@empresa.pe,993046513,Activo
+123,279,"Díaz Reyes, Patricia",46301750,Coordinador,Tecnología,8596.61,2020-06-29,2023-05-19,Técnico,patricia@empresa.pe,986285878,Activo
+124,678,"Rodríguez Poma, Patricia",20059889,Jefe de área,Contabilidad,2173.8,2019-12-17,2023-12-14,Titulado,patricia@empresa.pe,977120387,Licencia
+125,478,"Mamani Llerena, Silvia",61973976,Coordinador,Logística,3405.3,2019-11-17,2022-07-06,Bachiller,silvia@empresa.pe,971989217,Inactivo
+126,110,"Cruz Aguilar, Juan",93462936,Auditor,Tecnología,14640.53,2023-08-03,2022-02-01,Técnico,juan@empresa.pe,990683283,Licencia
+127,611,"Huanca Mendoza, Sofía",82928739,Consultor Externo,Operaciones,4859.52,2011-07-19,2023-06-17,Secundaria,sofía@empresa.pe,938403057,Activo
+128,557,"Apaza Gonzales, Gabriela",47904591,Especialista,Logística,3789.12,2018-07-09,2022-07-03,Secundaria,gabriela@empresa.pe,970350907,Activo
+129,588,"Inca Llerena, Miguel",55995124,Director,Finanzas,5355.91,2014-03-17,2024-09-29,Técnico,miguel@empresa.pe,920627981,Inactivo
+130,435,"Flores Condori, Gabriela",90629099,Coordinador,Logística,7672.6,2017-09-12,2023-01-15,Técnico,gabriela@empresa.pe,996598668,Activo
+131,563,"Ccopa Huillca, Lucía",87376759,Especialista,Legal,10335.55,2018-03-14,2024-03-07,Secundaria,lucía@empresa.pe,940305160,Activo
+132,224,"García Chura, José",28342920,Asistente,Finanzas,1269.69,2017-03-30,2022-02-26,Técnico,josé@empresa.pe,953157420,Licencia
+133,156,"Huanca Nina, Carmen",29460311,Técnico,Ventas,7211.91,2011-12-22,2023-11-08,Bachiller,carmen@empresa.pe,991615825,Inactivo
+134,451,"Apaza Mendoza, Patricia",15579541,Analista,Contabilidad,4268.01,2021-04-14,2023-05-05,Secundaria,patricia@empresa.pe,991072296,Inactivo
+135,740,"Gonzales Tapia, Fernando",84768866,Director,Finanzas,1715.23,2018-08-31,2023-12-12,Secundaria,fernando@empresa.pe,948171361,Inactivo
+136,694,"Vargas Medina, Miguel",89845807,Analista,Tecnología,9984.7,2017-12-04,2022-09-12,Titulado,miguel@empresa.pe,942660056,Retirado
+137,155,"Cruz Vega, Elena",80614846,Técnico,Tecnología,8863.85,2010-02-25,2024-10-20,Titulado,elena@empresa.pe,969596819,Licencia
+138,104,"Chura Tapia, Gabriela",19021960,Técnico,Operaciones,1395.0,2020-08-30,2024-04-24,Maestría,gabriela@empresa.pe,923696006,Activo
+139,339,"Rodríguez Flores, Raúl",52100171,Pasante,Tecnología,7065.01,2011-06-11,2022-09-07,Titulado,raúl@empresa.pe,931624344,Inactivo
+140,495,"Mamani Yucra, Eduardo",57907804,Jefe de área,Tecnología,6736.63,2021-02-17,2024-04-11,Técnico,eduardo@empresa.pe,980417211,Inactivo
+141,596,"Huillca Herrera, Eduardo",94960588,Director,Contabilidad,4043.63,2020-07-19,2022-12-10,Secundaria,eduardo@empresa.pe,956182243,Inactivo
+142,190,"Díaz Torres, José",69736619,Gerente,Logística,7667.5,2013-10-09,2022-05-28,Secundaria,josé@empresa.pe,911451451,Retirado
+143,221,"Herrera Ticona, Lucía",72796774,Técnico,Recursos Humanos,6126.28,2020-11-13,2023-10-16,Técnico,lucía@empresa.pe,947026916,Licencia
+144,476,"Tapia Medina, Alejandro",66690964,Auditor,Ventas,4561.3,2018-06-18,2022-03-19,Maestría,alejandro@empresa.pe,983836896,Licencia
+145,647,"Cusi Ticona, Luis",53530984,Pasante,Operaciones,7201.2,2019-01-09,2024-08-22,Técnico,luis@empresa.pe,953489705,Retirado
+146,203,"Lazo Huanca, Óscar",37222089,Coordinador,Ventas,8763.97,2015-09-08,2022-07-14,Técnico,óscar@empresa.pe,981239542,Licencia
+147,365,"Rodríguez Vargas, Diego",23972566,Asistente,Recursos Humanos,14551.08,2016-06-25,2022-12-25,Técnico,diego@empresa.pe,966383088,Activo
+148,626,"López Ccopa, Sofía",67790884,Director,Logística,1741.08,2022-06-05,2023-01-05,Titulado,sofía@empresa.pe,984800195,Activo
+149,25,"Medina Lópze, César",30309186,Gerente,Tecnología,9580.11,2020-05-02,2024-01-12,Maestría,césar@empresa.pe,920605196,Inactivo
+150,285,"Reyes Vega, Eduardo",28840257,Supervisor,Tecnología,4011.59,2011-07-02,2022-01-06,Titulado,eduardo@empresa.pe,915063883,Retirado
+151,79,"Tapia Apaza, Fernando",39857025,Asistente,Contabilidad,8106.71,2010-07-01,2022-10-18,Bachiller,fernando@empresa.pe,991028420,Retirado
+152,544,"Mamani Yucra, Juan",54535513,Supervisor,Legal,5435.45,2022-09-11,2022-03-01,Titulado,juan@empresa.pe,971736702,Inactivo
+153,60,"Llerena Nina, Carlos",60352953,Especialista,Recursos Humanos,12853.17,2020-02-24,2022-12-26,Técnico,carlos@empresa.pe,924130669,Licencia
+154,9,"Chura Daaz, Jorge",52751778,Gerente,Finanzas,2472.28,2017-07-31,2024-07-28,Titulado,jorge@empresa.pe,912426922,Retirado
+155,479,"Quispe García, Pedro",22211011,Analista,Legal,3736.74,2019-03-16,2024-11-05,Titulado,pedro@empresa.pe,948827774,Licencia
+156,212,"Quispe Mamani, José",30257934,Especialista,Finanzas,7922.95,2010-10-18,2022-06-02,Técnico,josé@empresa.pe,993271499,Retirado
+157,507,"Aguilar Huanca, Raúl",64534247,Técnico,Ventas,13698.21,2011-02-07,2023-03-18,Titulado,raúl@empresa.pe,987151380,Inactivo
+158,202,"Ticona Paredes, Silvia",87949385,Gerente,Ventas,14215.85,2022-09-01,2024-06-22,Titulado,silvia@empresa.pe,945041728,Activo
+159,393,"Ccopa Huillca, Juan",10015881,Auditor,Tecnología,13110.21,2010-03-27,2023-06-05,Maestría,juan@empresa.pe,915282765,Activo
+160,277,"Flores Huamán, César",23049558,Jefe de área,Legal,6899.53,2022-12-18,2023-12-24,Secundaria,césar@empresa.pe,960293087,Inactivo
+161,50,"Cusi Suca, Ricardo",87852145,Coordinador,Logística,10704.46,2022-01-06,2024-03-18,Bachiller,ricardo@empresa.pe,945534696,Retirado
+162,9,"Chura Díaz, Jorge",39472579,Coordinador,Legal,11504.21,2020-12-05,2022-11-30,Técnico,jorge@empresa.pe,931671607,Retirado
+163,119,"Ramos Aguilar, Diego",23033582,Auditor,Operaciones,174470.66,2015-09-12,2022-03-19,Bachiller,diego@empresa.pe,936976301,Inactivo
+164,749,"Huanca Huillca, Rosa",24969156,Especialista,Recursos Humanos,11957.78,2022-03-07,2024-09-18,Bachiller,rosa@empresa.pe,959995454,Activo
+165,551,"Ccari Gonzales, Raúl",27366613,Gerente,Legal,13909.45,2013-04-05,2024-07-06,Bachiller,raúl@empresa.pe,943775562,Inactivo
+166,370,"Chávez Lazo, Lucía",58275209,Especialista,Tecnología,6445.22,2012-11-11,2023-04-01,Técnico,lucía@empresa.pe,945705686,Activo
+167,143,"Vega Medina, Claudia",66658153,Analista,Tecnología,10351.03,2012-06-12,2024-12-23,Técnico,claudia@empresa.pe,919296485,Licencia
+168,730,"Herrera Apaza, Ana",45156195,Coordinador,Logística,8604.42,2021-01-12,2024-04-23,Bachiller,ana@empresa.pe,949125535,Inactivo
+169,461,"Cusi Cusi, Rosa",10483108,Director,Legal,3021.93,2015-04-11,2022-11-15,Bachiller,rosa@empresa.pe,925701853,Activo
+170,436,"Huanca Huamán, Miguel",55143086,Supervisor,Contabilidad,3466.57,2015-01-08,2023-05-28,Bachiller,miguel@empresa.pe,918177741,Inactivo
+171,24,Medina Hianca Fernando,58888654,Especialista,Finanzas,11375.01,2019-03-20,2023-05-23,Titulado,medina@empresa.pe,915455881,Retirado
+172,673,"Condori Medina, Rosa",29724182,Especialista,Tecnología,6591.92,2017-02-28,2022-06-29,Técnico,rosa@empresa.pe,918557284,Activo
+173,649,"Paredes Chávez, Pedro",92122845,Técnico,Contabilidad,-4556.48,2020-08-06,2024-02-13,Técnico,pedro@empresa.pe,991789807,Retirado
+174,309,"Huamán Quispe, Claudia",87019229,Auditor,Legal,10415.81,2019-01-20,2023-03-15,Maestría,claudia@empresa.pe,946750519,Inactivo
+175,474,"Cruz Rodríguez, Ana",42306222,Auditor,Tecnología,4420.1,2012-09-20,2022-03-16,Maestría,ana@empresa.pe,953665667,Activo
+176,302,"Aguilar Herrera, Óscar",73717715,Gerente,Contabilidad,94507.33,2019-01-16,2022-08-11,Bachiller,óscar@empresa.pe,958558824,Retirado
+177,690,"Torres Rodríguez, José",71244013,Técnico,Operaciones,5669.11,2014-03-05,2022-11-10,Bachiller,josé@empresa.pe,964097897,Activo
+178,653,"Ccari Apaza, Ana",13628158,Jefe de área,Ventas,14782.24,2017-09-19,2024-04-27,Bachiller,ana@empresa.pe,938114879,Licencia
+179,137,"Cruz Rodríguez, Paola",76411406,Analista,Operaciones,7360.86,2010-06-19,2023-05-14,Secundaria,paola@empresa.pe,940024369,Inactivo
+180,700,"Gonzales Nina, Fabiola",76897047,Especialista,Recursos Humanos,12525.31,2016-06-23,2022-08-23,Bachiller,fabiola@empresa.pe,927550286,Activo
+181,422,"Herrera Flores, Pedro",17508926,Analista,Finanzas,3414.21,2017-05-09,2022-12-12,Secundaria,pedro@empresa.pe,972191764,Inactivo
+182,269,"Huillca Lazo, Sofía",44573122,Especialista,Legal,90547.39,2013-06-22,2022-04-27,Técnico,sofía@empresa.pe,915604472,Inactivo
+183,558,"Chura Cusi, Claudia",67389814,Asistente,Legal,4738.36,2012-04-24,2023-04-20,Maestría,claudia@empresa.pe,996038652,Inactivo
+184,122,"Lazo Huanca, Juan",44341241,Analista,Finanzas,14188.11,2011-01-21,2023-06-13,Maestría,juan@empresa.pe,996796813,Retirado
+185,456,"López Nina, Sofía",48612483,Gerente,Ventas,14915.18,2015-12-21,2023-11-08,Técnico,sofía@empresa.pe,915087069,Retirado
+186,715,"Cruz Díaz, César",78603135,Especialista,Contabilidad,-2777.64,2012-11-19,2024-02-26,Maestría,césar@empresa.pe,998045493,Activo
+187,498,"Suca Suca, Fabiola",85606213,Jefe de área,Operaciones,9839.29,2016-07-20,2022-07-15,Titulado,fabiola@empresa.pe,972689149,Retirado
+188,462,"Salcedo López, Sofía",39661792,Analista,Tecnología,1249.99,2011-11-21,2023-09-19,Maestría,sofía@empresa.pe,952723271,Retirado
+189,483,"Tapia Quispe, Rosa",98916622,Director,Contabilidad,3928.33,2018-02-02,2024-04-11,Bachiller,rosa@empresa.pe,941235216,Inactivo
+190,8,"Suca Apaza, JJuan",37190971,Jefe de área,Legal,12792.0,2012-09-23,2024-03-14,Titulado,jjuan@empresa.pe,952410090,Activo
+191,601,"Paredes Flores, Jorge",85866247,Analista,Logística,1411.88,2020-06-08,2023-10-26,Secundaria,jorge@empresa.pe,941567295,Inactivo
+192,576,"Vega Ccopa, César",29696696,Asistente,Recursos Humanos,3586.79,2018-05-18,2022-10-30,Secundaria,césar@empresa.pe,950720932,Licencia
+193,1,"Goonzales Reyws, Elena",91996233,Analista,Ventas,2815.92,2016-06-12,2022-09-22,Técnico,elena@empresa.pe,963404922,Retirado
+194,716,"Vega Salcedo, Juan",44435207,Coordinador,Sin área,14941.29,2013-07-20,2024-09-28,Técnico,juan@empresa.pe,947980390,Retirado
+195,508,"Suca Huamán, Claudia",25891390,Gerente,Legal,2301.96,2010-03-14,2022-01-28,Bachiller,claudia@empresa.pe,994159782,Retirado
+196,560,"Tapia Reyes, Carmen",65053374,Asistente,Tecnología,8306.48,2020-01-02,2024-08-16,Bachiller,carmen@empresa.pe,989123454,Retirado
+197,637,"Yucra Mamani, Luis",54123851,Gerente,Tecnología,170373.95,2018-09-09,2022-08-19,Bachiller,luis@empresa.pe,954327067,Licencia
+198,493,"Salcedo Nina, Gabriela",60558953,Especialista,Ventas,12047.72,2014-12-11,2023-07-30,Bachiller,gabriela@empresa.pe,978516661,Inactivo
+199,66,"García Flores, Pedro",89251917,Supervisor,Recursos Humanos,11712.41,2018-08-11,2022-08-08,Técnico,pedro@empresa.pe,937611729,Inactivo
+200,466,"Cruz Tapia, Raúl",14273705,Especialista,Tecnología,12496.13,2014-10-11,2024-07-14,Bachiller,raúl@empresa.pe,951123612,Retirado
+201,284,"Inca Ticona, Pilar",34535503,Técnico,Legal,1348.57,2010-09-22,2022-06-30,Técnico,pilar@empresa.pe,929872925,Inactivo
+202,404,"Nina Huamán, Carlos",99716931,Auditor,Legal,13223.54,2022-08-02,2022-12-03,Técnico,carlos@empresa.pe,912355211,Activo
+203,326,"García Chura, Paola",17216488,Jefe de área,Legal,13091.45,2015-05-19,2024-08-19,Titulado,paola@empresa.pe,991321827,Inactivo
+204,22,"Gonzales Onca, César",49585217,Auditor,Contabilidad,2704.31,2023-09-07,2023-01-19,Técnico,césar@empresa.pe,975102676,Retirado
+205,18,"Rodríguez Suca, Fernando",68551241,Supervisor,Tecnología,8251.29,2019-08-06,2022-03-01,Titulado,fernando@empresa.pe,984377153,Inactivo
+206,377,"López Ramos, Rosa",45642477,Auditor,Finanzas,2461.26,2015-11-25,2022-09-27,Bachiller,rosa@empresa.pe,955862005,Retirado
+207,594,"Inca Paredes, César",23147484,Director,Operaciones,13482.53,2021-08-12,2023-03-17,Técnico,césar@empresa.pe,912226670,Activo
+208,406,"Reyes Reyes, Alejandro",68822952,Técnico,Operaciones,12287.0,2023-07-04,2023-06-15,Maestría,alejandro@empresa.pe,947045723,Inactivo
+209,245,"Medina Ccopa, Sofía",25591455,Auditor,Finanzas,2398.02,2011-02-10,2024-04-11,Maestría,sofía@empresa.pe,953536589,Retirado
+210,214,"Chávez Ticona, Fabiola",15859409,Gerente,Contabilidad,4117.05,2017-06-07,2024-08-17,Titulado,fabiola@empresa.pe,957470436,Licencia
+211,258,"Llerena Huanca, Óscar",18736937,Especialista,Operaciones,7269.76,2021-06-24,2022-01-20,Técnico,óscar@empresa.pe,936876403,Retirado
+212,308,,79953440,Asistente,Operaciones,6908.23,2014-10-12,2023-11-25,Secundaria,paola@empresa.pe,965459519,Activo
+213,247,"Vega García, Elena",80633292,Gerente,Recursos Humanos,141691.17,2022-03-07,2023-04-03,Maestría,elena@empresa.pe,945558368,Licencia
+214,464,"Yucra Aguilar, Sofía",77496523,Analista,Legal,2975.88,2019-08-22,2023-01-15,Secundaria,sofía@empresa.pe,981380733,Licencia
+215,183,"Gonzales Condori, Eduardo",56394133,Coordinador,Legal,11543.44,2018-10-30,2023-03-29,Bachiller,eduardo@empresa.pe,980776311,Activo
+216,450,"Vargas Medina, Diego",28854411,Analista,Ventas,4467.22,2018-01-06,2023-05-10,Secundaria,diego@empresa.pe,974082000,Retirado
+217,664,"Vega Reyes, Alejandro",55564153,Jefe de área,Contabilidad,9925.85,2015-12-05,2024-11-09,Titulado,alejandro@empresa.pe,917932442,Licencia
+218,556,"Inca Nina, Lucía",27075184,Coordinador,Logística,13297.78,2019-05-23,2023-08-01,Bachiller,lucía@empresa.pe,925737935,Inactivo
+219,442,"Paredes Chura, Eduardo",58629821,Freelance,Operaciones,7833.84,2018-01-30,2023-01-21,Maestría,eduardo@empresa.pe,935557815,Licencia
+220,250,"Paredes Apaza, Luis",65032770,Asistente,Legal,3323.05,2012-04-22,2024-01-18,Bachiller,luis@empresa.pe,998986934,Licencia
+221,13,"Chávez Cuz, Diego",88759061,Analista,Logística,1775.0,2016-10-28,2023-04-22,Secundaria,diego@empresa.pe,988595657,Inactivo
+222,48,"Reyes Ramos, Ricardo",74438948,Asistente,Ventas,4074.86,2017-02-26,2024-02-02,Secundaria,ricardo@empresa.pe,936701563,Inactivo
+223,153,"Ccari Rodríguez, Paola",73785420,Jefe de área,Legal,4907.82,2012-04-26,2022-01-09,Titulado,paola@empresa.pe,983812551,Activo
+224,552,"Chávez Yucra, Claudia",59928688,Supervisor,Finanzas,13471.05,2012-09-25,2023-02-18,Bachiller,claudia@empresa.pe,910847009,Licencia
+225,100,"Tapia Herrera, Luis",10833583,Especialista,Finanzas,1840.27,2021-03-26,2024-02-10,Maestría,luis@empresa.pe,929736937,Activo
+226,424,"Ramos Cusi, Jorge",74837176,Jefe de área,Operaciones,14649.61,2014-01-13,2022-11-08,Bachiller,jorge@empresa.pe,994024644,Activo
+227,142,"Paredes Mendoza, Elena",42262866,Técnico,Tecnología,12772.24,2018-12-26,2022-04-20,Bachiller,elena@empresa.pe,979440829,Inactivo
+228,168,"Medina Lazo, Juan",31394586,Jefe de área,Tecnología,14045.36,2010-02-20,2024-07-21,Bachiller,juan@empresa.pe,966153533,Licencia
+229,489,"Aguilar García, Rosa",79889050,Auditor,Ventas,1522.46,2019-11-14,2022-06-28,Titulado,rosa@empresa.pe,981502634,Inactivo
+230,695,"Díaz Condori, Ana",27404316,Jefe de área,Finanzas,1265.5,2010-03-22,2022-06-08,Técnico,ana@empresa.pe,945187380,Licencia
+231,19,"García Chura, Juan",20089226,Especialista,Ventas,4068.64,2020-02-28,2023-11-13,Titulado,juan@empresa.pe,967367747,Inactivo
+232,398,"Paredes Medina, Pedro",23475124,Analista,Finanzas,2833.2,2015-02-04,2024-01-28,Secundaria,pedro@empresa.pe,992551826,Activo
+233,301,"Ccari Vargas, Rosa",51339262,Jefe de área,Logística,-2400.71,2011-03-15,2023-09-02,Titulado,rosa@empresa.pe,958333100,Inactivo
+234,16,"Huanca Ridríguez, Cséar",22120276,Director,Logística,3156.02,2018-01-24,2022-09-29,Maestría,cséar@empresa.pe,994781070,Licencia
+235,373,,43362722,Supervisor,Tecnología,92563.18,2016-09-30,2023-06-08,Técnico,alejandro@empresa.pe,918688040,Retirado
+236,636,"Rodríguez Inca, Fabiola",53311511,Director,Finanzas,3768.37,2020-12-14,2022-12-26,Técnico,fabiola@empresa.pe,946389884,Licencia
+237,363,"Suca Díaz, Miguel",65838083,Jefe de área,Operaciones,3258.26,2023-01-15,2023-10-20,Secundaria,miguel@empresa.pe,932514728,Inactivo
+238,687,"Cruz Mamani, Claudia",16757136,Jefe de área,Ventas,4652.39,2013-01-27,2024-11-14,Maestría,claudia@empresa.pe,971769645,Inactivo
+239,83,"Flores Ramos, Silvia",39243558,Supervisor,Tecnología,3419.63,2012-04-08,2024-07-24,Maestría,silvia@empresa.pe,937512207,Retirado
+240,173,"López Ccopa, Miguel",83130706,Jefe de área,Contabilidad,12723.11,2020-06-23,2023-05-07,Técnico,miguel@empresa.pe,959381004,Licencia
+241,204,"Poma Lazo, Silvia",71492515,Freelance,Recursos Humanos,4326.45,2021-07-06,2022-06-14,Titulado,silvia@empresa.pe,919861394,Retirado
+242,313,"Chávez Cusi, Miguel",77561251,Especialista,Finanzas,2015.58,2010-11-21,2024-08-15,Secundaria,miguel@empresa.pe,974924589,Inactivo
+243,388,"Herrera García, Claudia",98654561,,Recursos Humanos,11836.52,2013-04-01,2024-03-17,Secundaria,claudia@empresa.pe,916875459,Activo
+244,17,"Chura Ccopa, Lucía",64414461,Jefe de área,Legal,5366.92,2017-09-18,2024-02-10,Bachiller,lucía@empresa.pe,926228178,Licencia
+245,85,"Yucra Vega, Alejandro",17599180,Técnico,Legal,4683.92,2011-05-19,2022-01-28,Secundaria,alejandro@empresa.pe,966181191,Retirado
+246,744,"Lazo Flores, Fernando",71122687,Especialista,Recursos Humanos,3596.97,2019-07-29,2023-08-28,Titulado,fernando@empresa.pe,915870146,Retirado
+247,449,"Reyes Díaz, César",26749292,Director,Recursos Humanos,3408.49,2022-07-28,2024-10-13,Titulado,césar@empresa.pe,972186896,Activo
+248,144,"Apaza Ccopa, Ricardo",99810500,Jefe de área,Legal,1487.43,2018-11-27,2024-07-18,Secundaria,ricardo@empresa.pe,915404517,Activo
+249,186,"Vega Vega, Diego",22420421,Asistente,Operaciones,3979.47,2013-01-23,2024-09-23,Titulado,diego@empresa.pe,941926724,Inactivo
+250,729,"Vargas Huamán, Ana",27792605,Gerente,Ventas,11978.82,2017-10-15,2022-03-22,Bachiller,ana@empresa.pe,958901725,Inactivo
+251,618,"Chávez Suca, Paola",66291718,Especialista,Operaciones,13537.57,2010-12-10,2024-02-02,Secundaria,paola@empresa.pe,912478029,Licencia
+252,692,"Gonzales López, Alejandro",20216266,Director,Tecnología,11859.21,2012-03-12,2022-03-12,Maestría,alejandro@empresa.pe,926781989,Activo
+253,542,"Rodríguez Tapia, Sofía",23714003,,Finanzas,8072.89,2012-08-06,2024-08-19,Bachiller,sofía@empresa.pe,916142524,Retirado
+254,19,"Gacía Chura, Juan",33447178,Coordinador,Tecnología,5918.98,2015-05-13,2024-01-25,Bachiller,juan@empresa.pe,986452799,Inactivo
+255,259,"Nina Flores, Pilar",49457497,Técnico,Contabilidad,8843.13,2012-08-25,2022-07-04,Técnico,pilar@empresa.pe,920353130,Activo
+256,438,"Vargas Salcedo, Jorge",97588142,Director,Ventas,7593.87,2015-10-22,2022-11-25,Maestría,jorge@empresa.pe,926070689,Licencia
+257,92,"Nina Torres, Fabiola",91653655,Coordinador,Logística,14685.0,2014-06-05,2024-10-09,Técnico,fabiola@empresa.pe,981242163,Activo
+258,509,"Torres Ccopa, Patricia",27578541,Técnico,Ventas,13271.48,2013-03-15,2024-03-16,Secundaria,patricia@empresa.pe,998288429,Licencia
+259,640,"Suca Paredes, Pedro",87518501,Técnico,Logística,8869.8,2010-05-31,2023-12-11,Titulado,pedro@empresa.pe,913290925,Licencia
+260,306,"Mamani Paredes, Miguel",42665365,Director,Recursos Humanos,13425.28,2023-07-09,2024-04-25,Secundaria,miguel@empresa.pe,951197777,Inactivo
+261,447,"Díaz Aguilar, Ricardo",29853714,Analista,Finanzas,7103.84,2011-03-23,2024-05-25,Maestría,ricardo@empresa.pe,981316077,Retirado
+262,71,"Vargas Quispe, Lucía",75877147,Jefe de área,Contabilidad,2520.51,2023-04-17,2023-12-13,Maestría,lucía@empresa.pe,944973795,Inactivo
+263,360,"Paredes Huamán, Claudia",76049007,Supervisor,Ventas,94412.05,2014-04-26,2024-08-21,Técnico,claudia@empresa.pe,951592597,Retirado
+264,608,"Ramos Cusi, Ana",91624770,Supervisor,Contabilidad,3482.73,2012-12-14,2023-03-14,Bachiller,ana@empresa.pe,933277254,Retirado
+265,702,"García Ticona, Alejandro",93535767,Asistente,Tecnología,1541.53,2023-11-03,2024-06-23,Bachiller,alejandro@empresa.pe,950009339,Inactivo
+266,229,"Paredes Ccari, Ricardo",46766039,Analista,Desconocida,3019.73,2012-03-28,2024-01-13,Técnico,ricardo@empresa.pe,994410345,Inactivo
+267,2,"Vargas García, Raúl",76640001,Especialista,Legal,2312.02,2022-04-29,2023-07-24,Técnico,raúl@empresa.pe,967783637,Licencia
+268,20,"Yura Condoei, Patricia",67069361,Especialista,Contabilidad,10991.26,2010-01-02,2022-05-30,Titulado,patricia@empresa.pe,980848359,Retirado
+269,174,"Condori Tapia, Elena",94469086,Supervisor,Logística,14425.96,2020-09-04,2024-10-30,Técnico,elena@empresa.pe,940504064,Retirado
+270,304,"Reyes Aguilar, Eduardo",81897652,Director,Legal,7689.03,2011-09-19,2023-07-18,Titulado,eduardo@empresa.pe,958686326,Retirado
+271,52,"Ccari Ramos, Carmen",95797050,Auditor,Tecnología,14530.21,2010-01-15,2022-03-11,Técnico,carmen@empresa.pe,930047398,Licencia
+272,172,"Ccopa Inca, Carmen",56235195,Analista,Logística,4473.01,2010-07-27,2023-12-01,Técnico,carmen@empresa.pe,942453807,Inactivo
+273,735,"Chávez García, Sofía",78364394,Gerente,Contabilidad,4481.42,2013-09-24,2024-06-05,Secundaria,sofía@empresa.pe,927396675,Inactivo
+274,676,"Cusi Lazo, Diego",72996991,Coordinador,Contabilidad,4251.82,2019-07-30,2024-04-25,Bachiller,diego@empresa.pe,950483709,Retirado
+275,18,"Rodríguez Suca, Fernnado",28598890,Asistente,Contabilidad,10093.97,2011-02-06,2022-09-18,Técnico,fernnado@empresa.pe,973375475,Retirado
+276,6,"López AApaza, Digo",83061791,Jefe de área,Finanzas,6982.37,2017-12-08,2024-07-27,Maestría,digo@empresa.pe,979358465,Retirado
+277,106,,46969722,Supervisor,Contabilidad,11127.04,2014-03-16,2022-04-13,Bachiller,carlos@empresa.pe,929434667,Activo
+278,565,"Mendoza Ramos, Elena",52333632,Especialista,Finanzas,14992.62,2021-03-16,2024-11-12,Técnico,elena@empresa.pe,998791854,Activo
+279,199,"Chura Vega, César",36228273,Director,Tecnología,7669.96,2021-08-04,2024-08-01,Titulado,césar@empresa.pe,981765591,Inactivo
+280,200,"Tapia Mamani, Fabiola",20930512,Analista,Tecnología,12393.84,2023-08-31,2023-09-01,Maestría,fabiola@empresa.pe,986655155,Retirado
+281,602,"Cusi Ramos, Raúl",73036139,Coordinador,Ventas,7331.76,2014-03-06,2024-01-19,Secundaria,raúl@empresa.pe,956912022,Retirado
+282,630,"Chura Mamani, Cecilia",98731376,Analista,Contabilidad,8502.1,2022-05-19,2022-11-01,Secundaria,cecilia@empresa.pe,955318643,Retirado
+283,11,"Ticona Tapia, Juan",24690326,Asistente,Finanzas,14575.14,2014-01-23,2023-02-18,Bachiller,juan@empresa.pe,994378806,Licencia
+284,679,"Ccari Mendoza, Elena",93060055,Analista,Recursos Humanos,3042.96,2018-03-23,2023-07-31,Técnico,elena@empresa.pe,957212154,Licencia
+285,718,"Suca García, Eduardo",86704811,Especialista,Legal,10661.54,2022-03-26,2024-11-11,Titulado,eduardo@empresa.pe,919369276,Activo
+286,68,"Cruz Gonzales, José",66876827,Gerente,Logística,4804.0,2016-05-04,2022-04-10,Bachiller,josé@empresa.pe,953060830,Retirado
+287,400,"Vega Herrera, Paola",57281105,Coordinador,Recursos Humanos,9111.1,2020-11-09,2024-07-02,Titulado,paola@empresa.pe,911584345,Inactivo
+288,67,"Díaz Flores, Juan",95117226,Asistente,Contabilidad,2407.08,2012-03-29,2022-09-29,Secundaria,juan@empresa.pe,996747628,Inactivo
+289,518,"Mamani Ccari, Pedro",28381044,Técnico,Contabilidad,5196.73,2015-08-26,2023-05-09,Bachiller,pedro@empresa.pe,916296032,Activo
+290,624,"Paredes Vega, José",97435053,Especialista,Contabilidad,3320.55,2010-12-25,2023-11-27,Bachiller,josé@empresa.pe,953109415,Activo
+291,10,"Ticona Vargas, César",27388652,Asistente,Legal,12512.93,2013-05-08,2024-11-20,Maestría,césar@empresa.pe,976385704,Licencia
+292,662,"Huillca Chura, Elena",20310929,Coordinador,Logística,2459.59,2022-02-22,2022-09-10,Titulado,elena@empresa.pe,916540729,Activo
+293,151,"Condori Cruz, Juan",12924040,Coordinador,Tecnología,3388.22,2019-11-14,2022-05-08,Maestría,juan@empresa.pe,962061337,Retirado
+294,336,"Apaza Vargas, Rosa",93043221,Especialista,Logística,14209.9,2013-01-03,2023-06-02,Bachiller,rosa@empresa.pe,956772694,Activo
+295,671,"Aguilar Ccopa, Miguel",64378136,Técnico,Ventas,9123.54,2015-09-05,2024-02-21,Titulado,miguel@empresa.pe,923450873,Retirado
+296,586,"Ccopa Nina, Ricardo",25753682,Especialista,Ventas,10710.44,2023-06-23,2022-07-24,Bachiller,ricardo@empresa.pe,930082580,Activo
+297,297,"Poma Poma, Lucía",12415024,Coordinador,Legal,83999.41,2020-01-16,2023-09-30,Maestría,lucía@empresa.pe,930440190,Retirado
+298,704,"Herrera Chura, Patricia",75074536,Técnico,Contabilidad,8850.89,2010-05-26,2024-11-25,Bachiller,patricia@empresa.pe,947756542,Activo
+299,231,"Ramos Mamani, Lucía",30040768,Jefe de área,Finanzas,13659.43,2017-11-13,2023-05-12,Titulado,lucía@empresa.pe,976966245,Inactivo
+300,707,"Flores Salcedo, Gabriela",79856038,Auditor,Operaciones,12729.3,2010-12-28,2023-12-08,Secundaria,gabriela@empresa.pe,921962102,Inactivo
+301,455,"Apaza Ramos, Sofía",70916783,Especialista,Finanzas,2462.12,2014-12-30,2024-03-26,Secundaria,sofía@empresa.pe,936626694,Retirado
+302,583,"Apaza Ccari, Patricia",35188903,Freelance,Finanzas,1822.85,05/07/2014,2023-07-16,Bachiller,patricia@empresa.pe,925801156,Retirado
+303,8,"Suxa Apaza, Juan",99855030,Coordinador,Operaciones,5378.37,2018-03-19,2022-10-20,Bachiller,juan@empresa.pe,928422000,Retirado
+304,747,"Flores Quispe, Jorge",72373690,Director,Operaciones,9552.31,2011-12-24,2022-03-17,Maestría,jorge@empresa.pe,940202564,Activo
+305,574,"Poma Flores, Patricia",39274586,Analista,Logística,5701.35,2016-07-21,2022-10-08,Titulado,patricia@empresa.pe,993771888,Inactivo
+306,105,"Llerena Condori, Óscar",50357012,Técnico,Finanzas,9851.15,2010-03-18,2022-09-07,Secundaria,óscar@empresa.pe,939292375,Activo
+307,638,"Herrera Reyes, Rosa",13104975,Coordinador,Contabilidad,9334.57,2022-03-06,2023-10-05,Técnico,rosa@empresa.pe,977360451,Activo
+308,531,"Mamani Ticona, Luis",72009907,Auditor,Recursos Humanos,10994.9,2015-07-10,2024-07-07,Bachiller,luis@empresa.pe,938579207,Activo
+309,577,"Huamán Huillca, Miguel",96221613,Asistente,Tecnología,13400.24,2015-09-20,2022-01-27,Técnico,miguel@empresa.pe,954306176,Inactivo
+310,303,"Gonzales Salcedo, Cecilia",73425424,Supervisor,Contabilidad,4882.51,2021-03-30,2024-04-16,Técnico,cecilia@empresa.pe,952245887,Activo
+311,416,"Mendoza Torres, Silvia",84075526,Jefe de área,Logística,160722.91,2012-08-03,2022-10-06,Secundaria,silvia@empresa.pe,992729902,Licencia
+312,358,"Mamani Inca, Óscar",21001344,Analista,Logística,7401.45,2019-11-06,2022-10-15,Técnico,óscar@empresa.pe,950861741,Licencia
+313,213,"Llerena Torres, Fernando",70208347,Auditor,Recursos Humanos,6629.14,2018-02-04,2023-11-06,Maestría,fernando@empresa.pe,939033221,Licencia
+314,33,"Mendoza Reyes, Juan",37377253,Analista,Ventas,14998.26,2010-04-04,2023-11-02,Titulado,juan@empresa.pe,959903392,Inactivo
+315,417,"Llerena Cusi, Patricia",46866910,Analista,Tecnología,6215.57,2022-04-25,2024-12-25,Bachiller,patricia@empresa.pe,995787861,Retirado
+316,359,"Ticona Ccopa, Pedro",63954454,Jefe de área,Finanzas,1545.36,2018-01-27,2024-09-18,Técnico,pedro@empresa.pe,918834744,Retirado
+317,13,"Chácez Cruz, Dieego",93041470,Analista,Legal,10076.43,2021-05-04,2022-10-13,Maestría,dieego@empresa.pe,977695536,Activo
+318,332,"Suca Condori, Carlos",35148162,Especialista,Ventas,12649.35,24/03/2018,2023-03-01,Titulado,carlos@empresa.pe,924817740,Activo
+319,4,"Tcona Vargas, PPilar",22215229,Asistente,Tecnología,10807.52,2013-09-30,2023-12-30,Técnico,ppilar@empresa.pe,981483341,Licencia
+320,460,"Medina Vargas, Jorge",88248960,Asistente,Tecnología,14288.25,2013-10-29,2024-01-22,Titulado,jorge@empresa.pe,947168434,Inactivo
+321,270,"Cusi Cruz, Eduardo",41228113,Gerente,Operaciones,13271.13,2016-12-10,2023-06-13,Bachiller,eduardo@empresa.pe,983649389,Inactivo
+322,11,"Ticoma Tapia, Juan",24264840,Técnico,Contabilidad,10284.82,2022-03-31,2024-03-16,Maestría,juan@empresa.pe,951309941,Inactivo
+323,341,"Apaza Díaz, Rosa",91953582,Jefe de área,Logística,7244.29,2018-10-08,2023-05-24,Bachiller,rosa@empresa.pe,944511283,Activo
+324,494,"Chávez Herrera, Elena",16120946,Supervisor,Contabilidad,4292.24,2018-04-05,2024-08-03,Maestría,elena@empresa.pe,956700000,Retirado
+325,232,"Vega Salcedo, Gabriela",38466577,Analista,Recursos Humanos,5668.88,29/05/2013,2022-05-15,Titulado,gabriela@empresa.pe,957068042,Activo
+326,538,"Cusi Mamani, Carlos",74525257,Director,Recursos Humanos,11456.99,2019-04-12,2023-04-21,Técnico,carlos@empresa.pe,916720839,Retirado
+327,668,"Mamani Poma, Sofía",10380350,Coordinador,Contabilidad,10175.11,2020-04-03,2023-02-25,Titulado,sofía@empresa.pe,928221182,Activo
+328,491,"Yucra Díaz, Juan",31432188,Asistente,Logística,10877.03,2011-12-17,2023-02-24,Titulado,juan@empresa.pe,990921702,Licencia
+329,675,"Paredes Tapia, César",66798996,Jefe de área,Finanzas,8933.17,2016-09-16,2023-02-24,Técnico,césar@empresa.pe,932072134,Retirado
+330,524,"Yucra Ccopa, Elena",72082904,,Logística,3601.15,2012-05-05,2023-01-13,Titulado,elena@empresa.pe,996168697,Retirado
+331,496,"Apaza Huanca, Patricia",78022712,Supervisor,Ventas,-477.88,2017-12-04,2022-07-13,Bachiller,patricia@empresa.pe,947039314,Licencia
+332,40,"Mamani Salcedo, Pedro",93261023,Jefe de área,Ventas,10697.39,2023-12-06,2024-04-08,Maestría,pedro@empresa.pe,936321833,Retirado
+333,164,"Nina Huamán, María",87103752,Auditor,Recursos Humanos,3939.95,2013-04-05,2022-11-18,Maestría,maría@empresa.pe,978382333,Activo
+334,272,"Huanca Apaza, José",63871468,Gerente,Recursos Humanos,2778.34,2014-09-21,2024-12-09,Maestría,josé@empresa.pe,919789083,Licencia
+335,620,"Reyes Nina, Sofía",49624949,Jefe de área,Contabilidad,5604.99,2013-09-11,2024-07-01,Titulado,sofía@empresa.pe,934209848,Inactivo
+336,84,"Huamán Mamani, Alejandro",59649003,Técnico,Contabilidad,8399.3,2014-09-18,2023-01-12,Titulado,alejandro@empresa.pe,978960007,Activo
+337,606,"Ramos Huillca, Pilar",93656700,Director,Tecnología,3617.63,2010-10-05,2024-07-06,Secundaria,pilar@empresa.pe,953223255,Inactivo
+338,3,"Ninna Rodríguez, Lucía",23741157,Jefe de área,Recursos Humanos,1203.22,2018-02-26,2022-02-22,Secundaria,lucía@empresa.pe,937910936,Retirado
+339,405,"Chura Paredes, Juan",17438951,Analista,Ventas,4062.04,2021-06-16,2024-08-05,Técnico,juan@empresa.pe,985157200,Inactivo
+340,338,"Mendoza Lazo, Silvia",57887457,Gerente,Finanzas,13908.47,2015-05-11,2023-12-03,Secundaria,silvia@empresa.pe,981406050,Inactivo
+341,572,"Herrera Poma, Jorge",86867871,Asistente,Ventas,10919.59,2017-11-07,2024-09-05,Maestría,jorge@empresa.pe,957795028,Retirado
+342,138,"Torres Rodríguez, Carmen",43615914,Analista,Finanzas,8863.97,2012-03-01,2023-02-04,Bachiller,carmen@empresa.pe,912373955,Retirado
+343,73,"Tapia Tapia, Óscar",21565931,Analista,Tecnología,7025.39,2014-08-16,2023-09-13,Bachiller,óscar@empresa.pe,967453355,Inactivo
+344,14,"Reyes Nins, Luis",94257475,Director,Ventas,1460.0,2020-12-22,2023-06-25,Secundaria,luis@empresa.pe,971330592,Activo
+345,255,"Flores Cusi, Elena",59281317,Asistente,Legal,1776.18,2019-09-01,2023-06-10,Bachiller,elena@empresa.pe,942027826,Retirado
+346,346,"Ccopa García, Óscar",22010558,Auditor,Logística,3380.89,2015-11-25,2023-01-05,Secundaria,óscar@empresa.pe,929281637,Retirado
+347,397,,82826168,Analista,Contabilidad,10203.92,2017-08-11,2024-08-21,Titulado,claudia@empresa.pe,938739557,Licencia
+348,123,"Vargas Rodríguez, María",52638631,Supervisor,Logística,11618.32,2023-03-25,2024-06-22,Secundaria,maría@empresa.pe,973179690,Licencia
+349,235,"Llerena Aguilar, Eduardo",28324032,Asistente,Recursos Humanos,12555.05,2017-06-08,2022-01-09,Titulado,eduardo@empresa.pe,943518579,Inactivo
+350,706,"Vega Medina, Eduardo",31510470,Analista,Tecnología,2404.54,2018-07-18,2022-07-28,Maestría,eduardo@empresa.pe,977164064,Activo
+351,191,"Poma López, Paola",54523387,Auditor,Logística,106255.78,2012-06-10,2024-09-28,Titulado,paola@empresa.pe,975544334,Inactivo
+352,529,"Reyes Suca, Jorge",54169623,Asistente,Logística,14590.33,2011-11-04,2023-07-02,Técnico,jorge@empresa.pe,962992272,Activo
+353,656,"Reyes Ticona, Juan",31165152,Especialista,Tecnología,12666.18,2022-10-23,2023-07-02,Maestría,juan@empresa.pe,972848351,Activo
+354,719,"Vega García, Sofía",29630979,Especialista,Logística,8578.47,2015-01-01,2022-05-05,Bachiller,sofía@empresa.pe,913037649,Licencia
+355,739,"Vargas Lazo, Ana",95088249,Director,Recursos Humanos,3108.83,2022-03-04,2024-10-14,Bachiller,ana@empresa.pe,925126902,Retirado
+356,196,"Reyes Lazo, Rosa",28562341,Técnico,Recursos Humanos,7316.0,2010-11-24,2024-06-19,Titulado,rosa@empresa.pe,935610653,Inactivo
+357,19,"García Cjura, Juan",80352657,Asistente,Tecnología,4098.07,2011-05-24,2024-10-17,Bachiller,juan@empresa.pe,987078659,Licencia
+358,330,"Reyes Ccari, Rosa",92664825,Coordinador,Legal,8267.35,2010-01-19,2022-05-28,Secundaria,rosa@empresa.pe,984610924,Activo
+359,24,"Meduna Huanca, Fernando",44496097,Coordinador,Tecnología,3890.19,2018-02-21,2023-07-12,Bachiller,fernando@empresa.pe,992809450,Activo
+360,547,"Rodríguez Medina, Gabriela",79260076,Gerente,Operaciones,13431.03,2020-01-21,2022-12-25,Maestría,gabriela@empresa.pe,948774965,Licencia
+361,96,"Mendoza Rodríguez, Ricardo",74984383,Consultor Externo,Finanzas,7888.52,2014-10-14,2024-05-01,Técnico,ricardo@empresa.pe,955447002,Activo
+362,41,"Huanca Chura, Ana",15598567,Director,Operaciones,6716.49,2018-08-09,2024-01-06,Secundaria,ana@empresa.pe,930061140,Inactivo
+363,117,"Medina Flores, Pilar",76205392,Coordinador,Tecnología,6361.76,2020-05-24,2022-06-17,Técnico,pilar@empresa.pe,952384544,Activo
+364,421,"Reyes Apaza, Raúl",35895060,Especialista,Legal,1750.15,2019-06-21,2022-07-10,Técnico,raúl@empresa.pe,990126894,Inactivo
+365,121,"Díaz López, Miguel",52776610,Coordinador,Legal,8989.77,2014-02-05,2024-07-07,Técnico,miguel@empresa.pe,959782844,Inactivo
+366,261,"Ticona Chávez, Diego",16723690,Jefe de área,Tecnología,13232.67,2017-07-01,2023-01-25,Maestría,diego@empresa.pe,910808832,Inactivo
+367,554,"Huanca Torres, Ana",19853381,Analista,Recursos Humanos,14071.43,2018-12-31,2022-06-20,Técnico,ana@empresa.pe,943131709,Retirado
+368,310,"Reyes Lazo, Sofía",42039046,Asistente,Finanzas,8107.88,2018-07-18,2023-08-12,Técnico,sofía@empresa.pe,996899894,Retirado
+369,44,"Yucra Poma, Gabriela",41574844,Auditor,Contabilidad,7366.1,2014-01-11,2024-08-27,Titulado,gabriela@empresa.pe,924371507,Activo
+370,410,"Gonzales Inca, Rosa",95726114,Director,Tecnología,4186.98,2019-02-27,2023-05-18,Técnico,rosa@empresa.pe,940558305,Inactivo
+371,546,"Mamani Torres, Cecilia",45235776,Técnico,Ventas,118552.4,2021-11-10,2023-10-29,Maestría,cecilia@empresa.pe,988746735,Inactivo
+372,194,"Huanca Vega, José",40900396,Director,Tecnología,6285.66,2015-09-09,2023-05-06,Secundaria,josé@empresa.pe,915536882,Activo
+373,38,"Tapia López, César",93509544,Director,Operaciones,13995.74,2013-04-10,2023-12-14,Bachiller,césar@empresa.pe,931718404,Inactivo
+374,165,"Mamani Rodríguez, Pedro",32888925,Especialista,Contabilidad,14280.14,2023-10-01,2024-05-31,Secundaria,pedro@empresa.pe,997254980,Activo
+375,295,"Huanca Rodríguez, Jorge",71011452,Asistente,Tecnología,9000.59,2012-04-06,2024-11-18,Titulado,jorge@empresa.pe,928123781,Licencia
+376,124,"Paredes Ramos, Elena",45156195,Técnico,Operaciones,6374.77,2019-11-25,2023-05-04,Técnico,elena@empresa.pe,911693030,Retirado
+377,590,"Ccari Poma, Gabriela",89861407,Asistente,Logística,10317.1,2010-08-28,2024-04-20,Maestría,gabriela@empresa.pe,946309591,Activo
+378,242,"Quispe Ramos, Miguel",19250395,Supervisor,Finanzas,14535.3,2019-02-26,2024-01-13,Bachiller,miguel@empresa.pe,911421383,Licencia
+379,564,"Herrera Ccari, Luis",88278781,Técnico,Tecnología,11540.15,2022-10-17,2024-05-06,Técnico,luis@empresa.pe,942193533,Retirado
+380,69,"Cruz Yucra, Paola",14158247,Analista,Legal,12088.97,2021-08-19,2022-07-21,Bachiller,paola@empresa.pe,972940285,Activo
+381,70,"Nina Chura, Ana",22198987,Asistente,Operaciones,9128.66,2019-10-13,2022-01-03,Maestría,ana@empresa.pe,937116701,Licencia
+382,114,"Inca Condori, Pilar",44189901,Analista,Legal,9292.16,2020-04-24,2022-06-29,Maestría,pilar@empresa.pe,957661401,Activo
+383,570,,97784074,Director,Recursos Humanos,12402.14,2014-04-11,2023-09-14,Bachiller,fernando@empresa.pe,946704587,Inactivo
+384,352,"Lazo Apaza, Gabriela",18148937,Coordinador,Logística,2832.68,2018-02-06,2024-06-28,Titulado,gabriela@empresa.pe,942088772,Licencia
+385,403,"Torres Salcedo, Alejandro",20334507,Supervisor,Tecnología,14030.8,2016-10-08,2023-11-05,Maestría,alejandro@empresa.pe,935073930,Retirado
+386,699,"Mamani Apaza, Rosa",17034261,Gerente,Contabilidad,9232.21,2010-04-13,2022-11-04,Secundaria,rosa@empresa.pe,978129508,Licencia
+387,113,"Vega Nina, Pedro",82475048,Técnico,Ventas,8840.71,2015-04-02,2023-09-26,Maestría,pedro@empresa.pe,917725663,Retirado
+388,271,"Reyes Lazo, Elena",14421446,Jefe de área,Logística,5721.1,2015-01-04,2022-07-11,Técnico,elena@empresa.pe,972337810,Inactivo
+389,65,"Díaz Rodríguez, Fabiola",31717938,Jefe de área,Finanzas,5959.12,2010-09-10,2022-03-27,Técnico,fabiola@empresa.pe,996375111,Activo
+390,109,"Torres Reyes, Cecilia",25663934,Jefe de área,Legal,6213.07,2020-09-12,2024-02-29,Titulado,cecilia@empresa.pe,946504638,Licencia
+391,101,"Condori Flores, Sofía",95039187,Jefe de área,Recursos Humanos,7518.73,2014-01-25,2022-03-17,Titulado,sofía@empresa.pe,923503073,Activo
+392,680,"Gonzales Huillca, Patricia",91190149,Analista,Operaciones,12184.03,2012-12-22,2023-02-27,Bachiller,patricia@empresa.pe,940182304,Retirado
+393,345,"Gonzales Condori, Carlos",62074175,Supervisor,Recursos Humanos,12636.92,2014-09-08,2023-12-20,Bachiller,carlos@empresa.pe,947265428,Activo
+394,541,"Ticona Gonzales, Carlos",61476209,Consultor Externo,Recursos Humanos,9867.33,2021-03-17,2024-12-15,Titulado,carlos@empresa.pe,923914314,Retirado
+395,319,"García Vega, Ana",66091578,Director,Logística,1379.59,2022-07-06,2023-12-29,Técnico,ana@empresa.pe,985883563,Licencia
+396,11,"Ticona Tappia, Juan",77120755,Asistente,Tecnología,10475.77,2010-05-29,2023-05-28,Secundaria,juan@empresa.pe,912059721,Activo
+397,328,"Medina Rodríguez, Pilar",36861371,,Contabilidad,12277.54,2011-02-03,2024-04-03,Técnico,pilar@empresa.pe,939472825,Activo
+398,632,"Gonzales Lazo, Miguel",97899049,Coordinador,Contabilidad,7377.11,2022-02-02,2024-06-29,Maestría,miguel@empresa.pe,951393671,Licencia
+399,7,"García Mdeina, Pedro",35676674,Coordinador,Contabilidad,5021.46,2022-08-07,2022-02-27,Secundaria,pedro@empresa.pe,969491792,Licencia
+400,64,"Lazo Chura, Óscar",51305617,Técnico,Recursos Humanos,12090.99,2022-09-05,2022-12-18,Técnico,óscar@empresa.pe,914417590,Activo
+401,639,"Quispe Paredes, Ana",64910397,Gerente,Logística,8581.24,2021-12-31,2022-02-22,Secundaria,ana@empresa.pe,981582049,Licencia
+402,1,"Gonzales Reyes, Elena",66119495,Gerente,Operaciones,3476.48,2020-12-19,2024-05-13,Secundaria,elena@empresa.pe,999686414,Activo
+403,651,"Medina Cusi, Fernando",62546862,Especialista,Legal,8149.16,2022-02-01,2022-10-20,Técnico,fernando@empresa.pe,940572441,Licencia
+404,627,"Chávez Medina, Luis",28624166,Especialista,Finanzas,14360.88,2015-05-06,2022-04-16,Técnico,luis@empresa.pe,911429139,Inactivo
+405,536,"Yucra Huanca, Cecilia",25214818,Jefe de área,Ventas,4625.54,2013-01-16,2023-03-05,Titulado,cecilia@empresa.pe,999584207,Licencia
+406,643,"Llerena Ramos, Diego",93120066,Supervisor,Recursos Humanos,8913.01,2010-07-21,2022-04-28,Técnico,diego@empresa.pe,968970754,Licencia
+407,481,"Lazo Salcedo, Lucía",55027205,Director,Logística,-1761.32,2016-05-15,2022-06-22,Maestría,lucía@empresa.pe,959577907,Activo
+408,209,"Poma Flores, Raúl",91039940,Gerente,Tecnología,6077.51,2023-07-12,2022-08-20,Secundaria,raúl@empresa.pe,942541055,Licencia
+409,720,"Aguilar Mamani, Ricardo",37213393,Freelance,Logística,2639.7,2011-09-03,2024-10-24,Secundaria,ricardo@empresa.pe,972230271,Inactivo
+410,265,"Gonzales Quispe, Silvia",19078777,Auditor,Tecnología,6843.21,2010-10-17,2023-07-15,Técnico,silvia@empresa.pe,968936004,Licencia
+411,625,"Gonzales Vargas, Lucía",81220244,Gerente,Tecnología,6770.96,2020-01-30,2023-07-15,Técnico,lucía@empresa.pe,919437902,Licencia
+412,86,"Vega Ticona, Miguel",24664424,Técnico,Ventas,4297.1,2018-10-16,2024-08-04,Técnico,miguel@empresa.pe,932083292,Inactivo
+413,484,"Inca Torres, Raúl",60324054,,Finanzas,12447.97,2018-06-13,2023-03-26,Bachiller,raúl@empresa.pe,963886802,Activo
+414,2,"Vargas Gaecíaa, Raúl",21138017,Supervisor,Ventas,3631.8,2010-04-09,2024-09-20,Maestría,raúl@empresa.pe,934473646,Licencia
+415,684,"Huillca Huamán, Cecilia",44320324,Coordinador,Recursos Humanos,12145.29,2018-01-03,2024-10-05,Técnico,cecilia@empresa.pe,973307020,Activo
+416,275,"Reyes Herrera, Juan",33082782,Especialista,Contabilidad,5797.27,2015-07-20,2023-11-06,Bachiller,juan@empresa.pe,934005826,Activo
+417,281,"Rodríguez Quispe, Luis",17202700,Auditor,Ventas,7939.93,2015-02-22,2022-06-28,Técnico,luis@empresa.pe,930623499,Licencia
+418,617,"Ccari Huamán, Carmen",34108836,Coordinador,Operaciones,9167.15,2010-09-09,2023-05-11,Bachiller,carmen@empresa.pe,978961954,Retirado
+419,290,"Mendoza Salcedo, Elena",21690160,Gerente,Legal,4351.19,2016-11-01,2022-01-10,Bachiller,elena@empresa.pe,975639581,Activo
+420,248,"Llerena Vega, Ricardo",89120158,Supervisor,Operaciones,7777.33,2011-06-24,2024-12-18,Bachiller,ricardo@empresa.pe,980320923,Inactivo
+421,31,"Lazo Cusi, Pilar",60180826,Asistente,Ventas,1756.99,2012-09-03,2022-04-14,Técnico,pilar@empresa.pe,990596847,Inactivo
+422,585,"Llerena López, Pilar",74243065,Técnico,Ventas,5863.55,2017-09-17,2022-02-10,Titulado,pilar@empresa.pe,975544180,Inactivo
+423,9,"Chrua Díaz, JJorge",40675978,Coordinador,Recursos Humanos,14609.4,2015-12-16,2023-07-11,Secundaria,jjorge@empresa.pe,934367415,Licencia
+424,515,"Reyes Mamani, Ricardo",32992245,Asistente,Ventas,7070.22,2012-10-02,2022-02-04,Titulado,ricardo@empresa.pe,920970083,Activo
+425,167,"Ccopa Cusi, Fabiola",61761952,Supervisor,Legal,1469.77,2023-01-26,2022-03-31,Titulado,fabiola@empresa.pe,917326193,Inactivo
+426,543,"Mamani Aguilar, Sofía",10375303,Supervisor,Tecnología,12599.99,2022-12-10,2024-08-17,Titulado,sofía@empresa.pe,923891412,Licencia
+427,294,"Herrera Poma, José",78015351,Auditor,Ventas,12112.27,2013-08-21,2024-03-11,Maestría,josé@empresa.pe,911215815,Activo
+428,418,"Díaz Mendoza, Miguel",61958274,Auditor,Logística,9614.09,2010-05-18,2024-01-29,Titulado,miguel@empresa.pe,919018690,Licencia
+429,562,"Paredes Condori, Diego",12708508,Técnico,Ventas,7664.57,22/11/2012,2022-07-02,Técnico,diego@empresa.pe,951630103,Retirado
+430,315,"Huamán Aguilar, Diego",60252185,Asistente,Recursos Humanos,2070.18,2023-02-13,2022-08-19,Titulado,diego@empresa.pe,962386049,Retirado
+431,452,"Ccopa García, Miguel",21028172,Coordinador,Tecnología,11880.93,2011-10-08,2024-05-17,Bachiller,miguel@empresa.pe,919957392,Retirado
+432,98,"Cruz Cruz, Lucía",76267357,Director,Logística,6771.47,2021-05-11,2023-12-08,Técnico,lucía@empresa.pe,997853442,Retirado
+433,5,"Huamán Cndori, Jun",95341298,Técnico,Contabilidad,5788.74,2019-01-02,2022-06-23,Técnico,jun@empresa.pe,932817504,Inactivo
+434,125,"Ccopa Flores, Rosa",39602030,Auditor,Tecnología,2273.45,2013-02-18,2024-07-04,Secundaria,rosa@empresa.pe,961684447,Activo
+435,37,"Torres Apaza, Luis",22145096,Gerente,Contabilidad,6805.8,2013-08-24,2022-09-24,Secundaria,luis@empresa.pe,916938439,Inactivo
+436,321,"Reyes Paredes, Eduardo",73251748,Coordinador,Tecnología,7907.08,2017-02-22,2024-09-02,Técnico,eduardo@empresa.pe,924611717,Licencia
+437,116,"Condori Ccopa, Pedro",34252240,Asistente,Tecnología,12320.94,2022-12-17,2024-01-06,Titulado,pedro@empresa.pe,979419739,Inactivo
+438,652,"Mendoza García, Pedro",51095035,Jefe de área,Contabilidad,2826.16,2020-07-06,2022-01-04,Titulado,pedro@empresa.pe,919573216,Activo
+439,286,"Ccari Mendoza, Pilar",19266121,Coordinador,Ventas,11570.16,2011-02-17,2024-01-19,Titulado,pilar@empresa.pe,922399900,Licencia
+440,20,"Yucr Cndori, Patricia",30410253,Coordinador,Contabilidad,8408.65,2011-11-28,2022-03-22,Secundaria,patricia@empresa.pe,926864695,Inactivo
+441,641,"Ramos Mamani, Lucía",16622295,Supervisor,Contabilidad,9228.82,2012-02-18,2023-11-24,Secundaria,lucía@empresa.pe,981454770,Licencia
+442,477,"Aguilar Llerena, Eduardo",74310318,Analista,Finanzas,7655.67,2018-07-13,2024-08-04,Técnico,eduardo@empresa.pe,990399479,Inactivo
+443,115,"Lazo Tapia, César",79932752,Director,Tecnología,13577.62,2020-09-09,2024-11-02,Maestría,césar@empresa.pe,937094483,Inactivo
+444,305,"Ccari Cruz, Claudia",94583304,Especialista,Finanzas,2871.13,2010-12-05,2024-12-25,Maestría,claudia@empresa.pe,951015118,Licencia
+445,443,"Cruz Medina, Fernando",88727028,Analista,Ventas,2088.42,2022-05-29,2022-05-26,Técnico,fernando@empresa.pe,979110978,Activo
+446,375,"Medina Quispe, Rosa",40866038,Supervisor,Finanzas,3608.59,2010-07-16,2022-08-22,Secundaria,rosa@empresa.pe,921877023,Inactivo
+447,243,"Flores Inca, Silvia",47867710,Técnico,Logística,8773.58,2018-12-15,2024-05-14,Bachiller,silvia@empresa.pe,982477140,Retirado
+448,14,"Reyes Nina, uLis",73600201,Coordinador,Logística,4680.27,2015-04-08,2023-02-25,Técnico,ulis@empresa.pe,997232433,Retirado
+449,312,,20558670,Director,Recursos Humanos,6164.08,2012-09-25,2023-10-28,Técnico,óscar@empresa.pe,910460282,Retirado
+450,280,"Huamán Ramos, Lucía",36536601,Director,Ventas,5112.08,2012-11-07,2023-05-07,Maestría,lucía@empresa.pe,977349962,Inactivo
+451,492,"Suca Quispe, Cecilia",17907041,Supervisor,Logística,11303.86,2012-01-20,2024-09-18,Maestría,cecilia@empresa.pe,990620232,Inactivo
+452,380,"Chura Apaza, María",11764736,Auditor,Ventas,3859.57,2012-06-02,2024-07-25,Técnico,maría@empresa.pe,944699688,Retirado
+453,30,"García Tapia, Miguel",43010746,Supervisor,Recursos Humanos,8201.08,2020-05-28,2022-03-17,Secundaria,miguel@empresa.pe,910602919,Retirado
+454,528,"Huanca Nina, Sofía",33726689,Jefe de área,Ventas,3550.14,2020-09-24,2023-11-21,Secundaria,sofía@empresa.pe,980412725,Inactivo
+455,10,"Tiicona Vargas, César",34608019,Coordinador,Logística,7069.38,2010-05-18,2022-07-01,Bachiller,césar@empresa.pe,921239731,Inactivo
+456,376,"Reyes Llerena, José",19844708,Gerente,Logística,8408.08,2019-05-13,2024-09-07,Bachiller,josé@empresa.pe,954696501,Activo
+457,440,,56010493,Gerente,Legal,13427.88,2012-07-08,2022-10-15,Titulado,rosa@empresa.pe,988153664,Licencia
+458,485,"Poma Nina, Patricia",36511375,Coordinador,Operaciones,8673.73,2014-03-06,2023-06-14,Maestría,patricia@empresa.pe,928275303,Inactivo
+459,502,"Chura Huanca, Alejandro",56541120,Especialista,Recursos Humanos,6328.75,2013-07-15,2023-09-21,Técnico,alejandro@empresa.pe,943885730,Activo
+460,273,"Poma Vega, Carlos",76645870,Coordinador,Ventas,13473.62,2020-11-15,2023-07-28,Bachiller,carlos@empresa.pe,990232270,Activo
+461,188,"Mendoza Díaz, Silvia",66993575,Jefe de área,Operaciones,11695.14,2023-06-06,2024-08-02,Titulado,silvia@empresa.pe,937692524,Activo
+462,329,"Suca Chura, Pilar",65531110,Jefe de área,Contabilidad,4828.78,2010-05-30,2024-09-07,Secundaria,pilar@empresa.pe,922962108,Inactivo
+463,205,"Chávez Huamán, Silvia",78079908,Coordinador,Recursos Humanos,11061.55,2020-04-26,2024-03-13,Maestría,silvia@empresa.pe,932985481,Inactivo
+464,545,"Yucra Llerena, Carmen",95128140,Analista,Logística,13654.23,2010-04-25,2022-10-30,Bachiller,carmen@empresa.pe,918006402,Inactivo
+465,454,"Vargas Cruz, Ricardo",15318443,Coordinador,Ventas,5827.76,2021-06-15,2024-04-08,Técnico,ricardo@empresa.pe,940725649,Inactivo
+466,732,"Vega Huanca, Fabiola",34616041,Gerente,Ventas,13430.54,2015-04-01,2023-05-19,Técnico,fabiola@empresa.pe,972168348,Inactivo
+467,334,"Cruz Reyes, Patricia",91393284,Gerente,Ventas,9152.09,2010-02-26,2022-06-11,Secundaria,patricia@empresa.pe,915845216,Activo
+468,264,"Nina Paredes, Pilar",72307164,Auditor,Operaciones,10257.24,2018-03-16,2023-12-01,Técnico,pilar@empresa.pe,971261073,Activo
+469,35,"Nina López, Alejandro",31970008,Asistente,Legal,6689.26,2016-05-09,2023-09-22,Titulado,alejandro@empresa.pe,916893514,Licencia
+470,21,"Nina Apaaza, Eduaro",80635798,Supervisor,Finanzas,4439.8,2019-03-28,2023-09-22,Secundaria,eduaro@empresa.pe,912924253,Inactivo
+471,728,"Suca Reyes, Claudia",44942287,Coordinador,Contabilidad,8134.11,2019-10-06,2024-05-06,Bachiller,claudia@empresa.pe,964005978,Licencia
+472,87,"García Ccopa, Patricia",96194528,Supervisor,Operaciones,8956.34,2017-12-02,2024-04-26,Titulado,patricia@empresa.pe,949505957,Inactivo
+473,62,"Condori López, Óscar",78105910,Asistente,Ventas,1410.14,2014-07-20,2022-11-23,Bachiller,óscar@empresa.pe,935761344,Retirado
+474,145,,93680822,Director,Finanzas,4973.38,2023-12-08,2022-07-25,Bachiller,pilar@empresa.pe,926334243,Activo
+475,291,"Díaz Llerena, Diego",65137530,Especialista,Operaciones,9545.65,2017-07-10,2023-03-14,Secundaria,diego@empresa.pe,957474712,Retirado
+476,129,"Díaz Reyes, Ricardo",17630670,Supervisor,Contabilidad,9907.81,2016-06-02,2022-09-02,Bachiller,ricardo@empresa.pe,937061223,Licencia
+477,15,"Chura Herrer, Silvia",44083287,Asistente,Operaciones,10191.17,2010-04-13,2024-09-14,Secundaria,silvia@empresa.pe,975202710,Licencia
+478,533,"Reyes Nina, Gabriela",45681692,Jefe de área,Ventas,5970.95,2012-01-08,2023-11-19,Maestría,gabriela@empresa.pe,968211993,Inactivo
+479,298,"Flores Gonzales, Patricia",28386838,Asistente,Operaciones,1297.57,2014-03-18,2024-11-06,Secundaria,patricia@empresa.pe,962642764,Inactivo
+480,408,,33549641,Jefe de área,Ventas,4403.76,2023-02-18,2022-08-13,Titulado,raúl@empresa.pe,989748728,Inactivo
+481,621,"Herrera Salcedo, María",84009800,Supervisor,Legal,5672.09,2018-04-18,2022-06-29,Maestría,maría@empresa.pe,954264511,Retirado
+482,433,"Inca Gonzales, Elena",73454582,Analista,Operaciones,14424.55,2016-08-15,2022-04-20,Maestría,elena@empresa.pe,982604716,Inactivo
+483,244,"Salcedo Reyes, Elena",61729500,Jefe de área,Finanzas,13367.18,2015-05-13,2024-10-23,Bachiller,elena@empresa.pe,991994646,Retirado
+484,80,"Quispe Medina, Pilar",67717430,Auditor,Legal,10876.03,2015-02-16,2023-04-14,Técnico,pilar@empresa.pe,996105883,Activo
+485,672,"Ccari Huanca, Rosa",28254140,Jefe de área,Operaciones,13121.66,2021-10-08,2023-03-06,Titulado,rosa@empresa.pe,981764880,Inactivo
+486,459,"Reyes García, Patricia",68697435,Analista,Operaciones,2953.35,2022-12-20,2022-04-03,Secundaria,patricia@empresa.pe,925151338,Licencia
+487,169,"Poma García, Jorge",62317447,Auditor,Ventas,10513.76,2019-04-11,2023-09-26,Titulado,jorge@empresa.pe,975013669,Activo
+488,47,"Cruz Torres, Sofía",39679134,Gerente,Logística,2104.12,2013-07-24,2023-10-26,Maestría,sofía@empresa.pe,946908880,Retirado
+489,75,"Suca Gonzales, Rosa",72163898,Asistente,Ventas,7255.41,2012-10-29,2023-11-16,Titulado,rosa@empresa.pe,996261858,Inactivo
+490,709,"Díaz García, Pilar",84791429,Auditor,Contabilidad,12877.66,2012-05-11,2023-11-03,Técnico,pilar@empresa.pe,954552819,Inactivo
+491,177,"López Huanca, Eduardo",41080089,Coordinador,Recursos Humanos,5630.31,2022-08-09,2024-01-11,Maestría,eduardo@empresa.pe,949857113,Inactivo
+492,128,"Aguilar Chura, Raúl",49802408,Jefe de área,Logística,5816.22,2021-01-05,2022-08-12,Bachiller,raúl@empresa.pe,971228067,Retirado
+493,219,"Vega Reyes, María",37563236,Especialista,Legal,1299.81,2019-12-29,2024-03-22,Maestría,maría@empresa.pe,950588808,Inactivo
+494,722,"Mamani Paredes, Ricardo",58973149,Gerente,Ventas,13553.86,2010-03-13,2022-06-02,Titulado,ricardo@empresa.pe,920178457,Inactivo
+495,348,"Chávez Vega, Lucía",82770346,Jefe de área,Tecnología,11172.45,2015-08-24,2024-01-29,Bachiller,lucía@empresa.pe,932311083,Activo
+496,708,"Ccopa López, Miguel",72205780,,Tecnología,14452.86,2013-03-24,2023-01-09,Maestría,miguel@empresa.pe,958198420,Activo
+497,335,"Mamani Condori, Ricardo",61724132,Técnico,Ventas,7487.6,2011-10-16,2022-02-14,Secundaria,ricardo@empresa.pe,914109947,Inactivo
+498,54,"Mamani Vargas, Carlos",86117714,Coordinador,Tecnología,6098.48,2021-12-24,2023-04-05,Titulado,carlos@empresa.pe,988328247,Licencia
+499,658,"López Díaz, Miguel",11794855,Director,Ventas,6574.53,2018-11-16,2023-03-30,Secundaria,miguel@empresa.pe,953613065,Activo
+500,32,"García Paredes, Ricardo",33858409,Asistente,Finanzas,7397.77,2012-05-16,2023-12-18,Técnico,ricardo@empresa.pe,915027059,Licencia
+501,631,"Tapia Paredes, César",13691827,Analista,Recursos Humanos,10151.02,2020-07-09,2022-06-06,Secundaria,césar@empresa.pe,986497996,Retirado
+502,589,"Vega Ticona, Diego",35261667,Coordinador,Recursos Humanos,14645.27,2021-11-08,2022-03-31,Maestría,diego@empresa.pe,926966931,Activo
+503,736,"Paredes Cruz, Fabiola",46103576,Técnico,Operaciones,9750.7,2019-07-13,2022-10-26,Maestría,fabiola@empresa.pe,976206857,Licencia
+504,409,"Aguilar Apaza, Pilar",78568867,Analista,Contabilidad,1925.28,2011-12-09,2022-05-23,Maestría,pilar@empresa.pe,965706215,Inactivo
+505,158,"Ccari Ccari, Paola",67721177,Sin cargo,Finanzas,6575.34,2023-05-04,2023-12-21,Titulado,paola@empresa.pe,911393121,Activo
+506,323,"Apaza Chávez, María",11728141,Auditor,Legal,2733.58,2010-08-15,2022-01-19,Secundaria,maría@empresa.pe,972238365,Activo
+507,215,"Quispe Mendoza, César",74885917,Analista,Ventas,5806.16,2020-04-21,2022-04-03,Técnico,césar@empresa.pe,929280510,Licencia
+508,525,"Flores Ccopa, Elena",62484158,Supervisor,Tecnología,10655.15,2022-08-07,2023-08-09,Titulado,elena@empresa.pe,998368441,Retirado
+509,288,"Apaza Salcedo, Raúl",95867432,Director,Logística,12025.14,2023-04-25,2024-12-24,Secundaria,raúl@empresa.pe,919131092,Licencia
+510,333,,22620622,Supervisor,Recursos Humanos,2412.22,2012-01-06,2024-01-23,Bachiller,lucía@empresa.pe,950630801,Licencia
+511,178,"García Herrera, Pedro",40390225,Técnico,Logística,5182.24,2017-12-25,2024-04-06,Titulado,pedro@empresa.pe,994293432,Inactivo
+512,724,"Paredes Chávez, Lucía",35217318,Director,Operaciones,8755.9,2017-08-03,2022-05-22,Bachiller,lucía@empresa.pe,974610226,Inactivo
+513,252,"Quispe Chávez, Lucía",75602438,Supervisor,Tecnología,8385.57,2021-09-27,2023-11-28,Titulado,lucía@empresa.pe,943939124,Activo
+514,226,"Poma Mamani, Elena",44496287,Analista,Finanzas,14175.3,2017-02-08,2023-10-04,Secundaria,elena@empresa.pe,965718472,Licencia
+515,77,"Torres Medina, José",35403847,Coordinador,Operaciones,4769.9,2012-04-12,2023-02-05,Titulado,josé@empresa.pe,930261520,Inactivo
+516,356,"Llerena Ramos, Rosa",78388847,Director,Finanzas,1350.14,2020-07-19,2022-03-07,Maestría,rosa@empresa.pe,997030621,Inactivo
+517,659,"Ccari Huillca, Fernando",86227071,Director,Finanzas,9217.83,2011-11-04,2022-12-27,Técnico,fernando@empresa.pe,940368788,Inactivo
+518,13,"Chávez Cruz, Diego",61221056,Asistente,Ventas,2357.69,2015-07-27,2024-10-30,Secundaria,diego@empresa.pe,922193908,Licencia
+519,90,"Salcedo Vargas, Pedro",85777892,Jefe de área,Tecnología,13700.12,2023-01-24,2022-01-31,Secundaria,pedro@empresa.pe,938152097,Activo
+520,254,"Ramos Cusi, Pedro",80488031,Coordinador,Ventas,9978.77,2012-11-17,2024-05-16,Bachiller,pedro@empresa.pe,992927962,Licencia
+521,218,"Vega Suca, Fernando",64487357,Gerente,Tecnología,5815.1,2020-10-19,2024-10-28,Bachiller,fernando@empresa.pe,942671547,Inactivo
+522,163,"Herrera Suca, Carlos",50863476,Coordinador,Finanzas,6686.41,2010-08-30,2023-02-07,Técnico,carlos@empresa.pe,976821815,Licencia
+523,419,"Nina Quispe, Miguel",54609723,Especialista,Operaciones,5173.56,2018-06-18,2022-02-14,Secundaria,miguel@empresa.pe,935923867,Inactivo
+524,149,"Inca Suca, Carmen",92248581,Asistente,Finanzas,7794.41,2015-06-08,2023-11-15,Técnico,carmen@empresa.pe,935340855,Retirado
+525,581,"Llerena Poma, José",27999847,Asistente,Recursos Humanos,4570.53,2015-04-14,2023-05-23,Técnico,josé@empresa.pe,914509718,Inactivo
+526,192,"Nina Gonzales, Carlos",58223824,Asistente,Logística,13889.88,2015-07-09,2022-06-10,Técnico,carlos@empresa.pe,913713605,Activo
+527,293,"Condori Flores, Elena",34710294,Gerente,Operaciones,6577.44,2018-02-16,2022-12-09,Técnico,elena@empresa.pe,957184212,Retirado
+528,337,"Gonzales Salcedo, Luis",31761401,Especialista,Tecnología,7311.74,2016-02-25,2023-05-27,Secundaria,luis@empresa.pe,965353516,Activo
+529,635,"Mamani Herrera, Eduardo",87032336,Jefe de área,Contabilidad,10710.7,2020-03-10,2024-08-08,Bachiller,eduardo@empresa.pe,963854575,Activo
+530,157,"Gonzales Condori, Diego",11435093,Asistente,Contabilidad,1552.94,11/10/2013,2023-10-02,Maestría,diego@empresa.pe,993213938,Retirado
+531,246,"Suca Gonzales, Gabriela",87538493,Especialista,Tecnología,1212.87,2023-04-15,2024-02-18,Técnico,gabriela@empresa.pe,994491877,Retirado
+532,561,,33256901,Director,Finanzas,13911.01,2019-04-10,2022-02-21,Bachiller,maría@empresa.pe,981974217,Retirado
+533,25,"Meina López, César",73778795,Especialista,Legal,11074.88,2015-08-19,2024-05-30,Titulado,césar@empresa.pe,927811668,Retirado
+534,55,"Ticona Chávez, Ana",59155166,,Operaciones,9810.23,2013-01-08,2022-01-29,Técnico,ana@empresa.pe,930040462,Retirado
+535,516,"Yucra Cusi, Sofía",50638718,Consultor Externo,Recursos Humanos,13770.67,2012-04-18,2022-08-12,Titulado,sofía@empresa.pe,950472259,Activo
+536,712,"Lazo Inca, César",46985716,Asistente,Ventas,13877.55,2013-08-06,2022-11-20,Bachiller,césar@empresa.pe,974959387,Licencia
+537,6,"López Apaza, iDego",97197858,Jefe de área,Legal,2618.25,2014-05-15,2023-03-09,Secundaria,idego@empresa.pe,943800696,Inactivo
+538,390,"Salcedo Apaza, Fernando",55369931,Supervisor,Contabilidad,6201.53,2022-05-19,2022-08-28,Secundaria,fernando@empresa.pe,944838748,Retirado
+539,42,"Ccopa Flores, Óscar",85476435,Analista,Tecnología,12826.29,26/08/2011,2024-03-09,Maestría,óscar@empresa.pe,971167514,Licencia
+540,39,"García Rodríguez, Elena",75835090,Supervisor,Logística,11599.07,2012-11-03,2022-03-31,Titulado,elena@empresa.pe,952214961,Activo
+541,401,"Condori Condori, Lucía",82849058,Coordinador,Finanzas,6213.26,2020-05-08,2024-06-04,Secundaria,lucía@empresa.pe,927581230,Retirado
+542,53,"Yucra Apaza, Diego",40187395,Analista,Operaciones,86993.27,2020-12-14,2023-04-11,Maestría,diego@empresa.pe,997658729,Activo
+543,189,"Cruz Quispe, Lucía",75311510,Analista,Logística,4048.77,2016-10-25,2023-02-08,Secundaria,lucía@empresa.pe,951462090,Retirado
+544,523,"Yucra Condori, María",83500983,Director,Finanzas,10137.93,2011-10-14,2023-06-12,Técnico,maría@empresa.pe,958367037,Licencia
+545,197,"Paredes Quispe, Juan",91972183,Director,Legal,13003.52,2013-03-18,2023-08-04,Secundaria,juan@empresa.pe,998801815,Activo
+546,519,"Nina Huillca, Carmen",90214057,Coordinador,Recursos Humanos,2005.94,2019-08-07,2022-05-12,Maestría,carmen@empresa.pe,938836744,Licencia
+547,108,"Salcedo Herrera, Carmen",90546652,Especialista,Finanzas,3490.76,2017-02-03,2024-01-23,Maestría,carmen@empresa.pe,968884504,Retirado
+548,430,"López Chura, Diego",49471912,,Finanzas,9294.01,2011-12-16,2022-10-01,Secundaria,diego@empresa.pe,960525947,Licencia
+549,623,"Huillca Mamani, Silvia",23139420,Técnico,Logística,2592.34,2017-02-12,2022-04-24,Técnico,silvia@empresa.pe,946701054,Activo
+550,665,"Condori Nina, Jorge",74664122,Auditor,Tecnología,5361.72,2010-01-06,2022-09-17,Secundaria,jorge@empresa.pe,925015766,Inactivo
+551,7,"García Medina, Pedro",77330181,Jefe de área,Finanzas,3004.53,2019-11-15,2023-01-11,Maestría,pedro@empresa.pe,910527808,Inactivo
+552,514,"Díaz Ticona, Juan",97466230,Supervisor,Operaciones,7395.66,2019-11-18,2024-03-09,Maestría,juan@empresa.pe,947066949,Licencia
+553,72,"Cruz Condori, Fernando",41075102,Coordinador,Recursos Humanos,8076.76,2020-12-30,2022-08-03,Bachiller,fernando@empresa.pe,957730114,Activo
+554,513,"Cusi Salcedo, Luis",68427776,Técnico,Ventas,90953.72,2017-03-20,2024-09-10,Titulado,luis@empresa.pe,962772425,Licencia
+555,225,"Mamani Poma, Elena",91844187,Gerente,Operaciones,10569.7,2011-04-16,2024-04-28,Secundaria,elena@empresa.pe,921703523,Licencia
+556,384,"Gonzales Huamán, Jorge",30300732,Supervisor,Contabilidad,3618.91,2010-09-05,2023-02-09,Bachiller,jorge@empresa.pe,926050411,Licencia
+557,663,"Yucra Flores, Ana",14932019,Auditor,Ventas,11163.72,2023-12-04,2024-05-11,Titulado,ana@empresa.pe,942089690,Licencia
+558,262,"Nina Aguilar, Ricardo",45211106,Técnico,Logística,2395.28,2016-09-13,2024-03-19,Maestría,ricardo@empresa.pe,966400943,Activo
+559,553,"Gonzales Rodríguez, Paola",47826385,Especialista,Desconocida,13896.44,2019-12-06,2022-08-07,Secundaria,paola@empresa.pe,956842475,Retirado
+560,614,"Nina Mendoza, Gabriela",16171198,,Logística,12910.42,2012-08-18,2024-03-25,Bachiller,gabriela@empresa.pe,984225621,Licencia
+561,497,"Díaz Llerena, Carmen",60584012,Supervisor,Externa,9387.09,2019-10-23,2022-01-04,Bachiller,carmen@empresa.pe,944081130,Inactivo
+562,132,"Condori Aguilar, César",34251327,Jefe de área,Ventas,3105.43,2013-12-09,2023-02-07,Maestría,césar@empresa.pe,920638997,Activo
+563,135,"Llerena Chávez, Claudia",99319514,Jefe de área,Tecnología,4874.38,2010-10-28,2022-12-01,Bachiller,claudia@empresa.pe,987164419,Activo
+564,357,,97394025,Técnico,Tecnología,6229.94,2010-12-09,2024-01-24,Técnico,maría@empresa.pe,940452623,Activo
+565,471,"Flores Huanca, Óscar",17234139,Supervisor,Operaciones,7095.68,2018-05-28,2024-11-08,Secundaria,óscar@empresa.pe,924947325,Licencia
+566,331,"Huamán Suca, Fabiola",92249516,Director,Recursos Humanos,9404.93,2011-03-21,2023-08-19,Titulado,fabiola@empresa.pe,963278912,Activo
+567,361,"Aguilar Lazo, Eduardo",53189074,Jefe de área,Tecnología,1638.39,2019-04-07,2022-02-17,Maestría,eduardo@empresa.pe,960190325,Inactivo
+568,320,"Vega Herrera, Luis",15938001,Gerente,Legal,11403.25,2010-08-29,2024-07-20,Secundaria,luis@empresa.pe,956028323,Activo
+569,633,"Poma Condori, Raúl",67830973,Coordinador,Tecnología,2238.78,2012-10-30,2024-05-15,Técnico,raúl@empresa.pe,942021160,Inactivo
+570,549,"Mendoza García, María",60968293,Asistente,Finanzas,3046.37,2023-01-07,2022-09-07,Titulado,maría@empresa.pe,978088504,Inactivo
+571,29,"Ramos Ramos, Ana",68974969,Supervisor,Ventas,4614.52,2013-06-10,2023-07-31,Maestría,ana@empresa.pe,935266505,Licencia
+572,674,"Mamani Rodríguez, César",85963392,Pasante,Recursos Humanos,14430.71,2018-04-19,2023-05-08,Maestría,césar@empresa.pe,966515946,Licencia
+573,733,"Ticona Ramos, Pedro",19827802,Técnico,Contabilidad,10523.77,2012-01-21,2024-01-17,Titulado,pedro@empresa.pe,960124390,Activo
+574,610,"Condori Salcedo, Miguel",28139965,Gerente,Contabilidad,2973.71,2021-07-03,2024-12-14,Maestría,miguel@empresa.pe,937765666,Inactivo
+575,683,"Ccopa Aguilar, Ricardo",41211666,Asistente,Operaciones,4272.56,2020-12-02,2022-08-25,Técnico,ricardo@empresa.pe,972965688,Activo
+576,367,"Ccari Suca, Ana",68517975,Asistente,Legal,2249.1,2014-01-27,2023-06-08,Técnico,ana@empresa.pe,965303238,Licencia
+577,615,"Rodríguez Ccopa, Cecilia",91249424,Gerente,Logística,80055.11,2016-02-24,2023-07-13,Maestría,cecilia@empresa.pe,921642425,Inactivo
+578,512,"Paredes Huanca, Fabiola",63009919,Técnico,Externa,118301.13,17/09/2020,2024-12-06,Titulado,fabiola@empresa.pe,950280011,Retirado
+579,23,"Inac Paredes, Crmen",70349922,Gerente,Recursos Humanos,13594.71,2011-10-13,2022-12-06,Bachiller,crmen@empresa.pe,935593109,Inactivo
+580,487,"Nina Yucra, Cecilia",86701718,Especialista,Tecnología,12702.03,2022-09-17,2022-09-16,Bachiller,cecilia@empresa.pe,976248153,Retirado
+581,28,"Inca Yucra, Óscar",41532215,Coordinador,Logística,11522.08,2016-08-03,2023-07-27,Maestría,óscar@empresa.pe,945925506,Licencia
+582,56,,50357012,Asistente,Legal,13223.74,2015-12-05,2022-01-24,Secundaria,alejandro@empresa.pe,996563369,Licencia
+583,745,"Paredes Huamán, Raúl",88728608,Auditor,Ventas,11738.15,2015-11-13,2024-10-07,Secundaria,raúl@empresa.pe,925740927,Inactivo
+584,569,"Tapia Aguilar, Lucía",69818552,Asistente,Operaciones,14786.82,2020-06-28,2023-01-07,Técnico,lucía@empresa.pe,970841190,Licencia
+585,510,"Mamani Salcedo, Gabriela",53619501,Supervisor,Tecnología,-3453.05,2011-07-11,2022-09-20,Secundaria,gabriela@empresa.pe,999972711,Activo
+586,642,"Vega Rodríguez, María",20467531,Especialista,Contabilidad,11441.43,2015-04-19,2023-01-01,Maestría,maría@empresa.pe,946898457,Licencia
+587,693,"Llerena Ticona, Paola",69869937,Coordinador,Tecnología,12740.29,2011-12-06,2022-09-04,Titulado,paola@empresa.pe,924243982,Licencia
+588,567,"Nina García, Juan",18884574,Supervisor,Recursos Humanos,3584.76,2018-07-13,2022-11-09,Maestría,juan@empresa.pe,950525299,Licencia
+589,441,"Mendoza Salcedo, César",83481741,Analista,Tecnología,3659.31,2014-08-03,2024-07-27,Secundaria,césar@empresa.pe,948149407,Retirado
+590,737,"Ccopa Díaz, Miguel",67531572,Asistente,Logística,9130.75,2010-12-08,2022-06-02,Técnico,miguel@empresa.pe,996932590,Inactivo
+591,622,"Rodríguez Nina, Silvia",94248730,Coordinador,Logística,9100.83,2023-09-02,2022-07-19,Técnico,silvia@empresa.pe,954065792,Licencia
+592,314,"Cruz Mendoza, José",81228366,Supervisor,Ventas,9044.64,2016-04-26,2022-03-04,Técnico,josé@empresa.pe,933224818,Activo
+593,24,"Medina Huanca, Fernando",85313447,Supervisor,Legal,14506.94,2017-12-31,2023-09-25,Titulado,fernando@empresa.pe,921778983,Activo
+594,499,"Apaza Ccopa, Claudia",23518825,Jefe de área,Operaciones,3354.63,2017-02-16,2023-03-29,Titulado,claudia@empresa.pe,962075324,Licencia
+595,111,"Ticona Apaza, Óscar",43032463,Técnico,Ventas,6398.14,2020-02-14,2023-08-04,Secundaria,óscar@empresa.pe,953154473,Licencia
+596,4,"Ticona Vagas, Pilar",63778945,Supervisor,Ventas,11410.25,2021-08-11,2024-10-06,Bachiller,pilar@empresa.pe,913889649,Activo
+597,95,"Cruz Inca, Lucía",67151806,Coordinador,Sin área,6979.67,2018-01-31,2022-02-28,Secundaria,lucía@empresa.pe,991829239,Activo
+598,468,"Suca Vargas, José",58400792,Técnico,Logística,6852.88,08/01/2017,2023-11-29,Bachiller,josé@empresa.pe,973381659,Activo
+599,378,"Reyes Ccopa, Fabiola",85212168,Jefe de área,Legal,12311.19,2018-08-22,2023-08-28,Secundaria,fabiola@empresa.pe,940791351,Licencia
+600,127,"Huanca Cusi, Silvia",29422775,Jefe de área,Logística,7257.8,2019-05-20,2024-04-23,Técnico,silvia@empresa.pe,930895883,Activo
+601,391,"Llerena Lazo, Rosa",91074422,Especialista,Legal,12390.04,09/04/2011,2022-09-23,Técnico,rosa@empresa.pe,975907046,Activo
+602,472,"Cusi Huamán, Elena",89896398,Analista,Legal,14839.57,2018-10-01,2023-01-16,Titulado,elena@empresa.pe,911486906,Licencia
+603,644,"Huanca Huillca, Diego",89374929,Supervisor,Finanzas,5283.4,2012-01-27,2022-09-28,Técnico,diego@empresa.pe,944287480,Retirado
+604,697,"Díaz Rodríguez, Jorge",33952673,Coordinador,Recursos Humanos,10212.45,2016-06-23,2023-05-29,Titulado,jorge@empresa.pe,983348841,Retirado
+605,182,"Apaza Chura, Lucía",10130427,Asistente,Finanzas,2743.84,2023-02-15,2022-04-07,Técnico,lucía@empresa.pe,924923309,Activo
+606,161,"Huamán Huanca, Luis",98036878,Gerente,Legal,13544.25,2013-07-05,2024-12-09,Bachiller,luis@empresa.pe,978666613,Inactivo
+607,94,"Inca Reyes, Fernando",75950864,Jefe de área,Finanzas,4602.62,2013-08-06,2023-10-19,Titulado,fernando@empresa.pe,985506730,Retirado
+608,470,"Huillca Reyes, José",30657967,Jefe de área,Operaciones,14643.94,2017-11-25,2023-07-30,Secundaria,josé@empresa.pe,942934023,Licencia
+609,743,"Huillca Poma, Claudia",15636676,Especialista,Recursos Humanos,4152.75,2014-11-11,2022-09-07,Titulado,claudia@empresa.pe,920084034,Retirado
+610,249,"Ccari Torres, Raúl",59095746,Jefe de área,Operaciones,4493.26,2020-04-28,2022-12-30,Secundaria,raúl@empresa.pe,953213146,Retirado
+611,379,"García Llerena, Luis",18809725,Supervisor,Contabilidad,9289.78,2020-07-04,2023-04-19,Maestría,luis@empresa.pe,922525532,Retirado
+612,686,"Lazo Llerena, Miguel",72892863,Técnico,Logística,1284.09,2015-04-05,2024-11-08,Maestría,miguel@empresa.pe,948155360,Activo
+613,3,"Nina Rodríguezz, Lucía",90836544,Coordinador,Recursos Humanos,6225.46,2020-12-12,2024-08-12,Titulado,lucía@empresa.pe,974939188,Licencia
+614,107,"Cruz Suca, Fernando",76853417,Asistente,Finanzas,7556.0,2010-09-19,2022-01-24,Secundaria,fernando@empresa.pe,911976968,Activo
+615,490,"Huanca Ccopa, José",95135684,Analista,Operaciones,5875.76,2017-07-20,2024-02-03,Secundaria,josé@empresa.pe,919682946,Activo
+616,457,"Huillca Apaza, Pedro",30901905,Analista,Ventas,2370.69,2015-11-26,2022-07-24,Titulado,pedro@empresa.pe,977417652,Retirado
+617,387,"Rodríguez Inca, Pedro",40187395,,Finanzas,13929.96,2022-07-04,2022-09-22,Secundaria,pedro@empresa.pe,972527771,Activo
+618,217,"Paredes Cruz, Cecilia",41948893,Jefe de área,Recursos Humanos,13244.83,2016-10-26,2023-12-01,Bachiller,cecilia@empresa.pe,978304346,Inactivo
+619,412,"Díaz Huamán, Carmen",34642229,Especialista,Contabilidad,6963.4,2020-08-11,2023-07-22,Titulado,carmen@empresa.pe,979593307,Inactivo
+620,527,"García Suca, Rosa",58238816,Asistente,Contabilidad,13334.51,2020-08-29,2023-11-12,Bachiller,rosa@empresa.pe,990714204,Licencia
+621,289,"Lazo Medina, Ana",88869793,Supervisor,Contabilidad,7519.09,2022-11-24,2022-04-13,Titulado,ana@empresa.pe,999068671,Retirado
+622,206,"Chura Llerena, Eduardo",22497670,Auditor,Finanzas,3087.87,2019-01-26,2023-05-01,Secundaria,eduardo@empresa.pe,959975556,Activo
+623,592,"Poma Huillca, Lucía",10440064,Analista,Recursos Humanos,7199.49,2021-03-06,2022-03-28,Titulado,lucía@empresa.pe,928257924,Retirado
+624,628,"Reyes Salcedo, Silvia",30022779,Director,Legal,3356.35,2020-09-28,2023-07-24,Secundaria,silvia@empresa.pe,941146461,Licencia
+625,511,"Cruz Flores, Cecilia",49635344,Director,Operaciones,5418.9,2012-08-04,2022-07-07,Secundaria,cecilia@empresa.pe,950131721,Activo
+626,159,"Ccari Lazo, Luis",64964723,Técnico,Operaciones,6366.94,2014-03-22,2024-05-12,Titulado,luis@empresa.pe,963907318,Retirado
+627,238,"Rodríguez Torres, Gabriela",63307788,Gerente,Legal,2445.19,2017-07-12,2022-03-09,Maestría,gabriela@empresa.pe,941489012,Inactivo
+628,1,"Gonzales Reyess, Ekena",22562241,Especialista,Recursos Humanos,14236.6,2011-05-13,2023-09-27,Maestría,ekena@empresa.pe,969812891,Licencia
+629,292,"Inca Yucra, Juan",49209256,Asistente,Operaciones,5834.36,2019-12-01,2024-04-14,Maestría,juan@empresa.pe,942444519,Activo
+630,220,"Ticona García, María",50465232,Asistente,Tecnología,11133.98,2011-08-26,2023-01-25,Maestría,maría@empresa.pe,920741716,Inactivo
+631,216,"Salcedo Aguilar, Pedro",77109095,Gerente,Operaciones,89284.78,2010-10-07,2022-07-15,Técnico,pedro@empresa.pe,967210572,Activo
+632,600,"Mamani López, Gabriela",12272281,Coordinador,Legal,5662.36,2021-02-13,2024-07-08,Técnico,gabriela@empresa.pe,989431611,Activo
+633,604,"Huillca Huillca, Jorge",77560976,Coordinador,Ventas,14015.68,12/08/2013,2023-12-03,Técnico,jorge@empresa.pe,986896875,Licencia
+634,46,"Vargas Huamán, Óscar",60715863,Jefe de área,Finanzas,10207.89,2011-06-28,2022-08-13,Técnico,óscar@empresa.pe,927665398,Retirado
+635,717,"Díaz Torres, Fabiola",97758910,Director,Ventas,4890.12,2015-09-17,2022-01-24,Titulado,fabiola@empresa.pe,959577675,Licencia
+636,15,"Chura Herrera, Silvia",76296682,Coordinador,Contabilidad,12868.33,2016-06-11,2022-04-06,Maestría,silvia@empresa.pe,994932017,Inactivo
+637,591,"Aguilar Chávez, Gabriela",37812638,Supervisor,Ventas,11408.8,2013-04-15,2022-02-27,Maestría,gabriela@empresa.pe,946190259,Inactivo
+638,741,"Salcedo Mamani, Juan",84154233,Director,Finanzas,10407.92,2013-01-04,2022-11-30,Maestría,juan@empresa.pe,977812932,Activo
+639,613,"Chura Flores, Carlos",32052566,Director,Sin área,9015.32,2023-02-20,2024-05-30,Técnico,carlos@empresa.pe,942499721,Retirado
+640,579,"Chávez Condori, Lucía",25662598,Gerente,Recursos Humanos,10003.5,2021-05-25,2023-01-04,Titulado,lucía@empresa.pe,943565013,Activo
+641,16,"Huanca Rodríguez, César",51832264,Especialista,Finanzas,14698.14,2016-06-30,2024-07-28,Secundaria,césar@empresa.pe,977997185,Retirado
+642,112,"Aguilar Apaza, Rosa",88737892,Analista,Logística,13904.23,2013-02-26,2022-10-29,Bachiller,rosa@empresa.pe,983530927,Retirado
+643,580,"Ticona Cusi, Patricia",50939998,Director,Finanzas,6252.12,2017-09-15,2024-05-11,Maestría,patricia@empresa.pe,945189746,Inactivo
+644,239,"Quispe Flores, María",77750559,Auditor,Legal,9413.48,2012-05-09,2022-02-10,Secundaria,maría@empresa.pe,952478619,Activo
+645,540,"Ccopa Lazo, José",11616259,Analista,Legal,1570.26,2020-12-27,2024-10-06,Bachiller,josé@empresa.pe,923245129,Retirado
+646,661,"Mendoza Huillca, Ana",70458024,Supervisor,Logística,10896.49,2010-12-03,2023-11-25,Titulado,ana@empresa.pe,986939469,Inactivo
+647,705,"Inca Vargas, Pilar",75461876,Gerente,Tecnología,6625.22,2014-06-09,2022-06-26,Maestría,pilar@empresa.pe,912611823,Retirado
+648,526,"Huamán Tapia, Ana",62415097,Director,Tecnología,14302.11,2022-06-23,2024-08-11,Secundaria,ana@empresa.pe,920951417,Inactivo
+649,266,"Ccopa Condori, Cecilia",89469261,Técnico,Contabilidad,9628.02,2014-07-29,2023-02-21,Secundaria,cecilia@empresa.pe,934177285,Retirado
+650,181,"Apaza Ccopa, Eduardo",50678182,Analista,Logística,3355.41,2014-01-11,2023-04-12,Maestría,eduardo@empresa.pe,976825902,Licencia
+651,607,"Torres Herrera, Silvia",92997668,Director,Logística,3254.0,2015-09-18,2023-07-19,Titulado,silvia@empresa.pe,930941545,Licencia
+652,27,"García Ramos, Fabiola",21285375,Técnico,Contabilidad,4075.11,2020-01-10,2022-12-21,Técnico,fabiola@empresa.pe,927841718,Retirado
+653,584,"Reyes Huamán, Ricardo",33414285,Coordinador,Operaciones,14360.59,2018-06-08,2022-09-17,Bachiller,ricardo@empresa.pe,939187660,Licencia
+654,721,"Paredes Aguilar, Claudia",17069187,Auditor,Ventas,11137.13,2011-07-18,2023-03-14,Titulado,claudia@empresa.pe,967076874,Licencia
+655,198,"Huamán Huillca, Óscar",55455328,Analista,Operaciones,2065.5,2013-09-09,2024-02-15,Bachiller,óscar@empresa.pe,910562847,Retirado
+656,427,"Huamán Huamán, Carlos",58581300,Supervisor,Legal,6914.63,2019-03-03,2023-11-15,Titulado,carlos@empresa.pe,987855339,Inactivo
+657,36,"Chura Vega, Diego",65894353,Gerente,Ventas,1451.34,2018-10-06,2024-04-09,Técnico,diego@empresa.pe,910788743,Retirado
+658,420,"Vargas Chávez, María",51758406,Analista,Legal,4346.22,2015-12-02,2022-09-07,Secundaria,maría@empresa.pe,929316491,Activo
+659,176,"Huamán López, Silvia",46293698,Técnico,Finanzas,11355.95,2022-09-25,2022-10-25,Bachiller,silvia@empresa.pe,912013313,Retirado
+660,282,"Mamani Apaza, Elena",93784261,Asistente,Recursos Humanos,8350.0,2011-11-22,2023-03-22,Técnico,elena@empresa.pe,942690024,Activo
+661,184,"Vega Apaza, Gabriela",55674228,Especialista,Finanzas,10744.36,2014-08-15,2024-05-27,Maestría,gabriela@empresa.pe,927132173,Retirado
+662,539,"Medina Mendoza, Carmen",94611025,Técnico,Finanzas,7982.46,2021-05-02,2022-01-20,Bachiller,carmen@empresa.pe,915005848,Retirado
+663,426,"Tapia Huamán, María",16458285,Director,Operaciones,13824.73,2021-02-21,2022-12-25,Titulado,maría@empresa.pe,931021744,Activo
+664,660,"Gonzales Mendoza, Elena",18093976,Jefe de área,Contabilidad,5971.95,2014-06-20,2023-09-15,Maestría,elena@empresa.pe,910950654,Inactivo
+665,645,"Ticona Huanca, Fernando",10696505,Analista,Tecnología,91298.12,2017-03-06,2022-02-07,Secundaria,fernando@empresa.pe,967914806,Licencia
+666,550,"Poma Díaz, Ana",30646906,Supervisor,Finanzas,12383.12,2011-03-21,2023-06-13,Secundaria,ana@empresa.pe,934419149,Retirado
+667,372,"Vega Apaza, José",33544311,Analista,Operaciones,12396.89,2018-11-02,2024-01-28,Secundaria,josé@empresa.pe,994471024,Licencia
+668,133,"Mamani Poma, Eduardo",46760685,Jefe de área,Ventas,3619.39,2023-01-28,2023-09-23,Técnico,eduardo@empresa.pe,911347056,Activo
+669,568,"García Reyes, Silvia",53581056,Supervisor,Recursos Humanos,10229.81,2010-12-26,2022-06-11,Titulado,silvia@empresa.pe,953609539,Activo
+670,283,"Medina García, Fabiola",55271000,Analista,Ventas,14764.74,2023-11-13,2022-12-24,Bachiller,fabiola@empresa.pe,955912117,Activo
+671,389,"Cruz Chávez, Ricardo",24300803,Gerente,Operaciones,10862.17,2021-12-05,2024-04-12,Técnico,ricardo@empresa.pe,942165892,Inactivo
+672,17,"Chura Ccopa, Lucíía",55402183,Coordinador,Ventas,12779.73,2010-04-07,2023-08-17,Bachiller,lucíía@empresa.pe,959958791,Activo
+673,2,"Varggas Garcí,a Raúl",79188088,Analista,Contabilidad,14313.09,2022-07-18,2024-03-14,Titulado,a.raúl@empresa.pe,963550032,Retirado
+674,480,"Ccari Paredes, Fernando",32713191,Director,Contabilidad,2582.87,2012-07-22,2024-02-01,Bachiller,fernando@empresa.pe,982620353,Inactivo
+675,185,"Ccopa Flores, Fernando",85044730,Director,Operaciones,4804.53,2015-04-18,2023-06-18,Técnico,fernando@empresa.pe,917970265,Inactivo
+676,437,"Torres Yucra, Carmen",18466840,Director,Contabilidad,9905.27,2014-10-05,2022-07-21,Titulado,carmen@empresa.pe,973035434,Licencia
+677,669,"Huamán Inca, Silvia",25745798,Jefe de área,Ventas,1271.85,2023-07-06,2024-02-14,Maestría,silvia@empresa.pe,919237897,Activo
+678,448,"Torres Paredes, Paola",59053092,Gerente,Tecnología,8807.45,2015-09-21,2022-10-18,Técnico,paola@empresa.pe,931228605,Inactivo
+679,666,"Chávez Mamani, Rosa",76323770,Director,Logística,3412.34,2018-03-15,2024-02-22,Técnico,rosa@empresa.pe,974917930,Activo
+680,57,"Mamani Ticona, Gabriela",90783162,Especialista,Ventas,14132.77,2013-09-14,2022-01-01,Secundaria,gabriela@empresa.pe,918258217,Activo
+681,394,"Gonzales Lazo, Claudia",52652973,Asistente,Tecnología,12500.97,2016-10-06,2024-02-07,Maestría,claudia@empresa.pe,957362857,Retirado
+682,439,"Tapia Torres, Pilar",28400998,Especialista,Contabilidad,13604.56,2016-01-04,2024-01-23,Secundaria,pilar@empresa.pe,984361281,Retirado
+683,597,"Mendoza Díaz, Paola",38208038,Coordinador,Tecnología,7284.29,2021-08-31,2024-11-22,Maestría,paola@empresa.pe,985469601,Inactivo
+684,5,"Huamán Condori, Juan",47502921,Supervisor,Tecnología,7716.91,2020-01-12,2023-12-17,Bachiller,juan@empresa.pe,920809644,Inactivo
+685,141,"Tapia Torres, Raúl",12484209,Técnico,Legal,14138.62,2023-05-23,2024-12-12,Secundaria,raúl@empresa.pe,963101025,Activo
+686,233,"Lazo Chura, Elena",65019522,Técnico,Ventas,13716.88,2010-09-09,2023-05-31,Secundaria,elena@empresa.pe,945208101,Retirado
+687,10,"Ticona Vargas, Céssar",26331285,Gerente,Legal,7462.07,2016-01-04,2022-09-22,Secundaria,céssar@empresa.pe,980721337,Inactivo
+688,120,"Salcedo López, Carlos",16844769,Gerente,Contabilidad,1680.38,2020-12-02,2022-05-12,Maestría,carlos@empresa.pe,995878149,Retirado
+689,131,"Cusi Huamán, José",78556325,Analista,Logística,3133.98,2014-03-03,2024-01-08,Titulado,josé@empresa.pe,915442247,Retirado
+690,51,"Paredes Chura, María",58352122,Coordinador,Contabilidad,5765.44,2015-02-28,2022-12-28,Maestría,maría@empresa.pe,916481569,Licencia
+691,148,,21790654,Asistente,Contabilidad,11417.57,2023-09-06,2023-03-30,Titulado,paola@empresa.pe,937003514,Licencia
+692,446,"Condori Díaz, Miguel",88580880,Director,Tecnología,13350.68,2018-08-13,2024-04-09,Secundaria,miguel@empresa.pe,919030356,Retirado
+693,598,"Vargas Aguilar, César",10967189,Técnico,Finanzas,8015.92,2012-11-22,2023-11-07,Titulado,césar@empresa.pe,994325907,Retirado
+694,725,"Cruz Llerena, Silvia",17936744,Especialista,Tecnología,1925.46,2011-09-25,2022-12-25,Bachiller,silvia@empresa.pe,962110414,Licencia
+695,691,"Yucra Llerena, Luis",18752749,Técnico,Operaciones,11557.43,2015-01-04,2022-08-03,Técnico,luis@empresa.pe,941581480,Activo
+696,324,"Condori Chura, Silvia",19526836,Gerente,Contabilidad,13047.55,2020-11-13,2023-02-26,Secundaria,silvia@empresa.pe,942670288,Inactivo
+697,629,"Herrera Suca, Paola",75331307,Analista,Tecnología,13954.11,2019-10-14,2022-09-16,Maestría,paola@empresa.pe,970484351,Inactivo
+698,657,"Cruz Mendoza, Óscar",56827344,Coordinador,Contabilidad,1448.87,2010-02-04,2024-12-09,Titulado,óscar@empresa.pe,924977591,Retirado
+699,599,"García Apaza, Jorge",85293996,Director,Legal,8366.92,03/11/2010,2024-05-24,Bachiller,jorge@empresa.pe,959852764,Licencia
+700,411,"Huillca Vega, Fabiola",68516387,Jefe de área,Ventas,5383.99,2019-12-29,2022-06-24,Técnico,fabiola@empresa.pe,935920450,Licencia
+701,364,"Apaza Torres, Pedro",88596390,Técnico,Logística,12507.79,2022-10-15,2023-04-02,Técnico,pedro@empresa.pe,946095775,Retirado
+702,82,"Llerena Inca, Carlos",93425548,Director,Operaciones,13047.82,2017-05-11,2022-01-22,Titulado,carlos@empresa.pe,975745233,Activo
+703,14,"Reyes Nina, Luis",88391409,Supervisor,Recursos Humanos,12211.95,2010-09-13,2022-03-27,Técnico,luis@empresa.pe,995512782,Licencia
+704,385,"Llerena Ccari, Carmen",20058153,Coordinador,Legal,2665.78,2019-10-23,2024-09-17,Secundaria,carmen@empresa.pe,943903581,Inactivo
+705,166,"Ticona Gonzales, María",41979108,Jefe de área,Finanzas,6083.06,2015-12-25,2022-07-23,Maestría,maría@empresa.pe,918458742,Licencia
+706,506,"Salcedo Huillca, Alejandro",81605518,Asistente,Legal,6615.92,2011-08-19,2024-11-14,Titulado,alejandro@empresa.pe,968664771,Retirado
+707,517,"Salcedo Paredes, María",73534212,Analista,Operaciones,2424.31,2021-04-19,2023-04-01,Secundaria,maría@empresa.pe,922151053,Inactivo
+708,425,"Cusi Ccari, Fabiola",14503813,Director,Finanzas,12007.98,2020-02-17,2024-06-18,Secundaria,fabiola@empresa.pe,990666233,Licencia
+709,407,"Huillca Condori, Ricardo",94352948,Coordinador,Finanzas,7662.39,2017-08-18,2022-12-05,Técnico,ricardo@empresa.pe,982285126,Licencia
+710,211,"Ramos Huanca, María",84389667,Técnico,Operaciones,14049.17,2023-03-13,2023-05-28,Maestría,maría@empresa.pe,946066199,Retirado
+711,12,"Lqzo Floores, Silvia",83426945,Analista,Logística,5664.77,2014-11-20,2024-01-01,Técnico,silvia@empresa.pe,910143467,Licencia
+712,260,"Rodríguez Poma, Pedro",38942197,Analista,Ventas,8988.91,2017-07-12,2024-09-15,Secundaria,pedro@empresa.pe,983870387,Retirado
+713,227,"Torres López, Carlos",30963668,Director,Recursos Humanos,4104.65,2018-01-10,2024-01-11,Titulado,carlos@empresa.pe,956185394,Inactivo
+714,587,"Ccopa Suca, Paola",28808966,Coordinador,Legal,5580.1,2012-05-04,2022-03-30,Bachiller,paola@empresa.pe,993934323,Retirado
+715,605,"López Cusi, Fabiola",34398303,Director,Tecnología,11246.85,2011-06-19,2023-11-02,Maestría,fabiola@empresa.pe,912540266,Activo
+716,573,"López Quispe, César",13997541,Técnico,Tecnología,9330.93,2021-03-02,2023-03-03,Titulado,césar@empresa.pe,997070355,Inactivo
+717,344,"Cusi Huanca, Óscar",23433698,Técnico,Legal,4718.15,2013-11-20,2024-06-30,Secundaria,óscar@empresa.pe,971824996,Licencia
+718,58,"Tapia Huanca, Jorge",31369693,Coordinador,Finanzas,2005.63,2023-09-28,2023-02-08,Técnico,jorge@empresa.pe,965455848,Inactivo
+719,703,"Salcedo Paredes, Jorge",21969767,Auditor,Recursos Humanos,10593.88,2012-08-16,2023-03-21,Maestría,jorge@empresa.pe,944433205,Activo
+720,475,"Huamán Inca, Luis",41858991,Asistente,Legal,4136.78,2018-02-23,2022-02-01,Técnico,luis@empresa.pe,925569700,Licencia
+721,16,"Huanca Roddríguez, César",76825389,Especialista,Legal,13588.34,2010-07-23,2022-11-22,Secundaria,césar@empresa.pe,975994334,Retirado
+722,154,"Poma Tapia, César",30083414,Asistente,Recursos Humanos,6967.16,2018-07-07,2024-07-15,Titulado,césar@empresa.pe,948663164,Licencia
+723,688,"Llerena Quispe, María",38115619,Director,Tecnología,11109.21,2016-12-05,2023-08-08,Secundaria,maría@empresa.pe,952599470,Retirado
+724,582,"Ccari Medina, María",81887817,Especialista,Tecnología,10594.03,2021-03-06,2024-02-04,Secundaria,maría@empresa.pe,935813619,Inactivo
+725,8,"Suca Apaza, Juan",92212100,Auditor,Ventas,14632.37,2016-03-20,2024-07-15,Maestría,juan@empresa.pe,981576359,Retirado
+726,353,"Suca Vargas, Pedro",78359085,Supervisor,Legal,4269.19,2012-06-20,2022-05-03,Titulado,pedro@empresa.pe,980442874,Activo
+727,34,"Yucra Herrera, Pedro",37300929,Especialista,Contabilidad,1634.24,2011-06-03,2024-04-15,Secundaria,pedro@empresa.pe,963055826,Inactivo
+728,81,"Inca Apaza, José",44870850,Coordinador,Legal,9870.22,2015-06-09,2024-03-30,Técnico,josé@empresa.pe,943562617,Retirado
+729,366,"Ccari Salcedo, Claudia",50302348,Director,Recursos Humanos,12337.25,2020-01-04,2023-05-15,Titulado,claudia@empresa.pe,998331692,Licencia
+730,648,"Cusi Huanca, Silvia",23627999,Coordinador,Contabilidad,10577.13,2022-08-02,2024-10-08,Secundaria,silvia@empresa.pe,919835053,Inactivo
+731,237,"Chávez Herrera, Sofía",13278147,Jefe de área,Finanzas,12309.28,2012-12-28,2023-09-12,Técnico,sofía@empresa.pe,977461806,Licencia
+732,74,"Salcedo Lazo, Gabriela",27029615,Auditor,Finanzas,8535.32,2017-10-25,2023-11-01,Maestría,gabriela@empresa.pe,930847602,Retirado
+733,12,"Lazo Flores, Silvia",40811860,Jefe de área,Legal,5929.32,2017-10-18,2022-04-22,Técnico,silvia@empresa.pe,911913291,Activo
+734,467,"Paredes López, Eduardo",58369125,Supervisor,Ventas,11320.47,2019-09-11,2023-06-08,Bachiller,eduardo@empresa.pe,912249390,Licencia
+735,7,"García Medina, Pedo",93094361,Director,Finanzas,11207.67,2017-04-24,2024-11-27,Maestría,pedo@empresa.pe,984550146,Retirado
+736,689,"García Lazo, Elena",44142630,Asistente,Recursos Humanos,7409.15,2013-02-09,2023-05-21,Maestría,elena@empresa.pe,939068674,Retirado
+737,170,"Medina López, Rosa",32806854,Jefe de área,Finanzas,6145.87,2016-07-09,2024-03-22,Maestría,rosa@empresa.pe,958712488,Activo
+738,746,"Mendoza Ccari, Raúl",12078857,Auditor,Contabilidad,10568.55,2018-11-12,2023-08-21,Titulado,raúl@empresa.pe,997855182,Inactivo
+739,432,"Herrera Condori, Pedro",97820900,Gerente,Ventas,4762.37,2021-05-23,2024-10-22,Maestría,pedro@empresa.pe,967278457,Licencia
+740,307,"Huanca Díaz, Eduardo",64201627,Gerente,Legal,6644.07,2018-10-21,2024-10-20,Bachiller,eduardo@empresa.pe,956938804,Inactivo
+741,612,"Cruz Suca, Patricia",53862872,Asistente,Logística,9455.58,2017-10-08,2022-04-22,Maestría,patricia@empresa.pe,997767587,Activo
+742,175,"Chávez Ramos, Fabiola",69102343,Gerente,Ventas,9308.38,2019-01-24,2024-11-10,Técnico,fabiola@empresa.pe,926846561,Activo
+743,43,"Huillca Herrera, César",43454956,Gerente,Contabilidad,7075.21,2021-04-18,2024-06-16,Técnico,césar@empresa.pe,913137377,Activo
+744,102,"Paredes Chávez, Cecilia",51519704,Asistente,Logística,8957.0,2014-02-22,2024-05-13,Secundaria,cecilia@empresa.pe,952745271,Activo
+745,731,"Inca Ticona, Silvia",57517642,Técnico,Legal,11115.44,2011-12-05,2023-08-29,Secundaria,silvia@empresa.pe,974658027,Inactivo
+746,268,"Condori Nina, Raúl",31334594,Supervisor,Recursos Humanos,3211.7,2020-06-11,2022-07-15,Técnico,raúl@empresa.pe,922285206,Activo
+747,399,"Poma Vargas, Ana",72017737,Asistente,Contabilidad,10033.03,2018-06-25,2023-09-27,Maestría,ana@empresa.pe,973145922,Licencia
+748,696,"Condori Díaz, Luis",55138388,Director,Finanzas,13574.89,2014-01-26,2023-02-05,Maestría,luis@empresa.pe,966550270,Activo
+749,473,"Díaz Gonzales, José",27010717,Auditor,Ventas,10578.2,2014-08-22,2022-02-11,Maestría,josé@empresa.pe,986868109,Inactivo
+750,230,"Tapia López, Pilar",13751552,,Finanzas,9819.89,2022-03-09,2024-10-24,Técnico,pilar@empresa.pe,984524099,Inactivo
+751,534,"Cruz Chura, Sofía",53771379,Director,Tecnología,1854.23,2021-05-15,2022-07-29,Secundaria,sofía@empresa.pe,954732847,Licencia
+752,555,"Vargas Huillca, Alejandro",70342661,Técnico,Tecnología,181036.21,2014-07-06,2023-05-11,Maestría,alejandro@empresa.pe,968468841,Licencia
+753,300,"Poma Paredes, Fernando",47242815,Auditor,Contabilidad,190947.39,2011-01-31,2024-12-26,Bachiller,fernando@empresa.pe,928775038,Inactivo
+754,325,"Vega Salcedo, Óscar",23961079,Jefe de área,Externa,2553.22,2019-11-14,2024-07-23,Maestría,óscar@empresa.pe,988589452,Retirado
+755,351,"Poma Díaz, Luis",71733878,Especialista,Recursos Humanos,8863.12,15/08/2013,2022-08-30,Titulado,luis@empresa.pe,974360160,Inactivo
+756,655,"Quispe Yucra, Fernando",24638206,Técnico,Legal,1538.63,2019-11-01,2023-12-31,Secundaria,fernando@empresa.pe,995205575,Retirado
+757,208,"Torres Paredes, Paola",55821307,Analista,Logística,12296.72,2012-10-02,2023-05-06,Bachiller,paola@empresa.pe,978877976,Licencia
+758,25,"Medina López, César",45188193,Gerente,Logística,11500.84,2016-09-02,2022-01-08,Maestría,césar@empresa.pe,995091360,Activo
+759,146,"Apaza Medina, Juan",48590663,Gerente,Operaciones,2760.0,2012-09-13,2022-05-04,Maestría,juan@empresa.pe,978958232,Licencia
+760,434,"Vega Salcedo, Claudia",43433992,Director,Finanzas,4784.04,2019-12-23,2024-09-05,Secundaria,claudia@empresa.pe,921661946,Activo
+761,88,"Llerena Vega, Cecilia",40931003,Técnico,Logística,4890.46,2019-07-23,2023-01-16,Titulado,cecilia@empresa.pe,910361723,Licencia
+762,445,"Gonzales Chura, Fernando",11186731,Gerente,Operaciones,8309.41,2010-04-18,2023-02-20,Técnico,fernando@empresa.pe,940085401,Activo
+763,501,"Rodríguez Mamani, Pilar",36741384,Auditor,Recursos Humanos,7331.43,2022-01-24,2024-06-10,Técnico,pilar@empresa.pe,951124577,Inactivo
+764,413,"Llerena Ticona, Ricardo",29414906,Supervisor,Recursos Humanos,8102.4,2017-11-21,2024-02-25,Secundaria,ricardo@empresa.pe,964142923,Activo
+765,152,"Vega Rodríguez, Ricardo",40221410,Jefe de área,Legal,14852.43,2017-07-23,2023-12-23,Técnico,ricardo@empresa.pe,937178088,Licencia
+766,263,"Herrera Herrera, Jorge",61033120,Director,Logística,12267.21,2016-11-03,2023-02-18,Técnico,jorge@empresa.pe,916993713,Inactivo
+767,241,"Ccari Vega, Raúl",76607764,Coordinador,Tecnología,14409.9,2014-10-29,2023-04-04,Secundaria,raúl@empresa.pe,946637796,Inactivo
+768,140,"Ticona Huamán, Eduardo",47530342,Coordinador,Legal,2718.55,2013-01-26,2023-04-11,Técnico,eduardo@empresa.pe,929759605,Retirado
+769,714,"Reyes Gonzales, Juan",93334592,Supervisor,Operaciones,7112.5,2011-08-25,2024-08-22,Técnico,juan@empresa.pe,998989942,Licencia
+770,63,"Mendoza Mamani, Jorge",60928773,Director,Contabilidad,13724.44,2020-08-03,2024-12-22,Secundaria,jorge@empresa.pe,913559020,Retirado
+771,134,"Ccari Huillca, Raúl",17431877,Gerente,Tecnología,8354.74,2016-04-27,2024-10-06,Secundaria,raúl@empresa.pe,912073011,Retirado
+772,103,"Apaza Chura, Alejandro",87615281,Analista,Contabilidad,14087.25,2022-09-24,2024-12-05,Secundaria,alejandro@empresa.pe,925951364,Retirado
+773,276,"Herrera García, Paola",85051210,Director,Recursos Humanos,7478.76,2013-08-14,2024-03-16,Titulado,paola@empresa.pe,914818239,Activo
+774,654,"Yucra Ccopa, Silvia",45300195,Analista,Ventas,3985.67,2017-03-12,2024-10-22,Secundaria,silvia@empresa.pe,914902268,Licencia
+775,15,"Chura Herrera, Silia",49038095,Asistente,Contabilidad,10982.42,2020-06-13,2024-08-13,Secundaria,silia@empresa.pe,983695801,Inactivo
+776,395,"Salcedo Cruz, Luis",40486606,Técnico,Ventas,1373.76,2011-03-04,2022-12-18,Técnico,luis@empresa.pe,951176315,Licencia
+777,3,"Nina Rodríguez, Lucía",23896513,Técnico,Finanzas,7845.01,2014-04-11,2022-05-18,Técnico,lucía@empresa.pe,969139937,Inactivo
+778,201,"Paredes Llerena, Sofía",96886889,Gerente,Finanzas,3088.56,2014-03-28,2023-04-01,Titulado,sofía@empresa.pe,921436233,Inactivo
+779,26,"Tapia Torres, Jorge",64728187,Analista,Contabilidad,2093.32,2022-05-24,2023-10-30,Técnico,jorge@empresa.pe,967251144,Activo
+780,463,"Chura Nina, Ana",51763024,Especialista,Tecnología,8358.59,2012-11-01,2024-02-05,Bachiller,ana@empresa.pe,978517715,Inactivo
+781,342,"López Condori, Alejandro",44832182,Auditor,Operaciones,9732.3,2011-07-23,2022-05-20,Titulado,alejandro@empresa.pe,950788799,Activo
+782,383,"Mendoza Herrera, Elena",52339662,Asistente,Finanzas,8416.15,2023-08-31,2023-10-09,Secundaria,elena@empresa.pe,949387779,Activo
+783,23,"Inca Paredse, Cqrmen",69382640,Analista,Recursos Humanos,3535.8,2016-04-11,2022-06-15,Bachiller,cqrmen@empresa.pe,966396028,Activo
+784,118,"Vega Aguilar, Ricardo",91488501,Analista,Ventas,1483.87,2022-09-07,2024-09-22,Maestría,ricardo@empresa.pe,986126141,Inactivo
+785,681,"Mendoza Salcedo, María",85729544,Auditor,Finanzas,7261.25,2023-04-18,2023-04-28,Bachiller,maría@empresa.pe,914828703,Inactivo
+786,505,"Díaz Mendoza, Paola",24514302,Especialista,Finanzas,7441.0,2015-01-22,2023-03-05,Bachiller,paola@empresa.pe,914921421,Licencia
+787,317,"Inca Yucra, Gabriela",35600220,Supervisor,Recursos Humanos,5915.18,2019-01-14,2022-12-06,Bachiller,gabriela@empresa.pe,936066147,Activo
+788,296,"Huillca García, Ricardo",93754237,Asistente,Logística,5769.62,2018-02-12,2023-09-18,Titulado,ricardo@empresa.pe,980085988,Activo
+789,535,"Ramos Aguilar, Pilar",67721326,Consultor Externo,Contabilidad,11934.72,2020-05-10,2024-08-14,Maestría,pilar@empresa.pe,952641757,Activo
+790,486,"Huamán Gonzales, Carmen",83906956,Especialista,Recursos Humanos,8572.01,2013-01-08,2023-07-15,Bachiller,carmen@empresa.pe,950401160,Inactivo
+791,349,"Medina Torres, Carmen",61106476,Analista,Ventas,14065.12,2014-05-08,2023-03-25,Titulado,carmen@empresa.pe,959036376,Inactivo
+792,136,"Vega Ccari, Pilar",69829885,Coordinador,Recursos Humanos,94560.85,2018-01-01,2023-05-17,Bachiller,pilar@empresa.pe,961189181,Activo
+793,299,"Ticona Aguilar, Alejandro",42445590,Director,Finanzas,5218.16,2019-06-09,2024-04-14,Secundaria,alejandro@empresa.pe,995823710,Retirado
+794,566,"Torres Vargas, Lucía",50000506,Supervisor,Ventas,11998.13,2021-03-06,2023-09-04,Titulado,lucía@empresa.pe,982143087,Retirado
+795,162,"Huamán Ccopa, Diego",34482645,Auditor,Recursos Humanos,2030.34,2017-12-03,2022-03-28,Titulado,diego@empresa.pe,911440656,Activo
+796,530,"Apaza Lazo, Elena",72591040,Técnico,Finanzas,1374.39,2012-02-09,2023-04-13,Titulado,elena@empresa.pe,943955752,Inactivo
+797,453,"Medina Reyes, Rosa",50982607,Coordinador,Legal,7160.93,2013-09-21,2022-04-04,Titulado,rosa@empresa.pe,926431244,Inactivo
+798,488,"Suca Torres, Raúl",17971392,Coordinador,Recursos Humanos,10208.96,2023-09-22,2022-03-09,Maestría,raúl@empresa.pe,978742932,Inactivo
+799,147,"López Inca, César",81649649,,Recursos Humanos,14060.58,2021-06-23,2022-09-27,Bachiller,césar@empresa.pe,964565416,Licencia
+800,126,"García Cusi, José",53294016,Especialista,Recursos Humanos,12558.24,2018-03-18,2022-10-20,Bachiller,josé@empresa.pe,939749479,Activo

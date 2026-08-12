@@ -1,0 +1,601 @@
+predio_id,entidad_real_id,direccion,codigo_predio,distrito,tipo_via,area_m2,fecha_registro,valor_tasacion_pen,uso,estado_predio
+1,222,Av. Universitaria 2889 Magdalena,P00222,Magdalena,Av,1089.3,2012-08-30,790553.01,Comercial,En litigio
+2,93,Urb. Grau 2150 Chorrillos,P00093,Chorrillos,Urb,1001.7,21/03/2020,1526854.34,Institucional,Inactivo
+3,536,Jr. Larco 3360 Breña,P00536,Breña,Jr,176.8,2013-08-22,916936.73,Comercial,Activo
+4,415,Ca. Grau 1304 Chorrillos,P00415,Chorrillos,Ca,372.0,2010-10-04,1480100.06,Residencial,Activo
+5,298,Psj. Abancay 2610 Chorrillos,P00298,Chorrillos,Psj,1105.4,2010-02-23,786169.01,Comercial,En litigio
+6,541,Clle. Emancipación 559 Int. 17 Chorrillos,P00541,Chorrillos,Clle,1036.4,2011-07-18,1469648.73,Residencial,Activo
+7,277,Av. Wilson 1325 Jesús María,P00277,Jesús María,Av,1057.9,2020-05-28,910806.4,Institucional,Inactivo
+8,400,Jr. San Martín 1583 La Molina,P00400,La Molina,Jr,426.8,2014-06-16,401012.3,Industrial,Inactivo
+9,18,Arenales 3370 Barranco,P00018,Barranco,Jr,1220.4,2010-08-29,481289.78,Industrial,En litigio
+10,358,Urb. Bolognesi 2490 Breña,P00358,Breña,Urb,183.5,2021-02-20,1499323.05,Industrial,En litigio
+11,21,Av. Arequipa 2660 La Victoria,P00021,La Victoria,Av,157.4,2019-05-25,1459727.06,Residencial,Activo
+12,546,Av. Universitaria 2337 Barranco,P00546,Barranco,Av,1381.1,2015-05-16,91970.03,Institucional,En litigio
+13,457,Av. Garcilazo de la Vega 2252 Barranco,P00457,Barranco,Av,857.6,2015-02-22,1073581.05,Comercial,En litigio
+14,233,Av. Cusco 2564 Jesús María,P00233,Jesús María,Av,1096.5,2018-05-23,735201.88,Institucional,Activo
+15,239,Av. Petit Thouars 138 La Victoria,P00239,La Victoria,Av,93.0,2022-07-02,867801.14,Comercial,Inactivo
+16,238,Jr. Tacna 1178 Pueblo Libre,P00238,Pueblo Libre,Jr,632.5,2014-11-01,1827714.23,Industrial,En litigio
+17,365,Ca. Lima 2970 Int. 3 Barranco,P00365,Barranco,Ca,106.5,2016-12-18,274048.29,Comercial,Activo
+18,315,Clle. Larco 1028 Int. 11 San Isidro,P00315,San Isidro,Clle,175.3,2013-02-23,1730495.68,Residencial,Activo
+19,330,Jr. La Marina 2862 Int. 15 Surco,P00330,Surco,Jr,894.7,2017-06-22,7442845.55,Industrial,En litigio
+20,267,Jr. Abancay 1689 San Borja,P00267,San Borja,Jr,1456.0,2021-06-12,1821059.91,Mixto,En litigio
+21,204,Jr. Arenales 2698 San Isidro,P00204,San Isidro,Jr,1156.2,2018-04-01,1392838.45,Comercial,Activo
+22,499,Urb. Bolognesi 489 Int. 10 Chorrillos,P00499,Chorrillos,Urb,259.9,2021-07-04,1623673.15,Residencial,En litigio
+23,349,Av. Angamos 651 La Molina,P00349,La Molina,Av,287.8,2015-08-27,594416.82,Comercial,En litigio
+24,505,Ca. Puno 1379 Breña,P00505,Breña,Ca,1409.0,2010-09-29,1974467.08,Comercial,En litigio
+25,58,Urb. Huánuco 1305 Int. 18 San Miguel,P00058,San Miguel,Urb,1375.1,2012-02-01,823212.41,Mixto,Activo
+26,513,Clle. Cusco 1861 San Borja,P00513,San Borja,Clle,719.9,2010-06-08,393459.68,Residencial,En litigio
+27,431,Ca. Moquegua 2058 Breña,P00431,Breña,Ca,672.8,18/10/2023,541966.66,Mixto,Inactivo
+28,383,Clle. Salaverry 651 Chorrillos,P00383,Chorrillos,Clle,884.7,2021-09-20,221739.43,Mixto,Activo
+29,305,Jr. Cajamarca 1836 Int. 20 La Victoria,P00305,La Victoria,Jr,50.4,2014-09-11,5920793.39,Industrial,Activo
+30,512,Ca. Emancipación 1786 Int. 14 Surco,P00512,Surco,Ca,1030.1,2021-04-24,1437436.0,Mixto,Activo
+31,506,Ca. La Marina 619 San Miguel,P00506,San Miguel,Ca,1310.0,2013-12-10,55741.37,Comercial,Activo
+32,31,Clle. Tacna 185 San Isidro,P00031,San Isidro,Clle,194.4,2017-11-11,1900564.25,Institucional,Activo
+33,500,Clle. Abancay 606 San Isidro,P00500,San Isidro,Clle,289.2,2011-10-26,504191.49,Industrial,Activo
+34,269,Ca. Wilson 893 Int. 10 Magdalena,P00269,Magdalena,Ca,1239.6,2021-04-21,384227.27,Mixto,Inactivo
+35,148,Jr. Huancavelica 1543 Breña,P00148,Breña,Jr,598.7,2017-05-13,1934150.12,Institucional,Inactivo
+36,559,Psj. Larco 238 Rímac,P00559,Rímac,Psj,1340.0,2020-11-24,554001.6,Mixto,Activo
+37,454,Urb. Salaverry 3203 Int. 15 San Isidro,P00454,San Isidro,Urb,699.2,2018-06-14,1187132.67,Residencial,Inactivo
+38,252,Urb. Salaverry 2650 La Victoria,P00252,La Victoria,Urb,280.6,2015-08-02,572727.39,Institucional,Inactivo
+39,391,Av. Cajamarca 1658 Int. 1 Rímac,P00391,Rímac,Av,248.3,2022-03-13,675393.86,Institucional,Activo
+40,154,Clle. Huánuco 849 Int. 12 La Victoria,P00154,La Victoria,Clle,876.9,2015-03-14,1705688.13,,En litigio
+41,245,Av. Lima 2366 Int. 11 La Molina,P00245,La Molina,Av,452.6,2011-06-08,775198.76,Mixto,Inactivo
+42,460,Ca. Huancavelica 578 Lince,P00460,Lince,Ca,1080.3,2018-10-26,347493.72,Comercial,En litigio
+43,266,Psj. San Martín 690 Int. 4 Surco,P00266,Surco,Psj,1094.7,10/03/2022,1898714.23,Mixto,En litigio
+44,242,Ca. Abancay 116 Breña,P00242,Breña,Ca,1321.4,2012-02-25,1557351.83,Comercial,En litigio
+45,501,Ca. Camaná 3074 Magdalena,P00501,Magdalena,Ca,987.6,2017-06-17,1093473.2,Residencial,En litigio
+46,165,Psj. Camaná 1510 Int. 19 San Isidro,P00165,San Isidro,Psj,955.2,2015-10-11,1105444.58,Residencial,Inactivo
+47,288,Jr. Garcilazo de la Vega 2646 Chorrillos,P00288,Chorrillos,Jr,251.0,2019-02-23,1832730.85,Industrial,Inactivo
+48,5,Pasaje Cajamarca 826 La Victoria,P00005,La Victoria,Psj,244.1,2012-11-20,720324.99,Industrial,En litigio
+49,475,Av. Arenales 2194 Int. 13 Magdalena,P00475,Magdalena,Av,-86.0,2015-05-03,1539660.53,Institucional,Activo
+50,2,Ca. Cajamarca 786 Chorrillos,P00002,Chorrillos,Ca,1453.4,2023-11-10,1022660.24,Institucional,En litigio
+51,60,Psj. Ayacucho 3322 Int. 18 Magdalena,P00060,Magdalena,Psj,534.3,2015-03-08,1689075.95,Comercial,En litigio
+52,461,Clle. Abancay 630 San Borja,P00461,San Borja,Clle,1394.8,2024-02-25,1870300.33,Industrial,En litigio
+53,196,Ca. Arenales 3051 San Miguel,P00196,San Miguel,Ca,1122.7,2022-12-08,1409504.42,Mixto,Activo
+54,502,,P00502,San Miguel,Psj,1117.0,2016-11-04,860183.07,Industrial,Activo
+55,519,Av. Lima 515 Barranco,P00519,Barranco,Av,1158.1,2017-11-22,1404926.38,Industrial,Activo
+56,319,Psj. Angamos 3061 Miraflores,P00319,Miraflores,Psj,223.5,2010-12-08,319439.82,Comercial,En litigio
+57,183,Clle. Angamos 781 Miraflores,P00183,Miraflores,Clle,-80.4,2024-02-22,268325.05,Residencial,En litigio
+58,18,Arenales 3370 Barranco,P00018,Barranco,Jr,1447.3,2014-03-22,1117225.44,Mixto,Activo
+59,170,Urb. Puno 1204 Breña,P00170,Breña,Urb,581.4,2013-09-13,1155095.93,Industrial,Activo
+60,402,Urb. Petit Thouars 2007 Int. 3 San Borja,P00402,San Borja,Urb,1301.4,2024-09-04,1428664.67,Comercial,En litigio
+61,133,Ca. Leguía 260 Int. 4 Lince,P00133,Lince,Ca,965.3,2024-06-07,431915.7,Institucional,En litigio
+62,220,Psj. Cajamarca 2980 Int. 4 San Isidro,P00220,San Isidro,Psj,1078.5,2022-07-18,822274.69,Mixto,Activo
+63,17,San Martín 966 San Miguel,P00017,San Miguel,Ca,112.2,2024-05-10,755619.06,Mixto,Activo
+64,532,Clle. Javier Prado 245 Magdalena,P00532,Magdalena,Clle,426.5,2010-06-24,1513316.37,Institucional,Inactivo
+65,163,Urb. Camaná 1210 San Miguel,P00163,San Miguel,Urb,724.9,2016-06-29,908585.18,Mixto,En litigio
+66,283,Psj. Emancipación 1071 San Borja,P00283,San Borja,Psj,915.9,2018-10-28,1321928.14,Institucional,Activo
+67,378,Urb. Cajamarca 1160 Surco,P00378,Surco,Urb,729.5,2014-01-26,1054930.17,Mixto,Inactivo
+68,430,Clle. Camaná 700 San Isidro,P00430,San Isidro,Clle,221.5,2012-12-16,267360.85,Comercial,Inactivo
+69,11,Urb. Petit Thouars 975 San Borja,P00011,San Borja,Urb,805.2,2013-05-16,457850.82,Institucional,En litigio
+70,314,Ca. Angamos 2448 San Borja,P00314,San Borja,Ca,1145.2,2011-03-03,1481275.71,Comercial,Inactivo
+71,525,Psj. Piura 909 Rímac,P00525,Rímac,Psj,476.5,2024-11-29,576638.79,Mixto,Activo
+72,312,Av. Garcilazo de la Vega 2411 Int. 12 Lince,P00312,Lince,Av,1025.1,2012-10-17,1259449.84,Institucional,En litigio
+73,197,Jr. Abancay 1589 San Miguel,P00197,San Miguel,Jr,70.9,2020-05-25,1073286.02,Mixto,Activo
+74,76,Ca. Petit Thouars 1418 La Molina,P00076,La Molina,Ca,1112.8,2023-12-02,626052.02,Institucional,Inactivo
+75,369,Jr. Camaná 2158 Lince,P00369,Lince,Jr,689.5,2015-06-20,1449902.56,Mixto,En litigio
+76,18,Jr. Arenales 3370 Barranco,P00018,Barranco,Jr,1325.4,2012-11-24,1319474.42,Institucional,Inactivo
+77,62,Urb. Larco 3305 Barranco,P00062,Barranco,Urb,831.9,2022-09-29,114362.04,Industrial,En litigio
+78,529,Urb. Moquegua 2756 La Victoria,P00529,La Victoria,Urb,119.2,2011-11-03,414151.98,Industrial,Activo
+79,131,Clle. Bolognesi 3045 Breña,P00131,Breña,Clle,466.3,2022-01-09,1879789.87,Residencial,En litigio
+80,140,Ca. Moquegua 3122 Barranco,P00140,Barranco,Ca,1057.3,2014-01-20,1841580.89,Industrial,Activo
+81,328,Urb. Huánuco 993 Int. 17 San Borja,P00328,San Borja,Urb,1268.9,2023-03-26,5329062.82,Institucional,En litigio
+82,392,Ca. San Martín 2900 Miraflores,P00392,Miraflores,Ca,219.2,2021-11-22,1341253.76,Industrial,Activo
+83,107,Clle. Universitaria 2247 Miraflores,P00107,Miraflores,Clle,323.6,2024-03-26,1052309.84,Mixto,En litigio
+84,244,Ca. Bolognesi 1848 San Borja,P00244,San Borja,Ca,152.0,2019-06-22,735736.73,Comercial,En litigio
+85,345,Psj. La Marina 2959 Barranco,P00345,Barranco,Psj,231.7,2023-01-18,1777677.16,Comercial,Inactivo
+86,440,Av. Grau 248 Int. 19 Surco,P00440,Surco,Av,703.5,2023-06-15,284953.41,Institucional,Inactivo
+87,102,Psj. Cajamarca 1392 Chorrillos,P00102,Chorrillos,Psj,1408.0,2018-12-02,1860917.69,Industrial,Inactivo
+88,394,Clle. Huánuco 932 Magdalena,P00394,Magdalena,Clle,257.4,2014-09-04,517132.72,Mixto,Activo
+89,443,Urb. Larco 2751 Pueblo Libre,P00443,Pueblo Libre,Urb,1325.3,2017-01-31,1588814.27,Mixto,Inactivo
+90,101,Av. Angamos 1748 Miraflores,P00101,Miraflores,Av,1401.7,2017-11-22,1761327.26,Residencial,En litigio
+91,19,Camaná 2880 Rímac,P00019,Rímac,Jr,293.5,2023-09-01,1020463.33,Residencial,Inactivo
+92,70,Psj. Ica 553 Int. 7 Chorrillos,P00070,Chorrillos,Psj,530.3,2016-08-01,577421.51,Institucional,Inactivo
+93,297,Ca. Huancavelica 2691 Breña,P00297,Breña,Ca,1389.1,2023-09-14,355316.27,Institucional,En litigio
+94,290,Urb. Puno 576 Int. 13 La Molina,P00290,La Molina,Urb,871.7,2011-10-08,1072617.09,Institucional,En litigio
+95,181,Psj. Ayacucho 866 San Isidro,P00181,San Isidro,Psj,1259.8,2024-08-30,108176.58,Comercial,Inactivo
+96,178,Jr. Moquegua 483 San Miguel,P00178,San Miguel,Jr,199.0,2016-06-30,503811.34,Residencial,En litigio
+97,526,Urb. Larco 1448 San Borja,P00526,San Borja,Urb,986.0,2024-03-05,1678781.46,Residencial,Activo
+98,396,Av. Amazonas 119 Int. 9 Miraflores,P00396,Miraflores,Av,497.8,2014-06-22,1783739.2,Institucional,En litigio
+99,307,Psj. Ica 2199 Int. 17 San Borja,P00307,San Borja,Psj,1461.1,2011-04-01,1057019.55,Mixto,Inactivo
+100,115,Psj. Angamos 1998 San Isidro,P00115,San Isidro,Psj,1115.8,2017-04-05,1264767.63,Residencial,Activo
+101,375,Jr. Emancipación 174 Int. 6 San Borja,P00375,San Borja,Jr,1277.0,2015-08-27,1740133.28,Residencial,Inactivo
+102,16,Ca. Javier Prado 374 San Isidro,P00016,San Isidro,Ca,1207.7,2017-07-19,1510208.43,Residencial,Activo
+103,355,Urb. Petit Thouars 3340 Breña,P00355,Breña,Urb,1485.3,2022-06-09,1944872.84,Comercial,Inactivo
+104,467,Jr. Arenales 2558 Int. 14 Miraflores,P00467,Miraflores,Jr,596.3,2023-11-30,1596688.61,Sin definir,Inactivo
+105,451,Urb. Petit Thouars 2006 San Miguel,P00451,San Miguel,Urb,971.8,2015-01-31,1687862.45,Comercial,En litigio
+106,539,Urb. Tacna 3269 Surco,P00539,Surco,Urb,1140.6,2017-10-14,1452464.95,Industrial,Activo
+107,209,Clle. Arequipa 1865 San Borja,P00209,San Borja,Clle,1480.4,2019-01-21,554604.72,Mixto,Inactivo
+108,43,Jr. Arenales 153 San Isidro,P00043,San Isidro,Jr,707.4,2023-06-01,8005156.72,Mixto,En litigio
+109,316,Jr. Abancay 2782 La Molina,P00316,La Molina,Jr,237.3,2019-09-24,1180975.69,Comercial,Activo
+110,8,Rímac Ca. Universitaria 1343,P00008,Rímac,Ca,249.0,2012-04-25,1749196.4,Institucional,Activo
+111,265,Urb. San Martín 1804 Barranco,P00265,Barranco,Urb,148.1,2017-07-02,1350802.99,Industrial,Inactivo
+112,232,Urb. Lima 3013 Int. 14 Jesús María,P00232,Jesús María,Urb,1257.6,2016-12-06,1714507.05,Mixto,Activo
+113,120,Ca. Lima 2915 Pueblo Libre,P00120,Pueblo Libre,Ca,128.1,2018-02-28,1676607.54,Mixto,Activo
+114,13,San Borja Clle. Javier Prado 2040,P00013,San Borja,Clle,340.9,2017-08-19,1833080.37,Mixto,Inactivo
+115,246,Urb. Piura 2408 Magdalena,P00246,Magdalena,Urb,747.9,2024-10-21,1069164.44,Institucional,En litigio
+116,253,Psj. Piura 395 Int. 7 Rímac,P00253,Rímac,Psj,943.6,2011-04-20,1625566.2,Institucional,En litigio
+117,340,Ca. Moquegua 150 La Victoria,P00340,La Victoria,Ca,-55.4,2021-08-26,1466073.87,Institucional,En litigio
+118,4,Callejón Arequipa 552 San Borja,P00004,San Borja,Clle,511.1,2021-10-26,1809291.16,Residencial,Activo
+119,203,Urb. Larco 1370 Magdalena,P00203,Magdalena,Urb,315.9,2021-05-12,397248.23,Residencial,Activo
+120,434,Psj. Universitaria 1811 Int. 19 La Victoria,P00434,La Victoria,Psj,1488.1,2019-01-26,611997.32,Mixto,Inactivo
+121,408,Ca. San Martín 2869 La Victoria,P00408,La Victoria,Ca,1285.1,2015-05-24,806297.01,Mixto,Inactivo
+122,11,Petit Thouars 975 San Borja,P00011,San Borja,Urb,1327.7,2021-07-26,66532.19,Residencial,En litigio
+123,8,Universitaria 1343 Rímac,P00008,Rímac,Ca,868.3,2013-06-20,1654777.24,Institucional,Inactivo
+124,469,Psj. Huánuco 765 Int. 10 Barranco,P00469,Barranco,Psj,1020.2,2013-05-24,1278339.36,Institucional,Activo
+125,388,,P00388,Lince,Urb,705.8,2022-02-02,540823.61,Comercial,En litigio
+126,9,Chorrillos Urb. Petit Thouars 2117,P00009,Chorrillos,Urb,225.3,2018-03-06,481582.17,Residencial,En litigio
+127,380,Jr. Tacna 2282 San Borja,P00380,San Borja,Jr,428.8,2018-06-15,1797141.01,Institucional,Inactivo
+128,127,Ca. Petit Thouars 3062 La Victoria,P00127,La Victoria,Ca,1421.9,2014-07-17,1511415.13,Institucional,Activo
+129,491,Urb. San Martín 3128 Pueblo Libre,P00491,Pueblo Libre,Urb,276.1,2017-02-27,562645.73,Comercial,En litigio
+130,210,Jr. Javier Prado 164 Int. 11 Barranco,P00210,Barranco,Jr,1158.8,2019-08-05,771712.29,Institucional,Activo
+131,414,Urb. Angamos 2835 Int. 20 San Borja,P00414,San Borja,Urb,517.0,2016-09-16,249667.6,Industrial,Activo
+132,103,Urb. Bolognesi 2291 Barranco,P00103,Barranco,Urb,537.5,2019-01-07,1807798.72,,Inactivo
+133,231,Urb. Huánuco 1481 Miraflores,P00231,Miraflores,Urb,1000.6,2010-01-12,270331.94,Industrial,Inactivo
+134,50,Av. Cusco 2091 Int. 20 San Miguel,P00050,San Miguel,Av,307.2,2010-07-17,8353568.91,Industrial,Activo
+135,26,Psj. San Martín 1625 Breña,P00026,Breña,Psj,119.5,2014-01-16,202914.57,Institucional,En litigio
+136,406,Clle. La Marina 3076 La Victoria,P00406,La Victoria,Clle,374.8,2018-01-08,1597870.03,Industrial,Inactivo
+137,410,Jr. Lima 1648 Pueblo Libre,P00410,Pueblo Libre,Jr,155.5,2019-12-16,578025.42,Industrial,Inactivo
+138,116,Clle. Arenales 3198 La Victoria,P00116,La Victoria,Clle,1475.8,2023-06-17,1454943.39,Residencial,Inactivo
+139,343,Urb. Garcilazo de la Vega 686 Int. 11 La Victoria,P00343,La Victoria,Urb,202.0,2011-05-03,1687458.74,Institucional,Activo
+140,412,Clle. Arequipa 1955 Lince,P00412,Lince,Clle,1148.0,2016-07-25,243357.49,Comercial,Activo
+141,190,Psj. Petit Thouars 1275 Int. 7 Surco,P00190,Surco,Psj,461.6,2024-01-17,506227.05,Industrial,En litigio
+142,553,Urb. Universitaria 391 Chorrillos,P00553,Chorrillos,Urb,1187.0,2022-04-02,255967.27,Mixto,En litigio
+143,318,Clle. Ica 1620 Int. 17 Magdalena,P00318,Magdalena,Clle,1110.4,2015-03-24,235263.05,Industrial,Inactivo
+144,14,Jirón San Martín 2774 Surco,P00014,Surco,Jr,1323.5,2016-08-04,1804165.52,Comercial,En litigio
+145,377,Ca. Garcilazo de la Vega 1305 Int. 7 San Miguel,P00377,San Miguel,Ca,442.4,2013-01-28,685159.73,Industrial,Inactivo
+146,153,Clle. Angamos 1267 Jesús María,P00153,Jesús María,Clle,780.4,2015-04-27,1532743.0,Industrial,En litigio
+147,206,Jr. Garcilazo de la Vega 2154 Surco,P00206,Surco,Jr,384.5,2014-09-22,1248358.79,Mixto,Activo
+148,219,Jr. Moquegua 1160 La Molina,P00219,La Molina,Jr,300.5,2020-07-15,1750853.91,Mixto,Activo
+149,544,Clle. Grau 327 Int. 7 San Miguel,P00544,San Miguel,Clle,1484.1,2015-12-24,1990956.53,Comercial,En litigio
+150,390,Ca. Camaná 3407 Int. 15 San Isidro,P00390,San Isidro,Ca,1170.2,2011-12-08,339204.43,Residencial,En litigio
+151,19,Rímac Jr. Camaná 2880,P00019,Rímac,Jr,94.0,2014-02-06,839125.69,Industrial,En litigio
+152,193,Psj. Larco 367 San Borja,P00193,San Borja,Psj,1139.3,2017-02-03,1854097.64,Institucional,Inactivo
+153,32,Urb. Puno 216 Int. 11 Breña,P00032,Breña,Urb,513.2,2010-03-23,212468.36,Sin definir,Inactivo
+154,347,Urb. Grau 1249 San Miguel,P00347,San Miguel,Urb,1005.6,2021-07-22,1500113.36,Mixto,En litigio
+155,200,Clle. Huánuco 197 Magdalena,P00200,Magdalena,Clle,568.0,2022-01-19,1013303.36,Institucional,Activo
+156,51,Urb. Garcilazo de la Vega 2539 Breña,P00051,Breña,Urb,1387.4,2017-10-01,251776.84,Industrial,Activo
+157,250,Clle. Puno 587 Chorrillos,P00250,Chorrillos,Clle,1399.7,2011-02-21,1707879.18,Industrial,Inactivo
+158,19,Jr. Camaná 2880 Rímac,P00019,Rímac,Jr,795.0,2011-12-04,1055748.5,Residencial,Inactivo
+159,289,Urb. Bolognesi 2854 Chorrillos,P00289,Chorrillos,Urb,581.2,2020-05-09,994859.62,Mixto,Inactivo
+160,241,Ca. Lima 2326 Int. 3 Lince,P00241,Lince,Ca,1040.1,2017-02-20,929559.28,Institucional,Activo
+161,161,Psj. Puno 225 Miraflores,P00161,Miraflores,Psj,1134.8,2020-04-24,653947.26,Institucional,En litigio
+162,27,Urb. Arequipa 3285 Surco,P00027,Surco,Urb,832.4,2018-01-11,1869873.56,Industrial,En litigio
+163,432,Jr. Arequipa 1684 Int. 10 Breña,P00432,Breña,Jr,-36.0,2011-11-20,909929.11,Mixto,En litigio
+164,149,Av. Salaverry 2544 Pueblo Libre,P00149,Pueblo Libre,Av,64.5,2018-07-23,1252806.44,Mixto,Inactivo
+165,401,Jr. Emancipación 273 Surco,P00401,Surco,Jr,307.5,2013-10-29,1779083.89,Comercial,Activo
+166,182,Psj. Wilson 1994 Int. 17 Jesús María,P00182,Jesús María,Psj,1040.8,2021-12-25,885754.91,Comercial,Activo
+167,81,Ca. Arequipa 2992 Breña,P00081,Breña,Ca,62.7,2017-08-11,1001949.47,Residencial,Activo
+168,280,Ca. Moquegua 196 Miraflores,P00280,Miraflores,Ca,817.1,2010-06-02,590658.77,Industrial,En litigio
+169,510,Av. Moquegua 2677 Int. 13 Barranco,P00510,Barranco,Av,141.9,2017-02-24,1943757.87,Institucional,Inactivo
+170,279,Psj. Petit Thouars 2988 Surco,P00279,Surco,Psj,1417.7,2016-04-17,798373.02,Industrial,Activo
+171,416,Psj. Cajamarca 2768 La Molina,P00416,La Molina,Psj,467.4,2019-01-04,1831791.69,Mixto,En litigio
+172,458,Clle. Huancavelica 1741 Surco,P00458,Surco,Clle,807.6,2021-02-07,984743.62,Residencial,Activo
+173,479,Ca. Ayacucho 1126 San Isidro,P00479,San Isidro,Ca,372.8,2020-11-28,1489464.84,Industrial,Inactivo
+174,368,Urb. Salaverry 1327 Magdalena,P00368,Magdalena,Urb,703.0,2017-01-30,1258519.67,Institucional,En litigio
+175,79,Ca. Moquegua 3048 Barranco,P00079,Barranco,Ca,1144.9,2013-03-05,1842361.09,Institucional,Inactivo
+176,80,Jr. Arequipa 1502 Barranco,P00080,Barranco,Jr,1176.6,2013-06-28,1986596.02,Industrial,Inactivo
+177,264,Ca. Angamos 229 Int. 18 Rímac,P00264,Rímac,Ca,790.4,2024-11-26,161346.57,Industrial,Activo
+178,478,Psj. Petit Thouars 218 Int. 8 Jesús María,P00478,Jesús María,Psj,-83.6,2024-10-09,907124.29,Residencial,Inactivo
+179,261,Urb. Grau 2930 San Borja,P00261,San Borja,Urb,535.4,2017-06-12,590288.12,Mixto,Activo
+180,99,Ca. Lima 1627 Int. 11 Barranco,P00099,Barranco,Ca,1191.4,2021-12-31,343145.6,Residencial,Inactivo
+181,106,Psj. Leguía 924 Chorrillos,P00106,Chorrillos,Psj,1428.8,2012-01-18,1572305.41,Institucional,Demolido
+182,109,Urb. Camaná 3266 Int. 20 San Isidro,P00109,San Isidro,Urb,1445.1,2020-07-16,1515605.56,Mixto,Inactivo
+183,521,Urb. Ica 1390 Rímac,P00521,Rímac,Urb,820.0,2013-06-04,1918021.87,Industrial,Activo
+184,407,Clle. San Martín 1664 Jesús María,P00407,Jesús María,Clle,781.8,2023-12-21,1629658.36,,Inactivo
+185,123,Av. Abancay 1661 Breña,P00123,Breña,Av,1114.3,2019-08-10,90564.74,Mixto,En litigio
+186,372,Psj. Arenales 929 Miraflores,P00372,Miraflores,Psj,493.6,2015-10-11,439142.01,Institucional,Inactivo
+187,452,Clle. Arenales 807 Magdalena,P00452,Magdalena,Clle,1203.7,2019-03-11,1538697.6,Industrial,Activo
+188,428,Ca. Huánuco 158 Miraflores,P00428,Miraflores,Ca,886.5,2014-07-15,444041.82,Comercial,Activo
+189,111,Ca. Puno 2167 Int. 19 Rímac,P00111,Rímac,Ca,73.3,2014-03-27,923701.2,Comercial,Activo
+190,464,Psj. Camaná 1465 Int. 19 Barranco,P00464,Barranco,Psj,-46.6,2023-06-02,1254302.96,Residencial,Activo
+191,321,Ca. Petit Thouars 641 La Victoria,P00321,La Victoria,Ca,793.5,2021-07-23,1922192.67,Industrial,Inactivo
+192,488,Jr. Ica 1132 San Borja,P00488,San Borja,Jr,1465.8,2018-01-25,431701.09,Institucional,Activo
+193,11,Urbanización Petit Thouars 975 San Borja,P00011,San Borja,Urb,1078.2,2011-05-19,947074.39,Institucional,En litigio
+194,291,Psj. Amazonas 2843 Breña,P00291,Breña,Psj,1473.4,2014-10-20,491214.03,Institucional,En litigio
+195,234,Ca. Javier Prado 3260 Surco,P00234,Surco,Ca,1485.9,2020-04-26,1552452.34,Institucional,Inactivo
+196,7,San Borja Psj. Camaná 1200,P00007,San Borja,Psj,1383.3,2012-10-28,1423600.82,Residencial,En litigio
+197,74,Clle. Bolognesi 389 Chorrillos,P00074,Chorrillos,Clle,1408.0,2020-08-01,1240458.35,Residencial,Inactivo
+198,549,Urb. Larco 865 Pueblo Libre,P00549,Pueblo Libre,Urb,335.8,2022-10-25,1202631.66,Industrial,En litigio
+199,1,Psj. Bolognesi 3219 Int. 18 Pueblo Libre,P00001,Pueblo Libre,Psj,696.5,2013-10-25,1646553.34,Comercial,Inactivo
+200,356,Psj. Petit Thouars 728 San Isidro,P00356,San Isidro,Psj,537.5,2024-01-22,397412.65,Residencial,En litigio
+201,274,Urb. Wilson 616 San Miguel,P00274,San Miguel,Urb,513.1,2015-02-14,1934484.88,Residencial,Activo
+202,517,Psj. Salaverry 323 San Miguel,P00517,San Miguel,Psj,1105.7,2014-11-16,717756.8,Mixto,En litigio
+203,174,Urb. Universitaria 287 Surco,P00174,Surco,Urb,1254.7,2023-05-04,1282779.1,Mixto,Activo
+204,446,Clle. Javier Prado 2324 Breña,P00446,Breña,Clle,1404.8,2022-11-15,843866.77,Residencial,Inactivo
+205,481,Urb. Petit Thouars 1837 Pueblo Libre,P00481,Pueblo Libre,Urb,1296.6,2019-05-29,1511944.99,Mixto,Activo
+206,1,Pueblo Libre Psj. Bolognesi 3219,P00001,Pueblo Libre,Psj,95.3,2022-02-10,1388884.66,Mixto,Inactivo
+207,533,Jr. Salaverry 610 Chorrillos,P00533,Chorrillos,Jr,1379.6,2020-03-04,1504642.63,Industrial,Inactivo
+208,20,Breña Jr. Wilson 2362,P00020,Breña,Jr,1401.6,2015-12-14,1425312.95,Institucional,Inactivo
+209,504,Psj. Tacna 1451 San Borja,P00504,San Borja,Psj,1363.2,2022-01-26,1146351.22,Institucional,En litigio
+210,332,Clle. Grau 3103 San Isidro,P00332,San Isidro,Clle,129.3,2020-02-06,1897515.26,Industrial,En litigio
+211,2,Chorrillos Ca. Cajamarca 786,P00002,Chorrillos,Ca,1430.9,2021-02-11,1696930.19,Industrial,En litigio
+212,217,Psj. Leguía 1889 Lince,P00217,Lince,Psj,430.6,2014-11-06,5864802.22,Residencial,En litigio
+213,284,Psj. La Marina 1274 La Molina,P00284,La Molina,Psj,385.6,2023-08-07,802395.07,Mixto,Inactivo
+214,35,Urb. Camaná 2081 La Victoria,P00035,La Victoria,Urb,1253.1,2020-01-22,1010588.21,Residencial,En litigio
+215,152,Urb. Universitaria 976 Breña,P00152,Breña,Urb,1172.1,2020-06-25,836638.89,Mixto,En litigio
+216,507,Jr. San Martín 2362 Miraflores,P00507,Miraflores,Jr,536.7,2012-09-05,1988053.49,Residencial,Inactivo
+217,558,Clle. Ica 3388 Magdalena,P00558,Magdalena,Clle,1375.9,2020-11-27,752332.21,Comercial,Activo
+218,285,Psj. Huancavelica 2579 San Borja,P00285,San Borja,Psj,1095.6,2020-04-16,1763388.05,Comercial,Activo
+219,41,Psj. Wilson 1825 San Miguel,P00041,San Miguel,Psj,560.1,2021-09-27,1004502.43,Comercial,Inactivo
+220,301,,P00301,Surco,Urb,1418.4,2016-03-11,319702.99,Industrial,Demolido
+221,9,Chorrillos Urb. Petit Thouars 2117,P00009,Chorrillos,Urb,664.9,2013-04-11,1513826.59,Industrial,En litigio
+222,346,Av. Larco 2873 La Victoria,P00346,La Victoria,Av,1438.1,2017-05-18,1125950.35,Residencial,Activo
+223,177,Av. Amazonas 3203 Int. 11 San Miguel,P00177,San Miguel,Av,736.2,2022-11-10,8649634.02,Industrial,En litigio
+224,341,Urb. Emancipación 3034 Int. 20 Lince,P00341,Lince,Urb,1102.2,2014-08-04,1522389.13,Mixto,Activo
+225,439,Psj. Petit Thouars 3410 Int. 7 Barranco,P00439,Barranco,Psj,1032.6,2022-07-18,375970.58,Sin definir,Activo
+226,20,Jr. Wilson 2362 Breña,P00020,Breña,Jr,915.4,2013-04-01,1182464.85,Institucional,Activo
+227,425,Ca. Emancipación 2481 Int. 12 La Victoria,P00425,La Victoria,Ca,154.5,2022-05-25,308161.32,Industrial,Inactivo
+228,69,Av. Larco 2112 Miraflores,P00069,Miraflores,Av,769.3,2013-09-09,919856.22,Mixto,En litigio
+229,370,Ca. Petit Thouars 1663 Magdalena,P00370,Magdalena,Ca,301.3,2024-11-24,1787140.24,Mixto,En litigio
+230,108,Ca. Amazonas 1127 Int. 2 La Victoria,P00108,La Victoria,Ca,1427.7,2015-08-07,1012267.51,Industrial,Activo
+231,189,Psj. Ica 1641 Int. 10 Magdalena,P00189,Magdalena,Psj,683.1,2013-06-27,1312461.5,Comercial,Inactivo
+232,5,Pasaje Cajamarca 826 La Victoria,P00005,La Victoria,Psj,1488.5,2023-11-04,1095094.76,Institucional,En litigio
+233,135,Av. Cajamarca 2058 La Victoria,P00135,La Victoria,Av,673.6,2010-01-22,1863853.77,Institucional,Inactivo
+234,201,Psj. Puno 3495 Magdalena,P00201,Magdalena,Psj,808.1,2022-09-07,1369164.45,Comercial,Activo
+235,75,Jr. Garcilazo de la Vega 780 Int. 2 Breña,P00075,Breña,Jr,1301.7,01/01/2019,625476.81,Residencial,En litigio
+236,126,Clle. Lima 1353 Pueblo Libre,P00126,Pueblo Libre,Clle,454.5,2020-11-24,1209609.76,Mixto,Activo
+237,480,Urb. Javier Prado 1842 La Molina,P00480,La Molina,Urb,145.8,2023-10-01,881307.75,Comercial,Inactivo
+238,466,Clle. Leguía 1159 Int. 1 Magdalena,P00466,Magdalena,Clle,391.1,2010-08-21,992322.24,Residencial,En litigio
+239,20,Wilson 2362 Breña,P00020,Breña,Jr,1499.3,2016-10-28,1299178.32,Residencial,Inactivo
+240,474,Av. San Martín 995 Int. 17 San Isidro,P00474,San Isidro,Av,1085.9,2010-05-07,1523377.88,Residencial,En litigio
+241,47,Av. Wilson 2078 Lince,P00047,Lince,Av,226.8,2015-06-15,867915.64,Institucional,En litigio
+242,125,Clle. Petit Thouars 3426 Int. 9 Lince,P00125,Lince,Clle,816.5,2024-12-12,1622937.84,Industrial,Activo
+243,59,Jr. Javier Prado 175 Int. 9 Magdalena,P00059,Magdalena,Jr,295.6,2021-10-15,974834.65,Mixto,Activo
+244,462,Psj. Wilson 150 Chorrillos,P00462,Chorrillos,Psj,265.9,2014-12-09,1822012.31,Institucional,Activo
+245,129,Clle. Lima 1929 San Isidro,P00129,San Isidro,Clle,1479.1,2023-08-18,1778729.14,Institucional,Activo
+246,255,Clle. Salaverry 1982 Magdalena,P00255,Magdalena,Clle,817.3,2023-02-18,984718.17,Industrial,Inactivo
+247,14,San Martín 2774 Surco,P00014,Surco,Jr,262.2,2024-08-26,89428.9,Comercial,Activo
+248,325,Jr. Petit Thouars 1881 Chorrillos,P00325,Chorrillos,Jr,1335.0,2019-06-25,544802.03,Sin definir,Inactivo
+249,426,Clle. Emancipación 2838 Magdalena,P00426,Magdalena,Clle,342.3,2017-06-05,1941970.09,Residencial,En litigio
+250,282,Urb. Lima 1498 Int. 14 Lince,P00282,Lince,Urb,197.9,2020-05-23,1323489.51,Comercial,En litigio
+251,134,Psj. Ayacucho 3215 Int. 16 San Borja,P00134,San Borja,Psj,1262.2,2023-11-12,1375759.53,Industrial,Inactivo
+252,205,Psj. Ayacucho 1043 Surco,P00205,Surco,Psj,1165.2,2015-05-15,320443.69,Institucional,En litigio
+253,40,Urb. La Marina 1060 La Victoria,P00040,La Victoria,Urb,1201.3,2022-03-24,1444302.71,Institucional,Activo
+254,441,Ca. Amazonas 1997 Int. 19 San Miguel,P00441,San Miguel,Ca,1075.4,2022-11-11,1706424.38,Industrial,En litigio
+255,10,Surco Psj. Larco 1737,P00010,Surco,Psj,537.2,2023-11-26,1569731.74,Institucional,Activo
+256,470,Av. Camaná 229 Int. 7 La Molina,P00470,La Molina,Av,1302.9,2017-12-03,186387.05,Residencial,Activo
+257,468,Psj. Leguía 1250 Pueblo Libre,P00468,Pueblo Libre,Psj,160.5,2022-02-22,1957371.94,Comercial,Activo
+258,254,Av. Universitaria 1277 Int. 19 Pueblo Libre,P00254,Pueblo Libre,Av,546.6,2020-11-24,896517.85,Industrial,Activo
+259,364,Urb. Petit Thouars 1565 Rímac,P00364,Rímac,Urb,964.1,2011-05-13,95870.87,Comercial,Inactivo
+260,262,Psj. Larco 1175 Miraflores,P00262,Miraflores,Psj,164.3,2018-09-22,1785715.18,Comercial,Activo
+261,45,,P00045,Lince,Jr,251.1,2015-12-24,1572922.44,Industrial,Inactivo
+262,23,Jr. Larco 1815 Int. 12 La Victoria,P00023,La Victoria,Jr,1467.6,2014-01-25,1908668.36,Mixto,En litigio
+263,556,Urb. Angamos 258 Barranco,P00556,Barranco,Urb,1462.2,2022-11-25,893516.68,Mixto,En litigio
+264,97,Jr. Arequipa 3478 San Borja,P00097,San Borja,Jr,1493.0,2012-12-15,986456.29,Comercial,Inactivo
+265,72,Jr. Huancavelica 800 Rímac,P00072,Rímac,Jr,461.7,2021-11-05,1776794.74,Residencial,En litigio
+266,155,Av. Ica 589 Int. 5 San Isidro,P00155,San Isidro,Av,435.3,2015-04-03,235246.1,Institucional,En litigio
+267,331,Clle. Lima 459 Lince,P00331,Lince,Clle,1339.9,2017-03-17,407736.78,Mixto,En litigio
+268,15,Avenida Universitaria 1834 San Miguel,P00015,San Miguel,Av,278.6,2015-08-07,520471.12,Residencial,En litigio
+269,419,Jr. Tacna 3202 Surco,P00419,Surco,Jr,1243.8,2011-06-21,1069128.79,Industrial,Activo
+270,90,Clle. Larco 3241 San Borja,P00090,San Borja,Clle,756.9,2018-10-01,811397.79,Comercial,Inactivo
+271,495,Av. Amazonas 458 Int. 11 Jesús María,P00495,Jesús María,Av,303.3,2014-02-13,1754887.91,Mixto,En litigio
+272,179,Ca. Salaverry 3150 Lince,P00179,Lince,Ca,1204.6,2010-07-24,1350162.06,Residencial,Inactivo
+273,57,Clle. Emancipación 674 Lince,P00057,Lince,Clle,679.8,2016-02-25,1319736.7,Institucional,Activo
+274,85,Urb. Lima 3354 Barranco,P00085,Barranco,Urb,1098.3,2010-12-28,1518380.18,Mixto,En litigio
+275,523,Psj. Javier Prado 1334 Rímac,P00523,Rímac,Psj,1184.3,17/10/2023,335278.84,,En litigio
+276,557,Jr. Puno 2060 Rímac,P00557,Rímac,Jr,434.1,2013-12-02,490945.86,Comercial,Inactivo
+277,138,Urb. Petit Thouars 277 San Miguel,P00138,San Miguel,Urb,1025.2,2012-12-03,813867.04,Residencial,En litigio
+278,300,Av. Amazonas 1906 Chorrillos,P00300,Chorrillos,Av,684.4,2019-09-01,485862.7,Comercial,En litigio
+279,535,Urb. Puno 1105 Int. 9 San Borja,P00535,San Borja,Urb,752.0,2022-04-26,120383.48,Residencial,Activo
+280,522,Jr. Emancipación 3169 Pueblo Libre,P00522,Pueblo Libre,Jr,795.7,2010-05-08,881093.01,Comercial,Inactivo
+281,64,Psj. Huancavelica 3255 Int. 10 San Borja,P00064,San Borja,Psj,619.2,2024-08-18,968760.36,Industrial,Activo
+282,42,Clle. Emancipación 842 Breña,P00042,Breña,Clle,514.6,2018-02-10,1023842.98,Residencial,Inactivo
+283,294,Ca. Ica 549 San Isidro,P00294,San Isidro,Ca,207.0,2022-05-28,392342.52,Industrial,Activo
+284,304,Jr. Lima 1271 La Molina,P00304,La Molina,Jr,1001.9,2016-05-30,1642675.13,Industrial,Inactivo
+285,225,Urb. Amazonas 549 Breña,P00225,Breña,Urb,658.1,2023-02-04,1060327.44,Industrial,Inactivo
+286,362,Urb. Tacna 2399 La Molina,P00362,La Molina,Urb,1486.4,2019-09-01,1665151.17,Industrial,En litigio
+287,188,Clle. Arenales 2178 Int. 19 Miraflores,P00188,Miraflores,Clle,707.6,2024-12-06,1515381.65,Institucional,Activo
+288,236,Psj. Universitaria 1410 Int. 4 Pueblo Libre,P00236,Pueblo Libre,Psj,1250.8,2016-06-20,1926743.59,Industrial,En litigio
+289,336,Av. Leguía 3366 Miraflores,P00336,Miraflores,Av,1371.6,2012-01-11,1447854.63,Mixto,Activo
+290,224,Av. Emancipación 2473 Pueblo Libre,P00224,Pueblo Libre,Av,621.3,2015-11-20,1122521.01,Mixto,Activo
+291,493,Clle. La Marina 2058 Lince,P00493,Lince,Clle,1222.9,27/05/2023,658616.22,Residencial,Activo
+292,214,Psj. Garcilazo de la Vega 1957 Int. 20 Lince,P00214,Lince,Psj,514.2,09/03/2020,773044.2,Institucional,Activo
+293,132,Ca. Moquegua 2983 Int. 3 Lince,P00132,Lince,Ca,1002.1,2013-03-01,1121189.4,Institucional,Activo
+294,198,Clle. Arequipa 372 Pueblo Libre,P00198,Pueblo Libre,Clle,1089.7,2010-11-30,1476525.56,Mixto,En litigio
+295,342,Ca. Amazonas 1702 Barranco,P00342,Barranco,Ca,1456.3,2015-06-10,364271.95,Mixto,En litigio
+296,100,Urb. Amazonas 3064 Int. 2 Barranco,P00100,Barranco,Urb,1019.7,2011-06-21,584661.1,Comercial,En litigio
+297,228,Av. Moquegua 708 Int. 13 Pueblo Libre,P00228,Pueblo Libre,Av,310.3,2014-07-08,1449425.19,Industrial,En litigio
+298,551,Jr. Arequipa 2496 Rímac,P00551,Rímac,Jr,773.9,2021-04-29,961315.01,Residencial,Activo
+299,320,Jr. Cajamarca 2147 Lince,P00320,Lince,Jr,1450.4,2018-03-28,772010.25,Residencial,Activo
+300,173,Urb. Wilson 2880 Int. 2 San Borja,P00173,San Borja,Urb,526.3,2010-05-07,1816298.06,Mixto,En litigio
+301,159,Clle. Abancay 2046 La Molina,P00159,La Molina,Clle,763.7,2019-06-08,574758.05,Mixto,En litigio
+302,344,Urb. Abancay 1162 Miraflores,P00344,Miraflores,Urb,581.9,2011-05-12,516938.94,Comercial,Inactivo
+303,6,Ca. Universitaria 1369 Rímac,P00006,Rímac,Ca,507.7,2024-08-15,1787116.93,Residencial,Activo
+304,124,Urb. Emancipación 1518 Barranco,P00124,Barranco,Urb,116.7,2024-11-28,634862.03,Residencial,En litigio
+305,384,Clle. Bolognesi 249 La Molina,P00384,La Molina,Clle,736.6,2017-03-27,1676098.51,,Inactivo
+306,351,Ca. Leguía 261 La Molina,P00351,La Molina,Ca,1377.2,2010-10-11,1461731.62,Industrial,Inactivo
+307,459,Clle. La Marina 2460 Jesús María,P00459,Jesús María,Clle,805.9,2012-07-06,1422052.7,Mixto,Inactivo
+308,13,Callejón Javier Prado 2040 San Borja,P00013,San Borja,Clle,1161.2,2013-12-11,1803619.81,Comercial,Activo
+309,465,,P00465,Lince,Ca,815.3,05/03/2010,290946.67,Mixto,Activo
+310,167,Psj. Leguía 2716 Int. 5 Chorrillos,P00167,Chorrillos,Psj,1089.1,2014-09-23,863511.92,Industrial,Inactivo
+311,256,Psj. Emancipación 2818 Surco,P00256,Surco,Psj,1497.9,2016-11-05,750108.2,Sin definir,En litigio
+312,387,Psj. Bolognesi 1896 La Victoria,P00387,La Victoria,Psj,1297.0,2021-01-29,1216032.35,Residencial,En litigio
+313,34,Psj. Moquegua 2015 Surco,P00034,Surco,Psj,158.2,2016-04-10,1574332.41,Mixto,Inactivo
+314,339,Psj. Camaná 2524 Int. 14 San Isidro,P00339,San Isidro,Psj,599.0,2010-11-11,1789080.79,Institucional,En litigio
+315,65,Urb. Tacna 3092 Int. 1 La Molina,P00065,La Molina,Urb,609.1,2022-10-26,1644683.89,Industrial,Activo
+316,287,Urb. Ica 1163 Breña,P00287,Breña,Urb,941.9,2017-05-12,796107.77,Residencial,Inactivo
+317,6,Calle Universitaria 1369 Rímac,P00006,Rímac,Ca,1485.9,2023-03-19,1037188.0,Residencial,Inactivo
+318,52,Urb. Garcilazo de la Vega 3002 Chorrillos,P00052,Chorrillos,Urb,1076.7,2021-06-26,1234163.8,Residencial,En litigio
+319,49,Ca. Grau 2010 Magdalena,P00049,Magdalena,Ca,1284.2,2014-06-12,1082740.39,Industrial,En litigio
+320,397,Ca. Petit Thouars 1747 Pueblo Libre,P00397,Pueblo Libre,Ca,515.4,2011-03-17,726144.5,Comercial,Activo
+321,166,Psj. Camaná 3108 Jesús María,P00166,Jesús María,Psj,437.1,2014-09-11,747734.47,Industrial,Inactivo
+322,63,Urb. San Martín 3114 La Molina,P00063,La Molina,Urb,1038.4,2010-05-04,770264.1,Institucional,En litigio
+323,199,Psj. Abancay 870 Barranco,P00199,Barranco,Psj,818.1,2018-03-05,1550276.6,Mixto,En litigio
+324,509,Av. Bolognesi 291 Magdalena,P00509,Magdalena,Av,342.8,2024-03-23,351428.64,Comercial,Inactivo
+325,207,Clle. Emancipación 3213 Chorrillos,P00207,Chorrillos,Clle,366.3,2017-03-30,896487.58,Comercial,En litigio
+326,118,Urb. Javier Prado 793 Barranco,P00118,Barranco,Urb,1003.7,2015-02-24,1397398.21,Mixto,En litigio
+327,94,Jr. Cusco 2319 Int. 9 Pueblo Libre,P00094,Pueblo Libre,Jr,1123.1,2018-02-03,1888046.44,Comercial,En litigio
+328,348,Jr. Arequipa 2818 Int. 6 San Isidro,P00348,San Isidro,Jr,1344.9,2019-04-30,166153.19,Comercial,Inactivo
+329,366,Jr. Larco 2628 La Molina,P00366,La Molina,Jr,120.3,2017-04-25,1028567.9,Industrial,En litigio
+330,7,Psj. Camaná 1200 San Borja,P00007,San Borja,Psj,522.9,2012-12-12,1098921.1,Institucional,En litigio
+331,422,Jr. Angamos 367 La Victoria,P00422,La Victoria,Jr,172.0,2015-07-29,1439563.38,Residencial,Inactivo
+332,438,Clle. Camaná 1742 Rímac,P00438,Rímac,Clle,395.9,2015-01-12,1257338.9,Mixto,Inactivo
+333,303,Clle. Grau 1802 Int. 2 Magdalena,P00303,Magdalena,Clle,1287.3,2014-03-04,605960.37,Comercial,Demolido
+334,235,Psj. Abancay 1935 Int. 12 La Molina,P00235,La Molina,Psj,910.0,2016-03-18,559647.52,Residencial,En litigio
+335,411,Jr. Leguía 3429 San Borja,P00411,San Borja,Jr,1084.6,2022-04-26,1878606.24,Industrial,Inactivo
+336,489,Ca. Tacna 1607 Magdalena,P00489,Magdalena,Ca,317.5,2016-01-08,908836.8,Mixto,Inactivo
+337,272,Av. Larco 2076 La Victoria,P00272,La Victoria,Av,66.0,2015-06-19,837878.26,Institucional,Inactivo
+338,353,Av. Cusco 2960 Barranco,P00353,Barranco,Av,1341.2,2023-05-24,1824783.08,Residencial,Activo
+339,524,Ca. Arequipa 2190 Int. 10 Chorrillos,P00524,Chorrillos,Ca,826.3,2020-05-09,1296217.95,Sin definir,En litigio
+340,229,Ca. Grau 1722 La Victoria,P00229,La Victoria,Ca,568.4,2022-12-30,1399526.12,Institucional,Inactivo
+341,12,Pasaje Tacna 3148 La Molina,P00012,La Molina,Psj,500.8,2022-01-02,1414963.97,Industrial,Activo
+342,142,Urb. Moquegua 1398 Pueblo Libre,P00142,Pueblo Libre,Urb,1086.0,2019-04-30,1735293.73,Institucional,Activo
+343,145,Jr. La Marina 1830 Lince,P00145,Lince,Jr,-84.4,2013-12-15,617101.05,Residencial,En litigio
+344,168,Av. Huánuco 1512 Magdalena,P00168,Magdalena,Av,644.3,2018-03-31,721137.42,Institucional,En litigio
+345,55,Psj. Larco 1564 Miraflores,P00055,Miraflores,Psj,1332.4,2016-09-07,1547039.81,Comercial,Activo
+346,472,Clle. Piura 3490 San Isidro,P00472,San Isidro,Clle,114.5,2024-10-01,1615504.54,Institucional,Inactivo
+347,367,Av. San Martín 1816 Int. 5 Magdalena,P00367,Magdalena,Av,830.0,2022-10-18,1476185.98,Residencial,Inactivo
+348,83,Psj. Bolognesi 3115 Jesús María,P00083,Jesús María,Psj,535.5,2014-09-20,782404.15,Mixto,Activo
+349,420,Ca. Abancay 1088 La Victoria,P00420,La Victoria,Ca,697.8,2023-01-28,1001389.75,,Activo
+350,39,Jr. Garcilazo de la Vega 1657 Rímac,P00039,Rímac,Jr,680.8,2011-05-07,1649551.98,Industrial,Activo
+351,311,Clle. Cajamarca 2886 Lince,P00311,Lince,Clle,643.3,2021-06-03,1576320.07,Residencial,Demolido
+352,22,Urb. Cajamarca 3357 Chorrillos,P00022,Chorrillos,Urb,1344.2,2022-03-23,717894.32,Comercial,Activo
+353,212,Av. Larco 633 San Miguel,P00212,San Miguel,Av,841.2,2018-04-13,491908.15,Residencial,Activo
+354,86,Av. La Marina 2331 San Miguel,P00086,San Miguel,Av,1304.7,2023-08-14,1023822.88,Institucional,Inactivo
+355,389,Urb. Angamos 2449 Miraflores,P00389,Miraflores,Urb,1358.1,2011-09-14,1001760.58,Industrial,Inactivo
+356,386,Psj. Piura 1668 Miraflores,P00386,Miraflores,Psj,1242.3,2017-02-20,1040895.57,Residencial,Inactivo
+357,550,Jr. Javier Prado 2490 Int. 1 San Isidro,P00550,San Isidro,Jr,885.8,2022-12-21,1674148.31,Institucional,Activo
+358,308,Jr. Ayacucho 1931 Int. 3 Jesús María,P00308,Jesús María,Jr,1466.4,2015-05-30,923552.31,Residencial,Activo
+359,433,Jr. San Martín 1093 La Victoria,P00433,La Victoria,Jr,902.0,2019-01-24,794239.24,Comercial,Inactivo
+360,503,Psj. Grau 3232 Int. 18 La Victoria,P00503,La Victoria,Psj,1191.5,2018-06-18,632510.81,Residencial,Inactivo
+361,338,Clle. Puno 1127 San Isidro,P00338,San Isidro,Clle,646.9,2014-05-01,1194845.88,Mixto,Activo
+362,28,Av. Ayacucho 2017 Int. 14 La Molina,P00028,La Molina,Av,813.7,2018-06-29,158750.99,Mixto,Activo
+363,9,Urb. Petit Thouars 2117 Chorrillos,P00009,Chorrillos,Urb,936.5,2012-06-22,1649088.67,Residencial,Inactivo
+364,403,Av. Huancavelica 188 Int. 18 Magdalena,P00403,Magdalena,Av,938.6,2013-02-15,1917377.77,Comercial,En litigio
+365,445,Jr. Leguía 2756 Barranco,P00445,Barranco,Jr,716.8,2012-08-11,91105.82,Residencial,Inactivo
+366,555,Av. Universitaria 838 Int. 20 Chorrillos,P00555,Chorrillos,Av,1054.9,2017-07-11,5236039.75,Mixto,Activo
+367,87,Psj. Petit Thouars 1974 Jesús María,P00087,Jesús María,Psj,959.0,2013-12-24,514659.14,Residencial,Inactivo
+368,494,Jr. La Marina 2408 Int. 11 Magdalena,P00494,Magdalena,Jr,1457.5,2018-05-28,1421374.19,Institucional,Activo
+369,295,Urb. Lima 501 Magdalena,P00295,Magdalena,Urb,355.6,2023-06-21,490086.86,Residencial,Inactivo
+370,538,Urb. Universitaria 2002 Barranco,P00538,Barranco,Urb,855.2,2022-10-15,161140.06,Comercial,En litigio
+371,139,Av. Wilson 1229 Magdalena,P00139,Magdalena,Av,786.2,2016-10-22,281008.01,Industrial,Activo
+372,371,Psj. Javier Prado 3140 Breña,P00371,Breña,Psj,1496.4,2020-10-17,1654958.39,Institucional,En litigio
+373,527,Ca. Cusco 959 La Victoria,P00527,La Victoria,Ca,1161.8,2024-06-29,1989782.67,Institucional,Activo
+374,96,Psj. Arequipa 2259 Pueblo Libre,P00096,Pueblo Libre,Psj,881.6,2017-11-26,1819206.02,Mixto,En litigio
+375,184,Ca. Emancipación 855 Magdalena,P00184,Magdalena,Ca,598.8,2012-02-11,1411629.38,Mixto,Inactivo
+376,548,Jr. Cajamarca 386 Breña,P00548,Breña,Jr,1275.9,2016-05-20,256785.65,Residencial,Activo
+377,514,Av. Camaná 637 Surco,P00514,Surco,Av,964.3,2024-12-24,261225.65,Institucional,Inactivo
+378,448,Jr. Lima 944 Chorrillos,P00448,Chorrillos,Jr,1046.4,2017-01-19,544849.22,Industrial,Activo
+379,54,Ca. Abancay 1565 San Miguel,P00054,San Miguel,Ca,1143.6,2022-05-01,901551.33,Mixto,En litigio
+380,427,Av. Ica 2992 Int. 12 Rímac,P00427,Rímac,Av,911.3,2021-09-13,434409.87,Institucional,Activo
+381,30,Av. San Martín 3092 Int. 20 Surco,P00030,Surco,Av,73.1,2014-04-27,1925938.45,Industrial,Inactivo
+382,13,Clle. Javier Prado 2040 San Borja,P00013,San Borja,Clle,686.0,2018-02-15,954411.16,Mixto,Inactivo
+383,257,Ca. Universitaria 831 La Victoria,P00257,La Victoria,Ca,668.3,2019-09-12,297331.38,Mixto,En litigio
+384,121,Ca. Piura 1256 La Victoria,P00121,La Victoria,Ca,1440.6,2022-06-16,1398212.49,Mixto,En litigio
+385,323,Av. Abancay 3142 Rímac,P00323,Rímac,Av,963.2,2018-05-03,1104915.09,Comercial,Inactivo
+386,4,Callejón Arequipa 552 San Borja,P00004,San Borja,Clle,404.2,2017-08-16,494430.21,Industrial,En litigio
+387,105,Psj. Grau 868 Int. 8 Jesús María,P00105,Jesús María,Psj,384.3,2016-10-18,1862263.39,Industrial,Demolido
+388,471,Av. Javier Prado 1735 Int. 12 La Victoria,P00471,La Victoria,Av,733.2,2020-01-28,685894.0,Comercial,Activo
+389,88,Urb. Ayacucho 3229 San Miguel,P00088,San Miguel,Urb,523.8,2023-06-07,1371900.95,Industrial,Inactivo
+390,490,Av. Wilson 2460 Magdalena,P00490,Magdalena,Av,1327.6,2015-01-08,514591.54,Industrial,Activo
+391,263,Psj. Universitaria 3441 Jesús María,P00263,Jesús María,Psj,547.9,2010-12-17,1847568.33,Institucional,Inactivo
+392,4,Clle. Arequipa 552 Int. 9 San Borja,P00004,San Borja,Clle,203.3,2015-08-08,1140803.34,Comercial,En litigio
+393,476,Urb. Salaverry 150 Breña,P00476,Breña,Urb,1464.8,2019-05-17,1326442.03,Industrial,Activo
+394,137,Jr. Lima 1162 Magdalena,P00137,Magdalena,Jr,1499.7,2021-10-01,1036496.1,Industrial,En litigio
+395,192,Av. Bolognesi 1903 Magdalena,P00192,Magdalena,Av,1223.8,2021-11-01,1975759.27,Industrial,En litigio
+396,171,Urb. Lima 3461 Rímac,P00171,Rímac,Urb,372.9,2018-11-13,1255896.67,Comercial,Activo
+397,89,Urb. Grau 3147 La Molina,P00089,La Molina,Urb,383.3,2016-12-15,1796457.6,Institucional,Activo
+398,104,Clle. La Marina 2759 La Molina,P00104,La Molina,Clle,208.9,2023-05-16,1557888.79,Residencial,En litigio
+399,202,Ca. Bolognesi 3023 La Molina,P00202,La Molina,Ca,913.5,2010-09-22,93851.7,Comercial,En litigio
+400,3,Surco Urb. Arequipa 1917,P00003,Surco,Urb,97.5,2023-05-19,1606070.28,Comercial,Inactivo
+401,554,Jr. Grau 1849 Miraflores,P00554,Miraflores,Jr,702.2,2013-02-15,1189672.42,Mixto,En litigio
+402,259,Jr. Amazonas 254 San Borja,P00259,San Borja,Jr,81.1,2011-08-09,1229841.8,Residencial,Activo
+403,271,Psj. Emancipación 2488 La Victoria,P00271,La Victoria,Psj,311.1,2021-08-23,430405.18,Mixto,Activo
+404,215,Ca. Emancipación 1190 San Isidro,P00215,San Isidro,Ca,1155.4,2019-09-17,1309403.67,Residencial,Activo
+405,542,Clle. Cusco 2664 Int. 1 Pueblo Libre,P00542,Pueblo Libre,Clle,1109.7,2010-01-20,75287.47,Comercial,Activo
+406,424,Clle. Amazonas 800 Magdalena,P00424,Magdalena,Clle,267.4,2012-01-21,375004.26,Mixto,En litigio
+407,3,Urbanización Arequipa 1917 Surco,P00003,Surco,Urb,1400.7,2018-05-04,1083411.27,Institucional,Inactivo
+408,117,Psj. Cusco 2196 Lince,P00117,Lince,Psj,600.7,2015-09-22,244009.28,Industrial,Activo
+409,10,Psj. Larco 1737 Surco,P00010,Surco,Psj,610.4,2024-02-23,1322737.48,Institucional,Activo
+410,227,Urb. La Marina 2896 Pueblo Libre,P00227,Pueblo Libre,Urb,524.5,2017-02-12,1065824.39,Comercial,Inactivo
+411,275,Psj. Garcilazo de la Vega 3285 San Miguel,P00275,San Miguel,Psj,192.8,2023-02-26,1820069.71,Industrial,Inactivo
+412,25,Urb. Abancay 2251 Int. 17 San Isidro,P00025,San Isidro,Urb,327.9,2014-05-05,839321.95,Residencial,En litigio
+413,547,Psj. Huancavelica 786 Int. 15 Jesús María,P00547,Jesús María,Psj,737.6,2013-06-04,1428061.19,Residencial,Activo
+414,216,Ca. Larco 1107 Int. 18 Jesús María,P00216,Jesús María,Ca,1177.6,2010-09-11,412737.64,Institucional,Inactivo
+415,453,Ca. Huánuco 408 Int. 6 Pueblo Libre,P00453,Pueblo Libre,Ca,1283.6,2013-08-05,463543.87,Institucional,Inactivo
+416,114,Ca. Puno 2173 Int. 17 Breña,P00114,Breña,Ca,417.6,2012-01-19,1652550.61,Residencial,Activo
+417,17,Ca. San Martín 966 San Miguel,P00017,San Miguel,Ca,1069.6,2013-06-22,295143.84,Residencial,En litigio
+418,169,Psj. Abancay 791 Barranco,P00169,Barranco,Psj,808.1,2018-03-28,1364196.11,Comercial,Inactivo
+419,482,Clle. San Martín 1626 Int. 19 La Victoria,P00482,La Victoria,Clle,924.2,2018-08-14,1757862.92,Comercial,En litigio
+420,248,Av. Cajamarca 569 Int. 17 Jesús María,P00248,Jesús María,Av,471.2,2010-07-03,888916.91,Industrial,En litigio
+421,1,Psj. Bolognesi 3219 Pueblo Libre,P00001,Pueblo Libre,Psj,1081.5,2018-12-14,1769781.97,Residencial,Inactivo
+422,302,Urb. Camaná 2809 San Borja,P00302,San Borja,Urb,490.3,2022-01-02,103924.55,Residencial,Inactivo
+423,230,Ca. Garcilazo de la Vega 2109 Int. 10 Miraflores,P00230,Miraflores,Ca,329.3,2010-05-06,761946.98,Residencial,Activo
+424,226,Clle. Arequipa 2417 Magdalena,P00226,Magdalena,Clle,650.9,2015-03-28,1033326.24,Mixto,En litigio
+425,497,Av. Lima 916 San Miguel,P00497,San Miguel,Av,192.7,2023-02-07,1249121.29,Comercial,Activo
+426,413,Psj. San Martín 2101 Lince,P00413,Lince,Psj,1489.2,2013-03-22,1878979.96,Residencial,En litigio
+427,528,Urb. Javier Prado 2291 Jesús María,P00528,Jesús María,Urb,1451.8,2019-10-11,569599.4,Residencial,En litigio
+428,329,Psj. Lima 442 Int. 1 La Molina,P00329,La Molina,Psj,819.1,2013-12-25,741238.49,Sin definir,Activo
+429,56,Av. Angamos 2906 Int. 5 Barranco,P00056,Barranco,Av,717.6,2011-05-28,1452141.88,Industrial,En litigio
+430,531,Psj. Salaverry 314 Jesús María,P00531,Jesús María,Psj,631.4,2018-11-30,1181195.37,Institucional,Inactivo
+431,313,Urb. Salaverry 2012 Int. 13 San Isidro,P00313,San Isidro,Urb,367.4,2023-05-19,1132843.69,Comercial,En litigio
+432,15,Av. Universitaria 1834 San Miguel,P00015,San Miguel,Av,260.0,2023-04-10,1306680.41,Comercial,En litigio
+433,322,Urb. Wilson 2378 Jesús María,P00322,Jesús María,Urb,825.0,2020-08-27,310500.19,Mixto,En litigio
+434,398,Urb. La Marina 1792 San Isidro,P00398,San Isidro,Urb,1491.1,2013-09-19,439364.34,Institucional,Inactivo
+435,552,Psj. Garcilazo de la Vega 320 Int. 16 Surco,P00552,Surco,Psj,974.6,2019-11-30,360083.83,Comercial,Inactivo
+436,77,Jr. Petit Thouars 3412 Barranco,P00077,Barranco,Jr,1197.4,2014-06-19,1993087.14,Mixto,En litigio
+437,385,Jr. Moquegua 3215 Surco,P00385,Surco,Jr,257.1,2015-08-08,385213.93,Industrial,Inactivo
+438,16,Ca. Javier Prado 374 Int. 5 San Isidro,P00016,San Isidro,Ca,602.8,2016-10-08,242313.4,Residencial,En litigio
+439,122,Av. Emancipación 2918 Lince,P00122,Lince,Av,330.8,2012-02-19,826799.82,Industrial,En litigio
+440,516,Ca. Bolognesi 3439 Pueblo Libre,P00516,Pueblo Libre,Ca,1121.9,2015-02-01,1020392.36,Institucional,Demolido
+441,78,Psj. Amazonas 1373 Lince,P00078,Lince,Psj,1474.6,2020-07-10,480500.08,Residencial,Inactivo
+442,249,Urb. Tacna 2347 Lince,P00249,Lince,Urb,1132.7,2018-04-24,1809989.6,Industrial,Activo
+443,38,Psj. Ayacucho 1491 Magdalena,P00038,Magdalena,Psj,357.6,2023-03-11,945275.09,Residencial,Activo
+444,487,Psj. Ayacucho 1489 Int. 8 La Victoria,P00487,La Victoria,Psj,1497.5,2021-11-13,352559.89,Mixto,Inactivo
+445,350,Psj. Ayacucho 1589 Int. 18 La Victoria,P00350,La Victoria,Psj,874.7,2023-05-21,415081.18,Residencial,Activo
+446,520,Jr. Amazonas 1032 Int. 9 Pueblo Libre,P00520,Pueblo Libre,Jr,1117.2,2021-06-26,1499947.5,Industrial,En litigio
+447,373,Jr. Grau 3107 San Isidro,P00373,San Isidro,Jr,1436.6,2013-10-20,1560980.01,Residencial,En litigio
+448,24,Clle. Petit Thouars 100 Int. 2 Miraflores,P00024,Miraflores,Clle,217.7,2014-03-10,273173.77,Industrial,En litigio
+449,299,Clle. Petit Thouars 3338 Int. 3 Barranco,P00299,Barranco,Clle,547.4,2023-03-30,54775.27,Comercial,Activo
+450,276,Jr. Huancavelica 1872 Int. 12 La Molina,P00276,La Molina,Jr,666.0,2014-02-27,1602884.43,Institucional,En litigio
+451,260,Av. Petit Thouars 2177 Barranco,P00260,Barranco,Av,1073.8,09/07/2014,1411523.18,Industrial,Activo
+452,360,Urb. Bolognesi 2477 Miraflores,P00360,Miraflores,Urb,1185.0,2013-02-26,1321933.05,Residencial,En litigio
+453,191,Psj. Ica 2023 Barranco,P00191,Barranco,Psj,1243.7,2018-05-04,1853419.36,Comercial,Inactivo
+454,258,Urb. Lima 518 Breña,P00258,Breña,Urb,1079.6,2014-05-19,1541831.89,Residencial,Activo
+455,147,Urb. Emancipación 1568 Int. 20 Lince,P00147,Lince,Urb,597.5,2020-11-12,1749439.7,Residencial,En litigio
+456,429,Urb. Arenales 2024 Surco,P00429,Surco,Urb,1063.9,2017-06-22,424984.01,Institucional,En litigio
+457,160,Psj. Garcilazo de la Vega 1851 San Isidro,P00160,San Isidro,Psj,547.4,2013-12-12,549949.04,Mixto,Inactivo
+458,381,Psj. Petit Thouars 110 Int. 20 Miraflores,P00381,Miraflores,Psj,444.1,2015-04-02,957215.68,Residencial,Inactivo
+459,326,Urb. Javier Prado 1586 Int. 9 San Miguel,P00326,San Miguel,Urb,947.6,2011-07-06,694012.65,Comercial,Inactivo
+460,484,Clle. Ica 2276 San Miguel,P00484,San Miguel,Clle,1011.8,2018-12-22,1378486.95,Industrial,En litigio
+461,357,Jr. Universitaria 3306 San Miguel,P00357,San Miguel,Jr,202.1,2013-02-22,1425379.36,Comercial,En litigio
+462,82,Urb. Wilson 2920 Magdalena,P00082,Magdalena,Urb,282.6,2019-07-09,1014058.51,Mixto,En litigio
+463,534,Psj. Cajamarca 1141 Magdalena,P00534,Magdalena,Psj,957.6,2020-11-09,1904019.78,Residencial,Activo
+464,208,Ca. Amazonas 883 Lince,P00208,Lince,Ca,760.0,2013-03-29,610800.31,Residencial,En litigio
+465,268,Clle. Huánuco 3339 La Victoria,P00268,La Victoria,Clle,452.3,2016-05-15,1045684.9,Comercial,Activo
+466,530,Urb. Salaverry 3453 La Molina,P00530,La Molina,Urb,728.1,2013-07-18,832335.63,Institucional,En litigio
+467,324,Clle. Arequipa 356 San Borja,P00324,San Borja,Clle,760.4,2018-11-10,802682.38,Comercial,Activo
+468,119,Av. Leguía 1596 Int. 5 San Borja,P00119,San Borja,Av,1386.4,2021-04-16,576705.83,Residencial,En litigio
+469,46,Urb. Garcilazo de la Vega 1447 Int. 8 San Isidro,P00046,San Isidro,Urb,499.2,2017-04-28,249290.37,Institucional,Activo
+470,186,Ca. Tacna 3301 Surco,P00186,Surco,Ca,326.2,2012-06-24,440420.68,Residencial,Activo
+471,337,Jr. Puno 1049 Breña,P00337,Breña,Jr,434.9,2011-11-07,443167.18,Comercial,Inactivo
+472,223,Urb. Amazonas 2529 La Molina,P00223,La Molina,Urb,1333.7,2023-08-23,1603197.98,Mixto,Activo
+473,292,Urb. Huancavelica 1577 Barranco,P00292,Barranco,Urb,405.7,2011-06-21,1593788.98,Residencial,Inactivo
+474,194,Clle. Tacna 2577 Surco,P00194,Surco,Clle,274.8,2021-04-28,865702.04,Mixto,Activo
+475,37,Urb. Ica 1818 Lince,P00037,Lince,Urb,812.9,2022-08-23,749554.96,Mixto,Inactivo
+476,436,Jr. Angamos 2147 Chorrillos,P00436,Chorrillos,Jr,489.9,2011-03-20,1657445.35,Residencial,Inactivo
+477,486,Ca. Amazonas 137 San Miguel,P00486,San Miguel,Ca,426.1,2021-05-30,1991574.31,Residencial,Activo
+478,110,Av. Emancipación 2601 Magdalena,P00110,Magdalena,Av,1297.3,2011-12-22,928336.85,Residencial,En litigio
+479,48,Jr. Tacna 1270 Int. 16 Miraflores,P00048,Miraflores,Jr,1443.9,2020-01-20,453016.29,Industrial,Activo
+480,418,Clle. Tacna 957 Magdalena,P00418,Magdalena,Clle,545.2,2016-11-16,624356.75,Industrial,En litigio
+481,382,Clle. Huancavelica 1768 Int. 5 Miraflores,P00382,Miraflores,Clle,1290.2,2019-10-17,1810844.41,Institucional,Inactivo
+482,560,Ca. Lima 663 Pueblo Libre,P00560,Pueblo Libre,Ca,1213.4,2021-10-27,761725.78,Residencial,Activo
+483,143,Clle. Ayacucho 307 Int. 5 Breña,P00143,Breña,Clle,1327.7,2017-01-13,1364455.78,Institucional,Activo
+484,437,Av. Javier Prado 2555 Int. 7 Magdalena,P00437,Magdalena,Av,445.4,2011-10-07,77861.85,Mixto,Inactivo
+485,66,,P00066,San Isidro,Urb,407.5,2017-07-25,1887394.7,Comercial,Activo
+486,293,Psj. Cajamarca 1884 Lince,P00293,Lince,Psj,828.5,2024-01-16,1087013.94,Industrial,Inactivo
+487,399,,P00399,Pueblo Libre,Clle,1181.2,2020-01-16,676161.37,Industrial,Activo
+488,17,San Martín 966 San Miguel,P00017,San Miguel,Ca,1108.4,2013-07-23,1540988.52,Residencial,Activo
+489,296,Av. Puno 2233 Surco,P00296,Surco,Av,584.3,2017-11-09,581884.07,Comercial,Inactivo
+490,2,Cajamarca 786 Chorrillos,P00002,Chorrillos,Ca,1048.4,2021-06-10,1294506.56,Comercial,En litigio
+491,6,Calle Universitaria 1369 Rímac,P00006,Rímac,Ca,585.2,2017-12-29,1362252.58,Residencial,Activo
+492,195,Ca. Puno 537 Magdalena,P00195,Magdalena,Ca,100.0,2017-07-06,310247.62,Industrial,Inactivo
+493,447,Urb. Javier Prado 1753 Miraflores,P00447,Miraflores,Urb,179.6,2015-01-10,1017196.45,Mixto,Inactivo
+494,492,Av. Arequipa 1325 Int. 1 Surco,P00492,Surco,Av,778.0,2021-05-21,1604697.61,Industrial,En litigio
+495,333,Urb. Huancavelica 3236 Int. 7 San Isidro,P00333,San Isidro,Urb,1121.0,2013-03-07,436857.13,Institucional,En litigio
+496,71,Psj. Universitaria 388 Barranco,P00071,Barranco,Psj,904.4,2013-07-14,1966242.22,Comercial,Inactivo
+497,67,Jr. Amazonas 657 Int. 19 Barranco,P00067,Barranco,Jr,1047.8,2021-08-13,324868.39,Industrial,En litigio
+498,404,Psj. Salaverry 3363 Int. 9 Surco,P00404,Surco,Psj,1493.5,2017-11-26,1665452.59,Mixto,Activo
+499,379,Ca. Camaná 775 San Miguel,P00379,San Miguel,Ca,93.3,2024-09-18,1295316.7,Institucional,Activo
+500,449,Ca. Ica 1653 Jesús María,P00449,Jesús María,Ca,398.2,2017-08-21,1353792.73,Industrial,Activo
+501,95,Clle. Huancavelica 904 Int. 3 Magdalena,P00095,Magdalena,Clle,1060.9,2019-04-20,1386667.28,Institucional,En litigio
+502,5,Psj. Cajamarca 826 Int. 8 La Victoria,P00005,La Victoria,Psj,738.8,2010-04-29,1135907.48,Residencial,Inactivo
+503,187,Jr. Cusco 600 San Isidro,P00187,San Isidro,Jr,253.0,2015-12-28,1116917.69,Residencial,Inactivo
+504,175,Av. Amazonas 1739 San Borja,P00175,San Borja,Av,931.6,2017-12-11,628253.6,Mixto,Inactivo
+505,151,Av. Huancavelica 429 Int. 1 Surco,P00151,Surco,Av,671.5,2023-06-15,1967068.73,Comercial,Activo
+506,213,Urb. Ayacucho 1944 Lince,P00213,Lince,Urb,974.9,2013-10-25,409457.47,Comercial,En litigio
+507,281,Psj. Ayacucho 761 Int. 19 Magdalena,P00281,Magdalena,Psj,1451.9,2021-07-22,963169.75,Comercial,Activo
+508,243,Ca. Abancay 2284 Lince,P00243,Lince,Ca,1459.9,2022-09-03,860422.48,Industrial,En litigio
+509,10,Pasaje Larco 1737 Surco,P00010,Surco,Psj,914.4,2022-05-17,1089553.36,Industrial,Activo
+510,130,Clle. Tacna 3039 Surco,P00130,Surco,Clle,1143.8,2020-03-31,1388721.37,Comercial,Activo
+511,450,Psj. Cusco 3193 La Victoria,P00450,La Victoria,Psj,1176.9,2016-05-10,118397.8,Institucional,Activo
+512,141,Jr. Ica 2622 San Miguel,P00141,San Miguel,Jr,86.7,2023-03-01,949572.21,Institucional,Activo
+513,61,Psj. Tacna 730 Barranco,P00061,Barranco,Psj,438.6,2019-04-26,1593423.94,Mixto,Activo
+514,158,Psj. Abancay 2851 La Victoria,P00158,La Victoria,Psj,1000.1,2021-05-19,1585772.5,Residencial,En litigio
+515,456,Clle. Ica 565 Int. 16 Pueblo Libre,P00456,Pueblo Libre,Clle,1463.6,2022-11-01,1483582.76,Residencial,En litigio
+516,537,Clle. Cajamarca 2105 San Miguel,P00537,San Miguel,Clle,1103.8,2021-08-30,1444883.38,Residencial,En litigio
+517,334,Clle. Abancay 801 Int. 17 San Isidro,P00334,San Isidro,Clle,833.2,2021-05-11,587591.23,Mixto,En litigio
+518,421,Ca. Universitaria 294 Int. 1 Rímac,P00421,Rímac,Ca,1458.9,26/09/2016,240710.18,Mixto,Activo
+519,374,Jr. Larco 2153 Int. 11 Breña,P00374,Breña,Jr,1352.6,2024-02-27,1966261.26,Mixto,Activo
+520,92,Urb. Grau 2375 Int. 5 Rímac,P00092,Rímac,Urb,1223.1,2021-03-13,1586063.76,Industrial,Activo
+521,14,Jr. San Martín 2774 Surco,P00014,Surco,Jr,408.1,2010-03-01,689717.4,Residencial,Activo
+522,395,Jr. Puno 2815 Int. 16 La Molina,P00395,La Molina,Jr,674.6,2014-11-25,380111.51,Residencial,Inactivo
+523,176,Av. Tacna 622 Int. 16 Jesús María,P00176,Jesús María,Av,961.9,2016-07-22,108421.66,Residencial,En litigio
+524,435,Jr. Ayacucho 657 Pueblo Libre,P00435,Pueblo Libre,Jr,67.6,2020-05-02,1285941.65,Residencial,Activo
+525,417,Psj. Cajamarca 2908 Magdalena,P00417,Magdalena,Psj,1046.1,2013-12-02,1574048.22,Industrial,Activo
+526,221,Clle. Leguía 1802 Barranco,P00221,Barranco,Clle,934.3,2024-09-13,480390.5,Mixto,En litigio
+527,12,Pasaje Tacna 3148 La Molina,P00012,La Molina,Psj,474.1,2018-06-02,1068666.89,Residencial,Inactivo
+528,270,Urb. Huánuco 623 Barranco,P00270,Barranco,Urb,242.4,2024-10-14,655873.65,Comercial,Activo
+529,237,Psj. Huánuco 1606 La Molina,P00237,La Molina,Psj,1238.4,2016-08-30,607806.44,Residencial,Inactivo
+530,354,Clle. La Marina 1774 Miraflores,P00354,Miraflores,Clle,1387.6,2024-09-09,185701.7,Institucional,Activo
+531,68,Clle. Lima 1809 Jesús María,P00068,Jesús María,Clle,829.5,2016-12-18,1877305.52,Industrial,En litigio
+532,518,Ca. Abancay 816 San Miguel,P00518,San Miguel,Ca,1325.5,2012-04-18,1668573.78,Residencial,En litigio
+533,485,Urb. Tacna 2678 Int. 8 Chorrillos,P00485,Chorrillos,Urb,1224.9,2010-10-16,1599030.23,Comercial,En litigio
+534,16,Calle Javier Prado 374 San Isidro,P00016,San Isidro,Ca,1098.7,2021-05-16,1486085.17,Comercial,Inactivo
+535,164,Clle. Wilson 430 Int. 14 San Isidro,P00164,San Isidro,Clle,1413.0,2010-03-25,598740.73,Industrial,En litigio
+536,8,Ca. Universitaria 1343 Rímac,P00008,Rímac,Ca,412.0,2021-04-08,1975663.89,Institucional,Inactivo
+537,363,,P00363,San Isidro,Ca,449.8,2014-07-31,1320443.12,Mixto,Activo
+538,44,Psj. Lima 530 Barranco,P00044,Barranco,Psj,802.7,2013-10-06,1249329.65,Sin definir,Inactivo
+539,91,Psj. Universitaria 1601 Lince,P00091,Lince,Psj,647.4,2024-12-15,168224.6,Residencial,En litigio
+540,376,Ca. Larco 2634 Int. 11 San Isidro,P00376,San Isidro,Ca,199.0,2022-11-23,315792.6,Comercial,Activo
+541,247,Ca. Tacna 858 Lince,P00247,Lince,Ca,179.5,2016-05-19,114299.06,Institucional,Inactivo
+542,84,Clle. Leguía 3285 Int. 12 Rímac,P00084,Rímac,Clle,678.4,2023-07-25,1162551.18,Institucional,Inactivo
+543,12,Psj. Tacna 3148 Int. 11 La Molina,P00012,La Molina,Psj,563.5,2021-01-06,1922673.03,Mixto,Activo
+544,477,,P00477,San Borja,Psj,1380.2,2022-09-20,1553968.23,Residencial,Inactivo
+545,7,Camaná 1200 San Borja,P00007,San Borja,Psj,459.1,2016-03-01,1803307.11,Residencial,En litigio
+546,508,Psj. San Martín 2144 Breña,P00508,Breña,Psj,668.8,2023-01-17,706873.21,Mixto,Activo
+547,180,Clle. Garcilazo de la Vega 2573 San Isidro,P00180,San Isidro,Clle,-20.1,2021-12-20,196767.08,Industrial,Inactivo
+548,442,Clle. Arequipa 2613 Int. 15 Miraflores,P00442,Miraflores,Clle,1278.8,2015-07-11,678612.24,Institucional,Inactivo
+549,317,Clle. Garcilazo de la Vega 1799 Int. 14 Rímac,P00317,Rímac,Clle,951.1,2023-11-25,525296.01,Mixto,Activo
+550,185,Av. Puno 539 Lince,P00185,Lince,Av,1111.2,2018-02-12,697760.27,Comercial,Activo
+551,53,Ca. Larco 721 Int. 10 Jesús María,P00053,Jesús María,Ca,730.4,2010-03-18,1140161.28,Industrial,Inactivo
+552,112,Av. Piura 2563 San Miguel,P00112,San Miguel,Av,360.7,2023-04-14,159005.65,Industrial,Activo
+553,543,Av. Arenales 1767 Int. 7 Lince,P00543,Lince,Av,1232.4,2012-05-06,129435.67,Industrial,Activo
+554,278,Jr. Universitaria 3153 Rímac,P00278,Rímac,Jr,176.6,2016-06-08,1388210.81,Institucional,Inactivo
+555,409,Jr. Petit Thouars 1224 Miraflores,P00409,Miraflores,Jr,-65.0,2013-03-06,1646387.89,Industrial,Inactivo
+556,483,Av. Puno 2533 San Borja,P00483,San Borja,Av,455.3,2024-01-15,474301.86,Comercial,Activo
+557,240,Ca. Ayacucho 161 Surco,P00240,Surco,Ca,762.8,2020-04-03,1946334.24,Residencial,Inactivo
+558,310,Psj. Ayacucho 2500 Lince,P00310,Lince,Psj,179.0,2021-05-09,1965682.83,Industrial,En litigio
+559,335,Clle. Javier Prado 2629 Int. 20 La Victoria,P00335,La Victoria,Clle,94.5,2010-06-01,1818787.48,Institucional,En litigio
+560,361,Av. Bolognesi 3288 Int. 19 Pueblo Libre,P00361,Pueblo Libre,Av,1284.1,2013-08-15,682557.67,,Activo
+561,218,Clle. Javier Prado 1831 Int. 10 La Molina,P00218,La Molina,Clle,404.9,2010-06-18,1054255.37,Institucional,Activo
+562,33,Urb. Huánuco 2915 Pueblo Libre,P00033,Pueblo Libre,Urb,555.8,2014-11-08,543455.17,Industrial,En litigio
+563,156,Jr. Moquegua 3427 La Victoria,P00156,La Victoria,Jr,1131.5,2011-05-08,664577.18,Residencial,En litigio
+564,444,Ca. Bolognesi 2103 Int. 10 Breña,P00444,Breña,Ca,1014.2,2018-09-09,6210823.37,Institucional,Demolido
+565,98,Jr. Salaverry 536 Int. 4 La Molina,P00098,La Molina,Jr,438.3,2021-11-12,1737818.64,Comercial,Inactivo
+566,455,Av. Piura 894 Int. 17 Surco,P00455,Surco,Av,1413.0,2020-10-28,1144645.35,Residencial,En litigio
+567,511,Urb. Angamos 690 San Miguel,P00511,San Miguel,Urb,1023.9,2018-06-23,437800.11,Industrial,Activo
+568,423,Clle. Petit Thouars 924 Int. 3 Rímac,P00423,Rímac,Clle,1470.8,2020-09-23,184725.12,Comercial,En litigio
+569,162,Urb. Arequipa 1355 Magdalena,P00162,Magdalena,Urb,686.7,2010-11-22,1748566.19,Comercial,Activo
+570,273,Ca. Cajamarca 857 Barranco,P00273,Barranco,Ca,370.7,2010-11-06,1496909.68,Industrial,Inactivo
+571,251,Ca. Bolognesi 2949 Jesús María,P00251,Jesús María,Ca,512.1,2011-11-24,489927.81,Industrial,Activo
+572,150,Av. San Martín 3488 San Isidro,P00150,San Isidro,Av,1428.3,2017-07-21,1885426.56,Comercial,Activo
+573,73,Av. Arequipa 559 Jesús María,P00073,Jesús María,Av,244.1,2019-09-08,501461.68,Mixto,En litigio
+574,144,Clle. Camaná 2728 Barranco,P00144,Barranco,Clle,425.9,2017-05-25,1195024.39,,Activo
+575,113,Clle. Grau 1666 Int. 1 San Isidro,P00113,San Isidro,Clle,247.6,2013-11-29,1953710.13,Industrial,Inactivo
+576,286,Clle. Javier Prado 1992 Chorrillos,P00286,Chorrillos,Clle,790.3,2020-09-07,265365.54,Institucional,En litigio
+577,15,Avenida Universitaria 1834 San Miguel,P00015,San Miguel,Av,167.6,2014-03-23,1711417.23,Residencial,Activo
+578,405,Psj. Camaná 2326 Surco,P00405,Surco,Psj,1128.3,2022-03-23,1871347.44,Institucional,Inactivo
+579,3,Urb. Arequipa 1917 Int. 14 Surco,P00003,Surco,Urb,557.6,2011-05-17,201166.64,Industrial,Inactivo
+580,211,Jr. Lima 1786 San Miguel,P00211,San Miguel,Jr,1245.5,2019-05-08,1833708.22,Comercial,Activo
+581,36,Ca. La Marina 3493 San Borja,P00036,San Borja,Ca,-73.1,2017-08-09,560633.48,Institucional,Activo
+582,473,Jr. Salaverry 2050 Surco,P00473,Surco,Jr,860.1,2024-04-24,1268527.12,Industrial,En litigio
+583,352,Psj. Arequipa 1792 Breña,P00352,Breña,Psj,1049.5,2019-09-01,460686.08,Residencial,En litigio
+584,393,Jr. Huancavelica 2721 Breña,P00393,Breña,Jr,410.1,06/03/2018,463100.84,Comercial,En litigio
+585,29,Psj. Javier Prado 532 Magdalena,P00029,Magdalena,Psj,884.5,2016-04-11,9500010.53,Residencial,Inactivo
+586,128,Jr. Cusco 2765 Lince,P00128,Lince,Jr,982.6,2017-10-13,359951.46,Residencial,Inactivo
+587,515,Jr. Cusco 2060 Int. 6 San Borja,P00515,San Borja,Jr,1381.7,2013-04-22,75751.81,,Activo
+588,327,Psj. Angamos 2169 Int. 17 Lince,P00327,Lince,Psj,556.4,2021-03-28,649723.25,Industrial,Inactivo
+589,306,Urb. Puno 121 Int. 8 Breña,P00306,Breña,Urb,229.1,2022-10-23,1949587.04,Mixto,En litigio
+590,545,Av. Wilson 2349 Breña,P00545,Breña,Av,1019.6,22/03/2014,1189356.04,Mixto,Inactivo
+591,496,Psj. Amazonas 3014 Chorrillos,P00496,Chorrillos,Psj,345.5,2017-01-23,655241.59,Industrial,En litigio
+592,359,Urb. Garcilazo de la Vega 1166 Barranco,P00359,Barranco,Urb,357.9,2019-12-01,637901.34,Residencial,Activo
+593,146,Urb. Amazonas 1720 Chorrillos,P00146,Chorrillos,Urb,841.4,2011-12-01,973405.1,Residencial,Activo
+594,309,Av. Garcilazo de la Vega 1067 Int. 13 La Victoria,P00309,La Victoria,Av,1020.9,2010-10-25,1211335.78,Comercial,Inactivo
+595,172,Clle. Grau 2750 La Molina,P00172,La Molina,Clle,679.5,2015-03-25,1077974.03,Industrial,Inactivo
+596,540,Clle. Universitaria 236 Chorrillos,P00540,Chorrillos,Clle,368.2,2023-09-04,423097.12,Residencial,Activo
+597,463,Urb. Grau 2922 San Miguel,P00463,San Miguel,Urb,205.7,2022-07-06,879595.37,Institucional,Activo
+598,498,Ca. Arenales 843 Miraflores,P00498,Miraflores,Ca,710.6,2011-03-06,439994.59,Residencial,Activo
+599,157,Clle. Wilson 1531 Barranco,P00157,Barranco,Clle,869.3,2022-09-27,514659.26,Industrial,Activo
+600,136,Clle. Universitaria 1749 Miraflores,P00136,Miraflores,Clle,663.1,2018-11-30,1531338.22,Comercial,Inactivo
