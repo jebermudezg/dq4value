@@ -392,12 +392,13 @@ def test_sugiere_brecha_afin_para_personas():
     assert razon
 
 
-def test_sugiere_brecha_afin_para_direcciones():
-    """Columna con indicadores de vía → brecha_afin."""
+def test_sugiere_monge_elkan_para_direcciones():
+    """Columna con indicadores de vía → monge_elkan (calibración: F1=0.86 vs 0.64 de brecha_afin)."""
     s = pd.Series([f'Av. Los Incas {i}, Lima'    for i in range(8)]
                 + [f'Jr. Manco Cápac {i}, Cusco' for i in range(7)])
     alg, umb, razon = sugerir_algoritmo_similitud(perfil_nombres(s))
-    assert alg == 'brecha_afin', f'Sugirió {alg}'
+    assert alg == 'monge_elkan', f'Sugirió {alg}'
+    assert umb == 92
 
 
 def test_caso_ambiguo_prefiere_precision():

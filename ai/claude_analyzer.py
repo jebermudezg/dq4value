@@ -120,11 +120,12 @@ def sugerir_algoritmo_similitud(perfil_col: dict) -> tuple:
         (algoritmo: str, umbral: int, razon: str)
 
     Prioridad de decisión:
-      1. Sufijos societarios ≥ 15 % → qgrams (estructura compartida infla brecha_afin)
-      2. Baja diversidad de primera palabra (ratio < 0.10) → qgrams (mismo motivo)
-      3. Indicadores de dirección (vías ≥ 15 % o dígitos ≥ 40 %) → brecha_afin
-      4. Nombres de personas (2–4 tokens, sin sufijos, sin dígitos) → brecha_afin
-      5. Sin señales claras → qgrams (preferir precisión: FP > FN en deduplicación)
+      1. Sufijos societarios ≥ 15 % → qgrams@86   (estructura compartida infla brecha_afin)
+      2. Indicadores de vía ≥ 15 %   → monge_elkan@92 (F1=0.86 vs 0.64 de brecha_afin)
+      3. Dígitos ≥ 40 % (sin vía)    → brecha_afin@94 (umbrales bajos → falsos positivos masivos)
+      4. Nombres de personas (2–4 tokens, sin sufijos, sin dígitos) → brecha_afin@88
+      5. Baja diversidad primera palabra (ratio < 0.10) → qgrams@86
+      6. Sin señales claras → qgrams@86 (preferir precisión: FP > FN en deduplicación)
     """
     p    = perfil_col or {}
     suf   = p.get('pct_sufijo_rs', 0)
@@ -135,11 +136,12 @@ def sugerir_algoritmo_similitud(perfil_col: dict) -> tuple:
     dist  = p.get('primeras_distintas', 0)
 
     # Prioridad de decisión (orden importa):
-    # 1. Sufijo RS explícito   → qgrams          (señal de contenido más fuerte para RS)
-    # 2. Indicadores de vía    → brecha_afin      (dirección antes del chequeo de ratio)
-    # 3. Patrón de persona     → brecha_afin      (2-4 tokens, sin sufijos, sin dígitos)
-    # 4. Primera palabra baja  → qgrams           (prefijo muy repetido = estructura RS)
-    # 5. Sin señales           → qgrams           (preferir precisión sobre recall)
+    # 1. Sufijo RS explícito   → qgrams@86        (señal de contenido más fuerte para RS)
+    # 2. Indicadores de vía    → monge_elkan@92   (direcciones: ME dobla recall vs brecha_afin)
+    # 3. Dígitos ≥ 40 %        → brecha_afin@94   (códigos/referencias con truncado variable)
+    # 4. Patrón de persona     → brecha_afin@88   (2-4 tokens, sin sufijos, sin dígitos)
+    # 5. Primera palabra baja  → qgrams@86        (prefijo muy repetido = estructura RS)
+    # 6. Sin señales           → qgrams@86        (preferir precisión sobre recall)
 
     if suf >= 15:
         return (
@@ -148,21 +150,29 @@ def sugerir_algoritmo_similitud(perfil_col: dict) -> tuple:
             f'Q-grams no se infla por esa estructura compartida — '
             f'Brecha Afín marcó como parecidas 4/5 empresas distintas en las pruebas de calibración.',
         )
-    if via >= 15 or dig >= 40:
+    if via >= 15:
         return (
-            'brecha_afin', 90,
+            'monge_elkan', 92,
             'La columna parece contener direcciones '
             f'({via:.0f}% con indicadores de vía, {dig:.0f}% con dígitos). '
-            'Brecha Afín tolera mejor las abreviaturas de vía y los tokens faltantes '
-            '(F1=0.644 vs F1=0.206 de Q-grams en calibración).',
+            'Monge-Elkán supera a Brecha Afín en este tipo de dato: '
+            'F1=0.862 vs F1=0.644 en calibración (R=0.83 vs R=0.48).',
+        )
+    if dig >= 40:
+        return (
+            'brecha_afin', 94,
+            f'El {dig:.0f}% de los valores contiene dígitos '
+            '(posiblemente códigos, números de referencia o valores mixtos). '
+            'Brecha Afín a umbral 94 logra P=0.75 R=1.00 F1=0.857 en calibración — '
+            'umbrales más bajos producen demasiados falsos positivos en este tipo de dato.',
         )
     if 2 <= toks <= 4 and suf < 5 and dig < 10:
         return (
-            'brecha_afin', 90,
+            'brecha_afin', 88,
             f'La columna parece contener nombres de personas '
             f'({toks:.1f} tokens promedio, sin sufijos societarios, sin dígitos). '
             'Brecha Afín es 3× más preciso que Q-grams en nombres con errores de tipeo '
-            '(F1=0.878 vs F1=0.292 en calibración).',
+            '(F1=0.886 a umbral 88 en calibración).',
         )
     if ratio < 0.10:
         return (

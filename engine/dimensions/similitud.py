@@ -52,6 +52,13 @@ def _normalizar(texto: str) -> str:
     if pd.isna(texto):
         return ''
     texto = unidecode(str(texto).lower().strip())
+    # Dot removal — three cases in order, to avoid pasting words together:
+    #   1. Dot before whitespace (e.g. "Corp. Lima") → replace with space
+    #   2. Trailing dot ("S.A.C.") → remove
+    #   3. Dot between word-chars (abbreviation, e.g. "S.A.C" → "SAC") → remove
+    texto = re.sub(r'\.(?=\s)', ' ', texto)
+    texto = re.sub(r'\.$', '', texto)
+    texto = re.sub(r'(?<=\w)\.(?=\w)', '', texto)
     texto = re.sub(r'[^a-z0-9\s]', ' ', texto)
     texto = re.sub(r'\s+', ' ', texto).strip()
     return texto
