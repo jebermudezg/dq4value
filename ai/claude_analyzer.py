@@ -82,6 +82,8 @@ def _get_column_context(col_meta: dict, col_profile: Optional[dict]) -> dict:
         "formatos_fecha":      p.get("formatos_detectados", []) or [],
         # Categórico
         "desbalance_extremo":  p.get("desbalance_extremo", False),
+        # Señales de contenido para selección de algoritmo de similitud
+        "perfil_nombres":      p.get("perfil_nombres", {}),
     }
 
 
@@ -101,6 +103,81 @@ def _sug(dimension: str, confianza: str, razon: str, **params) -> dict:
 # ─────────────────────────────────────────────────────────────────────────────
 # Core rule engine
 # ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Selección de algoritmo de similitud basada en señales del contenido
+# ─────────────────────────────────────────────────────────────────────────────
+
+def sugerir_algoritmo_similitud(perfil_col: dict) -> tuple:
+    """
+    Decide el algoritmo de similitud óptimo mirando señales del contenido.
+
+    Args:
+        perfil_col: dict con las señales de engine.profiler.perfil_nombres().
+                    Puede ser {} si no hay perfil disponible.
+
+    Returns:
+        (algoritmo: str, umbral: int, razon: str)
+
+    Prioridad de decisión:
+      1. Sufijos societarios ≥ 15 % → qgrams (estructura compartida infla brecha_afin)
+      2. Baja diversidad de primera palabra (ratio < 0.10) → qgrams (mismo motivo)
+      3. Indicadores de dirección (vías ≥ 15 % o dígitos ≥ 40 %) → brecha_afin
+      4. Nombres de personas (2–4 tokens, sin sufijos, sin dígitos) → brecha_afin
+      5. Sin señales claras → qgrams (preferir precisión: FP > FN en deduplicación)
+    """
+    p    = perfil_col or {}
+    suf   = p.get('pct_sufijo_rs', 0)
+    via   = p.get('pct_via_urbana', 0)
+    ratio = p.get('ratio_primera_palabra', 1.0)
+    toks  = p.get('tokens_promedio', 0)
+    dig   = p.get('pct_con_digito', 0)
+    dist  = p.get('primeras_distintas', 0)
+
+    # Prioridad de decisión (orden importa):
+    # 1. Sufijo RS explícito   → qgrams          (señal de contenido más fuerte para RS)
+    # 2. Indicadores de vía    → brecha_afin      (dirección antes del chequeo de ratio)
+    # 3. Patrón de persona     → brecha_afin      (2-4 tokens, sin sufijos, sin dígitos)
+    # 4. Primera palabra baja  → qgrams           (prefijo muy repetido = estructura RS)
+    # 5. Sin señales           → qgrams           (preferir precisión sobre recall)
+
+    if suf >= 15:
+        return (
+            'qgrams', 86,
+            f'El {suf}% de los valores termina en sufijo societario (S.A.C., E.I.R.L., etc.). '
+            f'Q-grams no se infla por esa estructura compartida — '
+            f'Brecha Afín marcó como parecidas 4/5 empresas distintas en las pruebas de calibración.',
+        )
+    if via >= 15 or dig >= 40:
+        return (
+            'brecha_afin', 90,
+            'La columna parece contener direcciones '
+            f'({via:.0f}% con indicadores de vía, {dig:.0f}% con dígitos). '
+            'Brecha Afín tolera mejor las abreviaturas de vía y los tokens faltantes '
+            '(F1=0.644 vs F1=0.206 de Q-grams en calibración).',
+        )
+    if 2 <= toks <= 4 and suf < 5 and dig < 10:
+        return (
+            'brecha_afin', 90,
+            f'La columna parece contener nombres de personas '
+            f'({toks:.1f} tokens promedio, sin sufijos societarios, sin dígitos). '
+            'Brecha Afín es 3× más preciso que Q-grams en nombres con errores de tipeo '
+            '(F1=0.878 vs F1=0.292 en calibración).',
+        )
+    if ratio < 0.10:
+        return (
+            'qgrams', 86,
+            f'Solo {dist} primeras palabras distintas en la columna '
+            f'(ratio {ratio:.2f}). Cuando los nombres comparten prefijo, '
+            f'Brecha Afín tiende a marcar como parecidos valores que en realidad son distintos.',
+        )
+    return (
+        'qgrams', 86,
+        'No hay señales claras sobre el tipo de dato. '
+        'Se prefiere Q-grams por su mayor precisión: '
+        'fusionar dos registros distintos por error cuesta más que dejar un duplicado sin detectar.',
+    )
+
 
 def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
     sugs: list[dict] = []
@@ -381,48 +458,21 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
                 if tiene_abreviaturas_explicitas:
                     break
 
-            # Calibración multi-dataset (2026-08-13):
-            #   brecha_afin gana en 3 de 4 tipos: tipográficos (F1=0.878@86%),
-            #   tokens desordenados (F1=0.644@92%), pocos dups (F1=0.857@94%).
-            #   q-grams gana solo en variación de sufijos/formato (F1=0.930@86%)
-            #   pero es 3× peor en typos (F1=0.29).
-            # Umbral intermedio 90% cubre typos+tokens; 96% para abreviaturas explícitas.
+            # Selección de algoritmo: abreviaturas explícitas tienen prioridad máxima
+            # (evidencia directa en los datos), luego se usan las señales de contenido.
             if tiene_abreviaturas_explicitas:
                 algoritmo_sug = 'brecha_afin'
-                umbral_sug = 96
-                razon_sug = (
+                umbral_sug    = 96
+                razon_sug     = (
                     "El perfil detectó abreviaturas explícitas (tokens cortos terminados en '.'). "
-                    "Brecha Afín penaliza menos las diferencias de longitud. "
-                    "Calibrado: P=100% R=94.7% a umbral 96%."
-                )
-            elif _contains(n, "nombre", "name", "apellido", "persona", "empleado",
-                           "trabajador", "funcionario", "paciente", "alumno", "cliente"):
-                # Nombres de personas: brecha_afin a 86% captura errores de tipeo (F1=0.878)
-                algoritmo_sug = 'brecha_afin'
-                umbral_sug = 86
-                razon_sug = (
-                    f"Columna de nombres de personas — Brecha Afín detecta errores de tipeo "
-                    f"3× mejor que Q-grams en calibración (F1=0.878 vs 0.292 a umbral 86%). "
-                    f"Grupos detectados: {grupos_str}."
-                )
-            elif _contains(n, "direccion", "address", "domicilio", "ubicacion"):
-                # Direcciones: tokens desordenados → brecha_afin_normalizar
-                algoritmo_sug = 'brecha_afin'
-                umbral_sug = 92
-                razon_sug = (
-                    f"Columna de dirección — Brecha Afín con normalización detecta tokens "
-                    f"desordenados y abreviaturas de vía (F1=0.644 a umbral 92%). "
-                    f"Grupos detectados: {grupos_str}."
+                    "Brecha Afín penaliza menos las diferencias de longitud entre la forma "
+                    "completa y su abreviatura. Calibrado: P=100% R=94.7% a umbral 96%."
                 )
             else:
-                # Default general (razones sociales, descripciones): brecha_afin@90%
-                algoritmo_sug = 'brecha_afin'
-                umbral_sug = 90
-                razon_sug = (
-                    f"Brecha Afín es el algoritmo más robusto en calibración multi-dataset "
-                    f"(gana en 3 de 4 tipos). Umbral 90% equilibra precisión y exhaustividad. "
-                    f"Grupos detectados: {grupos_str}."
+                algoritmo_sug, umbral_sug, razon_sug = sugerir_algoritmo_similitud(
+                    ctx.get("perfil_nombres", {})
                 )
+                razon_sug = razon_sug + f" Grupos detectados: {grupos_str}."
             sugs.append(_sug(
                 "similitud", "alta",
                 razon_sug,
@@ -430,16 +480,20 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
             ))
         elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
                        "cliente", "descripcion", "direccion", "address", "apellido"):
-            # Sin variantes detectadas por perfil pero el nombre sugiere similitud
-            if _contains(n, "nombre", "name", "apellido", "persona"):
-                alg, umbr = "brecha_afin", 86
-                nota = "Brecha Afín recomendado para nombres de personas (F1=0.878@86%)."
-            elif _contains(n, "direccion", "address", "domicilio"):
-                alg, umbr = "brecha_afin", 92
-                nota = "Brecha Afín recomendado para direcciones (F1=0.644@92%)."
-            else:
+            # Sin variantes detectadas: usar señales de contenido si hay perfil,
+            # si no, usar el nombre de la columna como pista secundaria.
+            perfil_col = ctx.get("perfil_nombres", {})
+            if perfil_col:
+                alg, umbr, nota = sugerir_algoritmo_similitud(perfil_col)
+            elif _contains(n, "nombre", "name", "apellido", "persona"):
                 alg, umbr = "brecha_afin", 90
-                nota = "Brecha Afín recomendado como default general (umbral 90%)."
+                nota = "Brecha Afín recomendado para nombres de personas (F1=0.878)."
+            elif _contains(n, "direccion", "address", "domicilio"):
+                alg, umbr = "brecha_afin", 90
+                nota = "Brecha Afín recomendado para direcciones (F1=0.644)."
+            else:
+                alg, umbr = "qgrams", 86
+                nota = "Q-grams como default de mayor precisión (menor riesgo de falsos positivos)."
             sugs.append(_sug(
                 "similitud", "media", nota,
                 algoritmo=alg, umbral=umbr,

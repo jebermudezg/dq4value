@@ -328,3 +328,124 @@ def test_todas_las_dimensiones_en_todas_las_matrices():
     for nombre, perfil in {**MATRIZ_PROPOSITOS, **MATRIZ_TIPOS_IA}.items():
         faltantes = set(DIMENSIONES) - set(perfil.keys())
         assert not faltantes, f"{nombre} le faltan: {faltantes}"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tests para perfil_nombres() y sugerir_algoritmo_similitud()
+# ─────────────────────────────────────────────────────────────────────────────
+
+from engine.profiler import perfil_nombres
+from ai.claude_analyzer import sugerir_algoritmo_similitud
+
+
+def test_perfil_nombres_vacio_devuelve_dict_vacio():
+    """Con menos de 10 valores no hay señales fiables — devuelve {}."""
+    s = pd.Series(['Ana', 'Luis', 'María'])
+    assert perfil_nombres(s) == {}
+
+
+def test_perfil_nombres_detecta_sufijo_rs():
+    s = pd.Series([f'{p} {n} S.A.C.'
+                   for p in ['Constructora', 'Servicios', 'Textiles']
+                   for n in ['Andina', 'Huascarán', 'Pacífico', 'Titicaca', 'Misti']])
+    p = perfil_nombres(s)
+    assert p['pct_sufijo_rs'] == 100.0
+
+
+def test_perfil_nombres_detecta_via():
+    s = pd.Series([f'Av. Los Incas {i}, Lima'     for i in range(8)]
+                + [f'Jr. Manco Cápac {i}, Cusco'  for i in range(7)])
+    p = perfil_nombres(s)
+    assert p['pct_via_urbana'] >= 90
+
+
+def test_perfil_nombres_detecta_tokens_persona():
+    s = pd.Series(['Carlos Quispe Flores', 'María Mamani Rojas', 'Juan Vargas Tito',
+                   'Rosa Huamán Apaza',   'Luis Condori Ramos',  'Elena Chávez Paredes',
+                   'Jorge Salazar Castillo','Patricia Rojas Inca','Víctor Ayma Puma',
+                   'Lucía Tito Choque',   'Fernando Cusi Llanos', 'Beatriz Rivas Ccallo'])
+    p = perfil_nombres(s)
+    assert 2 <= p['tokens_promedio'] <= 4
+    assert p['pct_sufijo_rs'] == 0.0
+    assert p['pct_con_digito'] == 0.0
+
+
+def test_sugiere_qgrams_para_razon_social():
+    """Columna con 100% de sufijos societarios → qgrams."""
+    s = pd.Series([f'{p} {n} S.A.C.'
+                   for p in ['Constructora', 'Servicios', 'Textiles']
+                   for n in ['Andina', 'Huascarán', 'Pacífico', 'Titicaca', 'Misti']])
+    alg, umb, razon = sugerir_algoritmo_similitud(perfil_nombres(s))
+    assert alg == 'qgrams', f'Sugirió {alg}'
+    assert umb == 86
+    assert razon
+
+
+def test_sugiere_brecha_afin_para_personas():
+    """Columna de nombres de personas (3 tokens, sin sufijos, sin dígitos) → brecha_afin."""
+    s = pd.Series(['Carlos Quispe Flores', 'María Mamani Rojas', 'Juan Vargas Tito',
+                   'Rosa Huamán Apaza',   'Luis Condori Ramos',  'Elena Chávez Paredes',
+                   'Jorge Salazar Castillo','Patricia Rojas Inca','Víctor Ayma Puma',
+                   'Lucía Tito Choque',   'Fernando Cusi Llanos', 'Beatriz Rivas Ccallo'])
+    alg, umb, razon = sugerir_algoritmo_similitud(perfil_nombres(s))
+    assert alg == 'brecha_afin', f'Sugirió {alg}'
+    assert razon
+
+
+def test_sugiere_brecha_afin_para_direcciones():
+    """Columna con indicadores de vía → brecha_afin."""
+    s = pd.Series([f'Av. Los Incas {i}, Lima'    for i in range(8)]
+                + [f'Jr. Manco Cápac {i}, Cusco' for i in range(7)])
+    alg, umb, razon = sugerir_algoritmo_similitud(perfil_nombres(s))
+    assert alg == 'brecha_afin', f'Sugirió {alg}'
+
+
+def test_caso_ambiguo_prefiere_precision():
+    """Sin señales claras → qgrams (menor riesgo de falsos positivos)."""
+    alg, umb, razon = sugerir_algoritmo_similitud({})
+    assert alg == 'qgrams'
+    assert razon
+
+
+def test_perfil_nombres_expuesto_en_profile_texto():
+    """_profile_text debe incluir la clave 'perfil_nombres' en el perfil.
+    Usamos >20 valores únicos para que el profiler los clasifique como 'texto'
+    (no como categórico) y ejecute _profile_text."""
+    nombres = [
+        'Ana Quispe Flores',   'Luis Mamani Rojas',   'Rosa Condori Apaza',
+        'Carlos Vargas Tito',  'Elena Chávez Paredes','Jorge Salazar Castillo',
+        'Patricia Rojas Inca', 'Víctor Ayma Puma',    'Lucía Tito Choque',
+        'Fernando Cusi Llanos','Beatriz Rivas Ccallo', 'Juan Flores Huamán',
+        'Marta Quispe Apaza',  'César Condori Mamani','Diana Vargas Flores',
+        'Pedro Chávez Quispe', 'Silvia Salazar Rojas','Raúl Rojas Condori',
+        'Ivonne Ayma Flores',  'Mario Tito Vargas',   'Gloria Ccallo Chávez',
+    ]
+    df = pd.DataFrame({'col': nombres})
+    perfil = profile_dataset(df)
+    col_p = perfil['columnas']['col']
+    assert 'perfil_nombres' in col_p, (
+        f"perfil_nombres no aparece en profile_dataset. "
+        f"tipo_perfil='{col_p.get('tipo_perfil')}', claves={sorted(col_p.keys())}"
+    )
+    assert isinstance(col_p['perfil_nombres'], dict)
+
+
+def test_sugerencia_similitud_integrada_usa_perfil_nombres():
+    """suggest_dimensions_rules usa perfil_nombres cuando hay perfil disponible."""
+    import pandas as pd
+    from ai.claude_analyzer import suggest_dimensions_rules
+    from engine.profiler import profile_dataset
+
+    df = pd.DataFrame({'razon': [f'Constructora {n} S.A.C.'
+                                 for n in ['Andina','Huascarán','Pacífico',
+                                           'Titicaca','Misti','Caral','Pisco',
+                                           'Ucayali','Manu','Marañón',
+                                           'Illimani','Lima','Arequipa',
+                                           'Piura','Cusco']]})
+    perfil_ds = profile_dataset(df)
+    col_meta = [{'nombre': 'razon', 'tipo': 'object', 'total_registros': 15, 'valores_nulos': 0}]
+    sugs = suggest_dimensions_rules(col_meta, profile=perfil_ds['columnas'])
+    dim_sim = next((d for d in sugs[0]['dimensiones'] if d['dimension'] == 'similitud'), None)
+    if dim_sim:
+        assert dim_sim['params'].get('algoritmo') == 'qgrams', \
+            f"Para RS con sufijos debería sugerir qgrams, no {dim_sim['params'].get('algoritmo')}"

@@ -3368,8 +3368,16 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
                 <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.6rem .85rem;font-size:.8rem;color:#92400e;line-height:1.5;margin-bottom:.65rem">
                   ⚠️ <strong>Precisión vs. recall:</strong> En razones sociales un falso positivo (fusionar dos empresas distintas) es más costoso que un falso negativo (dejar pasar un duplicado). Por eso el default requiere P = 100%. Si toleras algunos falsos positivos a cambio de detectar más duplicados, usa Brecha Afín (umbral 96%) o Monge-Elkan.
                 </div>
+                <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:.65rem .85rem;font-size:.79rem;color:#0369a1;line-height:1.6;margin-bottom:.65rem">
+                  💡 <strong>Cómo elige el sistema el algoritmo sugerido:</strong>
+                  El sistema mira el contenido real de la columna antes de sugerir. Si detecta que muchos valores terminan en sufijo societario (S.A.C., E.I.R.L., etc.) o que las primeras palabras se repiten mucho, propone <strong>Q-grams</strong>: en ese tipo de datos, los algoritmos que alinean cadena completa se inflan por la estructura compartida y marcan como parecidas empresas que solo tienen el mismo prefijo.
+                  Para columnas con 2–4 tokens por valor, sin sufijos ni dígitos — señal de nombres de personas — propone <strong>Brecha Afín</strong>, que detecta errores de tipeo 3× mejor (F1 0.878 vs 0.292 en calibración).
+                  Para columnas con indicadores de vía (Av., Jr., Calle…) o porcentaje alto de dígitos, también propone <strong>Brecha Afín</strong>, que tolera mejor los tokens reordenados y las abreviaturas de calle.
+                  Cuando no hay señales claras, el sistema prefiere el algoritmo de mayor precisión — porque fusionar dos registros distintos por error cuesta más que dejar un duplicado sin detectar.
+                  La razón específica aparece en gris bajo el selector cuando aplicas las sugerencias automáticas. Puedes cambiar el algoritmo en cualquier momento.
+                </div>
                 <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.79rem;color:var(--sub);line-height:1.5">
-                  📌 <strong>Alcance de la calibración:</strong> Variaciones de sufijos societarios (S.A.C. vs SAC), tildes, mayúsculas y abreviaturas explícitas ("Repres."). Errores tipográficos, reordenamientos de palabras o palabras faltantes no están representados — para esos casos considera Smith-Waterman o Jaro-Winkler.
+                  📌 <strong>Alcance de la calibración original:</strong> Variaciones de sufijos societarios (S.A.C. vs SAC), tildes, mayúsculas y abreviaturas explícitas ("Repres."). Errores tipográficos, reordenamientos de palabras o palabras faltantes no están representados — para esos casos considera Brecha Afín o Smith-Waterman.
                 </div>
               </div>
             </details>
@@ -5178,6 +5186,15 @@ async function suggestConfig() {
 
         // Rellenar parámetros según dimensión
         _applyDimParams(sid, dimKey, params);
+
+        // Para similitud: mostrar la razón debajo del selector de algoritmo
+        if (dimKey === 'similitud' && dimRazon) {
+          const algoReasonEl = document.getElementById(`p-${sid}-algo-reason`);
+          if (algoReasonEl) {
+            algoReasonEl.textContent = `💡 ${dimRazon}`;
+            algoReasonEl.style.display = 'block';
+          }
+        }
       });
 
       colCount++;
@@ -5484,6 +5501,7 @@ function buildParamInputs(colName, dtype) {
             ⚠ Este algoritmo es lento en datasets grandes — con más de 5 000 registros puede tardar varios minutos por columna.
           </div>
         </div>
+        <div id="p-${sid}-algo-reason" style="display:none;font-size:.78rem;color:var(--sub);line-height:1.4;padding:.25rem 0 0 2px"></div>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
           <label>Qué tan parecidos deben ser:</label>
           <input type="number" id="p-${sid}-umbral" value="90" min="70" max="99" style="width:80px" />

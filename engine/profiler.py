@@ -102,6 +102,65 @@ def _detect_format(series: pd.Series) -> str:
     return best if counts[best] >= threshold else "texto_libre"
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Señales de contenido para elección de algoritmo de similitud
+# ─────────────────────────────────────────────────────────────────────────────
+
+SUFIJOS_RS = (
+    'sac', 's.a.c', 's.a.c.', 'sa', 's.a', 's.a.',
+    'eirl', 'e.i.r.l', 'e.i.r.l.',
+    'srl', 's.r.l', 's.r.l.',
+    'sas', 's.a.s.', 'ltda', 'ltda.',
+)
+
+VIAS = (
+    'av.', 'av ', 'jr.', 'jr ', 'calle', 'mz.', 'mz ',
+    'psje', 'pasaje', 'urb.', 'urb ', 'carretera', 'panamericana',
+)
+
+
+def perfil_nombres(serie: "pd.Series") -> dict:
+    """
+    Calcula señales de contenido para elegir el algoritmo de similitud óptimo.
+
+    Returns dict con:
+      pct_sufijo_rs        — % de valores cuya última palabra es un sufijo societario
+      pct_via_urbana       — % de valores que contienen una palabra de vía urbana
+      ratio_primera_palabra — distintas_primeras_palabras / total (baja = prefijo muy repetido)
+      primeras_distintas   — conteo absoluto de primeras palabras distintas
+      tokens_promedio      — promedio de tokens por valor (espacio como separador)
+      pct_con_digito       — % de valores que contienen al menos un dígito
+    """
+    vals = [str(v).strip() for v in serie.dropna() if str(v).strip()]
+    if len(vals) < 10:
+        return {}
+    n = len(vals)
+    bajos = [v.lower() for v in vals]
+
+    # Sufijo societario: última palabra (tras quitar coma si la hay)
+    con_sufijo = sum(
+        1 for v in bajos
+        if v.replace(',', ' ').split()[-1] in SUFIJOS_RS
+    )
+
+    # Indicadores de vía urbana en el valor completo
+    con_via = sum(1 for v in bajos if any(x in v for x in VIAS))
+
+    # Diversidad de primera palabra (alta = muchos prefijos distintos = columna RS o nombres)
+    primeras = {v.split()[0] for v in bajos if v.split()}
+    tokens_prom = sum(len(v.split()) for v in vals) / n
+    con_digito  = sum(1 for v in vals if any(c.isdigit() for c in v))
+
+    return {
+        'pct_sufijo_rs':         round(con_sufijo / n * 100, 1),
+        'pct_via_urbana':        round(con_via / n * 100, 1),
+        'ratio_primera_palabra': round(len(primeras) / n, 3),
+        'primeras_distintas':    len(primeras),
+        'tokens_promedio':       round(tokens_prom, 1),
+        'pct_con_digito':        round(con_digito / n * 100, 1),
+    }
+
+
 def _variantes_similares(values: list[str]) -> list[list[str]]:
     """Agrupa strings que son iguales al normalizar (strip + lower)."""
     groups: dict[str, list[str]] = {}
@@ -249,6 +308,9 @@ def _profile_text(col: str, series: pd.Series, total: int) -> dict:
 
     variantes = _variantes_similares(top10_vc.index.tolist()) if es_catalogo else []
 
+    # Señales de contenido para elección de algoritmo de similitud
+    p_nombres = _safe(lambda: perfil_nombres(series), {})
+
     return {
         "tipo_perfil": "texto",
         "total_unicos": unicos,
@@ -267,6 +329,7 @@ def _profile_text(col: str, series: pd.Series, total: int) -> dict:
         "top_10_valores": top10,
         "variantes_similares": variantes,
         "distribucion_longitudes": _dist_longitudes(series),
+        "perfil_nombres": p_nombres,
     }
 
 
