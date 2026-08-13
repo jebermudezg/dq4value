@@ -381,20 +381,47 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
                 if tiene_abreviaturas_explicitas:
                     break
 
+            # Calibración multi-dataset (2026-08-13):
+            #   brecha_afin gana en 3 de 4 tipos: tipográficos (F1=0.878@86%),
+            #   tokens desordenados (F1=0.644@92%), pocos dups (F1=0.857@94%).
+            #   q-grams gana solo en variación de sufijos/formato (F1=0.930@86%)
+            #   pero es 3× peor en typos (F1=0.29).
+            # Umbral intermedio 90% cubre typos+tokens; 96% para abreviaturas explícitas.
             if tiene_abreviaturas_explicitas:
                 algoritmo_sug = 'brecha_afin'
-                umbral_sug = 96   # 94% da F1=1.0 sobreajustado al set; 96% es más robusto
+                umbral_sug = 96
                 razon_sug = (
                     "El perfil detectó abreviaturas explícitas (tokens cortos terminados en '.'). "
-                    "Brecha Afín penaliza menos las diferencias de longitud que producen las abreviaturas "
-                    "(P=100% R=94.7% a umbral 96%)."
+                    "Brecha Afín penaliza menos las diferencias de longitud. "
+                    "Calibrado: P=100% R=94.7% a umbral 96%."
+                )
+            elif _contains(n, "nombre", "name", "apellido", "persona", "empleado",
+                           "trabajador", "funcionario", "paciente", "alumno", "cliente"):
+                # Nombres de personas: brecha_afin a 86% captura errores de tipeo (F1=0.878)
+                algoritmo_sug = 'brecha_afin'
+                umbral_sug = 86
+                razon_sug = (
+                    f"Columna de nombres de personas — Brecha Afín detecta errores de tipeo "
+                    f"3× mejor que Q-grams en calibración (F1=0.878 vs 0.292 a umbral 86%). "
+                    f"Grupos detectados: {grupos_str}."
+                )
+            elif _contains(n, "direccion", "address", "domicilio", "ubicacion"):
+                # Direcciones: tokens desordenados → brecha_afin_normalizar
+                algoritmo_sug = 'brecha_afin'
+                umbral_sug = 92
+                razon_sug = (
+                    f"Columna de dirección — Brecha Afín con normalización detecta tokens "
+                    f"desordenados y abreviaturas de vía (F1=0.644 a umbral 92%). "
+                    f"Grupos detectados: {grupos_str}."
                 )
             else:
-                algoritmo_sug = 'qgrams'
-                umbral_sug = 86   # mejor F1=0.930 calibrado en maestro_proveedores_1000.csv
+                # Default general (razones sociales, descripciones): brecha_afin@90%
+                algoritmo_sug = 'brecha_afin'
+                umbral_sug = 90
                 razon_sug = (
-                    f"Q-grams obtuvo la mejor precisión en razones sociales durante la calibración "
-                    f"(F1=0.93, P=100%, R=86.8%). Grupos detectados: {grupos_str}."
+                    f"Brecha Afín es el algoritmo más robusto en calibración multi-dataset "
+                    f"(gana en 3 de 4 tipos). Umbral 90% equilibra precisión y exhaustividad. "
+                    f"Grupos detectados: {grupos_str}."
                 )
             sugs.append(_sug(
                 "similitud", "alta",
@@ -402,11 +429,20 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
                 algoritmo=algoritmo_sug, umbral=umbral_sug,
             ))
         elif _contains(n, "nombre", "name", "empresa", "razon_social", "proveedor",
-                       "cliente", "descripcion", "direccion", "address"):
+                       "cliente", "descripcion", "direccion", "address", "apellido"):
+            # Sin variantes detectadas por perfil pero el nombre sugiere similitud
+            if _contains(n, "nombre", "name", "apellido", "persona"):
+                alg, umbr = "brecha_afin", 86
+                nota = "Brecha Afín recomendado para nombres de personas (F1=0.878@86%)."
+            elif _contains(n, "direccion", "address", "domicilio"):
+                alg, umbr = "brecha_afin", 92
+                nota = "Brecha Afín recomendado para direcciones (F1=0.644@92%)."
+            else:
+                alg, umbr = "brecha_afin", 90
+                nota = "Brecha Afín recomendado como default general (umbral 90%)."
             sugs.append(_sug(
-                "similitud", "media",
-                "Columna de texto libre con nombres de empresas o personas — Q-grams obtuvo la mejor precisión en razones sociales durante la calibración (F1=0.93, umbral 86%).",
-                algoritmo="qgrams", umbral=86,
+                "similitud", "media", nota,
+                algoritmo=alg, umbral=umbr,
             ))
 
     # ── OPORTUNIDAD — solo columnas de fecha ─────────────────────────────

@@ -173,8 +173,9 @@ class DQScorer:
         if not issues_df_final.empty and dimensiones_umbral:
             issues_umbral = issues_df_final[issues_df_final['dimension'].isin(dimensiones_umbral)]
             if 'es_principal_sugerido' in issues_umbral.columns:
+                # Use map(lambda) to avoid pandas FutureWarning on object-dtype fillna
                 issues_umbral = issues_umbral[
-                    ~issues_umbral['es_principal_sugerido'].fillna(False).astype(bool)
+                    issues_umbral['es_principal_sugerido'].map(lambda x: x is not True)
                 ]
             ids_con_problema_umbral = set(issues_umbral[self.id_col])
         else:

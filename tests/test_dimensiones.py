@@ -609,6 +609,26 @@ class TestDQScorer:
         assert "completitud" in col_scores
         assert "unicidad" in col_scores
 
+    def test_consistencia_reporta_solo_minoritarios(self):
+        """Bug fix: consistencia debe reportar SOLO los registros con patrón minoritario,
+        no toda la columna. Con 90 fechas ISO y 10 fechas ES, espera 10 issues y score ~90."""
+        df = pd.DataFrame({
+            'id':    range(100),
+            'fecha': ['2024-01-15'] * 90 + ['15/01/2024'] * 10
+        })
+        from engine.dimensions.consistencia import check_consistencia
+        score, issues, meta = check_consistencia(df, 'id', 'fecha')
+        assert len(issues) == 10, f"Esperados 10 issues, obtenidos {len(issues)}"
+        assert 89 <= score <= 91, f"Score esperado ~90, obtenido {score}"
+
+    def test_consistencia_sin_mezcla_da_100(self):
+        """Columna con un único formato de fecha: score = 100."""
+        df = pd.DataFrame({'id': range(50), 'fecha': ['2024-01-15'] * 50})
+        from engine.dimensions.consistencia import check_consistencia
+        score, issues, _ = check_consistencia(df, 'id', 'fecha')
+        assert score == 100.0
+        assert issues.empty
+
     def test_consistencia_rename_in_scorer(self):
         """El scorer debe renombrar id_col_value → id_col para consistencia."""
         df = pd.DataFrame({

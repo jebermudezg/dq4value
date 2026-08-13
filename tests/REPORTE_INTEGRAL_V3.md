@@ -1,5 +1,6 @@
 # Reporte Integral Post-Rediseño v3 — Datasets de Características Variadas
-**Fecha:** 2026-08-12  
+**Fecha:** 2026-08-13 (actualizado — fix de consistencia + default brecha_afin)  
+**Fecha original:** 2026-08-12  
 **Commit base:** 98937df  
 **Datasets probados:** 3 (tipográficos, tokens desordenados, limpio/control)
 
@@ -99,13 +100,21 @@ dirección. Queda como hallazgo — no como bug.
 
 ## FASE 4 — Las 11 dimensiones sobre cada dataset
 
-### Tabla resumen
+### Tabla resumen (valores post-fix de `consistencia`)
 
 | Dataset | Dims | Score | Aprovechables | Veredicto | Peor dimensión | Tiempo |
 |---------|------|-------|---------------|-----------|----------------|--------|
-| A — Tipográficos (800) | 10 | 88.6 | 0.0% | no_listo | consistencia (0.0) | 6.3s |
-| B — Tokens (600) | 8 | 86.5 | 0.0% | no_listo | consistencia (0.0) | 20.0s |
-| **C — Limpio (500)** | **7** | **99.7** | **96.8%** | **listo** | exactitud (99.2) | 4.5s |
+| A — Tipográficos (800) | 10 | **98.4** | **82.5%** | **listo** | similitud | 6.3s |
+| B — Tokens (600) | 8 | **98.7** | **86.0%** | **listo** | similitud | 20.0s |
+| **C — Limpio (500)** | **7** | **99.7** | **96.8%** | **listo** | exactitud | 4.5s |
+
+> **Nota:** los valores anteriores (pre-fix) eran Score=88.6/86.5, Aprovechables=0.0%/0.0%,
+> Veredicto=no_listo para datasets A y B. El bug de consistencia marcaba toda la columna
+> como problemática en lugar de solo los registros minoritarios. Ver sección de bugs más abajo.
+
+Consistencia post-fix:
+- Dataset A: 15/800 registros afectados (1.9%) — los 15 con formato DD/MM/YYYY inyectado ✅
+- Dataset B: 12/600 registros afectados (2.0%) — los 12 con formato DD/MM/YYYY inyectado ✅
 
 Invariantes verificadas (5 por dataset): todas ✅ en los tres datasets.
 
@@ -131,23 +140,12 @@ veredicto:              listo
 overrides_aplicados:    0
 ```
 
-### Hallazgo: `consistencia` es un chequeo de nivel columna
-
-En datasets A y B se inyectaron 15 y 12 fechas con formato `DD/MM/YYYY` respectivamente.
-El resultado fue `consistencia: 800/800 (100%)` y `consistencia: 600/600 (100%)`.
-
-**Causa:** cuando `check_consistencia` detecta formatos mixtos en una columna de fecha,
-marca TODOS los registros como inconsistentes — no solo los que tienen el formato minoritario.
-Es comportamiento diseñado (la consistencia es una propiedad de la columna, no del registro),
-pero causa `pct_aprovechables=0%` incluso cuando el resto del dataset está limpio.
-
-**Este no es un bug.** Es importante documentarlo para que los usuarios entiendan el veredicto.
-Un dataset con fechas heterogéneas en una sola columna siempre producirá `aprovechables=0%`
-si `consistencia` está en el nivel umbral.
-
 ---
 
 ## FASE 5 — Tres modos de ponderación (Dataset A)
+
+> Los valores de aprovechables aquí son con el bug original de consistencia (para que los modos
+> sean comparables entre sí). Con el fix, los valores de nivel `media` también mejorarían.
 
 | Modo | Score | Aprovechables | Nivel umbral |
 |------|-------|---------------|--------------|
@@ -203,21 +201,102 @@ Todos los escenarios dentro de umbrales aceptables (< 60s para 1,000 filas).
 
 ## Bugs encontrados y corregidos
 
-Ninguno nuevo en esta prueba. Los tres bugs de v2 (razonabilidad dtype, FutureWarning, medición de rendimiento) permanecen corregidos.
+### Bug v3.1 — `consistencia` reportaba toda la columna en lugar de los registros minoritarios
+**Descubierto:** Prueba integral v3 (2026-08-12)  
+**Corregido:** 2026-08-13  
+**Archivo:** `engine/dimensions/consistencia.py`
 
-### Hallazgos nuevos (no son bugs — son comportamientos documentados)
+**Síntoma:** con 15 fechas `DD/MM/YYYY` inyectadas en una columna de 800 registros, la dimensión
+reportaba `score=0.0` e issues en los 800/800 registros en lugar de solo en los 15 minoritarios.
 
-| # | Hallazgo | Impacto | Recomendación |
-|---|---------|---------|---------------|
-| H1 | `consistencia` es chequeo de nivel columna: mezclar 15 fechas DD/MM/YYYY en 800 registros causa `aprovechables=0%` para toda la columna | Alto para usuarios que no entienden el veredicto | Documentar en UI: "Si una columna tiene formatos mixtos, todos los registros quedan marcados" |
-| H2 | `tfidf` F1=0.000 en textos cortos (nombres, direcciones) | Medio — el algoritmo no es apto para textos < 5 tokens | Eliminar `tfidf` del selector o añadir advertencia cuando la columna tiene textos cortos |
-| H3 | Motor de sugerencias recomienda `qgrams` uniformemente | Alto — `brecha_afin` supera a `qgrams` en 3× F1 para nombres con typos | Ajustar `ai/claude_analyzer.py` para sugerir `brecha_afin` en columnas de nombre de persona |
-| H4 | `iniciativa_ia` sin `tipo_ia` produce mismo score que `diagnostico_general` | Bajo — comportamiento correcto (fallback) pero puede confundir | Documentar en la UI del paso 1 |
+**Causa raíz:**
+```python
+# ANTES (incorrecto): marcaba TODOS los no-nulos al detectar cualquier mezcla
+mask = df[target_col].notna()
+for idx in df[mask].index:          # ← itera todos, no solo los minoritarios
+    issues.append(...)
+```
+
+**Fix — lógica de mayoría/minoría:**
+```python
+# DESPUÉS (correcto): detecta el patrón mayoritario y solo marca los demás
+date_labels = col_str.map(_detect_date_fmt)
+dated = date_labels.dropna()
+if len(dated) >= len(col_str) * 0.30:   # ≥30% deben parecer fechas
+    counts = dated.value_counts()
+    majority_fmt = counts.index[0]
+    for idx in dated[dated != majority_fmt].index:  # solo los minoritarios
+        minority_idx[idx] = f"Formato inconsistente — mayoritario es '{majority_fmt}'"
+```
+
+**Resultado del fix:**
+- Dataset A: `consistencia` ahora reporta 15/800 registros (1.9%) — exactamente los inyectados ✅
+- Dataset B: `consistencia` ahora reporta 12/600 registros (2.0%) — exactamente los inyectados ✅
+- Score A: 0.0 → 98.12 | Score B: 0.0 → 98.00
+- Aprovechables A: 0.0% → 82.5% | Aprovechables B: 0.0% → 86.0%
+- Veredicto A y B: `no_listo` → `listo`
+
+**Tests añadidos** (`tests/test_dimensiones.py`, clase `TestConsistencia`):
+```python
+def test_consistencia_reporta_solo_minoritarios(self):
+    # 90 YYYY-MM-DD + 10 DD/MM/YYYY → exactamente 10 issues
+    assert len(issues) == 10 and 89 <= score <= 91
+
+def test_consistencia_sin_mezcla_da_100(self):
+    # 50 YYYY-MM-DD → score=100, issues vacío
+```
+Suite completa: 180/180 tests pasan ✅
+
+### Bugs previos (v2, ya corregidos)
+- razonabilidad dtype warning (pandas)
+- FutureWarning en profiler con df vacío
+- medición de rendimiento en FASE 7 contra dataset con columnas no configuradas
 
 ---
 
-## Estado final: ✅ APROBADO
+## Cambios de diseño aplicados (post-prueba v3)
+
+### 1. Default de similitud: `qgrams` → `brecha_afin`
+La calibración en 4 datasets (ver `RESULTADOS_CALIBRACION.md`) muestra que `brecha_afin`
+supera a `qgrams` en 3 de 4 tipos: F1=0.878 vs 0.292 en tipograficos, F1=0.644 vs 0.206
+en tokens. El único caso donde qgrams gana es razones sociales con sufijos.
+
+**Cambios aplicados:**
+- `frontend/index.html`: selector muestra `brecha_afin ★` primero; qgrams segundo con nota de velocidad
+- `UMBRAL_DEFAULT_POR_ALGORITMO`: `brecha_afin: 96` → `brecha_afin: 90` (promedio de óptimos)
+- `ALGORITMOS_LENTOS`: removido `brecha_afin`; solo quedan `smith_waterman` y `coseno`
+- Umbral default en UI: 96% → 90%
+- `ai/claude_analyzer.py`: sugiere `brecha_afin` para columnas de nombre/persona/dirección
+
+### 2. TF-IDF/Coseno marcado como "solo textos largos"
+F1=0.000 en todos los datasets de nombres/direcciones. Mantenido en código pero marcado en
+el selector como "solo para textos largos (>20 palabras) · no apto para nombres/RS".
+
+### 3. Advertencia `iniciativa_ia` sin `tipo_ia`
+Añadido `confirm()` dialog en `runAnalysis()` cuando el propósito es `iniciativa_ia` pero
+no se especificó `tipo_ia`. Avisa que se usarán pesos de `diagnostico_general`.
+
+### 4. Nota de alta cobertura de dimensión
+Cuando una dimensión×columna afecta a >50% de los registros, se muestra una nota ámbar
+encima del panel de issues: "Esta dimensión afecta al N% de los registros en [columna]
+— revisa si el criterio es el adecuado para este campo."
+
+---
+
+### Hallazgos no corregidos (comportamientos documentados)
+
+| # | Hallazgo | Impacto | Estado |
+|---|---------|---------|--------|
+| H2 | `tfidf` F1=0.000 en textos cortos (< 10 tokens) | Medio | ✅ Marcado en UI como no apto |
+| H3 | Motor de sugerencias recomendaba `qgrams` uniformemente | Alto | ✅ Corregido — ahora sugiere `brecha_afin` |
+| H4 | `iniciativa_ia` sin `tipo_ia` produce mismo score que `diagnostico_general` | Bajo | ✅ Warning añadido en UI |
+| H5 | `brecha_afin` sobre 600 direcciones tarda 20s (O(n²)) | Medio | Documentado — para >2k filas, usar `max_pares` |
+
+---
+
+## Estado final: ✅ APROBADO (v3.1 con correcciones)
 
 El motor reconoce datos buenos como buenos (Dataset C: veredicto="listo", aprovechables=96.8%).
 Las 11 dimensiones funcionan correctamente en datasets de características variadas.
-Los tres hallazgos nuevos son oportunidades de mejora, no regresiones.
+El bug de consistencia fue corregido: ahora reporta solo los registros minoritarios.
+El default de similitud cambia a `brecha_afin @ 90%` — ganador en 3 de 4 tipos de datos.

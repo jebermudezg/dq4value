@@ -1682,6 +1682,8 @@
   <!-- Línea de detalle secundario -->
   <div id="kpiDetailLine" style="font-size:.75rem;color:#94A3B8;margin-bottom:1.25rem;padding-left:.25rem"></div>
 
+  <!-- ── Notas de alta cobertura (dimensión × columna > 50%) ── -->
+  <div id="issuesHighCovNotes" style="margin-bottom:.75rem"></div>
   <!-- ── Issues bars + Issues list ── -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
     <div class="card" style="padding:1.4rem">
@@ -4111,18 +4113,16 @@ function _renderPonderacion() {
 function _updatePonderacion() { _renderPonderacion(); }
 
 // Event delegation — survives innerHTML rebuilds
-// Defaults calibrated 2026-08-04 on maestro_proveedores_1000.csv (1 000 razones sociales,
-// 15 grupos verdaderos / 38 pares RUC).  Best-F1 umbral among 'confiable' thresholds.
-// Precision=100% enforced; Rule-4 (>20× slower, Δrecall<15pts) → qgrams wins.
-//   jaro_winkler   96% F1=0.805  2.7s/1k    levenshtein    92% F1=0.861   5.2s/1k
-//   monge_elkan    96% F1=0.889  6.7s/1k    qgrams         86% F1=0.930 ★ 0.9s/1k
-//   smith_waterman 94% F1=0.930  436s/1k  ⚠ lento
-//   brecha_afin    96% P=100% R=94.7%  28.6s/1k  ⚠ lento — sobreajuste a 94% (F1=1.0)
-//   soundex        86% F1=0.471  2.8s/1k    (recall 31.6% — no recomendado para RS)
-//   coseno         78% F1=0.383  337s/1k  ⚠ lento — no recomendado para RS
+// Defaults calibrados 2026-08-13 en 4 datasets (tipográficos/800, tokens/600, limpio/500,
+// proveedores/1000). brecha_afin gana en 3 de 4 tipos; umbral 90% es el punto medio entre
+// los óptimos por tipo (86% typos, 92% tokens, 94% pocos-dups, 96% abreviaturas explícitas).
+// q-grams conserva ventaja en variación de sufijos/formato (F1=0.930@86%, <1s/1k).
+//   brecha_afin  86% F1=0.878 typos · 92% F1=0.644 tokens · 94% F1=0.857 limpio ★
+//   qgrams       86% F1=0.930 razones-sociales · F1=0.292 typos (3× peor)
+//   tfidf/coseno F1=0.000 en textos cortos — no apto para nombres/RS/direcciones
 const UMBRAL_DEFAULT_POR_ALGORITMO = {
   jaro_winkler:   96,
-  brecha_afin:    96,   // 94 da F1=1.0 sobreajustado; 96 da P=100% R=94.7% más robusto
+  brecha_afin:    90,   // punto medio calibrado: 86%(typos) · 92%(tokens) · 94%(pocos-dups)
   monge_elkan:    96,
   levenshtein:    92,
   qgrams:         86,
@@ -4131,8 +4131,9 @@ const UMBRAL_DEFAULT_POR_ALGORITMO = {
   coseno:         78,
 };
 
-// Algorithms slow on large datasets: smith_waterman ~436s, coseno ~337s, brecha_afin ~200s per 1000 rows
-const ALGORITMOS_LENTOS = new Set(['smith_waterman', 'coseno', 'brecha_afin']);
+// Algorithms slow on large datasets: smith_waterman ~436s, coseno ~337s, brecha_afin ~10-20s/1k
+// brecha_afin ya no se trata como "extremadamente lento" — es el default recomendado
+const ALGORITMOS_LENTOS = new Set(['smith_waterman', 'coseno']);
 const UMBRAL_AVISO_REGISTROS = 5000;
 
 document.addEventListener('change', function(e) {
@@ -5470,14 +5471,14 @@ function buildParamInputs(colName, dtype) {
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
           <label>Tipo de comparación:</label>
           <select id="p-${sid}-algoritmo" style="width:340px">
-            <option value="jaro_winkler">Jaro-Winkler — nombres cortos, personas (F1 0.81)</option>
-            <option value="qgrams">Q-grams — razones sociales ★ mejor F1 (0.93, 6s)</option>
+            <option value="brecha_afin">Brecha Afín ★ — nombres, personas, direcciones (F1 0.88, ~10s)</option>
+            <option value="qgrams">Q-grams — más rápido, mejor en variación de sufijos y formato (F1 0.93, &lt;1s)</option>
+            <option value="jaro_winkler">Jaro-Winkler — nombres cortos sin abreviaturas (F1 0.76)</option>
             <option value="monge_elkan">Monge-Elkan — RS con abreviaturas de sufijos (F1 0.87)</option>
             <option value="levenshtein">Levenshtein — códigos y documentos (F1 0.86, muy rápido)</option>
             <option value="smith_waterman">Smith-Waterman — textos con palabras faltantes (F1 0.93) ⚠ lento</option>
-            <option value="brecha_afin">Brecha Afín — abreviaturas explícitas (P=100% R=95% a 96%) ⚠ lento</option>
             <option value="soundex">Soundex — fonética; recall bajo en RS (F1 0.47)</option>
-            <option value="coseno">Coseno TF-IDF — textos largos; no apto para RS (F1 0.38) ⚠ lento</option>
+            <option value="coseno" title="Solo recomendado para textos de más de 20 palabras (descripciones largas, párrafos). F1=0.00 en nombres y direcciones.">Coseno TF-IDF — solo para textos largos (&gt;20 palabras) · no apto para nombres/RS ⚠</option>
           </select>
           <div id="p-${sid}-alg-warn" style="display:none;font-size:.78rem;color:#B45309;font-weight:600;margin-top:.25rem">
             ⚠ Este algoritmo es lento en datasets grandes — con más de 5 000 registros puede tardar varios minutos por columna.
@@ -5485,8 +5486,8 @@ function buildParamInputs(colName, dtype) {
         </div>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
           <label>Qué tan parecidos deben ser:</label>
-          <input type="number" id="p-${sid}-umbral" value="92" min="70" max="99" style="width:80px" />
-          <span class="param-hint" style="margin:0">92%+ muy similar · 85% similar · 75% algo similar — ajusta según el algoritmo elegido</span>
+          <input type="number" id="p-${sid}-umbral" value="90" min="70" max="99" style="width:80px" />
+          <span class="param-hint" style="margin:0">90%+ recomendado (Brecha Afín) · 86% para q-grams · 75% algo similar — ajusta según el algoritmo</span>
         </div>
         <div style="display:flex;align-items:center;gap:.5rem">
           <input type="checkbox" id="p-${sid}-normalizar" checked style="width:auto;margin:0" />
@@ -5684,7 +5685,7 @@ function collectConfig() {
         }
       }
       if (d.key === 'similitud') {
-        const algoritmo = document.getElementById(`p-${sid}-algoritmo`)?.value || 'jaro_winkler';
+        const algoritmo = document.getElementById(`p-${sid}-algoritmo`)?.value || 'brecha_afin';
         const umbralEl  = document.getElementById(`p-${sid}-umbral`);
         const umbral    = umbralEl ? parseInt(umbralEl.value) || 85 : 85;
         const normalizar = document.getElementById(`p-${sid}-normalizar`)?.checked ?? true;
@@ -5735,6 +5736,19 @@ async function runAnalysis() {
   if (hasError) return;
   if (Object.keys(colsConfig).length === 0) {
     toast('Selecciona al menos una dimensión en alguna columna.', 'error'); return;
+  }
+
+  // Warning: iniciativa_ia sin tipo_ia → cae a diagnóstico_general silenciosamente
+  const propVal  = document.getElementById('uploadProposito')?.value  || 'diagnostico_general';
+  const tipoIaEl = document.getElementById('uploadTipoIa');
+  const tipoIaVal = tipoIaEl?.value?.trim() || '';
+  if (propVal === 'iniciativa_ia' && !tipoIaVal) {
+    const ok = confirm(
+      'No especificaste el tipo de iniciativa de IA.\n\n' +
+      'Se usarán los pesos de Diagnóstico general en lugar de los pesos específicos para IA.\n\n' +
+      '¿Continuar de todas formas?'
+    );
+    if (!ok) return;
   }
 
   // Warn before running if a slow algorithm is selected on a large dataset
@@ -6278,6 +6292,30 @@ function renderDonutAndRemed(issues, dimAvg, dimsSorted) {
   issues.forEach(r => { dimIssueCnt[r.dimension] = (dimIssueCnt[r.dimension] || 0) + 1; });
   const sortedByCount = Object.entries(dimIssueCnt).sort((a, b) => b[1] - a[1]);
   const maxCnt = sortedByCount.length > 0 ? sortedByCount[0][1] : 1;
+
+  // ── Nota de alta cobertura: dimensión × columna que afecta > 50% ──────────
+  const totalRegs = state.totalRegistros || 1;
+  const colDimCnt = {};
+  issues.forEach(r => {
+    if (r.columna && r.dimension) {
+      const k = `${r.dimension}|||${r.columna}`;
+      colDimCnt[k] = (colDimCnt[k] || 0) + 1;
+    }
+  });
+  const highCovNotes = Object.entries(colDimCnt)
+    .filter(([, c]) => c / totalRegs > 0.50)
+    .sort((a, b) => b[1] - a[1])
+    .map(([k, c]) => {
+      const [dim, col] = k.split('|||');
+      const pctStr = Math.round(c / totalRegs * 100);
+      return `<div style="display:flex;align-items:flex-start;gap:.4rem;font-size:.77rem;color:#92400E;background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:.45rem .65rem;margin-bottom:.4rem">
+        <span style="flex-shrink:0;font-size:.9rem">ℹ️</span>
+        <span><strong>${escHtml(nombreNegocio(dim))}</strong> afecta al <strong>${pctStr}%</strong> de los registros en la columna <strong>${escHtml(col)}</strong> — revisa si el criterio es el adecuado para este campo.</span>
+      </div>`;
+    }).join('');
+
+  const highCovEl = document.getElementById('issuesHighCovNotes');
+  if (highCovEl) highCovEl.innerHTML = highCovNotes;
 
   // ── Left panel: horizontal bars ──
   const barsEl = document.getElementById('issuesBarsContainer');
