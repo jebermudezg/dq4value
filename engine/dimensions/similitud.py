@@ -385,13 +385,24 @@ def check_similitud(
 
     # For tolerant algorithms: never truncate by length difference — that would
     # drop abbreviation pairs.  Apply a generous hard cap instead.
+    # Tiebreaker uses normalised string content (not index values) so the result
+    # is stable regardless of row order in the input DataFrame.
     if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 50_000:
-        pares_cand = set(sorted(pares_cand)[:50_000])
+        pares_cand = set(
+            sorted(
+                pares_cand,
+                key=lambda p: (uniq_norm[p[0]], uniq_norm[p[1]])
+            )[:50_000]
+        )
     elif algoritmo not in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 15_000:
         pares_cand = set(
             sorted(
                 pares_cand,
-                key=lambda p: abs(len(uniq_norm[p[0]]) - len(uniq_norm[p[1]]))
+                key=lambda p: (
+                    abs(len(uniq_norm[p[0]]) - len(uniq_norm[p[1]])),
+                    uniq_norm[p[0]],   # tiebreaker: stable string content
+                    uniq_norm[p[1]],   # (not index value which varies with row order)
+                )
             )[:15_000]
         )
 
