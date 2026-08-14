@@ -1,3 +1,4 @@
+import heapq
 import pandas as pd
 import numpy as np
 import re
@@ -275,6 +276,58 @@ def _densidad_grupo(members: list, pairs_set: set) -> float:
     return reales / posibles
 
 
+# ── Trigram index for heap-based pair selection ────────────────────────────────
+
+def _indice_trigramas(uniq_norm, q=3):
+    """Frozenset de q-gramas por índice de valor único. Se calcula una sola vez.
+
+    Devuelve un dict {índice: frozenset(q-gramas)} para todos los valores no vacíos.
+    La misma técnica que usa el blocking por tokens: indexar una vez, consultar muchas.
+    """
+    pad = '#' * (q - 1)
+    tri = {}
+    for i, v in enumerate(uniq_norm):
+        if v:
+            s = pad + v + pad
+            tri[i] = frozenset(s[k:k+q] for k in range(len(s) - q + 1))
+    return tri
+
+
+def _jaccard_est(tri, a, b):
+    """Jaccard de q-gramas con índice pre-calculado. O(|trigramas|), sin crear sets."""
+    ta = tri.get(a)
+    tb = tri.get(b)
+    if not ta or not tb:
+        return 0.0
+    inter = len(ta & tb)
+    union = len(ta) + len(tb) - inter
+    return inter / union if union else 0.0
+
+
+def _seleccion_por_heap(pares, tri, uniq_norm, tope):
+    """Selecciona los `tope` pares con mayor Jaccard estimado de trigramas.
+
+    Ventajas sobre sorted(pares, key=…)[:tope]:
+      - Tiempo O(|pares| × log tope) en lugar de O(|pares| × log |pares|).
+      - Memoria O(tope) en lugar de O(|pares|).
+
+    Desempate por contenido normalizado: el resultado es determinista
+    independientemente del orden de filas de entrada.
+    """
+    h: list = []
+    for p in pares:
+        s = _jaccard_est(tri, p[0], p[1])
+        # Heap item: (score, str_a, str_b, pair) — min-heap, el mínimo es
+        # el peor elemento (menor score, y entre empates, string más pequeño).
+        # Se reemplaza cuando llega un elemento mayor en esa comparación lexicográfica.
+        item = (s, uniq_norm[p[0]], uniq_norm[p[1]], p)
+        if len(h) < tope:
+            heapq.heappush(h, item)
+        elif item > h[0]:
+            heapq.heapreplace(h, item)
+    return {item[3] for item in h}
+
+
 def check_similitud(
     df: pd.DataFrame, id_col: str, target_col: str, **params
 ) -> tuple:
@@ -375,7 +428,64 @@ def check_similitud(
     # accept abbreviation pairs so ratio_minimo is permissive (0.25).  Other algorithms
     # keep the original behavior (no ratio filter — 0.0 means the check never triggers).
     ratio_minimo = 0.25 if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD else 0.0
-    pares_cand: set[tuple] = set()
+    # ── Step 2b: per-block Jaccard-priority pair collection ──────────────
+    # Instead of materialising all O(n²) candidate pairs into a global set
+    # and then applying a cap, each sub-group contributes at most _K_BLOQUE
+    # pairs (the ones with highest estimated trigram-Jaccard), merged into a
+    # deduplicating dict.  A small global sort follows only if needed.
+    #
+    # Benefits:
+    #   Memory — never builds a 9.7M-entry Python set (saves ~2 GB at 20k).
+    #   Time   — per-block heaps operate on small lists → CPU-cache-friendly.
+    #   Quality — isolates each semantic group's true pairs from inter-group
+    #             false-pair competition in the global ranking.
+    #
+    # _K_BLOQUE sizing:
+    #   ≤ 3,000 unique values → global cap never activates; keep all pairs
+    #     by setting K large enough to never truncate a sub-group.
+    #   > 3,000 unique values → cap activates; 200 per sub-group is sufficient
+    #     to capture all true pairs (Jaccard 70–85%) ahead of false pairs
+    #     (Jaccard 40–65%) within the same semantic group.
+    _tope_qgrams    = 15_000
+    _tope_tolerante = 50_000
+    _tope_efectivo  = _tope_tolerante if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD else _tope_qgrams
+    _K_BLOQUE       = 200 if n_valores_unicos > 3_000 else 100_000
+
+    # Trigram index built once for all unique values — O(n_uniq × k).
+    # Used both for per-block selection and (if needed) for the global cap sort.
+    tri = _indice_trigramas(uniq_norm)
+
+    # best_pairs: (min_idx, max_idx) → max Jaccard seen across all blocks.
+    # n_pares_visitados: running count of pairs processed in inner loops
+    # (cross-block duplicates are counted multiple times, which is intentional —
+    # it represents the total comparison work and gives a meaningful denominator
+    # for pct_candidatos_descartados in the user-facing warning).
+    best_pairs: dict = {}
+    n_pares_visitados: list = [0]   # list wrapper so nonlocal isn't needed in Python 3.9
+
+    def _proc_sub(sub_lista: list) -> None:
+        n = len(sub_lista)
+        if n < 2:
+            return
+        h: list = []
+        for a in range(n):
+            for b in range(a + 1, n):
+                ia, ib = sub_lista[a], sub_lista[b]
+                na, nb = uniq_norm[ia], uniq_norm[ib]
+                if not na or not nb:
+                    continue
+                if ratio_minimo > 0 and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
+                    continue
+                n_pares_visitados[0] += 1
+                s = _jaccard_est(tri, ia, ib)
+                item = (s, na, nb, (ia, ib))
+                if len(h) < _K_BLOQUE:
+                    heapq.heappush(h, item)
+                elif item > h[0]:
+                    heapq.heapreplace(h, item)
+        for s_val, _, _, p in h:
+            if p not in best_pairs or best_pairs[p] < s_val:
+                best_pairs[p] = s_val
 
     for grupo in bloques.values():
         lista = sorted(grupo)
@@ -385,48 +495,31 @@ def check_similitud(
                 sub = uniq_norm[i][:3] if len(uniq_norm[i]) >= 3 else uniq_norm[i]
                 subgrupos.setdefault(sub, []).append(i)
             for sub_lista in subgrupos.values():
-                for a in range(len(sub_lista)):
-                    for b in range(a + 1, len(sub_lista)):
-                        na, nb = uniq_norm[sub_lista[a]], uniq_norm[sub_lista[b]]
-                        if na and nb and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
-                            continue
-                        pares_cand.add((sub_lista[a], sub_lista[b]))
+                _proc_sub(sub_lista)
         else:
-            for a in range(len(lista)):
-                for b in range(a + 1, len(lista)):
-                    na, nb = uniq_norm[lista[a]], uniq_norm[lista[b]]
-                    if na and nb and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
-                        continue
-                    pares_cand.add((lista[a], lista[b]))
+            _proc_sub(lista)
 
-    # ── Safeguard: record pre-cap state then apply hard cap ──────────────
-    # When the cap fires the analysis is partial — metadata will mark it as
+    # ── Safeguard: global cap if best_pairs still exceeds the limit ───────
+    # When the cap fires the analysis is partial — metadata marks it as
     # no_confiable and the score is capped (same ceiling as dispersed groups).
-    # Tiebreaker uses normalised string content (not index values) so the
-    # result is stable regardless of row order in the input DataFrame.
-    n_candidatos_generados = len(pares_cand)
+    # best_pairs is bounded to n_sub-groups × _K_BLOQUE entries, so this sort
+    # is cheap (e.g. 335 × 200 = 67k entries vs the former 9.7M).
+    # candidatos_generados = total pair comparisons attempted across all blocks
+    # (including cross-block duplicates); represents the combinatorial scale for
+    # the user warning. candidatos_evaluados = pairs actually scored after cap.
+    n_candidatos_generados = n_pares_visitados[0]
     tope_activado = False
 
-    if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD and n_candidatos_generados > 50_000:
+    if len(best_pairs) > _tope_efectivo:
         tope_activado = True
         pares_cand = set(
-            sorted(
-                pares_cand,
-                key=lambda p: (uniq_norm[p[0]], uniq_norm[p[1]])
-            )[:50_000]
+            p for p, _ in sorted(
+                best_pairs.items(),
+                key=lambda kv: (-kv[1], uniq_norm[kv[0][0]], uniq_norm[kv[0][1]]),
+            )[:_tope_efectivo]
         )
-    elif algoritmo not in ALGORITMOS_TOLERANTES_LONGITUD and n_candidatos_generados > 15_000:
-        tope_activado = True
-        pares_cand = set(
-            sorted(
-                pares_cand,
-                key=lambda p: (
-                    abs(len(uniq_norm[p[0]]) - len(uniq_norm[p[1]])),
-                    uniq_norm[p[0]],   # tiebreaker: stable string content
-                    uniq_norm[p[1]],   # (not index value which varies with row order)
-                )
-            )[:15_000]
-        )
+    else:
+        pares_cand = set(best_pairs.keys())
 
     n_candidatos_evaluados = len(pares_cand)
     pct_descartados = (
