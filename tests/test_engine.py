@@ -450,3 +450,49 @@ def test_sugerencia_similitud_integrada_usa_perfil_nombres():
     if dim_sim:
         assert dim_sim['params'].get('algoritmo') == 'qgrams', \
             f"Para RS con sufijos debería sugerir qgrams, no {dim_sim['params'].get('algoritmo')}"
+
+
+# ── Safeguard: tope de pares activa no_confiable ─────────────────────────────
+
+def test_tope_activado_marca_no_confiable():
+    """
+    Con escala_5k (≈5k valores únicos) el tope de 15.000 pares se activa.
+    El análisis debe marcar:
+      - tope_activado  = True
+      - estado_confiabilidad = 'no_confiable'
+      - score < 100  (no puede reportar calidad perfecta en un análisis parcial)
+    """
+    import pandas as pd
+    from pathlib import Path
+    from engine.dimensions.similitud import check_similitud
+
+    csv_path = Path(__file__).parent / 'escala_5k.csv'
+    if not csv_path.exists():
+        import pytest
+        pytest.skip("escala_5k.csv no encontrado — ejecuta tests/generar_escala.py primero")
+
+    df = pd.read_csv(csv_path)
+    sc, iss, mt = check_similitud(
+        df, 'empresa_id', 'razon_social',
+        algoritmo='qgrams', umbral=86, normalizar=True,
+    )
+
+    assert mt.get('tope_activado') is True, (
+        f"Se esperaba tope_activado=True pero fue {mt.get('tope_activado')!r}"
+    )
+    assert mt.get('estado_confiabilidad') == 'no_confiable', (
+        f"Se esperaba 'no_confiable' pero fue {mt.get('estado_confiabilidad')!r}"
+    )
+    assert sc < 100, (
+        f"El score debe ser < 100 cuando el análisis es parcial, pero fue {sc}"
+    )
+    # Sanity checks on the new metadata fields
+    assert mt.get('candidatos_generados', 0) > 15_000, (
+        "candidatos_generados debe superar el tope si tope_activado=True"
+    )
+    assert mt.get('candidatos_evaluados', 0) == 15_000, (
+        f"candidatos_evaluados debería ser exactamente 15.000, fue {mt.get('candidatos_evaluados')}"
+    )
+    assert mt.get('pct_candidatos_descartados', 0) > 80, (
+        "Se esperaba que >80% de los candidatos fueran descartados en 5k"
+    )

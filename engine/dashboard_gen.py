@@ -189,7 +189,22 @@ def _dim_bars(dims_sorted: list, sim_meta: dict = None) -> str:
                     'Se ignoraron sufijos societarios y palabras de enlace antes de comparar'
                     '</span>'
                 )
-            if sim_meta.get('estado_confiabilidad', 'confiable') != 'confiable':
+            if sim_meta.get('tope_activado'):
+                detail_html += (
+                    '<br><span style="color:#991B1B;font-weight:600;background:#FEE2E2;'
+                    'padding:2px 6px;border-radius:4px">'
+                    '&#128308; An&#225;lisis parcial: la columna tiene %d valores &#250;nicos '
+                    'y se evaluaron solo %s de %s comparaciones posibles. '
+                    'El resultado de Registros parecidos no es confiable en este archivo. '
+                    'Analice una muestra menor o divida el archivo.'
+                    '</span>'
+                    % (
+                        sim_meta['n_valores_unicos'],
+                        '{:,}'.format(sim_meta['candidatos_evaluados']),
+                        '{:,}'.format(sim_meta['candidatos_generados']),
+                    )
+                )
+            elif sim_meta.get('estado_confiabilidad', 'confiable') != 'confiable':
                 detail_html += (
                     '<br><span style="color:#B45309;font-weight:600">'
                     '&#9888; Resultado parcial: %d registros quedaron en grupos dispersos '
@@ -504,17 +519,22 @@ def generate_dashboard_html(
         # key is a tuple (col, dim) from scorer; dim == 'similitud' is what we want
         if isinstance(key, tuple) and key[1] == 'similitud' and m:
             sim_meta = {
-                'grupos':                   int(m.get('total_grupos', 0)),
-                'involucrados':             int(m.get('total_involucrados', 0)),
-                'excedentes':               int(m.get('total_excedentes', 0)),
-                'dup_exactos':              int(m.get('duplicados_exactos_excluidos', 0)),
-                'placeholders':             int(m.get('placeholders_excluidos', 0)),
-                'algoritmo':                str(m.get('algoritmo', '')),
-                'umbral':                   m.get('umbral', ''),
-                'grupos_dispersos':         int(m.get('grupos_dispersos_excluidos', 0)),
-                'regs_dispersos':           int(m.get('registros_en_grupos_dispersos', 0)),
-                'preprocesamiento_tokens':  bool(m.get('preprocesamiento_tokens', False)),
-                'estado_confiabilidad':     str(m.get('estado_confiabilidad', 'confiable')),
+                'grupos':                       int(m.get('total_grupos', 0)),
+                'involucrados':                 int(m.get('total_involucrados', 0)),
+                'excedentes':                   int(m.get('total_excedentes', 0)),
+                'dup_exactos':                  int(m.get('duplicados_exactos_excluidos', 0)),
+                'placeholders':                 int(m.get('placeholders_excluidos', 0)),
+                'algoritmo':                    str(m.get('algoritmo', '')),
+                'umbral':                       m.get('umbral', ''),
+                'grupos_dispersos':             int(m.get('grupos_dispersos_excluidos', 0)),
+                'regs_dispersos':               int(m.get('registros_en_grupos_dispersos', 0)),
+                'preprocesamiento_tokens':      bool(m.get('preprocesamiento_tokens', False)),
+                'estado_confiabilidad':         str(m.get('estado_confiabilidad', 'confiable')),
+                'tope_activado':                bool(m.get('tope_activado', False)),
+                'n_valores_unicos':             int(m.get('n_valores_unicos', 0)),
+                'candidatos_generados':         int(m.get('candidatos_generados', 0)),
+                'candidatos_evaluados':         int(m.get('candidatos_evaluados', 0)),
+                'pct_candidatos_descartados':   float(m.get('pct_candidatos_descartados', 0.0)),
             }
             break
 

@@ -518,6 +518,15 @@ def profile_dataset(df: pd.DataFrame) -> dict:
                     f"La columna '{col}' tiene {round(n_nulos/total_filas*100,1)}% de valores nulos"
                 )
 
+            # Escala de similitud — el motor revisa hasta 15.000 pares candidatos;
+            # con >3.500 valores únicos el tope puede activarse y el análisis quedar parcial.
+            if df[col].dtype == object and n_unicos > 3_500:
+                alertas.append(
+                    f"La columna '{col}' tiene {n_unicos:,} valores únicos. "
+                    "El análisis de Registros parecidos puede dar resultados parciales "
+                    "por encima de 3.500 valores únicos."
+                )
+
         except Exception:
             continue
 

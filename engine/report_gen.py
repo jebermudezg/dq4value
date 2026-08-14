@@ -216,12 +216,26 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
             _sim_kv(r2 + 8, "Preprocesamiento de tokens:",
                     "Sí (sufijos y stopwords)" if sim_m.get('preprocesamiento_tokens') else "No")
             _sim_kv(r2 + 9, "Estado de confiabilidad:",      str(sim_m.get('estado_confiabilidad', 'confiable')))
-            estado = str(sim_m.get('estado_confiabilidad', 'confiable'))
-            if estado != 'confiable':
-                regs_d = int(sim_m.get('registros_en_grupos_dispersos', 0))
-                _sim_kv(r2 + 10, "⚠ Resultado parcial:",
-                        f"{regs_d} registros en grupos dispersos no interpretados. "
-                        "Ajusta el umbral o cambia de algoritmo.")
+            if sim_m.get('tope_activado'):
+                n_uniq  = int(sim_m.get('n_valores_unicos', 0))
+                n_eval  = int(sim_m.get('candidatos_evaluados', 0))
+                n_total = int(sim_m.get('candidatos_generados', 0))
+                _sim_kv(r2 + 10, "🔴 Análisis parcial:",
+                        f"La columna tiene {n_uniq:,} valores únicos y se evaluaron solo "
+                        f"{n_eval:,} de {n_total:,} comparaciones posibles. "
+                        "El resultado de Registros parecidos no es confiable en este archivo. "
+                        "Analice una muestra menor o divida el archivo.")
+                # Highlight the warning cell
+                from openpyxl.styles import PatternFill as _PF
+                ws.cell(row=r2 + 10, column=1).fill = _PF(fill_type='solid', fgColor='FEE2E2')
+                ws.cell(row=r2 + 10, column=2).fill = _PF(fill_type='solid', fgColor='FEE2E2')
+            else:
+                estado = str(sim_m.get('estado_confiabilidad', 'confiable'))
+                if estado != 'confiable':
+                    regs_d = int(sim_m.get('registros_en_grupos_dispersos', 0))
+                    _sim_kv(r2 + 10, "⚠ Resultado parcial:",
+                            f"{regs_d} registros en grupos dispersos no interpretados. "
+                            "Ajusta el umbral o cambia de algoritmo.")
 
     _autofit(ws, [30, 25, 12, 15])
 

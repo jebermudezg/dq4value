@@ -332,6 +332,8 @@ def check_similitud(
         grupos_grandes=0, grupos_dispersos_excluidos=0, registros_en_grupos_dispersos=0,
         pares_sobre_umbral=0, registros_con_algun_par=0, grupos_formados=0,
         estado_confiabilidad='confiable',
+        tope_activado=False, candidatos_generados=0, candidatos_evaluados=0,
+        pct_candidatos_descartados=0.0, n_valores_unicos=0,
     ):
         return {
             'total_grupos':                    total_grupos,
@@ -352,12 +354,19 @@ def check_similitud(
             'registros_con_algun_par':         registros_con_algun_par,
             'grupos_formados':                 grupos_formados,
             'estado_confiabilidad':            estado_confiabilidad,
+            # Cap-activation safeguard fields
+            'tope_activado':                   tope_activado,
+            'candidatos_generados':            candidatos_generados,
+            'candidatos_evaluados':            candidatos_evaluados,
+            'pct_candidatos_descartados':      pct_candidatos_descartados,
+            'n_valores_unicos':                n_valores_unicos,
         }
 
     # ── Step 2: blocking on unique-value indices ──────────────────────────
     valid_idx = [i for i, nv in enumerate(uniq_norm) if nv]
-    if len(valid_idx) < 2:
-        return 100.0, _empty_df(id_col), _base_meta()
+    n_valores_unicos = len(valid_idx)
+    if n_valores_unicos < 2:
+        return 100.0, _empty_df(id_col), _base_meta(n_valores_unicos=n_valores_unicos)
 
     bloques = _construir_bloques(valid_idx, uniq_norm)
 
@@ -390,18 +399,24 @@ def check_similitud(
                         continue
                     pares_cand.add((lista[a], lista[b]))
 
-    # For tolerant algorithms: never truncate by length difference — that would
-    # drop abbreviation pairs.  Apply a generous hard cap instead.
-    # Tiebreaker uses normalised string content (not index values) so the result
-    # is stable regardless of row order in the input DataFrame.
-    if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 50_000:
+    # ── Safeguard: record pre-cap state then apply hard cap ──────────────
+    # When the cap fires the analysis is partial — metadata will mark it as
+    # no_confiable and the score is capped (same ceiling as dispersed groups).
+    # Tiebreaker uses normalised string content (not index values) so the
+    # result is stable regardless of row order in the input DataFrame.
+    n_candidatos_generados = len(pares_cand)
+    tope_activado = False
+
+    if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD and n_candidatos_generados > 50_000:
+        tope_activado = True
         pares_cand = set(
             sorted(
                 pares_cand,
                 key=lambda p: (uniq_norm[p[0]], uniq_norm[p[1]])
             )[:50_000]
         )
-    elif algoritmo not in ALGORITMOS_TOLERANTES_LONGITUD and len(pares_cand) > 15_000:
+    elif algoritmo not in ALGORITMOS_TOLERANTES_LONGITUD and n_candidatos_generados > 15_000:
+        tope_activado = True
         pares_cand = set(
             sorted(
                 pares_cand,
@@ -412,6 +427,15 @@ def check_similitud(
                 )
             )[:15_000]
         )
+
+    n_candidatos_evaluados = len(pares_cand)
+    pct_descartados = (
+        round(
+            (n_candidatos_generados - n_candidatos_evaluados) / n_candidatos_generados * 100,
+            1,
+        )
+        if n_candidatos_generados > 0 else 0.0
+    )
 
     # ── Step 3: compare unique-value pairs ───────────────────────────────
     similar_pares: list[tuple] = []   # (ui, uj, score)
@@ -426,7 +450,23 @@ def check_similitud(
             similar_pares.append((ui, uj, sim_score))
 
     if not similar_pares:
-        return 100.0, _empty_df(id_col), _base_meta()
+        if tope_activado:
+            # Cap was active: returning 100 here would be a false-perfect score.
+            # Apply the same ceiling as dispersed groups and force no_confiable.
+            techo_tope = max(50.0, 100.0 - pct_descartados)
+            return (
+                round(techo_tope, 1),
+                _empty_df(id_col),
+                _base_meta(
+                    estado_confiabilidad='no_confiable',
+                    tope_activado=True,
+                    candidatos_generados=n_candidatos_generados,
+                    candidatos_evaluados=n_candidatos_evaluados,
+                    pct_candidatos_descartados=pct_descartados,
+                    n_valores_unicos=n_valores_unicos,
+                ),
+            )
+        return 100.0, _empty_df(id_col), _base_meta(n_valores_unicos=n_valores_unicos)
 
     # ── Step 4: expand unique-value pairs to record pairs ────────────────
     record_pairs: list[tuple] = []
@@ -567,11 +607,21 @@ def check_similitud(
     else:
         estado_confiabilidad = 'parcial'
 
+    # Correction 2: when the pair cap fired, the analysis is partial regardless
+    # of group density.  Force no_confiable and apply the same ceiling formula
+    # as dispersed groups so the score never looks healthy for an incomplete run.
+    if tope_activado:
+        estado_confiabilidad = 'no_confiable'
+        techo_tope = max(50.0, 100.0 - pct_descartados)
+        score = round(min(score, techo_tope), 1)
+
     metadata = _base_meta(
         total_grupos, total_involucrados, total_excedentes,
         grupos_grandes, grupos_dispersos_excluidos, registros_en_grupos_dispersos,
         pares_sobre_umbral, registros_con_algun_par, grupos_formados,
         estado_confiabilidad,
+        tope_activado, n_candidatos_generados, n_candidatos_evaluados, pct_descartados,
+        n_valores_unicos,
     )
 
     return score, pd.DataFrame(rows), metadata

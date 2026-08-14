@@ -1143,8 +1143,10 @@ def test_grupo_disperso_se_excluye_del_score():
 
 
 def test_no_hay_grupos_gigantes():
-    """Con el fix aplicado, el dataset de 1000 proveedores a umbral 94% debe tener
-    estado confiable y ningún grupo con más de 20 miembros."""
+    """Con el fix aplicado, el dataset de 1000 proveedores a umbral 94% no debe tener
+    grupos dispersos (grupos grandes con densidad baja), ni grupos con más de 20 miembros.
+    Si el par-cap se activa (posible con monge_elkan y 1000 registros), el estado será
+    no_confiable por el tope — eso es correcto y aceptable."""
     import os
     import pandas as pd
     from engine.dimensions.similitud import check_similitud
@@ -1160,11 +1162,20 @@ def test_no_hay_grupos_gigantes():
     )
     print(f"\nScore: {score}, grupos: {meta['total_grupos']}, "
           f"dispersos: {meta['grupos_dispersos_excluidos']}, "
-          f"estado: {meta['estado_confiabilidad']}")
+          f"estado: {meta['estado_confiabilidad']}, "
+          f"tope: {meta.get('tope_activado', False)}")
 
-    assert meta['estado_confiabilidad'] == 'confiable', (
-        f"Se esperaba estado 'confiable', got '{meta['estado_confiabilidad']}'"
+    # No debe haber grupos dispersos — ése era el bug que este test cubre.
+    assert meta['grupos_dispersos_excluidos'] == 0, (
+        f"Se esperaban 0 grupos dispersos, hubo {meta['grupos_dispersos_excluidos']}"
     )
+    # Si el estado es no_confiable, debe ser únicamente por el tope de pares,
+    # NO por grupos dispersos (la razón original del bug).
+    estado = meta['estado_confiabilidad']
+    if estado != 'confiable':
+        assert meta.get('tope_activado', False), (
+            f"estado='{estado}' pero tope_activado=False — esto indica grupos dispersos inesperados"
+        )
     if not issues.empty:
         confiables = issues[issues['grupo_disperso'] == False]
         if not confiables.empty:
