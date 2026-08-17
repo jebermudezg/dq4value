@@ -6116,11 +6116,12 @@ function _updateSimDimBar() {
   if (m.preprocesamiento_tokens) {
     html += `<br><span style="opacity:.6;font-style:italic">Se ignoraron sufijos societarios y palabras de enlace antes de comparar</span>`;
   }
-  if (m.tope_activado) {
+  if (m.analisis_parcial_significativo) {
     const nUniq  = (m.n_valores_unicos  || 0).toLocaleString();
     const nEval  = (m.candidatos_evaluados  || 0).toLocaleString();
     const nTotal = (m.candidatos_generados  || 0).toLocaleString();
-    html += `<br><span style="color:#DC2626;font-weight:600;background:#FEE2E2;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px">🔴 Análisis parcial: la columna tiene ${nUniq} valores únicos y se evaluaron solo ${nEval} de ${nTotal} comparaciones posibles. El resultado de Registros parecidos no es confiable en este archivo. Analice una muestra menor o divida el archivo.</span>`;
+    const cMarg  = ((m.contencion_marginal || 0) * 100).toFixed(0);
+    html += `<br><span style="color:#DC2626;font-weight:600;background:#FEE2E2;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px">🔴 Análisis parcial: la columna tiene ${nUniq} valores únicos y se evaluaron solo ${nEval} de ${nTotal} comparaciones posibles (contención marginal ${cMarg}%). Pueden existir duplicados no detectados. Analice una muestra menor o divida el archivo.</span>`;
   } else {
     const estado = m.estado_confiabilidad || 'confiable';
     if (estado !== 'confiable') {

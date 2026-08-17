@@ -189,19 +189,22 @@ def _dim_bars(dims_sorted: list, sim_meta: dict = None) -> str:
                     'Se ignoraron sufijos societarios y palabras de enlace antes de comparar'
                     '</span>'
                 )
-            if sim_meta.get('tope_activado'):
+            if sim_meta.get('analisis_parcial_significativo'):
+                c_marg = int(round(sim_meta.get('contencion_marginal', 0.0) * 100))
                 detail_html += (
                     '<br><span style="color:#991B1B;font-weight:600;background:#FEE2E2;'
                     'padding:2px 6px;border-radius:4px">'
                     '&#128308; An&#225;lisis parcial: la columna tiene %d valores &#250;nicos '
-                    'y se evaluaron solo %s de %s comparaciones posibles. '
-                    'El resultado de Registros parecidos no es confiable en este archivo. '
+                    'y se evaluaron solo %s de %s comparaciones posibles '
+                    '(contenci&#243;n marginal %d&#37;). '
+                    'Pueden existir duplicados no detectados. '
                     'Analice una muestra menor o divida el archivo.'
                     '</span>'
                     % (
                         sim_meta['n_valores_unicos'],
                         '{:,}'.format(sim_meta['candidatos_evaluados']),
                         '{:,}'.format(sim_meta['candidatos_generados']),
+                        c_marg,
                     )
                 )
             elif sim_meta.get('estado_confiabilidad', 'confiable') != 'confiable':
@@ -535,6 +538,8 @@ def generate_dashboard_html(
                 'candidatos_generados':         int(m.get('candidatos_generados', 0)),
                 'candidatos_evaluados':         int(m.get('candidatos_evaluados', 0)),
                 'pct_candidatos_descartados':   float(m.get('pct_candidatos_descartados', 0.0)),
+                'contencion_marginal':          float(m.get('contencion_marginal', 0.0)),
+                'analisis_parcial_significativo': bool(m.get('analisis_parcial_significativo', False)),
             }
             break
 

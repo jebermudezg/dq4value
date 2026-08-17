@@ -1145,8 +1145,9 @@ def test_grupo_disperso_se_excluye_del_score():
 def test_no_hay_grupos_gigantes():
     """Con el fix aplicado, el dataset de 1000 proveedores a umbral 94% no debe tener
     grupos dispersos (grupos grandes con densidad baja), ni grupos con más de 20 miembros.
-    Si el par-cap se activa (posible con monge_elkan y 1000 registros), el estado será
-    no_confiable por el tope — eso es correcto y aceptable."""
+    Si el par-cap se activa (posible con monge_elkan), el proxy de contencion marginal
+    decide si la perdida es significativa. Con maestro_proveedores cont_marg≈0.46 < 0.65
+    → analisis_parcial_significativo=False → estado='confiable'."""
     import os
     import pandas as pd
     from engine.dimensions.similitud import check_similitud
@@ -1169,12 +1170,15 @@ def test_no_hay_grupos_gigantes():
     assert meta['grupos_dispersos_excluidos'] == 0, (
         f"Se esperaban 0 grupos dispersos, hubo {meta['grupos_dispersos_excluidos']}"
     )
-    # Si el estado es no_confiable, debe ser únicamente por el tope de pares,
-    # NO por grupos dispersos (la razón original del bug).
+    # Con el proxy de contencion marginal (umbral=0.65), maestro_proveedores
+    # tiene cont_marg≈0.46 → analisis_parcial_significativo=False → estado='confiable'.
+    # Si por cualquier razón el estado no es confiable, solo puede ser por el tope
+    # (cont_marg subió sobre el umbral) y NO por grupos dispersos.
     estado = meta['estado_confiabilidad']
     if estado != 'confiable':
-        assert meta.get('tope_activado', False), (
-            f"estado='{estado}' pero tope_activado=False — esto indica grupos dispersos inesperados"
+        assert meta.get('analisis_parcial_significativo', False), (
+            f"estado='{estado}' pero analisis_parcial_significativo=False — "
+            "esto indica grupos dispersos inesperados"
         )
     if not issues.empty:
         confiables = issues[issues['grupo_disperso'] == False]

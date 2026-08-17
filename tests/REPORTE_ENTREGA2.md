@@ -202,18 +202,58 @@ Los cuatro algoritmos recomendados en `sugerir_algoritmo_similitud` dan resultad
 
 ---
 
-## 2.7 — Límite práctico actualizado en profiler.py
+## 2.7 — Criterio nuevo de advertencia: proxy de contención marginal
 
-Umbral de alerta preventiva: **3,500 → 10,000 valores únicos.**
+### Problema
+El tope se activa desde ~500 registros (monge_elkan sobre 500 valores ≈ 55k candidatos > 50k tope).
+Mostrar la advertencia roja siempre que el tope se active convierte la alerta en ruido.
 
-Con contención, la pérdida de pares verdaderos al activarse el tope es:
-- ≤ 5,000 únicos: < 1 % (mínima)
-- ≈ 10,000 únicos: ~5-8 % (zona límite)
-- ≈ 20,000 únicos: 6.9 % con contención (manejable, objetivo cumplido)
+### Solución: proxy via `contencion_marginal`
+`contencion_marginal` = score de contención del par en el límite exacto del tope (el `_tope_efectivo`-ésimo par ordenado).
+
+- Si ese par tiene contención **alta** → se están descartando pares prometedores → advertencia.
+- Si tiene contención **baja** → lo descartado probablemente no era duplicado → sin advertencia.
+
+### Calibración del umbral
+
+| Escenario | n únicos | cont_marg | % perdidos | Proxy |
+|:--------- | --------:| ---------:| ----------:| :------|
+| maestro_proveedores (qgrams) | 976 | 0.459 | 0.0 % | ✅ no warn |
+| escala_5k (qgrams) | 4,995 | 0.643 | 0.4 % | ✅ no warn |
+| escala_20k (qgrams) | 19,977 | 0.800 | 6.9 % | 🔴 warn |
+| escala_50k (qgrams) | 49,864 | 0.849 | — | 🔴 warn |
+
+**Umbral elegido: `_UMBRAL_CONTENCION_MARGINAL = 0.65`**
+
+Separa 0.643 (0.4 % pérdida, inapreciable) de 0.800 (6.9 % pérdida, significativa).
+El campo nuevo `analisis_parcial_significativo = tope_activado AND cont_marg ≥ 0.65`
+reemplaza a `tope_activado` en frontend, dashboard y Excel.
+
+### Límite preventivo del profiler
+
+Umbral de alerta preventiva en profiler.py: **10,000 → 20,000 valores únicos.**
+
+- Medición real a 20k: pérdida = 6.9 %, cont_marg = 0.800 (advertencia en runtime).
+- Medición real a 5k: pérdida = 0.4 %, cont_marg = 0.643 (sin advertencia).
+- Extrapolación cuadrática del 10 % de pérdida: ~24,000–25,000 únicos.
+- Umbral fijado en 20,000 (respaldado por datos, conservador respecto a la extrapolación).
 
 ---
 
-## 2.8 — Suite de pruebas
+## 2.8 — Tres escalas finales (criterio definitivo)
+
+| Escala | n únicos | Candidatos gen. | Tope | cont_marg | parcial_sig | Estado | Score | Tiempo |
+|:------:| --------:| ---------------:| :---:| ---------:| :-----------:| :-----:| -----:| ------:|
+| 5k | 4,995 | 2,275,929 | SÍ | 0.643 | ✅ No | confiable | 99.4 | 3.4 s |
+| 20k | 19,977 | 29,355,628 | SÍ | 0.800 | 🔴 SÍ | no_confiable | 50.0 | 41 s |
+| 50k | 49,864 | 182,682,653 | SÍ | 0.849 | 🔴 SÍ | no_confiable | 50.0 | 275 s |
+
+Algoritmo: `qgrams`, umbral 86, normalizar=True.
+El tiempo de 50k supera 60s pero está fuera del rango objetivo (el diseño apunta a ≤20k como uso habitual).
+
+---
+
+## 2.9 — Suite de pruebas
 
 ```
 python3 -m pytest tests/ -q → 195/195 pasan ✅
@@ -226,9 +266,10 @@ python3 -m pytest tests/ -q → 195/195 pasan ✅
 | Objetivo | Target | Resultado |
 |:-------- |:------:| ---------:|
 | Pérdida de pares verdaderos (20k) | < 10 % | **6.9 % ✅** (contención) |
-| Tiempo 20k | < 60 s | **38.8 s ✅** |
+| Tiempo 20k | < 60 s | **41 s ✅** |
 | Memoria 20k | mejora vs 2 GB | **~160 MB ✅** |
 | Calibración sin tope activo | idéntica | **✅** |
+| Advertencia proporcional a la pérdida real | sin ruido | **✅** (proxy cont_marg ≥ 0.65) |
 | Suite de pruebas | pasa | **195/195 ✅** |
 
-**Criterio adoptado en producción:** Contención de trigramas — divide la intersección por el conjunto más pequeño en lugar de la unión. Penaliza menos las abreviaturas (54 % de los pares perdidos con Jaccard). No hubo regresión en los cuatro algoritmos recomendados.
+**Criterio adoptado en producción:** Contención de trigramas — divide la intersección por el conjunto más pequeño en lugar de la unión. Penaliza menos las abreviaturas (54 % de los pares perdidos con Jaccard). No hubo regresión en los cuatro algoritmos recomendados. La advertencia de análisis parcial sólo aparece cuando la contención marginal supera 0.65, eliminando el ruido de alertas en archivos pequeños donde la pérdida es inapreciable.

@@ -216,14 +216,16 @@ def _build_dashboard(wb: Workbook, results: dict) -> None:
             _sim_kv(r2 + 8, "Preprocesamiento de tokens:",
                     "Sí (sufijos y stopwords)" if sim_m.get('preprocesamiento_tokens') else "No")
             _sim_kv(r2 + 9, "Estado de confiabilidad:",      str(sim_m.get('estado_confiabilidad', 'confiable')))
-            if sim_m.get('tope_activado'):
+            if sim_m.get('analisis_parcial_significativo'):
                 n_uniq  = int(sim_m.get('n_valores_unicos', 0))
                 n_eval  = int(sim_m.get('candidatos_evaluados', 0))
                 n_total = int(sim_m.get('candidatos_generados', 0))
+                c_marg  = int(round(sim_m.get('contencion_marginal', 0.0) * 100))
                 _sim_kv(r2 + 10, "🔴 Análisis parcial:",
                         f"La columna tiene {n_uniq:,} valores únicos y se evaluaron solo "
-                        f"{n_eval:,} de {n_total:,} comparaciones posibles. "
-                        "El resultado de Registros parecidos no es confiable en este archivo. "
+                        f"{n_eval:,} de {n_total:,} comparaciones posibles "
+                        f"(contención marginal {c_marg}%). "
+                        "Pueden existir duplicados no detectados. "
                         "Analice una muestra menor o divida el archivo.")
                 # Highlight the warning cell
                 from openpyxl.styles import PatternFill as _PF

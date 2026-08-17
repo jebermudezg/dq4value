@@ -518,16 +518,17 @@ def profile_dataset(df: pd.DataFrame) -> dict:
                     f"La columna '{col}' tiene {round(n_nulos/total_filas*100,1)}% de valores nulos"
                 )
 
-            # Escala de similitud — el motor usa selección por heap de trigramas (hasta 15.000
-            # pares candidatos). Con >10.000 valores únicos el tope puede activarse y hasta el
-            # 20 % de los pares verdaderos puede quedar sin evaluar; por encima de 20.000 la
-            # pérdida puede superar el 20 %. El análisis aún corre y emite una advertencia
-            # interna, pero el score debe interpretarse con cautela.
-            if df[col].dtype == object and n_unicos > 10_000:
+            # Escala de similitud — el motor usa selección por heap de trigramas con
+            # criterio de contencion (hasta 15.000 pares candidatos). Las mediciones
+            # muestran que con ≤5.000 valores únicos la pérdida de pares verdaderos
+            # es < 1 %; con 20.000 valores la pérdida sube a ~7 % y el motor emite
+            # una advertencia automática basada en la contencion marginal. Por encima
+            # de 20.000 valores la pérdida puede superar el 10 %.
+            if df[col].dtype == object and n_unicos > 20_000:
                 alertas.append(
                     f"La columna '{col}' tiene {n_unicos:,} valores únicos. "
                     "El análisis de Registros parecidos puede dar resultados parciales "
-                    "por encima de 10.000 valores únicos: el motor evalúa hasta 15.000 pares "
+                    "por encima de 20.000 valores únicos: el motor evalúa hasta 15.000 pares "
                     "candidatos y una fracción de los duplicados reales puede quedar fuera. "
                     "Analice una muestra menor o divida el archivo si necesita mayor cobertura."
                 )

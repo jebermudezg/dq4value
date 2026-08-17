@@ -452,15 +452,20 @@ def test_sugerencia_similitud_integrada_usa_perfil_nombres():
             f"Para RS con sufijos debería sugerir qgrams, no {dim_sim['params'].get('algoritmo')}"
 
 
-# ── Safeguard: tope de pares activa no_confiable ─────────────────────────────
+# ── Safeguard: tope de pares + proxy de contencion marginal ──────────────────
 
 def test_tope_activado_marca_no_confiable():
     """
-    Con escala_5k (≈5k valores únicos) el tope de 15.000 pares se activa.
-    El análisis debe marcar:
-      - tope_activado  = True
-      - estado_confiabilidad = 'no_confiable'
-      - score < 100  (no puede reportar calidad perfecta en un análisis parcial)
+    Con escala_5k (≈5k valores únicos) el tope de 15.000 pares se activa,
+    pero la contencion marginal (≈0.64) queda BAJO el umbral de 0.65.
+
+    Nueva semántica:
+      - tope_activado = True  (siempre que el cap se dispare)
+      - contencion_marginal < 0.65 → analisis_parcial_significativo = False
+      - estado_confiabilidad = 'confiable'  (proxy dice que la pérdida es mínima)
+      - score NO está limitado por el cap (puede ser cualquier valor)
+
+    El test también verifica que los campos de diagnóstico siguen presentes.
     """
     import pandas as pd
     from pathlib import Path
@@ -477,16 +482,27 @@ def test_tope_activado_marca_no_confiable():
         algoritmo='qgrams', umbral=86, normalizar=True,
     )
 
+    # El tope SIGUE activándose (>15k candidatos generados).
     assert mt.get('tope_activado') is True, (
         f"Se esperaba tope_activado=True pero fue {mt.get('tope_activado')!r}"
     )
-    assert mt.get('estado_confiabilidad') == 'no_confiable', (
-        f"Se esperaba 'no_confiable' pero fue {mt.get('estado_confiabilidad')!r}"
+    # Con contencion marginal < 0.65 la perdida es insignificante:
+    # el proxy NO declara análisis parcial significativo.
+    assert mt.get('analisis_parcial_significativo') is False, (
+        f"Con escala_5k (cont_marg≈0.64 < 0.65) NO debe ser parcial significativo, "
+        f"pero fue {mt.get('analisis_parcial_significativo')!r}. "
+        f"contencion_marginal={mt.get('contencion_marginal')}"
     )
-    assert sc < 100, (
-        f"El score debe ser < 100 cuando el análisis es parcial, pero fue {sc}"
+    # El estado debe ser confiable (la perdida real es ~0.4 %, inapreciable).
+    assert mt.get('estado_confiabilidad') == 'confiable', (
+        f"Se esperaba 'confiable' pero fue {mt.get('estado_confiabilidad')!r}"
     )
-    # Sanity checks on the new metadata fields
+    # La contencion marginal medida es ≈0.64; verificamos que está en rango.
+    cont_marg = mt.get('contencion_marginal', 0.0)
+    assert 0.5 < cont_marg < 0.65, (
+        f"Se esperaba contencion_marginal en (0.5, 0.65), fue {cont_marg}"
+    )
+    # Campos de diagnóstico siguen presentes.
     assert mt.get('candidatos_generados', 0) > 15_000, (
         "candidatos_generados debe superar el tope si tope_activado=True"
     )

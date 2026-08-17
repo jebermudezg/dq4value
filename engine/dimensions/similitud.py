@@ -411,6 +411,7 @@ def check_similitud(
         estado_confiabilidad='confiable',
         tope_activado=False, candidatos_generados=0, candidatos_evaluados=0,
         pct_candidatos_descartados=0.0, n_valores_unicos=0,
+        contencion_marginal=0.0, analisis_parcial_significativo=False,
     ):
         return {
             'total_grupos':                    total_grupos,
@@ -437,6 +438,10 @@ def check_similitud(
             'candidatos_evaluados':            candidatos_evaluados,
             'pct_candidatos_descartados':      pct_candidatos_descartados,
             'n_valores_unicos':                n_valores_unicos,
+            # Proxy de calidad: contencion del par en el limite del tope.
+            # Si es >= _UMBRAL_CONTENCION_MARGINAL la perdida es significativa.
+            'contencion_marginal':             round(contencion_marginal, 4),
+            'analisis_parcial_significativo':  analisis_parcial_significativo,
         }
 
     # ── Step 2: blocking on unique-value indices ──────────────────────────
@@ -474,6 +479,10 @@ def check_similitud(
     _tope_tolerante = 50_000
     _tope_efectivo  = _tope_tolerante if algoritmo in ALGORITMOS_TOLERANTES_LONGITUD else _tope_qgrams
     _K_BLOQUE       = 200 if n_valores_unicos > 3_000 else 100_000
+    # Umbral de contencion marginal para declarar perdida significativa de pares.
+    # Calibrado con datos reales: cont_marg=0.643 → 0.4% perdidos (no warn),
+    # cont_marg=0.800 → 6.9% perdidos (warn). 0.65 separa ambas zonas.
+    _UMBRAL_CONTENCION_MARGINAL = 0.65
 
     # Trigram index built once for all unique values — O(n_uniq × k).
     # Used both for per-block selection and (if needed) for the global cap sort.
@@ -537,17 +546,26 @@ def check_similitud(
     # the user warning. candidatos_evaluados = pairs actually scored after cap.
     n_candidatos_generados = n_pares_visitados[0]
     tope_activado = False
+    contencion_marginal = 0.0
 
     if len(best_pairs) > _tope_efectivo:
         tope_activado = True
-        pares_cand = set(
-            p for p, _ in sorted(
-                best_pairs.items(),
-                key=lambda kv: (-kv[1], uniq_norm[kv[0][0]], uniq_norm[kv[0][1]]),
-            )[:_tope_efectivo]
+        _ranked = sorted(
+            best_pairs.items(),
+            key=lambda kv: (-kv[1], uniq_norm[kv[0][0]], uniq_norm[kv[0][1]]),
         )
+        # Contencion del par en el limite: si es alta, se estan descartando pares
+        # prometedores; si es baja, lo descartado probablemente no era duplicado.
+        contencion_marginal = _ranked[_tope_efectivo - 1][1]
+        pares_cand = set(p for p, _ in _ranked[:_tope_efectivo])
     else:
         pares_cand = set(best_pairs.keys())
+
+    # Proxy de perdida significativa: el tope activo Y el par marginal tiene
+    # contencion alta implica que pares verdaderos estan siendo descartados.
+    analisis_parcial_significativo = (
+        tope_activado and contencion_marginal >= _UMBRAL_CONTENCION_MARGINAL
+    )
 
     n_candidatos_evaluados = len(pares_cand)
     pct_descartados = (
@@ -571,9 +589,9 @@ def check_similitud(
             similar_pares.append((ui, uj, sim_score))
 
     if not similar_pares:
-        if tope_activado:
-            # Cap was active: returning 100 here would be a false-perfect score.
-            # Apply the same ceiling as dispersed groups and force no_confiable.
+        if analisis_parcial_significativo:
+            # Cap was active AND marginal containment is high → pairs with real
+            # potential were discarded.  Returning 100 would be misleading.
             techo_tope = max(50.0, 100.0 - pct_descartados)
             return (
                 round(techo_tope, 1),
@@ -585,9 +603,25 @@ def check_similitud(
                     candidatos_evaluados=n_candidatos_evaluados,
                     pct_candidatos_descartados=pct_descartados,
                     n_valores_unicos=n_valores_unicos,
+                    contencion_marginal=contencion_marginal,
+                    analisis_parcial_significativo=True,
                 ),
             )
-        return 100.0, _empty_df(id_col), _base_meta(n_valores_unicos=n_valores_unicos)
+        # Tope did not fire, or marginal containment is low (discarded pairs
+        # were unlikely to be duplicates) → result is reliable.
+        return (
+            100.0,
+            _empty_df(id_col),
+            _base_meta(
+                tope_activado=tope_activado,
+                candidatos_generados=n_candidatos_generados,
+                candidatos_evaluados=n_candidatos_evaluados,
+                pct_candidatos_descartados=pct_descartados,
+                n_valores_unicos=n_valores_unicos,
+                contencion_marginal=contencion_marginal,
+                analisis_parcial_significativo=False,
+            ),
+        )
 
     # ── Step 4: expand unique-value pairs to record pairs ────────────────
     record_pairs: list[tuple] = []
@@ -728,10 +762,11 @@ def check_similitud(
     else:
         estado_confiabilidad = 'parcial'
 
-    # Correction 2: when the pair cap fired, the analysis is partial regardless
-    # of group density.  Force no_confiable and apply the same ceiling formula
-    # as dispersed groups so the score never looks healthy for an incomplete run.
-    if tope_activado:
+    # Correction 2: the pair cap fired AND the marginal containment is high →
+    # promising pairs were discarded.  Force no_confiable and cap the score.
+    # When cont_marg < _UMBRAL_CONTENCION_MARGINAL the discarded pairs were
+    # unlikely to be duplicates, so we do NOT penalise the score or estado.
+    if analisis_parcial_significativo:
         estado_confiabilidad = 'no_confiable'
         techo_tope = max(50.0, 100.0 - pct_descartados)
         score = round(min(score, techo_tope), 1)
@@ -743,6 +778,7 @@ def check_similitud(
         estado_confiabilidad,
         tope_activado, n_candidatos_generados, n_candidatos_evaluados, pct_descartados,
         n_valores_unicos,
+        contencion_marginal, analisis_parcial_significativo,
     )
 
     return score, pd.DataFrame(rows), metadata
