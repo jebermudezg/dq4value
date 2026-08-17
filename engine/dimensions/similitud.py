@@ -304,6 +304,30 @@ def _jaccard_est(tri, a, b):
     return inter / union if union else 0.0
 
 
+def _contencion_est(tri, a, b):
+    """Contención de q-gramas con índice pre-calculado.
+
+    A diferencia de Jaccard (que divide por la unión), la contención divide por
+    el conjunto más pequeño:
+
+        C(A, B) = |A ∩ B| / min(|A|, |B|)
+
+    Esto hace que formas abreviadas puntúen alto aunque el valor largo tenga
+    muchos trigramas extra.  C ≥ Jaccard siempre, y C = 1.0 cuando el valor
+    corto es un sub-conjunto léxico del largo.
+
+    Se usa como criterio de selección dentro del tope de pares porque penaliza
+    menos las abreviaciones que Jaccard, reduciendo la pérdida de pares
+    verdaderos con diferencia de longitud grande.
+    """
+    ta = tri.get(a)
+    tb = tri.get(b)
+    if not ta or not tb:
+        return 0.0
+    m = min(len(ta), len(tb))
+    return len(ta & tb) / m if m else 0.0
+
+
 def _seleccion_por_heap(pares, tri, uniq_norm, tope):
     """Selecciona los `tope` pares con mayor Jaccard estimado de trigramas.
 
@@ -455,7 +479,9 @@ def check_similitud(
     # Used both for per-block selection and (if needed) for the global cap sort.
     tri = _indice_trigramas(uniq_norm)
 
-    # best_pairs: (min_idx, max_idx) → max Jaccard seen across all blocks.
+    # best_pairs: (min_idx, max_idx) → max Contención seen across all blocks.
+    # Contención (inter / min(|A|, |B|)) is used instead of Jaccard so that
+    # abbreviated forms score high even when one string has many extra trigrams.
     # n_pares_visitados: running count of pairs processed in inner loops
     # (cross-block duplicates are counted multiple times, which is intentional —
     # it represents the total comparison work and gives a meaningful denominator
@@ -477,7 +503,7 @@ def check_similitud(
                 if ratio_minimo > 0 and min(len(na), len(nb)) / max(len(na), len(nb)) < ratio_minimo:
                     continue
                 n_pares_visitados[0] += 1
-                s = _jaccard_est(tri, ia, ib)
+                s = _contencion_est(tri, ia, ib)
                 item = (s, na, nb, (ia, ib))
                 if len(h) < _K_BLOQUE:
                     heapq.heappush(h, item)
@@ -504,6 +530,8 @@ def check_similitud(
     # no_confiable and the score is capped (same ceiling as dispersed groups).
     # best_pairs is bounded to n_sub-groups × _K_BLOQUE entries, so this sort
     # is cheap (e.g. 335 × 200 = 67k entries vs the former 9.7M).
+    # The stored score kv[1] is the contención from _proc_sub, so the global
+    # cap ranks pairs by contención descending — consistent with the per-block.
     # candidatos_generados = total pair comparisons attempted across all blocks
     # (including cross-block duplicates); represents the combinatorial scale for
     # the user warning. candidatos_evaluados = pairs actually scored after cap.
