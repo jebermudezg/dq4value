@@ -27,8 +27,33 @@ THIN_BORDER = Border(
 )
 
 
+def _formatear_valor_visible(s: str) -> str:
+    """
+    Hace visibles los espacios/caracteres invisibles en un valor para el reporte Excel.
+
+    - Espacios al inicio o al final: reemplaza ' ' con '␣' y añade nota entre paréntesis.
+    - Tabulaciones o saltos de línea: reemplaza con → / ¶ y añade nota.
+    - Caracteres de control (ord < 32) o espacio duro (NBSP, U+00A0): añade nota.
+    - Valor sin problemas: lo devuelve tal cual.
+    """
+    if s != s.strip():
+        visible = s.replace(' ', '␣').replace('\xa0', '·')
+        detalle = []
+        if s != s.lstrip():
+            detalle.append('espacio inicial')
+        if s != s.rstrip():
+            detalle.append('espacio final')
+        return f'"{visible}" ({", ".join(detalle)})'
+    if '\t' in s or '\n' in s or '\r' in s:
+        visible = s.replace('\t', '→').replace('\n', '¶').replace('\r', '')
+        return f'"{visible}" (contiene tabulación o salto de línea)'
+    if any(ord(c) < 32 or ord(c) == 160 for c in s):
+        return f'"{s}" (contiene caracteres invisibles)'
+    return s
+
+
 def _formatear_valor_if(valor, dimension: str) -> str:
-    """Convierte el JSON de Isolation Forest a texto legible para Excel."""
+    """Convierte el JSON de Isolation Forest a texto legible; marca chars invisibles."""
     if dimension == 'razonabilidad' and valor and str(valor).startswith('['):
         try:
             import json
@@ -41,7 +66,9 @@ def _formatear_valor_if(valor, dimension: str) -> str:
             return ' | '.join(partes)
         except Exception:
             return valor
-    return valor
+    if valor is None:
+        return valor
+    return _formatear_valor_visible(str(valor))
 
 
 def generate_excel_report(analysis_results: dict, output_path: str) -> str:
@@ -285,7 +312,13 @@ def _build_issues(wb: Workbook, results: dict) -> None:
             .reset_index(drop=True)
         )
     else:
-        sorted_df = issues_df[BASE].sort_values('columna').reset_index(drop=True)
+        df_w = issues_df[BASE].copy()
+        # Si hay unicidad con es_principal_sugerido, mostrar columna Conservar
+        if 'es_principal_sugerido' in issues_df.columns:
+            df_w['Conservar'] = issues_df['es_principal_sugerido'].map(
+                lambda v: 'Sí' if v is True else ''
+            )
+        sorted_df = df_w.sort_values('columna').reset_index(drop=True)
 
     # Encabezados
     headers = list(sorted_df.columns)
@@ -315,7 +348,8 @@ def _build_issues(wb: Workbook, results: dict) -> None:
                 cell.fill = PatternFill("solid", fgColor="EFF6FF")
                 cell.font = Font(bold=True, color="1D4ED8")
 
-    widths = [18, 20, 20, 50, 25] + ([12, 14, 10] if has_sim else [])
+    has_conservar = 'Conservar' in sorted_df.columns
+    widths = [18, 20, 20, 50, 25] + ([12, 14, 10] if has_sim else ([10] if has_conservar else []))
     _autofit(ws, widths)
 
 

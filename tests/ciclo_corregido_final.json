@@ -1,0 +1,94 @@
+{
+  "archivo_analizado": "maestro_clientes_500_corregido.xlsx",
+  "score_general": 98.6,
+  "promedio_simple": 98.9,
+  "registros_aprovechables": 228,
+  "registros_sin_ningun_problema": 183,
+  "veredicto": "listo",
+  "peor_dimension": "razonabilidad",
+  "nivel_umbral": "critica",
+  "total_registros": 238,
+  "total_problemas": 55,
+  "ruta_reporte": "reports/Administrador/2026-08/20260817_162551_maestro_clientes_500_corregido.xlsx",
+  "ruta_dashboard": "reports/Administrador/2026-08/20260817_162551_maestro_clientes_500_corregido_dashboard.html",
+  "scores_por_columna": {
+    "razon_social": {
+      "completitud": 98.74,
+      "similitud": 96.6
+    },
+    "cliente_id": {
+      "completitud": 100.0,
+      "unicidad": 100.0
+    },
+    "numero_documento": {
+      "completitud": 99.16,
+      "unicidad": 98.32,
+      "precision": 100.0
+    },
+    "nombre_contacto": {
+      "completitud": 98.74
+    },
+    "distrito": {
+      "completitud": 99.16
+    },
+    "email": {
+      "completitud": 98.74,
+      "validez": 98.32
+    },
+    "telefono": {
+      "completitud": 99.16,
+      "consistencia": 100.0
+    },
+    "departamento": {
+      "completitud": 98.74,
+      "validez": 100.0
+    },
+    "segmento": {
+      "validez": 100.0
+    },
+    "estado": {
+      "validez": 100.0
+    },
+    "fecha_alta": {
+      "completitud": 100.0,
+      "consistencia": 100.0,
+      "vigencia": 97.9
+    },
+    "fecha_ultima_compra": {
+      "completitud": 99.58,
+      "vigencia": 99.16
+    },
+    "linea_credito_pen": {
+      "completitud": 98.32,
+      "exactitud": 100.0,
+      "razonabilidad": 92.44
+    }
+  },
+  "metadata_similitud": {
+    "total_grupos": 0,
+    "total_involucrados": 0,
+    "total_excedentes": 0,
+    "duplicados_exactos_excluidos": 38,
+    "placeholders_excluidos": 3,
+    "total_evaluados": 235,
+    "algoritmo": "qgrams",
+    "umbral": 86.0,
+    "normalizar": true,
+    "grupos_grandes": 0,
+    "grupos_dispersos_excluidos": 2,
+    "registros_en_grupos_dispersos": 8,
+    "preprocesamiento_tokens": true,
+    "pares_sobre_umbral": 6,
+    "registros_con_algun_par": 8,
+    "grupos_formados": 2,
+    "estado_confiabilidad": "parcial",
+    "tope_activado": false,
+    "candidatos_generados": 16299,
+    "candidatos_evaluados": 11300,
+    "pct_candidatos_descartados": 30.7,
+    "n_valores_unicos": 214,
+    "contencion_marginal": 0.0,
+    "analisis_parcial_significativo": false
+  },
+  "tiempo_analisis_s": 0.2
+}

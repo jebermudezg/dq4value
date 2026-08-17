@@ -40,7 +40,9 @@ def _contains(name: str, *keywords: str) -> bool:
 # Regexes
 # ─────────────────────────────────────────────────────────────────────────────
 
-_RE_EMAIL = r"^[a-zA-Z0-9_.+\-À-ɏ]+@[a-zA-Z0-9\-À-ɏ]+\.[a-zA-Z0-9\-.À-ɏ]+$"
+# ñ/Ñ se permiten (dominios peruanos legítimos); vocales acentuadas (á, é, etc.)
+# se rechazan porque en la parte local son error de captura.
+_RE_EMAIL = r"^[a-zA-Z0-9._+\-ñÑ]+@[a-zA-Z0-9\-ñÑ]+(\.[a-zA-Z0-9\-ñÑ]+)+$"
 _RE_TEL   = r"^\+?[\d\s\-\(\)]{7,15}$"
 _RE_URL   = r"^https?://[^\s/$.?#].[^\s]*$"
 _RE_NIT   = r"^\d+[-]?\d*$"
@@ -245,25 +247,25 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
         sugs.append(_sug(
             "validez", "alta",
             "Formato email detectado en el perfil real de los datos.",
-            regex_pattern=_RE_EMAIL,
+            regex_pattern=_RE_EMAIL, formato_tipo="email",
         ))
     elif fmt == "telefono":
         sugs.append(_sug(
             "validez", "alta",
             "Formato teléfono detectado.",
-            regex_pattern=_RE_TEL,
+            regex_pattern=_RE_TEL, formato_tipo="telefono",
         ))
     elif fmt == "url":
         sugs.append(_sug(
             "validez", "alta",
             "Formato URL detectado.",
-            regex_pattern=_RE_URL,
+            regex_pattern=_RE_URL, formato_tipo="url",
         ))
     elif fmt in ("nit", "documento", "cedula"):
         sugs.append(_sug(
             "validez", "alta",
             "Formato NIT/documento detectado.",
-            regex_pattern=_RE_NIT,
+            regex_pattern=_RE_NIT, formato_tipo="nit",
         ))
     elif es_catalogo and top:
         sugs.append(_sug(
@@ -281,25 +283,25 @@ def _build_suggestions(ctx: dict, has_profile: bool) -> list[dict]:
         sugs.append(_sug(
             "validez", "media",
             "Columna de email — se recomienda validar formato.",
-            regex_pattern=_RE_EMAIL,
+            regex_pattern=_RE_EMAIL, formato_tipo="email",
         ))
     elif _contains(n, "telefono", "phone", "celular", "movil", "tel"):
         sugs.append(_sug(
             "validez", "media",
             "Columna de teléfono — se recomienda validar formato.",
-            regex_pattern=_RE_TEL,
+            regex_pattern=_RE_TEL, formato_tipo="telefono",
         ))
     elif _contains(n, "url", "link", "web", "website"):
         sugs.append(_sug(
             "validez", "media",
             "Columna de URL — se recomienda validar formato.",
-            regex_pattern=_RE_URL,
+            regex_pattern=_RE_URL, formato_tipo="url",
         ))
     elif _contains(n, "nit", "rut", "cedula", "documento", "dni", "rfc"):
         sugs.append(_sug(
             "validez", "media",
             "Columna de documento — se recomienda validar formato.",
-            regex_pattern=_RE_NIT,
+            regex_pattern=_RE_NIT, formato_tipo="nit",
         ))
     elif _contains(n, "estado", "status", "tipo", "type", "categoria", "category") and not es_catalogo:
         sugs.append(_sug(

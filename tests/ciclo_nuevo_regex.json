@@ -1,0 +1,94 @@
+{
+  "archivo_analizado": "maestro_clientes_500.xlsx",
+  "score_general": 87.0,
+  "promedio_simple": 93.8,
+  "registros_aprovechables": 226,
+  "registros_sin_ningun_problema": 27,
+  "veredicto": "no_listo",
+  "peor_dimension": "similitud",
+  "nivel_umbral": "critica",
+  "total_registros": 500,
+  "total_problemas": 473,
+  "ruta_reporte": "reports/Administrador/2026-08/20260817_121005_maestro_clientes_500.xlsx",
+  "ruta_dashboard": "reports/Administrador/2026-08/20260817_121005_maestro_clientes_500_dashboard.html",
+  "scores_por_columna": {
+    "razon_social": {
+      "completitud": 99.4,
+      "similitud": 48.1
+    },
+    "cliente_id": {
+      "completitud": 100.0,
+      "unicidad": 98.4
+    },
+    "numero_documento": {
+      "completitud": 99.2,
+      "unicidad": 96.8,
+      "precision": 99.4
+    },
+    "nombre_contacto": {
+      "completitud": 98.4
+    },
+    "distrito": {
+      "completitud": 98.8
+    },
+    "email": {
+      "completitud": 98.0,
+      "validez": 44.0
+    },
+    "telefono": {
+      "completitud": 97.6,
+      "consistencia": 100.0
+    },
+    "departamento": {
+      "completitud": 99.0,
+      "validez": 94.6
+    },
+    "segmento": {
+      "validez": 94.4
+    },
+    "estado": {
+      "validez": 94.0
+    },
+    "fecha_alta": {
+      "completitud": 100.0,
+      "consistencia": 96.0,
+      "vigencia": 98.4
+    },
+    "fecha_ultima_compra": {
+      "completitud": 98.6,
+      "vigencia": 98.4
+    },
+    "linea_credito_pen": {
+      "completitud": 99.0,
+      "exactitud": 98.4,
+      "razonabilidad": 95.2
+    }
+  },
+  "metadata_similitud": {
+    "total_grupos": 131,
+    "total_involucrados": 389,
+    "total_excedentes": 258,
+    "duplicados_exactos_excluidos": 140,
+    "placeholders_excluidos": 3,
+    "total_evaluados": 497,
+    "algoritmo": "qgrams",
+    "umbral": 86.0,
+    "normalizar": true,
+    "grupos_grandes": 0,
+    "grupos_dispersos_excluidos": 2,
+    "registros_en_grupos_dispersos": 8,
+    "preprocesamiento_tokens": true,
+    "pares_sobre_umbral": 419,
+    "registros_con_algun_par": 397,
+    "grupos_formados": 133,
+    "estado_confiabilidad": "parcial",
+    "tope_activado": true,
+    "candidatos_generados": 40103,
+    "candidatos_evaluados": 15000,
+    "pct_candidatos_descartados": 62.6,
+    "n_valores_unicos": 425,
+    "contencion_marginal": 0.2778,
+    "analisis_parcial_significativo": false
+  },
+  "tiempo_analisis_s": 0.8
+}

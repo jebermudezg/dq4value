@@ -577,6 +577,39 @@ class TestConsistencia:
             assert "reg_id" in issues.columns
             assert "id_col_value" not in issues.columns
 
+    def test_consistencia_detecta_formatos_de_telefono(self):
+        """Formatos mezclados de teléfono se detectan como inconsistencia."""
+        df = pd.DataFrame({
+            'id': range(100),
+            'telefono': ['987654321'] * 85 + ['+51 987654321'] * 5 +
+                        ['51-987-654321'] * 5 + ['(01) 4567890'] * 5
+        })
+        sc, iss, mt = check_consistencia(df, 'id', 'telefono')
+        assert len(iss) == 15, f'esperados 15 hallazgos, obtenidos {len(iss)}'
+        assert 84 <= sc <= 86, f'score esperado ~85, obtenido {sc}'
+        # Los 15 minoritarios deben tener descripción de teléfono
+        assert all('teléfono' in d.lower() for d in iss['descripcion'])
+
+    def test_consistencia_telefono_uniforme_da_100(self):
+        """Teléfonos todos en el mismo formato → score 100."""
+        df = pd.DataFrame({
+            'id': range(10),
+            'telefono': ['987654321'] * 10,
+        })
+        sc, iss, _ = check_consistencia(df, 'id', 'telefono')
+        assert sc == 100.0
+        assert iss.empty
+
+    def test_consistencia_columna_no_telefonica_ignora_digitos(self):
+        """Columna de códigos postales de 5 dígitos no activa el detector de teléfonos."""
+        df = pd.DataFrame({
+            'id': range(10),
+            'cp': ['15001'] * 8 + ['15002', '15003'],
+        })
+        sc, iss, _ = check_consistencia(df, 'id', 'cp')
+        # Todos tienen la misma estructura → sin inconsistencia
+        assert sc == 100.0
+
 
 # ══════════════════════════════════════════════════════════
 # SCORER — integración

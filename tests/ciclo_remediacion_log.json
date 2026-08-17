@@ -1,0 +1,101 @@
+{
+  "similitud": {
+    "grupos_procesados": 133,
+    "grupos_sin_principal": 2,
+    "excedentes_eliminados": 261,
+    "ids_sin_principal": [
+      "G132",
+      "G133"
+    ],
+    "nota": "Los grupos sin principal marcado (grupos dispersos) no fueron modificados"
+  },
+  "departamento": {
+    "mapeados": {
+      "LIMA": "Lima",
+      "Lima Metropolitana": "Lima",
+      "Arequipa ": "Arequipa"
+    },
+    "nulificados": [
+      "N/A",
+      "--"
+    ],
+    "nota": "HALLAZGO: 'Arequipa ' (con espacio) aparece igual que 'Arequipa' en Excel — requiere inspección con código o herramienta que muestre caracteres invisibles."
+  },
+  "segmento": {
+    "mapeados": {
+      "Corp.": "Corporativo",
+      "Med. empresa": "Mediana empresa",
+      "PyME": "Pequeña empresa",
+      "CORPORATIVO": "Corporativo",
+      "pyme": "Pequeña empresa"
+    }
+  },
+  "estado": {
+    "mapeados": {
+      "activo": "Activo",
+      "ACTIVO": "Activo",
+      "inactivo": "Inactivo",
+      "suspendido": "Suspendido"
+    },
+    "nulificados": [
+      "Cancelado"
+    ],
+    "nota": "'Cancelado' no pertenece al catálogo (Activo/Inactivo/Suspendido). No se puede inferir el valor correcto → se deja como nulo. Se recomienda validar con el sistema fuente."
+  },
+  "fechas": {
+    "columna": "fecha_alta",
+    "convertidas_DD_MM_YYYY_a_ISO": 15,
+    "nota": "Solo se convierte la fecha_alta (reporte detectó mezcla). fecha_ultima_compra no muestra consistencia issues (reporte no marcó el problema)."
+  },
+  "linea_credito_pen": {
+    "negativos_nulificados": 3,
+    "mayores_2M_nulificados": 1,
+    "razonabilidad_no_tocados": "Los valores atípicos (IQR) no se modifican: son estadísticamente extremos pero pueden ser legítimos sin validación manual."
+  },
+  "email": {
+    "total_marcados_invalidos": 280,
+    "estructuralmente_rotos": 11,
+    "solo_por_caracteres_no_ascii": 269,
+    "accion": "NO CORREGIDO",
+    "razon": "El reporte reporta 'Formato inválido' para emails con acentos (ana.garcía28@hotmail.com) sin explicar QUÉ criterio falla. Un analista leyendo el reporte vería emails aparentemente válidos marcados como errores, sin poder deducir la corrección apropiada. HALLAZGO: el mensaje de error necesita especificar el criterio de validación.",
+    "emails_estructuralmente_rotos_ejemplo": [
+      "isabel.sánchez32@yahoo.com..",
+      "ana.morales23outlook.com",
+      "josé..sánchez41@hotmail.com",
+      "sandra.martínez58@",
+      "roberto.rivera81correo.com"
+    ]
+  },
+  "telefono": {
+    "accion": "NO CORREGIDO — el reporte no detecta este problema",
+    "formatos_detectados": {
+      "clean_9digit": 219,
+      "+51": 4,
+      "51-prefix": 5,
+      "(01)prefix": 3,
+      "with_hyphens": 6,
+      "other": 0
+    },
+    "hallazgo": "consistencia=100% en el reporte para telefono, pero hay 4 con '+51', 5 con '51-', 3 con '(01)'. La dimensión de consistencia solo analiza formatos de fecha y casing, no patrones de teléfono. HALLAZGO: el reporte no informa al analista sobre este problema."
+  },
+  "numero_documento_precision": {
+    "accion": "NO CORREGIDO",
+    "registros_afectados": 3,
+    "razon": "Documentos con longitud incorrecta (7 o 12 dígitos vs rango 8-11). No se puede inferir el valor correcto sin consultar la fuente real (RENIEC, SUNAT). Se dejan como están.",
+    "ids_afectados": [
+      76,
+      173,
+      334
+    ]
+  },
+  "cliente_id_unicidad": {
+    "filas_duplicadas_reportadas": 8,
+    "filas_eliminadas": 1,
+    "nota": "Se conserva la primera ocurrencia. El reporte no indica cuál es el registro \"correcto\" — se asume que el primero en el archivo es el original."
+  },
+  "datos_faltantes": {
+    "accion": "NO CORREGIDO",
+    "registros_reportados": 60,
+    "razon": "No se pueden inventar datos. Se dejan como nulos."
+  }
+}

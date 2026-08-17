@@ -2960,9 +2960,10 @@ ORDER BY nit_empresa, periodo_fiscal;</pre>
                   <div style="font-size:.77rem;color:var(--sub)">✅ <code>900123456-7</code> &nbsp; ❌ <code>90012345-7</code> (faltan dígitos) · <code>900123456</code> (sin verificador)</div>
                 </div>
                 <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
-                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Correo electrónico</div>
-                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^[\w.+-]+@[\w-]+\.[\w.-]+$</div>
-                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>contacto@empresa.com.pe</code> &nbsp; ❌ <code>contacto@</code> (sin dominio) · <code>nogmail.com</code> (sin @)</div>
+                  <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Correo electrónico (recomendado para Perú)</div>
+                  <div style="font-family:monospace;font-size:.82rem;color:#7c3aed;margin-bottom:.25rem">^[a-zA-Z0-9._+\-ñÑ]+@[a-zA-Z0-9\-ñÑ]+(\.[a-zA-Z0-9\-ñÑ]+)+$</div>
+                  <div style="font-size:.77rem;color:var(--sub)">✅ <code>contacto@empresa.com.pe</code> · <code>ventas@muñoz.com</code> (ñ válida) &nbsp; ❌ <code>garcía@empresa.com</code> (vocal acentuada = posible error de captura) · <code>sindominio@</code></div>
+                  <div style="font-size:.76rem;color:var(--sub);margin-top:.3rem;font-style:italic">⚠️ El patrón genérico <code>[\w.+-]+</code> acepta vocales acentuadas (á, é, í…) que en la parte local del correo son casi siempre errores de captura del nombre del usuario. El patrón recomendado las rechaza, pero permite ñ/Ñ porque existen dominios peruanos con ñ. Si su sistema de origen acepta UTF-8 completo, ajuste el patrón a su realidad.</div>
                 </div>
                 <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem">
                   <div style="font-size:.79rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Teléfono celular Perú — 9 dígitos, empieza con 9</div>
@@ -6182,7 +6183,23 @@ function _renderValorEncontrado(valor, dimension) {
     }
   }
   if (valor === null || valor === undefined) return '<span style="color:var(--muted)">null</span>';
-  return `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(String(valor))}</code>`;
+  const _s = String(valor);
+  // Detectar espacios/caracteres invisibles
+  if (_s !== _s.trim()) {
+    const visible = _s.replace(/ /g, '␣').replace(/ /g, '·');
+    const detalle = [];
+    if (_s !== _s.trimStart()) detalle.push('espacio inicial');
+    if (_s !== _s.trimEnd())   detalle.push('espacio final');
+    return `<code style="background:#FEF3C7;padding:1px 5px;border-radius:4px;font-size:.8rem;color:#B45309">${escHtml(visible)}</code><span style="font-size:.7rem;color:#B45309;font-style:italic;margin-left:4px">(${detalle.join(', ')})</span>`;
+  }
+  if (/[\t\n\r]/.test(_s)) {
+    const visible = _s.replace(/\t/g, '→').replace(/\n/g, '¶').replace(/\r/g, '');
+    return `<code style="background:#FEF3C7;padding:1px 5px;border-radius:4px;font-size:.8rem;color:#B45309">${escHtml(visible)}</code><span style="font-size:.7rem;color:#B45309;font-style:italic;margin-left:4px">(contiene tabulación o salto de línea)</span>`;
+  }
+  if ([..._s].some(c => c.charCodeAt(0) < 32 || c.charCodeAt(0) === 160)) {
+    return `<code style="background:#FEF3C7;padding:1px 5px;border-radius:4px;font-size:.8rem;color:#B45309">${escHtml(_s)}</code><span style="font-size:.7rem;color:#B45309;font-style:italic;margin-left:4px">(contiene caracteres invisibles)</span>`;
+  }
+  return `<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.8rem">${escHtml(_s)}</code>`;
 }
 
 function renderIssueRows(rows) {

@@ -15,6 +15,9 @@ _DATE_PATTERNS = [
 _CURRENCY_RE  = re.compile(r"^[\$€£¥]\s*[\d,]+(\.\d+)?$")
 _PLAIN_NUM_RE = re.compile(r"^[\d,]+(\.\d+)?$")
 
+# Teléfonos: solo dígitos, espacios y separadores comunes (+, -, (, ))
+_PHONE_CHAR_RE = re.compile(r"^[\d\s\+\-\(\)]+$")
+
 
 def _detect_date_fmt(v: str) -> Optional[str]:
     """Devuelve el nombre del patrón de fecha que coincide, o None."""
@@ -31,6 +34,11 @@ def _detect_casing(v: str) -> str:
     return "mixed"
 
 
+def _phone_structure(v: str) -> str:
+    """Máscara estructural de teléfono: reemplaza dígitos con D, conserva separadores."""
+    return "".join("D" if c.isdigit() else c for c in v)
+
+
 def check_consistencia(
     df: pd.DataFrame, id_col: str, target_col: str, **params
 ) -> tuple[float, pd.DataFrame, dict]:
@@ -38,14 +46,15 @@ def check_consistencia(
     Detecta mezcla de formatos en la misma columna.
 
     Lógica de mayoría/minoría:
-    - Identifica el patrón más frecuente (fecha, moneda, capitalización).
+    - Identifica el patrón más frecuente (fecha, moneda, teléfono, capitalización).
     - Reporta SOLO los registros que pertenecen al patrón minoritario.
     - Score = (registros con patrón mayoritario / total evaluados) × 100.
 
     Tipos detectados:
       1. Fechas en distintos formatos (ej: YYYY-MM-DD vs DD/MM/YYYY)
       2. Números con y sin símbolo de moneda
-      3. Capitalización inconsistente (solo si la minoría es < 10%)
+      3. Formatos de teléfono mezclados (ej: solo dígitos vs +51 xxx vs (01) xxx)
+      4. Capitalización inconsistente (solo si la minoría es < 10%)
     """
     total = len(df)
     if total == 0:
@@ -94,10 +103,29 @@ def check_consistencia(
                         idx, "Número sin símbolo de moneda mezclado con números con símbolo"
                     )
 
-    # ── 3. Capitalización ──────────────────────────────────────────────────────
+    # ── 3. Formato de teléfono ─────────────────────────────────────────────────
+    # Aplica cuando ≥ 70 % de los valores no-nulos parecen números telefónicos
+    # (solo dígitos, espacios y separadores +, -, (, )).
+    # Detecta columnas que no tienen fechas ni moneda para evitar falsos positivos.
+    if len(dated) < len(col_str) * 0.05:
+        phone_bool = col_str.map(lambda v: bool(_PHONE_CHAR_RE.match(v)))
+        n_phone = phone_bool.sum()
+        if n_phone >= len(col_str) * 0.70 and n_phone >= 5:
+            structures = col_str[phone_bool].map(_phone_structure)
+            struct_counts = structures.value_counts()
+            if len(struct_counts) > 1:
+                majority_struct = struct_counts.index[0]
+                for idx in structures[structures != majority_struct].index:
+                    minority_idx.setdefault(
+                        idx,
+                        f"Formato de teléfono inconsistente — "
+                        f"el patrón mayoritario en la columna es '{majority_struct}'"
+                    )
+
+    # ── 4. Capitalización ──────────────────────────────────────────────────────
     # Solo en columnas de texto puro. Requiere ≥ 3 valores para evitar ruido.
     # Reporta los valores cuyo estilo difiere del mayoritario.
-    text_mask = ~col_str.str.match(r"^[\d\$€£¥\.\,\-\/\s]+$")
+    text_mask = ~col_str.str.match(r"^[\d\$€£¥\.\,\-\/\s\+\(\)]+$")
     text_vals = col_str[text_mask]
     if len(text_vals) >= 3:
         casing = text_vals.map(_detect_casing)
